@@ -6,6 +6,8 @@
 using namespace std;
 using namespace Eigen;
 
+const complex<double> I(0.0,1.0);    
+
 class fdcl_FFTSO3_matrix
 {
 public:
@@ -17,7 +19,6 @@ public:
 	void init(int l_max);
 	MatrixXd& operator[](int l); // return l-th matrix 
 	double& operator()(int l, int m, int n); // access (m,n)-th element of the l-th matrix
-//	void print();
     friend ostream& operator<<(ostream& os, const fdcl_FFTSO3_matrix& M);  	
 private:
 	void assert_index(int l);
@@ -75,6 +76,77 @@ ostream& operator<<(ostream& os, const fdcl_FFTSO3_matrix& M)
 }
 
 
+
+
+class fdcl_FFTSO3_matrix_complex
+{
+public:
+	int l_max;
+	std::vector<MatrixXcd> M;
+	fdcl_FFTSO3_matrix_complex(){};
+	~fdcl_FFTSO3_matrix_complex(){};
+	fdcl_FFTSO3_matrix_complex(int l_max); 
+	void init(int l_max);
+	MatrixXcd& operator[](int l); // return l-th matrix 
+	complex<double>& operator()(int l, int m, int n); // access (m,n)-th element of the l-th matrix
+//	void print();
+    friend ostream& operator<<(ostream& os, const fdcl_FFTSO3_matrix_complex& M);  	
+private:
+	void assert_index(int l);
+	void assert_index(int l, int m, int n);
+};
+
+fdcl_FFTSO3_matrix_complex::fdcl_FFTSO3_matrix_complex(int l_max)
+{
+	init(l_max);
+}
+
+void fdcl_FFTSO3_matrix_complex::init(int l_max)
+{
+	this->l_max=l_max;
+	
+	M.resize(l_max+1);
+	for(int i=0;i<=l_max;i++)
+	{
+		M[i].resize(2*i+1,2*i+1);
+		M[i].setZero();
+	}
+}
+
+void fdcl_FFTSO3_matrix_complex::assert_index(int l)
+{
+	assert(l>=0 && l<=l_max);
+}
+
+void fdcl_FFTSO3_matrix_complex::assert_index(int l, int m, int n)
+{
+	assert_index(l);
+	assert(min(m,n) >= -l && max(m,n) <= l);
+}
+
+MatrixXcd & fdcl_FFTSO3_matrix_complex::operator[](int l)
+{
+	assert_index(l);
+	return M[l];
+}
+
+complex<double>& fdcl_FFTSO3_matrix_complex::operator()(int l, int m, int n)
+{
+	assert_index(l,m,n);
+	return M[l](m+l,n+l);
+}
+
+ostream& operator<<(ostream& os, const fdcl_FFTSO3_matrix_complex& M)  	
+{
+	for(int l=0;l<=M.l_max;l++)
+	{
+		os << "l=" << l << endl;
+		os << M.M[l] << endl << endl;
+	}
+	return os;
+}
+
+
 class fdcl_FFTSO3
 {
 public:
@@ -86,7 +158,7 @@ public:
 	~fdcl_FFTSO3(){};
 	
 	fdcl_FFTSO3_matrix wigner_d(double beta);
-	fdcl_FFTSO3_matrix wigner_D(double alpha, double beta, double gamma);
+	fdcl_FFTSO3_matrix_complex wigner_D(double alpha, double beta, double gamma);
 	
 	
 };
@@ -159,13 +231,39 @@ fdcl_FFTSO3_matrix fdcl_FFTSO3::wigner_d(double beta)
 	return d;
 	
 }
+
+fdcl_FFTSO3_matrix_complex fdcl_FFTSO3::wigner_D(double alpha, double beta, double gamma)
+{
+	fdcl_FFTSO3_matrix d(l_max);
+	fdcl_FFTSO3_matrix_complex D(l_max);
+	int l,m,n;
+	
+	d=wigner_d(beta);
+
+	for(l=0;l<=l_max;l++)
+		for(m=-l;m<=l;m++)
+			for(n=-l;n<=l;n++)
+				D(l,m,n)=d(l,m,n)*exp( -I*(alpha*((double)m) + gamma*((double)n)) );
+	
+	return D;
+}
+
 int main()
 {
-	fdcl_FFTSO3_matrix d(4);
-	fdcl_FFTSO3 FFTSO3(4);
 	
-	cout << FFTSO3.wigner_d(1.);
+	fdcl_FFTSO3_matrix d(5);
+	fdcl_FFTSO3_matrix_complex D(5);
+	
+	fdcl_FFTSO3 FFTSO3(5);
+	
+	d=FFTSO3.wigner_d(1.);
+	D=FFTSO3.wigner_D(1.,2.,3.);
+	cout << D;
 
+	cout << d[3].transpose()*d[3] << endl << endl;
+	cout << (D[3].adjoint()*D[3]).real() << endl << endl;
+
+	
 	
 //	d.print();
 	
