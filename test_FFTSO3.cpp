@@ -89,7 +89,6 @@ public:
 	void init(int l_max);
 	MatrixXcd& operator[](int l); // return l-th matrix 
 	complex<double>& operator()(int l, int m, int n); // access (m,n)-th element of the l-th matrix
-//	void print();
     friend ostream& operator<<(ostream& os, const fdcl_FFTSO3_matrix_complex& M);  	
 private:
 	void assert_index(int l);
@@ -263,8 +262,4 @@ int main()
 	cout << d[3].transpose()*d[3] << endl << endl;
 	cout << (D[3].adjoint()*D[3]).real() << endl << endl;
 
-	
-	
-//	d.print();
-	
 }
