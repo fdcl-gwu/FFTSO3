@@ -8,29 +8,34 @@ using namespace Eigen;
 
 const complex<double> I(0.0,1.0);    
 
+template <class ScalarType>
 class fdcl_FFTSO3_matrix
 {
 public:
 	int l_max;
-	std::vector<MatrixXd> M;
+	std::vector<Matrix<ScalarType,Dynamic,Dynamic>> M;
 	fdcl_FFTSO3_matrix(){};
 	~fdcl_FFTSO3_matrix(){};
 	fdcl_FFTSO3_matrix(int l_max); 
 	void init(int l_max);
-	MatrixXd& operator[](int l); // return l-th matrix 
-	double& operator()(int l, int m, int n); // access (m,n)-th element of the l-th matrix
-    friend ostream& operator<<(ostream& os, const fdcl_FFTSO3_matrix& M);  	
+	Matrix<ScalarType,Dynamic,Dynamic>& operator[](int l); // return l-th matrix 
+	ScalarType& operator()(int l, int m, int n); // access (m,n)-th element of the l-th matrix
+	
+	template<typename _ScalarType>
+    friend ostream& operator<<(ostream& os, const fdcl_FFTSO3_matrix<_ScalarType>& M);  	
 private:
 	void assert_index(int l);
 	void assert_index(int l, int m, int n);
 };
 
-fdcl_FFTSO3_matrix::fdcl_FFTSO3_matrix(int l_max)
+template <class ScalarType>
+fdcl_FFTSO3_matrix<ScalarType>::fdcl_FFTSO3_matrix(int l_max)
 {
 	init(l_max);
 }
 
-void fdcl_FFTSO3_matrix::init(int l_max)
+template <class ScalarType>
+void fdcl_FFTSO3_matrix<ScalarType>::init(int l_max)
 {
 	this->l_max=l_max;
 	
@@ -42,30 +47,35 @@ void fdcl_FFTSO3_matrix::init(int l_max)
 	}
 }
 
-void fdcl_FFTSO3_matrix::assert_index(int l)
+template <class ScalarType>
+void fdcl_FFTSO3_matrix<ScalarType>::assert_index(int l)
 {
 	assert(l>=0 && l<=l_max);
 }
 
-void fdcl_FFTSO3_matrix::assert_index(int l, int m, int n)
+template <class ScalarType>
+void fdcl_FFTSO3_matrix<ScalarType>::assert_index(int l, int m, int n)
 {
 	assert_index(l);
 	assert(min(m,n) >= -l && max(m,n) <= l);
 }
 
-MatrixXd & fdcl_FFTSO3_matrix::operator[](int l)
+template <class ScalarType>
+Matrix<ScalarType,Dynamic,Dynamic> & fdcl_FFTSO3_matrix<ScalarType>::operator[](int l)
 {
 	assert_index(l);
 	return M[l];
 }
 
-double& fdcl_FFTSO3_matrix::operator()(int l, int m, int n)
+template <class ScalarType>
+ScalarType& fdcl_FFTSO3_matrix<ScalarType>::operator()(int l, int m, int n)
 {
 	assert_index(l,m,n);
 	return M[l](m+l,n+l);
 }
 
-ostream& operator<<(ostream& os, const fdcl_FFTSO3_matrix& M)  	
+template <class ScalarType>
+ostream& operator<< (ostream& os, const fdcl_FFTSO3_matrix<ScalarType>& M)
 {
 	for(int l=0;l<=M.l_max;l++)
 	{
@@ -75,89 +85,21 @@ ostream& operator<<(ostream& os, const fdcl_FFTSO3_matrix& M)
 	return os;
 }
 
-
-
-
-class fdcl_FFTSO3_matrix_complex
-{
-public:
-	int l_max;
-	std::vector<MatrixXcd> M;
-	fdcl_FFTSO3_matrix_complex(){};
-	~fdcl_FFTSO3_matrix_complex(){};
-	fdcl_FFTSO3_matrix_complex(int l_max); 
-	void init(int l_max);
-	MatrixXcd& operator[](int l); // return l-th matrix 
-	complex<double>& operator()(int l, int m, int n); // access (m,n)-th element of the l-th matrix
-    friend ostream& operator<<(ostream& os, const fdcl_FFTSO3_matrix_complex& M);  	
-private:
-	void assert_index(int l);
-	void assert_index(int l, int m, int n);
-};
-
-fdcl_FFTSO3_matrix_complex::fdcl_FFTSO3_matrix_complex(int l_max)
-{
-	init(l_max);
-}
-
-void fdcl_FFTSO3_matrix_complex::init(int l_max)
-{
-	this->l_max=l_max;
-	
-	M.resize(l_max+1);
-	for(int i=0;i<=l_max;i++)
-	{
-		M[i].resize(2*i+1,2*i+1);
-		M[i].setZero();
-	}
-}
-
-void fdcl_FFTSO3_matrix_complex::assert_index(int l)
-{
-	assert(l>=0 && l<=l_max);
-}
-
-void fdcl_FFTSO3_matrix_complex::assert_index(int l, int m, int n)
-{
-	assert_index(l);
-	assert(min(m,n) >= -l && max(m,n) <= l);
-}
-
-MatrixXcd & fdcl_FFTSO3_matrix_complex::operator[](int l)
-{
-	assert_index(l);
-	return M[l];
-}
-
-complex<double>& fdcl_FFTSO3_matrix_complex::operator()(int l, int m, int n)
-{
-	assert_index(l,m,n);
-	return M[l](m+l,n+l);
-}
-
-ostream& operator<<(ostream& os, const fdcl_FFTSO3_matrix_complex& M)  	
-{
-	for(int l=0;l<=M.l_max;l++)
-	{
-		os << "l=" << l << endl;
-		os << M.M[l] << endl << endl;
-	}
-	return os;
-}
 
 
 class fdcl_FFTSO3
 {
 public:
-	fdcl_FFTSO3_matrix d, D;
+	fdcl_FFTSO3_matrix<double> d;
+	fdcl_FFTSO3_matrix<complex<double>> D;
 	int l_max;
 	
 	fdcl_FFTSO3(){};
 	fdcl_FFTSO3(int);
 	~fdcl_FFTSO3(){};
 	
-	fdcl_FFTSO3_matrix wigner_d(double beta);
-	fdcl_FFTSO3_matrix_complex wigner_D(double alpha, double beta, double gamma);
+	fdcl_FFTSO3_matrix<double> wigner_d(double beta);
+	fdcl_FFTSO3_matrix<complex<double>> wigner_D(double alpha, double beta, double gamma);
 	
 	
 };
@@ -167,10 +109,10 @@ fdcl_FFTSO3::fdcl_FFTSO3(int l_max)
 	this->l_max=l_max;	
 }
 
-fdcl_FFTSO3_matrix fdcl_FFTSO3::wigner_d(double beta)
+fdcl_FFTSO3_matrix<double> fdcl_FFTSO3::wigner_d(double beta)
 {
 	// M. Blanco and M. Florez and M Bermejo, "Evaluation of the rotation matrices in the basis of real spherical harmonics," Journal of Molecular Structure, 419, pp 19-27, 1997
-	fdcl_FFTSO3_matrix d(l_max);
+	fdcl_FFTSO3_matrix<double> d(l_max);
 	double cb, sb, sb2, cb2, tb2;
 	int l, m, n;
 	cb=cos(beta);
@@ -231,10 +173,10 @@ fdcl_FFTSO3_matrix fdcl_FFTSO3::wigner_d(double beta)
 	
 }
 
-fdcl_FFTSO3_matrix_complex fdcl_FFTSO3::wigner_D(double alpha, double beta, double gamma)
+fdcl_FFTSO3_matrix<complex<double>> fdcl_FFTSO3::wigner_D(double alpha, double beta, double gamma)
 {
-	fdcl_FFTSO3_matrix d(l_max);
-	fdcl_FFTSO3_matrix_complex D(l_max);
+	fdcl_FFTSO3_matrix<double> d(l_max);
+	fdcl_FFTSO3_matrix<complex<double>> D(l_max);
 	int l,m,n;
 	
 	d=wigner_d(beta);
@@ -250,9 +192,11 @@ fdcl_FFTSO3_matrix_complex fdcl_FFTSO3::wigner_D(double alpha, double beta, doub
 int main()
 {
 	
-	fdcl_FFTSO3_matrix d(5);
-	fdcl_FFTSO3_matrix_complex D(5);
-	
+	fdcl_FFTSO3_matrix<double> d(5);
+	fdcl_FFTSO3_matrix<complex<double>> D(5);
+
+	cout << D << endl;
+
 	fdcl_FFTSO3 FFTSO3(5);
 	
 	d=FFTSO3.wigner_d(1.);
@@ -261,5 +205,5 @@ int main()
 
 	cout << d[3].transpose()*d[3] << endl << endl;
 	cout << (D[3].adjoint()*D[3]).real() << endl << endl;
-
+	
 }
