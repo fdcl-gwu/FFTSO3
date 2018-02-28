@@ -1,0 +1,141 @@
+\documentclass{ieeetran}
+%\documentclass{ieeetran}
+\usepackage{amssymb,amsmath,amsthm,graphicx,subfigure}
+\usepackage{algpseudocode,cases,booktabs}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+
+\newcommand{\norm}[1]{\ensuremath{\left\| #1 \right\|}}
+\newcommand{\bracket}[1]{\ensuremath{\left[ #1 \right]}}
+\newcommand{\braces}[1]{\ensuremath{\left\{ #1 \right\}}}
+\newcommand{\parenth}[1]{\ensuremath{\left( #1 \right)}}
+\newcommand{\pair}[1]{\ensuremath{\langle #1 \rangle}}
+\newcommand{\met}[1]{\ensuremath{\langle\langle #1 \rangle\rangle}}
+\newcommand{\refeqn}[1]{(\ref{eqn:#1})}
+\newcommand{\reffig}[1]{Figure \ref{fig:#1}}
+\newcommand{\tr}[1]{\mathrm{tr}\ensuremath{\negthickspace\bracket{#1}}}
+\newcommand{\trs}[1]{\mathrm{tr}\ensuremath{[#1]}}
+\newcommand{\ave}[1]{\mathrm{E}\ensuremath{[#1]}}
+\newcommand{\deriv}[2]{\ensuremath{\frac{\partial #1}{\partial #2}}}
+\newcommand{\dderiv}[2]{\ensuremath{\dfrac{\partial #1}{\partial #2}}}
+\newcommand{\SO}{\ensuremath{\mathsf{SO(3)}}}
+\newcommand{\T}{\ensuremath{\mathsf{T}}}
+\renewcommand{\L}{\ensuremath{\mathsf{L}}}
+\newcommand{\so}{\ensuremath{\mathfrak{so}(3)}}
+\newcommand{\SE}{\ensuremath{\mathsf{SE(3)}}}
+\newcommand{\se}{\ensuremath{\mathfrak{se}(3)}}
+\renewcommand{\Re}{\ensuremath{\mathbb{R}}}
+\newcommand{\Cp}{\ensuremath{\mathbb{C}}}
+\newcommand{\aSE}[2]{\ensuremath{\begin{bmatrix}#1&#2\\0&1\end{bmatrix}}}
+\newcommand{\ase}[2]{\ensuremath{\begin{bmatrix}#1&#2\\0&0\end{bmatrix}}}
+\newcommand{\D}{\ensuremath{\mathbf{D}}}
+\renewcommand{\d}{\ensuremath{\mathfrak{d}}}
+\newcommand{\Sph}{\ensuremath{\mathsf{S}}}
+\renewcommand{\S}{\Sph}
+\newcommand{\J}{\ensuremath{\mathbf{J}}}
+\newcommand{\Ad}{\ensuremath{\mathrm{Ad}}}
+\newcommand{\intp}{\ensuremath{\mathbf{i}}}
+\newcommand{\extd}{\ensuremath{\mathbf{d}}}
+\newcommand{\hor}{\ensuremath{\mathrm{hor}}}
+\newcommand{\ver}{\ensuremath{\mathrm{ver}}}
+\newcommand{\dyn}{\ensuremath{\mathrm{dyn}}}
+\newcommand{\geo}{\ensuremath{\mathrm{geo}}}
+\newcommand{\Q}{\ensuremath{\mathsf{Q}}}
+\newcommand{\G}{\ensuremath{\mathsf{G}}}
+\newcommand{\g}{\ensuremath{\mathfrak{g}}}
+\newcommand{\Hess}{\ensuremath{\mathrm{Hess}}}
+
+\newcommand{\bfi}{\bfseries\itshape\selectfont}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+\date{}
+
+\newtheorem{definition}{Definition}[section]
+\newtheorem{lem}{Lemma}[section]
+\newtheorem{prop}{Proposition}[section]
+\newtheorem{remark}{Remark}[section]
+\newtheorem{theorem}{Theorem}[section]
+
+%\graphicspath{{./Figs/}}
+
+\title{Fast Fourier Transform on \SO}
+\author{Taeyoung Lee%
+\thanks{Taeyoung Lee, Mechanical and Aerospace Engineering, George Washington University, Washington DC 20052 {\tt tylee@gwu.edu}}
+}
+
+
+
+
+\begin{document}
+
+\maketitle
+
+\section{Harmonic Analysis on $\SO$}
+
+\subsection{Representation on a Lie group}
+
+Let $f\in\mathcal{L}^2(\Re^n)$. The (left) representation $U(g)$ of $\G$ is $\mathsf{GL}(\mathcal{L}^2(\Re^n))$, i.e., the set of linear transformation on $\mathcal{L}^2(\Re^n)$ defined such that
+\begin{equation}\label{eqn:Ug}
+(U(g)f)(x) = f(g^{-1} z).
+\end{equation}
+It is straightforward to show the representation is a homomorphism, 
+\[
+(U(g_1)U(g_2)f)(z) = f(g_2^{-1} g_1^{-1} x) = (U(g_1g_2)f)(z).
+\]
+By selecting a basis for the invariance subspaces of $\mathcal{L}^2(\Re^n)$, $U(g)$ can be represented by a matrix, which is called a matrix representation of $\G$.
+
+Two matrix representations are \textit{equivalent}, if one can obtained by a similarity transform of the other. Any representation can be transformed into a \textit{unitary} representation by a similarity transform so that $U(g)U^*(g)=I$, or $U(g^{-1})=U^*(g)$.  A matrix representation is \textit{reducible}, if it is equivalent to the direct sum of others, or equivalently, it can be block-diagonalized. 
+
+
+\subsection{Irreducible Unitary Representation on $\SO$}
+
+Since there is two-to-one homomorphism from $\mathsf{SU(2)}$ to $\SO$, the representation of $\SO$ should be a subset of those for $\mathsf{SU(2)}$, which is a set of linear transformation on $\mathcal{L}^2(\Cp^2)$. The set of homogeneous polynomials is a basis of $\mathcal{L}^2(\Cp^2)$, and one can find the matrix representation of $\mathsf{SU(2)}$ with \refeqn{Ug}, which results in generalizations of the associated Legendre function~\cite{ChiKya01} that is also shown to be unitary, and irreducible. An irreducible unitary representation of $\SO$ is constructed by taking the terms with integer indices. 
+
+The wigner-D function is another irreducible unitary representation on $\mathsf{SU(2)}$ (or $\SO$) that is equivalent to the above represented based on the generalized associated Legendre function. It is given by a matrix $D^l_{m,n}(R)$, where the index $l$ is a non-negative integer, and the integer indices $m,n$ vary in $-l\leq m,n \leq l$. As such $D^l(R)\in\Cp^{2l+1,2l+1}$.  More specifically, let $(\alpha,\beta,\gamma)\in[0,2\pi]\times[0,\pi]\times[0,2\pi]$ be the 3-2-3 Euler angles, i.e., 
+\[
+R(\alpha,\beta,\gamma)=\exp(\alpha\hat e_3)\exp(\beta\hat e_2)\exp(\gamma\hat e_3). 
+\]
+Then, $D^l_{m,n}(R(\alpha,\beta,\gamma)$ is given by
+\[
+D^l_{m,n}(R(\alpha,\beta,\gamma)) = e^{-i m\alpha} d^l_{m,n}(R(\alpha,\beta,\gamma)) e^{-i n\gamma},
+\]
+where $d^l_{m,n}(R)$ is a real-valued wigner-d function. A recursive formulation to evaluate the wigner-d function is presented in~\cite{BlaFloJMS97}.
+
+While this formulation is based on the particular 3-2-3 Euler angles, 3-1-3 Euler angles can be used without any modification, as it will be equivalent anyway~\cite{ChiKya01}. Another nice feature is that $D^l_{m,n}$ is given by a product of three terms, which depend solely on each of three Euler angles. This follows directly from the use of a Gel`fand-Tsetlin basis, i.e., a basis that respects the decomposition of the restriction to the subgroup $\mathsf{SO(2)}$~\cite{MasRocGC97}. Alternatively, the wigner-D matrix is formulated in terms of quaternions and rotation matrices in~\cite{LynStoMS89}.
+
+\subsection{Fourier Transform on $\SO$}
+
+We define an inner product on $\mathcal{L}^2(\SO)$ as
+\[
+\pair{f(R),g(R)}=\int_{\SO} f(R) g^*(R) dR.
+\]
+For the 3-2-3 Euler angles, the Haar measure is written as $dR = \frac{1}{8\pi^2}\sin\beta d\alpha d\beta d\gamma$ that is normalized such that $\int_{SO} dR = 1$. 
+
+Due to the Peter-Weyl theorem, the collection of the irreducible unitary representations on $\SO$ form a complete orthogonal basis for $\mathcal{L}^2(\SO)$. Specifically
+\[
+\pair{ U^{l_1}_{m_1,n_1}(R), U^{l_2}_{m_2,n_2}(R)} = \frac{1}{2l_1+1}\delta_{l_1,l_2}\delta_{m_1,m_2}\delta_{n_1,n_2}. 
+\]
+This also follows
+\[
+\int_{0}^\pi d^{l_1}_{m_1,n_1}(\cos\beta)d^{l_2}_{m_2,n_2}(\cos\beta)\sin\beta d\beta = \frac{2}{2l_1+1}\delta_{l_1,l_2}\delta_{m_1,m_2}\delta_{n_1,n_2}. 
+\]
+
+Consequently, any $f\in\mathcal{L}^2(\SO)$ has the following decomposition
+\begin{align}
+f(R(\alpha,\beta,\gamma)) &= \sum_{l=0}^\infty \sum_{m,n=-l}^l (2l+1)\bar f^l_{m,n} D^l_{m,n}(\alpha,\beta,\gamma)\nonumber\\
+&= \sum_{l=0}^\infty (2l+1)\trs{(\bar f^l_{m,n})^T D^l_{m,n}(\alpha,\beta,\gamma)},\label{eqn:f_FFT}
+\end{align}
+where $\bar f^l_{m,n}\in\Cp^{(2l+1)\times(2l+1)}$ is obtained by
+\begin{align*}
+& \bar f^l_{m,n}=\pair{ f(R), D^l_{m,n}(R)}\\
+& =\frac{1}{8\pi^2}\int_0^{2\pi}\int_{0}^\pi\int_0^{2\pi} f(R(\alpha,\beta,\gamma)) D^{*l}_{m,n}(R(\alpha,\beta,\gamma))d\alpha d\beta d\gamma\\
+& =\frac{1}{8\pi^2}\int_0^{2\pi}\int_{0}^\pi\int_0^{2\pi} f(R(\alpha,\beta,\gamma)) D^l_{m,n}(R^T(\alpha,\beta,\gamma))d\alpha d\beta d\gamma\\
+& =\frac{1}{8\pi^2}\int_0^{2\pi}\int_{0}^\pi\int_0^{2\pi} f(R(\alpha,\beta,\gamma)) D^l_{m,n}(R(-\gamma,-\beta,-\alpha))d\alpha d\beta d\gamma\\
+\end{align*}
+Several variations of the above definition exists. For example, in~\cite{KosRocJFAA08}, $D^l_{m,n}$ is normalized such that the factor $2l+1$ does not appear.
+
+\bibliography{/Users/tylee/Documents/BibMaster17}
+\bibliographystyle{IEEEtran}
+
+\end{document}

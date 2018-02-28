@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <math.h> // pow
+#include <iomanip>      // std::setprecision
 #include <Eigen/Dense>
 
 using namespace std;
@@ -13,12 +14,12 @@ class fdcl_FFTSO3_matrix
 {
 public:
 	int l_max;
-	std::vector<Matrix<ScalarType,Dynamic,Dynamic>> M;
+	std::vector<Eigen::Matrix<ScalarType,Dynamic,Dynamic>> M;
 	fdcl_FFTSO3_matrix(){};
 	~fdcl_FFTSO3_matrix(){};
 	fdcl_FFTSO3_matrix(int l_max); 
 	void init(int l_max);
-	Matrix<ScalarType,Dynamic,Dynamic>& operator[](int l); // return l-th matrix 
+	Eigen::Matrix<ScalarType,Dynamic,Dynamic>& operator[](int l); // return l-th matrix 
 	ScalarType& operator()(int l, int m, int n); // access (m,n)-th element of the l-th matrix
 	
 	template<typename _ScalarType>
@@ -86,20 +87,30 @@ ostream& operator<< (ostream& os, const fdcl_FFTSO3_matrix<ScalarType>& M)
 }
 
 
+typedef fdcl_FFTSO3_matrix<double> fdcl_FFTSO3_matrix_real;
+typedef fdcl_FFTSO3_matrix<complex<double>> fdcl_FFTSO3_matrix_complex;
 
 class fdcl_FFTSO3
 {
 public:
-	fdcl_FFTSO3_matrix<double> d;
-	fdcl_FFTSO3_matrix<complex<double>> D;
+	std::vector<fdcl_FFTSO3_matrix_real> d_beta;
+	fdcl_FFTSO3_matrix_complex D;
 	int l_max;
+	std::vector<double> weight;
 	
 	fdcl_FFTSO3(){};
-	fdcl_FFTSO3(int);
+	fdcl_FFTSO3(int l_max);
 	~fdcl_FFTSO3(){};
 	
-	fdcl_FFTSO3_matrix<double> wigner_d(double beta);
-	fdcl_FFTSO3_matrix<complex<double>> wigner_D(double alpha, double beta, double gamma);
+	fdcl_FFTSO3_matrix_real wigner_d(double beta);
+	fdcl_FFTSO3_matrix_complex wigner_D(double alpha, double beta, double gamma);
+
+	void compute_d_beta();
+	void compute_weight();
+	double beta_k(int k);
+	void check_weight();
+private:
+
 	
 	
 };
@@ -107,9 +118,11 @@ public:
 fdcl_FFTSO3::fdcl_FFTSO3(int l_max)
 {
 	this->l_max=l_max;	
+	d_beta.resize(2*l_max);
+	weight.resize(2*l_max);
 }
 
-fdcl_FFTSO3_matrix<double> fdcl_FFTSO3::wigner_d(double beta)
+fdcl_FFTSO3_matrix_real fdcl_FFTSO3::wigner_d(double beta)
 {
 	// M. Blanco and M. Florez and M Bermejo, "Evaluation of the rotation matrices in the basis of real spherical harmonics," Journal of Molecular Structure, 419, pp 19-27, 1997
 	fdcl_FFTSO3_matrix<double> d(l_max);
@@ -173,10 +186,10 @@ fdcl_FFTSO3_matrix<double> fdcl_FFTSO3::wigner_d(double beta)
 	
 }
 
-fdcl_FFTSO3_matrix<complex<double>> fdcl_FFTSO3::wigner_D(double alpha, double beta, double gamma)
+fdcl_FFTSO3_matrix_complex fdcl_FFTSO3::wigner_D(double alpha, double beta, double gamma)
 {
-	fdcl_FFTSO3_matrix<double> d(l_max);
-	fdcl_FFTSO3_matrix<complex<double>> D(l_max);
+	fdcl_FFTSO3_matrix_real d(l_max);
+	fdcl_FFTSO3_matrix_complex D(l_max);
 	int l,m,n;
 	
 	d=wigner_d(beta);
@@ -189,21 +202,80 @@ fdcl_FFTSO3_matrix<complex<double>> fdcl_FFTSO3::wigner_D(double alpha, double b
 	return D;
 }
 
+void fdcl_FFTSO3::compute_d_beta()
+{
+	for(int k=0;k<2*l_max;k++)
+		d_beta[k]=wigner_d(beta_k(k));
+}
+
+void fdcl_FFTSO3::compute_weight()
+{	
+    int j, k;
+    double factor;
+    double sum;
+
+    factor = M_PI/((double)(4*l_max)) ;
+
+	for(j=0;j<2*l_max;j++)
+	{
+		sum=0.0;
+        for(k=0;k<l_max;k++)
+			sum+=1./((double)(2*k+1))*sin((double)((2*j+1)*(2*k+1))*factor);
+		
+        sum*=1./((double)l_max)*sin((double)(2*j+1)*factor);
+      
+        weight[j]=sum;
+	}
+}
+
+double fdcl_FFTSO3::beta_k(int k)
+{
+	return ((double)(2*k+1))*M_PI/4./((double)l_max);
+}
+
+void fdcl_FFTSO3::check_weight()
+{
+	fdcl_FFTSO3_matrix<double> d(l_max);
+	std::vector<double> sum;
+	sum.resize(l_max+1);
+	for (int l=0;l<=l_max;l++)
+		sum[l]=0.;
+
+
+	this->compute_weight();
+	
+	for (int k=0;k<2*l_max; k++)
+	{
+		d=wigner_d(beta_k(k));
+		for(int l=0;l<=l_max;l++)
+		{
+			sum[l]+=d(l,0,0)*weight[k];
+		}
+	}
+	
+	cout << "fdcl_FFTSO3::check_weight" << endl;
+	for (int l=0;l<=l_max;l++)
+		cout << sum[l] << endl;
+		
+}
 int main()
 {
+	int l_max=20;
+	fdcl_FFTSO3_matrix_real d(l_max);
+	fdcl_FFTSO3_matrix_complex D(l_max);
+
+	fdcl_FFTSO3 FFTSO3(l_max);
+	d=FFTSO3.wigner_d(1.5);
+	D=FFTSO3.wigner_D(1.5,2.3,-5.);
 	
-	fdcl_FFTSO3_matrix<double> d(5);
-	fdcl_FFTSO3_matrix<complex<double>> D(5);
-
-	cout << D << endl;
-
-	fdcl_FFTSO3 FFTSO3(5);
-	
-	d=FFTSO3.wigner_d(1.);
-	D=FFTSO3.wigner_D(1.,2.,3.);
-	cout << D;
-
 	cout << d[3].transpose()*d[3] << endl << endl;
-	cout << (D[3].adjoint()*D[3]).real() << endl << endl;
+	cout << (D[10].adjoint()*D[10]).real() << endl << endl;
 	
+	FFTSO3.compute_weight();
+	
+	cout << setprecision(12);
+	for(int k=0;k<2*l_max;k++)
+		cout << FFTSO3.weight[k] << endl;
+	
+	FFTSO3.check_weight();
 }
