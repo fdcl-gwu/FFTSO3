@@ -3,6 +3,7 @@
 #include <math.h> // pow
 #include <iomanip>      // std::setprecision
 #include <Eigen/Dense>
+#include "misc_matrix_func.h"
 
 using namespace std;
 using namespace Eigen;
@@ -94,7 +95,7 @@ class fdcl_FFTSO3
 {
 public:
 	std::vector<fdcl_FFTSO3_matrix_real> d_beta;
-	fdcl_FFTSO3_matrix_complex D;
+	fdcl_FFTSO3_matrix_complex D, u;
 	int l_max;
 	std::vector<double> weight;
 	
@@ -104,13 +105,17 @@ public:
 	
 	fdcl_FFTSO3_matrix_real wigner_d(double beta);
 	fdcl_FFTSO3_matrix_complex wigner_D(double alpha, double beta, double gamma);
+	std::vector<fdcl_FFTSO3_matrix_complex> deriv_D();
 
 	void compute_d_beta();
 	void compute_weight();
 	double beta_k(int k);
 	void check_weight();
+	void check_wigner_d();
+	std::vector<double> character(double beta);
+	void check_deriv_D();
 private:
-
+	double delta(int ,int );
 	
 	
 };
@@ -258,24 +263,144 @@ void fdcl_FFTSO3::check_weight()
 		cout << sum[l] << endl;
 		
 }
+
+void fdcl_FFTSO3::check_wigner_d()
+{
+	int l=3, N=1000;
+	double beta;
+	MatrixXd I, d_i_0, d_i_1;
+	fdcl_FFTSO3_matrix_real d_beta(l);
+	
+	I.resize(2*l+1,2*l+1);
+	I.setIdentity();
+	d_i_1.resize(2*l+1,2*l+1);
+	d_i_1.setZero();
+	d_i_0.resize(2*l-1,2*l-1);
+	d_i_0.setZero();
+
+	beta=(double)rand()/RAND_MAX;
+	
+	d_beta=wigner_d(beta);
+	
+	cout << "fdcl_FFTSO3::check_wigner_d" << endl;
+	cout << "matrix orthogonality error: " << (d_beta[l].transpose()*d_beta[l]-I).norm() << endl;
+	
+	for(int i=0;i<N;i++)
+	{
+		beta=M_PI/((double)N)*((double)i);
+		d_beta=wigner_d(beta);
+		d_i_1+=d_beta[l].cwiseProduct(d_beta[l])*sin(beta)*M_PI/((double)N);
+		d_i_0+=d_beta[l-1].cwiseProduct(d_beta[l].block(1,1,2*l-1,2*l-1))*sin(beta)*M_PI/((double)N);
+
+	}
+	d_i_1*=((double)(2*l+1))/2.;
+
+	cout << "functional orthogonality error: " << endl;
+	cout << d_i_0 << endl;
+	cout << d_i_1 << endl;
+
+}
+
+std::vector<double> fdcl_FFTSO3::character(double theta)
+{
+	std::vector<double> chi;
+	fdcl_FFTSO3_matrix_real d(l_max);
+		
+	chi.resize(l_max+1);
+	
+	for(int l=0;l<=l_max;l++)
+		chi[l]=sin( ((double)2*l+1)/2.*theta )/sin(theta/2.);
+	
+	return chi;
+} 
+	
+std::vector<fdcl_FFTSO3_matrix_complex> fdcl_FFTSO3::deriv_D()
+{
+	std::vector<fdcl_FFTSO3_matrix_complex> u;
+	double c_n, cn;
+	u.resize(4);
+	u[1].init(l_max);
+	u[2].init(l_max);
+	u[3].init(l_max);	
+	
+	int l,m,n;
+	
+	for(l=0;l<=l_max;l++)
+	{
+		for(m=-l;m<=l;m++)
+		{
+			n=m;
+			u[3](l,m,n)=-I*((double)m);
+		}
+		for(m=-l;m<l;m++)
+		{
+			n=m+1;
+			c_n=sqrt(((double)l+n)*((double)l-n+1));			
+			u[2](l,m,n)=0.5*c_n;
+			u[1](l,m,n)=-0.5*I*c_n;
+			
+		}
+		for(m=-l+1;m<=l;m++)
+		{
+			n=m-1;
+			cn=sqrt(((double)l-n)*((double)l+n+1));			
+			u[2](l,m,n)=-0.5*cn;
+			u[1](l,m,n)=-0.5*I*cn;						
+		}
+	}
+	
+	return u;
+}
+
+double fdcl_FFTSO3::delta(int i, int j)
+{
+	double delta=0.;
+	
+	if (i==j)
+		delta=1.;
+	
+	return delta;
+	
+}
+
+void fdcl_FFTSO3::check_deriv_D()
+{
+	std::vector<fdcl_FFTSO3_matrix_complex> u;
+	fdcl_FFTSO3_matrix_complex D, D_new;
+	std::vector<double>abg;
+	Eigen::Matrix<double, 3, 1> ei;
+	double eps=1.e-6;
+	
+	u=deriv_D();
+	D=wigner_D(0,0,0);
+
+	cout << "fdcl_FFTSO3::check_deriv_D" << endl;
+
+	for(int i=1;i<=3;i++)
+	{
+		cout << endl << "u_" << i << endl;
+		ei.setZero();
+		ei(i-1)=1.;
+		abg=R2Euler323(expm_SO3(ei*eps));
+		D_new=wigner_D(abg[0],abg[1],abg[2]);
+
+		for(int l=1;l<=l_max;l++)
+		{
+			cout << "l=" << l << ", error= " << ((D_new[l]-D[l])/eps-u[i][l]).norm()/u[i][l].norm() << endl;
+//			cout << u[i][l] << endl << endl; // analytic derivative
+//			cout << (D_new[l]-D[l])/eps << endl; // numerical derivative
+		}
+	}
+
+}
 int main()
 {
-	int l_max=20;
-	fdcl_FFTSO3_matrix_real d(l_max);
+	int l_max=100;
+	fdcl_FFTSO3_matrix_real d(l_max), d1(l_max);
 	fdcl_FFTSO3_matrix_complex D(l_max);
+	std::vector<fdcl_FFTSO3_matrix_complex> u;
 
 	fdcl_FFTSO3 FFTSO3(l_max);
-	d=FFTSO3.wigner_d(1.5);
-	D=FFTSO3.wigner_D(1.5,2.3,-5.);
 	
-	cout << d[3].transpose()*d[3] << endl << endl;
-	cout << (D[10].adjoint()*D[10]).real() << endl << endl;
-	
-	FFTSO3.compute_weight();
-	
-	cout << setprecision(12);
-	for(int k=0;k<2*l_max;k++)
-		cout << FFTSO3.weight[k] << endl;
-	
-	FFTSO3.check_weight();
+	FFTSO3.check_deriv_D();
 }

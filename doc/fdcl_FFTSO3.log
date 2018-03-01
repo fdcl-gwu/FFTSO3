@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  28 FEB 2018 18:00
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  1 MAR 2018 17:34
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -669,34 +669,51 @@ LaTeX Font Info:    Try loading font information for OT1+pcr on input line 72.
 
 (/usr/local/texlive/2017/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
-)
-Overfull \hbox (34.87788pt too wide) detected at line 122
-[][] \OML/cmm/m/it/10 d[]\OT1/cmr/m/n/10 ([] \OML/cmm/m/it/10 ^^L\OT1/cmr/m/n/1
-0 )\OML/cmm/m/it/10 d[]\OT1/cmr/m/n/10 ([] \OML/cmm/m/it/10 ^^L\OT1/cmr/m/n/10 
-) [] \OML/cmm/m/it/10 ^^Ld^^L \OT1/cmr/m/n/10 = []\OML/cmm/m/it/10 ^^N[]^^N[]^^
-N[]:
- []
-
-
-Overfull \hbox (27.59538pt too wide) in paragraph at lines 135--135
-[] 
- []
-
-[1{/usr/local/texlive/2017/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
+) [1{/usr/local/texlive/2017/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
 
 ]
-(./fdcl_FFTSO3.bbl) [2
+Overfull \hbox (7.921pt too wide) detected at line 153
+\OML/cmm/m/it/10 ^^_\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 Q[]RQ\OT1/cmr/m/n/10 ) = 
+[][\OML/cmm/m/it/10 D\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 Q[]RQ\OT1/cmr/m/n/10 )] 
+= [][\OML/cmm/m/it/10 D\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 Q[]\OT1/cmr/m/n/10 )\O
+ML/cmm/m/it/10 D\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 R\OT1/cmr/m/n/10 )\OML/cmm/m/
+it/10 D\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 Q\OT1/cmr/m/n/10 )] = \OML/cmm/m/it/10
+ ^^_\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 R\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 :
+ []
+
+
+Overfull \hbox (5.30399pt too wide) in paragraph at lines 168--168
+[] 
+ []
+
+LaTeX Font Info:    Try loading font information for U+euf on input line 175.
+(/usr/local/texlive/2017/texmf-dist/tex/latex/amsfonts/ueuf.fd
+File: ueuf.fd 2013/01/14 v3.01 Euler Fraktur
+)
+Underfull \hbox (badness 1789) in paragraph at lines 186--188
+\OT1/ptm/m/n/10 As such, we need to com-pute $\OML/cmm/m/it/10 u[]\OT1/cmr/m/n/
+10 (\OML/cmm/m/it/10 e[]\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 ; u[]\OT1/cmr/m/n/10 
+(\OML/cmm/m/it/10 e[]\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 ; u[]\OT1/cmr/m/n/10 (\O
+ML/cmm/m/it/10 e[]\OT1/cmr/m/n/10 ) \OMS/cmsy/m/n/10 2
+ []
+
+
+Overfull \hbox (19.4148pt too wide) in paragraph at lines 221--221
+[] 
+ []
+
+(./fdcl_FFTSO3.bbl [2]) [3
 
 ] (./fdcl_FFTSO3.aux) ) 
 Here is how much of TeX's memory you used:
- 14190 strings out of 492995
- 277914 string characters out of 6132704
- 324003 words of memory out of 5000000
- 17462 multiletter control sequences out of 15000+600000
- 41693 words of font info for 96 fonts, out of 8000000 for 9000
+ 14206 strings out of 492995
+ 278198 string characters out of 6132704
+ 329032 words of memory out of 5000000
+ 17472 multiletter control sequences out of 15000+600000
+ 42401 words of font info for 99 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 55i,9n,65p,638b,218s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 55i,12n,65p,712b,269s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2017/texmf-dist/fonts/enc/dvips/base
 /8r.enc}</usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmex
 10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi1
@@ -710,14 +727,15 @@ ocal/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmss17.pfb></usr/lo
 cal/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/loca
 l/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local
 /texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/t
-exlive/2017/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/loc
-al/texlive/2017/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texli
-ve/2017/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2017/te
-xmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on fdcl_FFTSO3.pdf (2 pages, 150717 bytes).
+exlive/2017/texmf-dist/fonts/type1/public/amsfonts/euler/eufm10.pfb></usr/local
+/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/l
+ocal/texlive/2017/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/tex
+live/2017/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2017/
+texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on fdcl_FFTSO3.pdf (3 pages, 165605 bytes).
 PDF statistics:
- 79 PDF objects out of 1000 (max. 8388607)
- 58 compressed objects within 1 object stream
+ 86 PDF objects out of 1000 (max. 8388607)
+ 63 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  13 words of extra memory for PDF output out of 10000 (max. 10000000)
 
