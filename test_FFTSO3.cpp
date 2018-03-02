@@ -3,93 +3,11 @@
 #include <math.h> // pow
 #include <iomanip>      // std::setprecision
 #include <Eigen/Dense>
+#include "fdcl_FFTSO3_matrix.hpp"
 #include "misc_matrix_func.h"
 
 using namespace std;
 using namespace Eigen;
-
-const complex<double> I(0.0,1.0);    
-
-template <class ScalarType>
-class fdcl_FFTSO3_matrix
-{
-public:
-	int l_max;
-	std::vector<Eigen::Matrix<ScalarType,Dynamic,Dynamic>> M;
-	fdcl_FFTSO3_matrix(){};
-	~fdcl_FFTSO3_matrix(){};
-	fdcl_FFTSO3_matrix(int l_max); 
-	void init(int l_max);
-	Eigen::Matrix<ScalarType,Dynamic,Dynamic>& operator[](int l); // return l-th matrix 
-	ScalarType& operator()(int l, int m, int n); // access (m,n)-th element of the l-th matrix
-	
-	template<typename _ScalarType>
-    friend ostream& operator<<(ostream& os, const fdcl_FFTSO3_matrix<_ScalarType>& M);  	
-private:
-	void assert_index(int l);
-	void assert_index(int l, int m, int n);
-};
-
-template <class ScalarType>
-fdcl_FFTSO3_matrix<ScalarType>::fdcl_FFTSO3_matrix(int l_max)
-{
-	init(l_max);
-}
-
-template <class ScalarType>
-void fdcl_FFTSO3_matrix<ScalarType>::init(int l_max)
-{
-	this->l_max=l_max;
-	
-	M.resize(l_max+1);
-	for(int i=0;i<=l_max;i++)
-	{
-		M[i].resize(2*i+1,2*i+1);
-		M[i].setZero();
-	}
-}
-
-template <class ScalarType>
-void fdcl_FFTSO3_matrix<ScalarType>::assert_index(int l)
-{
-	assert(l>=0 && l<=l_max);
-}
-
-template <class ScalarType>
-void fdcl_FFTSO3_matrix<ScalarType>::assert_index(int l, int m, int n)
-{
-	assert_index(l);
-	assert(min(m,n) >= -l && max(m,n) <= l);
-}
-
-template <class ScalarType>
-Matrix<ScalarType,Dynamic,Dynamic> & fdcl_FFTSO3_matrix<ScalarType>::operator[](int l)
-{
-	assert_index(l);
-	return M[l];
-}
-
-template <class ScalarType>
-ScalarType& fdcl_FFTSO3_matrix<ScalarType>::operator()(int l, int m, int n)
-{
-	assert_index(l,m,n);
-	return M[l](m+l,n+l);
-}
-
-template <class ScalarType>
-ostream& operator<< (ostream& os, const fdcl_FFTSO3_matrix<ScalarType>& M)
-{
-	for(int l=0;l<=M.l_max;l++)
-	{
-		os << "l=" << l << endl;
-		os << M.M[l] << endl << endl;
-	}
-	return os;
-}
-
-
-typedef fdcl_FFTSO3_matrix<double> fdcl_FFTSO3_matrix_real;
-typedef fdcl_FFTSO3_matrix<complex<double>> fdcl_FFTSO3_matrix_complex;
 
 class fdcl_FFTSO3
 {
@@ -398,9 +316,10 @@ int main()
 	int l_max=100;
 	fdcl_FFTSO3_matrix_real d(l_max), d1(l_max);
 	fdcl_FFTSO3_matrix_complex D(l_max);
+
 	std::vector<fdcl_FFTSO3_matrix_complex> u;
 
-	fdcl_FFTSO3 FFTSO3(l_max);
+//	fdcl_FFTSO3 FFTSO3(l_max);
 	
-	FFTSO3.check_deriv_D();
+//	FFTSO3.check_deriv_D();
 }

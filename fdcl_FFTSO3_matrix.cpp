@@ -1,0 +1,63 @@
+#include "fdcl_FFTSO3_matrix.hpp"
+
+template <class ScalarType>
+fdcl_FFTSO3_matrix<ScalarType>::fdcl_FFTSO3_matrix(int l_max)
+{
+	init(l_max);
+}
+
+template <class ScalarType>
+void fdcl_FFTSO3_matrix<ScalarType>::init(int l_max)
+{
+	this->l_max=l_max;
+	
+	M.resize(l_max+1);
+	for(int i=0;i<=l_max;i++)
+	{
+		M[i].resize(2*i+1,2*i+1);
+		M[i].setZero();
+	}
+}
+
+template <class ScalarType>
+void fdcl_FFTSO3_matrix<ScalarType>::assert_index(int l)
+{
+	assert(l>=0 && l<=l_max);
+}
+
+template <class ScalarType>
+void fdcl_FFTSO3_matrix<ScalarType>::assert_index(int l, int m, int n)
+{
+	assert_index(l);
+	assert(min(m,n) >= -l && max(m,n) <= l);
+}
+
+template <class ScalarType>
+Matrix<ScalarType,Dynamic,Dynamic> & fdcl_FFTSO3_matrix<ScalarType>::operator[](int l)
+{
+	assert_index(l);
+	return M[l];
+}
+
+template <class ScalarType>
+ScalarType& fdcl_FFTSO3_matrix<ScalarType>::operator()(int l, int m, int n)
+{
+	assert_index(l,m,n);
+	return M[l](m+l,n+l);
+}
+
+template <class ScalarType>
+ostream& operator<< (ostream& os, const fdcl_FFTSO3_matrix<ScalarType>& M)
+{
+	for(int l=0;l<=M.l_max;l++)
+	{
+		os << "l=" << l << endl;
+		os << M.M[l] << endl << endl;
+	}
+	return os;
+}
+
+template class fdcl_FFTSO3_matrix<double>;
+template class fdcl_FFTSO3_matrix<complex<double>>;
+
+
