@@ -17,7 +17,7 @@ class fdcl_FFTSO3
 public:
 	std::vector<fdcl_FFTSO3_matrix_real> d_beta;
 	fdcl_FFTSO3_matrix_complex D, u, F, F0;
-	int l_max;
+	int B, l_max;
 	std::vector<double> weight;
 	
 	fdcl_FFTSO3(){};
@@ -61,8 +61,9 @@ private:
 fdcl_FFTSO3::fdcl_FFTSO3(int l_max)
 {
 	this->l_max=l_max;	
-	d_beta.resize(2*l_max);
-	weight.resize(2*l_max);
+	B=l_max+1;
+	d_beta.resize(2*B);
+	weight.resize(2*B);
 	F0.init(l_max);
 	F0.setRandom();
 }
@@ -292,15 +293,15 @@ std::vector<double> fdcl_FFTSO3::compute_weight()
     double factor;
     double sum;
 
-    factor = M_PI/((double)(4*l_max)) ;
+    factor = M_PI/((double)(4*B)) ;
 
-	for(j=0;j<2*l_max;j++)
+	for(j=0;j<2*B;j++)
 	{
 		sum=0.0;
-        for(k=0;k<l_max;k++)
+        for(k=0;k<B;k++)
 			sum+=1./((double)(2*k+1))*sin((double)((2*j+1)*(2*k+1))*factor);
 		
-        sum*=1./((double)4*l_max*l_max*l_max)*sin((double)(2*j+1)*factor);
+        sum*=1./((double)16*B*B)*sin((double)(2*j+1)*factor);
       
         weight[j]=sum;
 	}
@@ -311,41 +312,41 @@ std::vector<double> fdcl_FFTSO3::compute_weight()
 
 void fdcl_FFTSO3::check_weight()
 {
-	fdcl_FFTSO3_matrix<double> d(2*l_max);
+	fdcl_FFTSO3_matrix<double> d(2*B-1);
 	std::vector<double> sum;
-	sum.resize(2*l_max+1);
-	for (int l=0;l<=2*l_max;l++)
+	sum.resize(2*B);
+	for (int l=0;l<2*B;l++)
 		sum[l]=0.;
 
 	this->compute_weight();
 	
-	for (int k=0;k<2*l_max; k++)
+	for (int k=0;k<2*B; k++)
 	{
-		d=wigner_d(beta_k(k),2*l_max);
-		for(int l=0;l<=2*l_max;l++)
+		d=wigner_d(beta_k(k),2*B-1);
+		for(int l=0;l<2*B;l++)
 		{
 			sum[l]+=d(l,0,0)*weight[k];
 		}
 	}
 	
 	cout << "fdcl_FFTSO3::check_weight" << endl;
-	cout << "\\sum_k w_k d^l_00(beta_k) * 4l_\\max^2 = \\delta_{0,l}" << endl; 
-	for (int l=0;l<=2*l_max;l++)
-		cout << "l=" << l << ": " << sum[l]*((double)4*l_max*l_max) << endl;
+	cout << "\\sum_k w_k d^l_00(beta_k) * 4B^2 = \\delta_{0,l}" << endl; 
+	for (int l=0;l<2*B;l++)
+		cout << "l=" << l << ": " << sum[l]*((double)4*B*B) << endl;
 	
 	
 	int j1, j2, k, l;
-	fdcl_FFTSO3_matrix_complex Delta(2*l_max);
+	fdcl_FFTSO3_matrix_complex Delta(2*B-1);
 	Delta.setZero();
-	for(k=0;k<2*l_max;k++)
-		for(j1=0;j1<2*l_max;j1++)
-			for(j2=0;j2<2*l_max;j2++)
-				for(l=0;l<=2*l_max;l++)
-					Delta[l]+=weight[k]*wigner_D(alpha_j(j1),beta_k(k),gamma_j(j2),2*l_max)[l];
+	for(k=0;k<2*B;k++)
+		for(j1=0;j1<2*B;j1++)
+			for(j2=0;j2<2*B;j2++)
+				for(l=0;l<2*B;l++)
+					Delta[l]+=weight[k]*wigner_D(alpha_j(j1),beta_k(k),gamma_j(j2),2*B-1)[l];
 	
 	
 	cout << "\\sum_{j1,k,j2} w_k D(alpha_j1, beta_k, gamma_j2) = \\delta_{l,0}\\delta_{m,0}\\delta_{n,0}" << endl;
-	for (int l=0;l<=2*l_max;l++)
+	for (int l=0;l<2*B;l++)
 		cout << "l=" << l << ": " << Delta[l].norm() << endl;
 
 				
@@ -550,12 +551,12 @@ complex<double> fdcl_FFTSO3::inverse_transform(Matrix3 R)
 
 double fdcl_FFTSO3::beta_k(int k)
 {
-	return ((double)(2*k+1))*M_PI/4./((double)l_max);
+	return ((double)(2*k+1))*M_PI/4./((double)B);
 }
 
 double fdcl_FFTSO3::alpha_j(int j)
 {
-	return ((double)j)*M_PI/((double)l_max);
+	return ((double)j)*M_PI/((double)B);
 }
 
 double fdcl_FFTSO3::gamma_j(int j)
@@ -597,18 +598,18 @@ fdcl_FFTSO3_matrix_complex fdcl_FFTSO3::forward_transform()
 	
 	F.setZero();
 	
-	for(k=0;k<2*l_max;k++)	
+	for(k=0;k<2*B;k++)	
 	{
 		beta=beta_k(k);
 		d_beta_k=wigner_d(beta);
-		for(j1=0;j1<2*l_max;j1++)
+		for(j1=0;j1<2*B;j1++)
 		{
 			alpha=alpha_j(j1);
-			for(j2=0;j2<2*l_max;j2++)
+			for(j2=0;j2<2*B;j2++)
 			{
 				gamma=gamma_j(j2);
 				f_j1kj2=f(alpha,beta,gamma);
-				for(l=0;l<=l_max;l++)
+				for(l=0;l<B;l++)
 				{
 					for(m=-l;m<=l;m++)
 					{
@@ -703,14 +704,14 @@ int main()
 
 	fdcl_FFTSO3 FFTSO3(l_max);
 
-	FFTSO3.check_wigner_d();
-//	FFTSO3.check_weight();
+	FFTSO3.check_weight();
+//	FFTSO3.check_wigner_d();
 
-//	F=FFTSO3.forward_transform();
-//	cout << F << endl;
+	F=FFTSO3.forward_transform();
+	cout << F << endl;
 
-//	cout << FFTSO3.f(1.,2.,3.) << endl;
-//	cout << FFTSO3.inverse_transform(F,1.,2.,3.) << endl;
+	cout << FFTSO3.f(1.,2.,3.) << endl;
+	cout << FFTSO3.inverse_transform(F,1.,2.,3.) << endl;
 	
-	cout << FFTSO3.Legendre_poly(1.23,10) << endl;
+
 }

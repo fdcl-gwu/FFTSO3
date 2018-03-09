@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  9 MAR 2018 13:14
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  9 MAR 2018 17:32
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -704,13 +704,13 @@ Overfull \hbox (19.4148pt too wide) in paragraph at lines 226--226
  []
 
 [2]
-Underfull \hbox (badness 1577) in paragraph at lines 262--263
+Underfull \hbox (badness 1577) in paragraph at lines 247--248
 []\OT1/ptm/m/n/10 Consider the fol-low-ing uni-form grid for $\OT1/cmr/m/n/10 (
 \OML/cmm/m/it/10 ; ^^L; ^^M\OT1/cmr/m/n/10 ) \OMS/cmsy/m/n/10 2
  []
 
 
-Overfull \hbox (41.4904pt too wide) in paragraph at lines 321--321
+Overfull \hbox (41.4904pt too wide) in paragraph at lines 328--328
 [] 
  []
 
@@ -718,10 +718,10 @@ Overfull \hbox (41.4904pt too wide) in paragraph at lines 321--321
 
 ] (./fdcl_FFTSO3.aux) ) 
 Here is how much of TeX's memory you used:
- 14213 strings out of 492995
- 278282 string characters out of 6132704
- 331072 words of memory out of 5000000
- 17479 multiletter control sequences out of 15000+600000
+ 14212 strings out of 492995
+ 278267 string characters out of 6132704
+ 330063 words of memory out of 5000000
+ 17478 multiletter control sequences out of 15000+600000
  42401 words of font info for 99 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  55i,12n,65p,712b,218s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -738,17 +738,16 @@ cal/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/loc
 al/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmss17.pfb></usr/loca
 l/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/local/
 texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/t
-exlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/tex
-live/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texli
-ve/2017/texmf-dist/fonts/type1/public/amsfonts/euler/eufm10.pfb></usr/local/tex
-live/2017/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local
-/texlive/2017/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive
-/2017/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2017/texm
-f-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on fdcl_FFTSO3.pdf (4 pages, 192036 bytes).
+exlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/tex
+live/2017/texmf-dist/fonts/type1/public/amsfonts/euler/eufm10.pfb></usr/local/t
+exlive/2017/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/loc
+al/texlive/2017/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texli
+ve/2017/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2017/te
+xmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on fdcl_FFTSO3.pdf (4 pages, 185015 bytes).
 PDF statistics:
- 97 PDF objects out of 1000 (max. 8388607)
- 71 compressed objects within 1 object stream
+ 93 PDF objects out of 1000 (max. 8388607)
+ 68 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  13 words of extra memory for PDF output out of 10000 (max. 10000000)
 
