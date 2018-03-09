@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  9 MAR 2018 13:14
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  9 MAR 2018 14:43
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -710,7 +710,7 @@ Underfull \hbox (badness 1577) in paragraph at lines 262--263
  []
 
 
-Overfull \hbox (41.4904pt too wide) in paragraph at lines 321--321
+Overfull \hbox (10.78197pt too wide) in paragraph at lines 321--321
 [] 
  []
 
@@ -745,7 +745,7 @@ live/2017/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local
 /texlive/2017/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive
 /2017/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2017/texm
 f-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on fdcl_FFTSO3.pdf (4 pages, 192036 bytes).
+Output written on fdcl_FFTSO3.pdf (4 pages, 191999 bytes).
 PDF statistics:
  97 PDF objects out of 1000 (max. 8388607)
  71 compressed objects within 1 object stream
