@@ -46,11 +46,14 @@ public:
 
 	complex<double> f(double alpha, double beta, double gamma);
 
+	Eigen::VectorXd Legendre_poly(double x, int n);
+	
 private:
 	double delta(int ,int );
 	double beta_k(int k);
 	double alpha_j(int j);
 	double gamma_j(int j);
+	
 	
 	
 };
@@ -62,6 +65,24 @@ fdcl_FFTSO3::fdcl_FFTSO3(int l_max)
 	weight.resize(2*l_max);
 	F0.init(l_max);
 	F0.setRandom();
+}
+
+Eigen::VectorXd fdcl_FFTSO3::Legendre_poly(double x, int N)
+{
+	// return the value of Legendre Polynomial of x upto the order N
+	Eigen::VectorXd P;
+	int n;
+	
+	P.resize(N+1);
+	
+	P(0)=1.;
+	if (N>=1)
+		P(1)=x;
+	
+	for(n=1;n<N;n++)
+		P(n+1)=1./((double)n+1)*( ((double)2*n+1)*x*P(n)-((double)n)*P(n-1) );
+	
+	return P;
 }
 
 fdcl_FFTSO3_matrix_real fdcl_FFTSO3::wigner_d_explicit(double beta)
@@ -691,5 +712,5 @@ int main()
 //	cout << FFTSO3.f(1.,2.,3.) << endl;
 //	cout << FFTSO3.inverse_transform(F,1.,2.,3.) << endl;
 	
-
+	cout << FFTSO3.Legendre_poly(1.23,10) << endl;
 }

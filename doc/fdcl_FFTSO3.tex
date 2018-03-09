@@ -94,7 +94,7 @@ Since there is two-to-one homomorphism from $\mathsf{SU(2)}$ to $\SO$, the repre
 
 The wigner-D function is another irreducible unitary representation on $\mathsf{SU(2)}$ (or $\SO$) that is equivalent to the above representation based on the generalized associated Legendre function. Specifically, the wigner-D function is given by $D^l_{m,n}(R)\in\Cp$, where the index $l$ is a non-negative integer, and the integer indices $m,n$ vary in $-l\leq m,n \leq l$. When the low indices are dropped, $D^l(R)$ is considered as a square matrix where the row index (resp. the column index) corresponds to $m$ (resp. $n$) varying from $-l\leq m,n \leq l$. As such $D^l(R)\in\Cp^{2l+1,2l+1}$.
 
-Let $(\alpha,\beta,\gamma)\in[0,2\pi]\times[0,\pi]\times[0,2\pi]$ be the 3-2-3 Euler angles, i.e., 
+Let $(\alpha,\beta,\gamma)\in[0,2\pi)\times[0,\pi]\times[0,2\pi)$ be the 3-2-3 Euler angles, i.e., 
 \[
 R(\alpha,\beta,\gamma)=\exp(\alpha\hat e_3)\exp(\beta\hat e_2)\exp(\gamma\hat e_3). 
 \]
@@ -249,9 +249,7 @@ The forward transform of a band-limited function is given by
 &=\sum_{l=0}^{l_{\max}} \sum_{m,n=-l}^l (2l+1)\bar f^l_{m,n} (-1)^{m'-n'}\nonumber\\
 &\quad\quad\times\int_{\SO}D^l_{m,n}(R)D^{l'}_{-m',-n'}(R)\, dR.
 \end{align*}
-Clebsch-Gordon formula implies that the product of $D^{l_1}$ and $D^{l_2}$ may be written as a linear combination of $D^l$ with $|l_1-l_2|\leq l\leq l_1+l_2$. Since $0\leq l,l'\leq l_{\max}$, the integrand of the above forward transform can be rewritten as a linear combination of $D^s$ up to $0 \leq s\leq 2{l_{\max}}$. 
-
-As such, if a quadrature rule is selected such that the following integral is evaluated exactly for $0\leq l \leq 2l_{\max}$, the Fourier coefficients are computed exactly as well. 
+Clebsch-Gordon formula implies that the product of $D^{l_1}$ and $D^{l_2}$ may be written as a linear combination of $D^l$ with $|l_1-l_2|\leq l\leq l_1+l_2$. Since $0\leq l,l'\leq l_{\max}$, the integrand of the above forward transform can be rewritten as a linear combination of $D^s$ up to $0 \leq s\leq 2{l_{\max}}$. In~\cite{MasRocGC97}, it is proposed that if a quadrature rule is selected such that the following integral for a wigner D function is evaluated exactly for $0\leq l \leq 2l_{\max}$, the Fourier coefficients are computed exactly as well. 
 \begin{align}
 &\int_{\SO} D^l_{m,n} (R) dR\nonumber\\
 & = \frac{1}{8\pi^2} \int_0^{2\pi} e^{-im\alpha} d\alpha
@@ -261,41 +259,55 @@ As such, if a quadrature rule is selected such that the following integral is ev
 & = \delta_{m,0}\delta_{n,0}\delta_{l,0}.\label{eqn:intD}
 \end{align}
 
-Consider the following uniform grid for $(\alpha,\beta,\gamma)\in[0,2\pi]\times[0,\pi]\times[0,2\pi]$:
+Consider the following uniform grid for $(\alpha,\beta,\gamma)\in[0,2\pi)\times[0,\pi]\times[0,2\pi)$:
 \[
-[\SO]_d=\{(\alpha_{j_1},\beta_k,\gamma_{j_2})\,|\, j_1,j_2,k\in\{0,\ldots, 2l_{\max}-1\}\},
+[\SO]_d=\{(\alpha_{j_1},\beta_k,\gamma_{j_2})\,|\, j_1,j_2,k\in\{0,\ldots, 2l_{\max}\}\},
 \]
 with
-\[
-\alpha_j=\gamma_j= \frac{j\pi}{l_{\max}},\quad \beta_k = \frac{(2k+1)\pi}{4l_{\max}}.
-\]
-Let $w_k$ be the weight of $(\alpha_{j_1},\beta_k,\gamma_{j_2})$. The weighted sum of the $D^l_{m,n}$ at the grid points is given by
+\begin{equation}\label{eqn:grid}
+\alpha_j=\gamma_j= \frac{2\pi j}{2l_{\max}+1},\quad \beta_k = \frac{\pi k}{2l_{\max}}.
+\end{equation}
+Let $w_k$ be the weight of $(\alpha_{j_1},\beta_k,\gamma_{j_2})$ for $0\leq k\leq 2l_{\max}$. The weighted sum of the $D^l_{m,n}$ at the selected grid is given by
 \begin{align*}
-&\sum_{j_1,j_2,k=0}^{2l_{\max}-1} w_k D^l_{m,n}(R(\alpha_{j_1},\beta_k,\gamma_{j_2}))\\
-& =  \sum_{j_1=0}^{2l_{\max}-1}e^{-im\alpha_{j_1}}\times  \sum_{k=0}^{2l_{\max}-1} w_k d^l_{m,n} (\beta_k) \times \sum_{j_2=0}^{2l_{\max}-1} e^{-in\gamma_{j_2}}\\
-& =  4l_{\max}^2 \delta_{m,0}\delta_{n,0}\sum_{k=0}^{2l_{\max}-1} w_k d^l_{0,0} (\beta_k).
+&\sum_{j_1,j_2,k=0}^{2l_{\max}} w_k D^l_{m,n}(R(\alpha_{j_1},\beta_k,\gamma_{j_2}))\\
+& =  \sum_{j_1=0}^{2l_{\max}}e^{-im\alpha_{j_1}}\times  \sum_{k=0}^{2l_{\max}} w_k d^l_{m,n} (\beta_k) \times \sum_{j_2=0}^{2l_{\max}} e^{-in\gamma_{j_2}}\\
+& = (2l_{\max}+1)^2\delta_{m,0}\delta_{n,0} \sum_{k=0}^{2l_{\max}} w_k d^l_{m,n} (\beta_k),
+%\delta_{n,0}\sum_{k=0}^{2l_{\max}-1} w_k d^l_{0,0} (\beta_k).
 \end{align*}
-Let $w_{\beta_k}$ be the weight satisfying
+which is obtained by the property of $\alpha_{j_1},\gamma_{j_2}$ defined in \refeqn{grid},
 \[
-\sum_{k=0}^{2l_{\max}-1} w_{\beta_k} d^l_{0,0} (\beta_k)=\delta_{l,0}
+\sum_{j_1=0}^{2l_{\max}}e^{-im\alpha_{j_1}} =(2l_{\max}+1)\delta_{m,0}.
 \]
-for $0\leq l\leq 2l_{\max}$. The solution is explicitly given in~\cite{KosRocJFAA08}, but  numerical tests reveal that there is an error for the factor of 2. The scaled expression is given as follows:
+Therefore, \refeqn{intD} is satisfied if $w_k$ is chosen such that
+\begin{equation}\label{eqn:weight_rqr}
+\sum_{k=0}^{2l_{\max}} w_{k} d^l_{0,0} (\beta_k)
+=\sum_{k=0}^{2l_{\max}} w_{k} P_l(\cos\beta_k)=\frac{1}{(2l_{\max}+1)^2}\delta_{l,0},
+\end{equation}
+for $0\leq l\leq 2l_{\max}$, where $P_l(\cdot)$ is the $l$-th Legendre polynomial. 
+
+A similar problem has been addressed in~\cite{DriHeaAAM94}, and later utilized in~\cite{KosRocJFAA08}, under an alternative definition of the band-limited function and grids. In~\cite{PotPrePAUL07}, the weighting parameters are chosen according to a Clenshaw-Curtis quadrature rule, but without exact transform for band-limited functions. 
+
+Here, we do not present an analytic solution to \refeqn{weight_rqr}, but instead reformulate it into the following matrix equation.
 \[
-w_{\beta_k}=\frac{1}{l_{\max}}\sin\beta_k \sum_{j=0}^{l_{\max}-1}\frac{1}{2j+1}\sin((2j+1)\beta_k).
+P w = \frac{1}{(2l_{\max}+1)^2} d,
 \]
-Then, the weight for the exact Fourier transform of a band-limited function is given by
+where $P\in\Re^{2l_{\max}+1\times 2l_{\max}+1}$, $w,d\in\Re^{l_{\max}+1}$ are defined such that
+$[P]_{lk}=P_l(\cos\beta_k)$, $[w]_k=w_k$, and $[d]_k=\delta_{k,0}$ where the row index $l$ and the column index $k$ are assumed to be varied from $0$ to $2l_{\max}$. For the evaluation of the Legendre polynomial, we may use the following recursive relation,
 \[
-w_k = \frac{w_{\beta_k}} {4l_{\max}^2},
+(l+1)P_{l+1}(x)=(2l+1)xP_l(x)- lP_{l-1}(x),
 \]
-which results in
+with $P_0(x)=1$ and $P_1(x)=x$. 
+
+
+Then, 
 \[
-\sum_{j_1,j_2,k=0}^{2l_{\max}-1} w_k D^l_{m,n}(R(\alpha_{j_1},\beta_k,\gamma_{j_2}))=\delta_{l,0}\delta_{m,0}\delta_{n,0},
+\sum_{j_1,j_2,k=0}^{2l_{\max}} w_k D^l_{m,n}(R(\alpha_{j_1},\beta_k,\gamma_{j_2}))=\delta_{l,0}\delta_{m,0}\delta_{n,0},
 \]
 i.e., the weighted sum under the given grid and weight calculates \refeqn{intD} exactly. 
 
 Utilizing this, the Fourier transform of a band-limited function can be written as
 \[
-f^l_{m,n}=\sum_{j_1,j_2,k=0}^{2l_{\max}-1} w_k f(\alpha_{j_1},\beta_k,\gamma_{j_2})
+f^l_{m,n}=\sum_{j_1,j_2,k=0}^{2l_{\max}} w_k f(\alpha_{j_1},\beta_k,\gamma_{j_2})
 (D^l_{m,n}(R(\alpha_{j_1},\beta_k,\gamma_{j_2})))^*.
 \]
 
