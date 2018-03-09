@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  1 MAR 2018 17:34
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  8 MAR 2018 17:59
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -673,7 +673,7 @@ File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 
 
 ]
-Overfull \hbox (7.921pt too wide) detected at line 153
+Overfull \hbox (7.921pt too wide) detected at line 158
 \OML/cmm/m/it/10 ^^_\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 Q[]RQ\OT1/cmr/m/n/10 ) = 
 [][\OML/cmm/m/it/10 D\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 Q[]RQ\OT1/cmr/m/n/10 )] 
 = [][\OML/cmm/m/it/10 D\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 Q[]\OT1/cmr/m/n/10 )\O
@@ -683,15 +683,15 @@ it/10 D\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 Q\OT1/cmr/m/n/10 )] = \OML/cmm/m/it/10
  []
 
 
-Overfull \hbox (5.30399pt too wide) in paragraph at lines 168--168
+Overfull \hbox (5.30399pt too wide) in paragraph at lines 173--173
 [] 
  []
 
-LaTeX Font Info:    Try loading font information for U+euf on input line 175.
+LaTeX Font Info:    Try loading font information for U+euf on input line 180.
 (/usr/local/texlive/2017/texmf-dist/tex/latex/amsfonts/ueuf.fd
 File: ueuf.fd 2013/01/14 v3.01 Euler Fraktur
 )
-Underfull \hbox (badness 1789) in paragraph at lines 186--188
+Underfull \hbox (badness 1789) in paragraph at lines 191--193
 \OT1/ptm/m/n/10 As such, we need to com-pute $\OML/cmm/m/it/10 u[]\OT1/cmr/m/n/
 10 (\OML/cmm/m/it/10 e[]\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 ; u[]\OT1/cmr/m/n/10 
 (\OML/cmm/m/it/10 e[]\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 ; u[]\OT1/cmr/m/n/10 (\O
@@ -699,43 +699,50 @@ ML/cmm/m/it/10 e[]\OT1/cmr/m/n/10 ) \OMS/cmsy/m/n/10 2
  []
 
 
-Overfull \hbox (19.4148pt too wide) in paragraph at lines 221--221
+Overfull \hbox (19.4148pt too wide) in paragraph at lines 226--226
 [] 
  []
 
-(./fdcl_FFTSO3.bbl [2]) [3
+[2]
+Overfull \hbox (41.4904pt too wide) in paragraph at lines 309--309
+[] 
+ []
+
+(./fdcl_FFTSO3.bbl [3]) [4
 
 ] (./fdcl_FFTSO3.aux) ) 
 Here is how much of TeX's memory you used:
- 14206 strings out of 492995
- 278198 string characters out of 6132704
- 329032 words of memory out of 5000000
- 17472 multiletter control sequences out of 15000+600000
+ 14208 strings out of 492995
+ 278221 string characters out of 6132704
+ 331048 words of memory out of 5000000
+ 17474 multiletter control sequences out of 15000+600000
  42401 words of font info for 99 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  55i,12n,65p,712b,269s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2017/texmf-dist/fonts/enc/dvips/base
 /8r.enc}</usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmex
 10.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi1
-0.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.
-pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pf
-b></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb>
-</usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></u
-sr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/
-local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/l
-ocal/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmss17.pfb></usr/lo
-cal/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/loca
-l/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local
-/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/t
-exlive/2017/texmf-dist/fonts/type1/public/amsfonts/euler/eufm10.pfb></usr/local
-/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/l
-ocal/texlive/2017/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/tex
-live/2017/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2017/
-texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on fdcl_FFTSO3.pdf (3 pages, 165605 bytes).
+0.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.
+pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pf
+b></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb>
+</usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></
+usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr
+/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/lo
+cal/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/loc
+al/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmss17.pfb></usr/loca
+l/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/local/
+texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/t
+exlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/tex
+live/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texli
+ve/2017/texmf-dist/fonts/type1/public/amsfonts/euler/eufm10.pfb></usr/local/tex
+live/2017/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local
+/texlive/2017/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive
+/2017/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2017/texm
+f-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on fdcl_FFTSO3.pdf (4 pages, 189394 bytes).
 PDF statistics:
- 86 PDF objects out of 1000 (max. 8388607)
- 63 compressed objects within 1 object stream
+ 97 PDF objects out of 1000 (max. 8388607)
+ 71 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  13 words of extra memory for PDF output out of 10000 (max. 10000000)
 

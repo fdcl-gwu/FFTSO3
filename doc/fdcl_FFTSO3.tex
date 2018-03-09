@@ -102,7 +102,9 @@ Then, $D^l_{m,n}(R(\alpha,\beta,\gamma))$ is given by
 \[
 D^l_{m,n}(R(\alpha,\beta,\gamma)) = e^{-i m\alpha} d^l_{m,n}(\beta) e^{-i n\gamma},
 \]
-where $d^l_{m,n}(\beta)$ is a real-valued wigner-d function. A recursive formulation to evaluate the wigner-d function is presented in~\cite{BlaFloJMS97}. As $D^l(R)$ is unitary, we have $D^l(R)(D^{l}(R))^*=I_{2l+1}$ or equivalently $(D^l(R))^{-1}=(D^l(R))^*$. Furthermore, as it is a homomorphism, $D^l(R)D^l(R^T)=I_{2l+1}$. Therefore,
+where $d^l_{m,n}(\beta)$ is a real-valued wigner-d function. A recursive formulation to evaluate the wigner-d function is presented in~\cite{BlaFloJMS97}. 
+
+As $D^l(R)$ is unitary, we have $D^l(R)(D^{l}(R))^*=I_{2l+1}$ or equivalently $(D^l(R))^{-1}=(D^l(R))^*$. Furthermore, as it is a homomorphism, $D^l(R)D^l(R^T)=I_{2l+1}$. Therefore,
 \begin{gather*}
 D^l(R^T) = (D^l(R))^{-1} = (D^l(R))^*,\\
 D^l(I_{3\times 3}) =I_{2l+1},\quad
@@ -113,7 +115,10 @@ Since $d^l(\beta)=D^l(R(0,\beta,0))$, it follows
 d^l(-\beta) = (d^l(\beta))^{-1} = (d^l(\beta))^T,\\
 d^l(0)=I_{2l+1},\quad d^l_{m,n}(0)=\delta_{m,n}.
 \end{gather*}
-
+Also,
+\[
+(D^l_{m,n}(R(\alpha,\beta,\gamma)))^*=(-1)^{m-n} D^l_{-m,-n}(R(\alpha,\beta,\gamma)).
+\]
 
 While this formulation is based on the particular 3-2-3 Euler angles, 3-1-3 Euler angles can be used without any modification, as it will be equivalent anyway~\cite{ChiKya01}. Another nice feature is that $D^l_{m,n}$ is given by a product of three terms, which depend solely on each of three Euler angles. This follows directly from the use of a Gel`fand-Tsetlin basis, i.e., a basis that respects the decomposition of the restriction to the subgroup $\mathsf{SO(2)}$~\cite{MasRocGC97}. This is useful for devising fast Fourier transforms on $\SO$. Alternatively, the wigner-D matrix is formulated in terms of quaternions and rotation matrices in~\cite{LynStoMS89}.
 
@@ -124,10 +129,10 @@ We define an inner product on $\mathcal{L}^2(\SO)$ as
 \]
 For the 3-2-3 Euler angles, the Haar measure is written as $dR = \frac{1}{8\pi^2}\sin\beta d\alpha d\beta d\gamma$ that is normalized such that $\int_{SO} dR = 1$. 
 
-Due to the Peter-Weyl theorem, the collection of the irreducible unitary representations on $\SO$ form a complete orthogonal basis for $\mathcal{L}^2(\SO)$ over the above inner product. Specifically
-\[
-\pair{ D^{l_1}_{m_1,n_1}(R), D^{l_2}_{m_2,n_2}(R)} = \frac{1}{2l_1+1}\delta_{l_1,l_2}\delta_{m_1,m_2}\delta_{n_1,n_2}. 
-\]
+According to the Peter-Weyl theorem, the collection of the irreducible unitary representations on $\SO$ form a complete orthogonal basis for $\mathcal{L}^2(\SO)$ over the above inner product. Specifically
+\begin{equation}
+\pair{ D^{l_1}_{m_1,n_1}(R), D^{l_2}_{m_2,n_2}(R)} = \frac{1}{2l_1+1}\delta_{l_1,l_2}\delta_{m_1,m_2}\delta_{n_1,n_2}. \label{eqn:D_ortho}
+\end{equation}
 When $m_1=m_2$ and $n_1=n_2$, this reduces to
 \[
 \int_{0}^\pi d^{l_1}_{m,n}(\beta)d^{l_2}_{m,n}(\beta)\sin\beta d\beta = \frac{2}{2l_1+1}\delta_{l_1,l_2}. 
@@ -208,18 +213,18 @@ u^l_{m,n}(e_1)
 
 \subsection{Fourier Transform on $\SO$}
 
-
-Consequently, any $f\in\mathcal{L}^2(\SO)$ has the following decomposition
+Due to the Peter-Weyl
+According to the Peter-Weyl theorem, any $f\in\mathcal{L}^2(\SO)$ has the following decomposition
 \begin{align}
 f(R(\alpha,\beta,\gamma)) &= \sum_{l=0}^\infty \sum_{m,n=-l}^l (2l+1)\bar f^l_{m,n} D^l_{m,n}(\alpha,\beta,\gamma)\nonumber\\
 &= \sum_{l=0}^\infty (2l+1)\trs{(\bar f^l)^T D^l(\alpha,\beta,\gamma)},\label{eqn:f_IFT}
 \end{align}
-where $\bar f^l_{m,n}\in\Cp$ is obtained by
+which is the Fourier transform. From the orthogonality property \refeqn{D_ortho}, the Fourier parameter $\bar f^l_{m,n}\in\Cp$ is obtained by
 \begin{align}
 & \bar f^l_{m,n}=\pair{ f(R), D^l_{m,n}(R)}\nonumber\\
-& =\frac{1}{8\pi^2}\int_0^{2\pi}\int_{0}^\pi\int_0^{2\pi} f(R(\alpha,\beta,\gamma)) (D^{l}_{m,n}(R(\alpha,\beta,\gamma)))^*d\alpha d\beta d\gamma.\label{eqn:f_FT}
+& =\frac{1}{8\pi^2}\int_0^{2\pi}\int_{0}^\pi\int_0^{2\pi} f(R(\alpha,\beta,\gamma)) (D^{l}_{m,n}(R(\alpha,\beta,\gamma)))^*d\alpha d\beta d\gamma,\label{eqn:f_FT}
 \end{align}
-Several variations of the above definition exists. For example, in~\cite{KosRocJFAA08}, $D^l_{m,n}$ is normalized such that the factor $2l+1$ does not appear.
+which is the inverse transform. Several variations of the above definition exist. For example, in~\cite{KosRocJFAA08}, $D^l_{m,n}$ is normalized such that the factor $2l+1$ does not appear. We follow the convention of~\cite{ChiKya01}, and the factor appears in \refeqn{f_IFT}.
 
 We also have the Plancherel theorem:
 \[
@@ -231,12 +236,83 @@ with the inner product $\pair{A,B}=\trs{A^*B}$ on $A,B\in\Cp^{n\times n}$. Also,
 \]
 
 
-
 \subsection{Sampling}
 
-A function $f\in\mathcal{L}^2(\SO)$ is called \textit{band-limited} with the band $l_{\max}$ if $f^l=0$ for any $l>l_{\max}$ in \refeqn{f_IFT}.
+A function $f\in\mathcal{L}^2(\SO)$ is called \textit{band-limited} with the band $l_{\max}$ if $f^l=0$ for any $l\geq l_{\max}$ in \refeqn{f_IFT}.
+\begin{align*}
+f(R(\alpha,\beta,\gamma)) &= \sum_{l=0}^{l_{\max}} \sum_{m,n=-l}^l (2l+1)\bar f^l_{m,n} D^l_{m,n}(\alpha,\beta,\gamma).
+\end{align*}
+The forward transform of a band-limited function is given by
+\begin{align*}
+&\bar f^l_{m',n'}=\pair{ f(R), D^{l'}_{m',n'}(R)}\\
+&=\sum_{l=0}^{l_{\max}} \sum_{m,n=-l}^l (2l+1)\bar f^l_{m,n} \int_{\SO}D^l_{m,n}(R)(D^{l'}_{m',n'}(R))^*\, dR\\
+&=\sum_{l=0}^{l_{\max}} \sum_{m,n=-l}^l (2l+1)\bar f^l_{m,n} (-1)^{m'-n'}\nonumber\\
+&\quad\quad\times\int_{\SO}D^l_{m,n}(R)D^{l'}_{-m',-n'}(R)\, dR.
+\end{align*}
+Clebsch-Gordon formula implies that the product of $D^{l_1}$ and $D^{l_2}$ may be written as a linear combination of $D^l$ with $|l_1-l_2|\leq l\leq l_1+l_2$. Since $0\leq l,l'\leq l_{\max}$, the integrand of the above forward transform can be rewritten as a linear combination of $D^s$ up to $0 \leq s\leq 2{l_{\max}}$. 
 
-Consider the following uniform grid for $(\alpha,\beta,\gamma)\in[0,2\pi]\times[0,\pi]\times[0,2\pi]$.
+As such, if a quadrature rule is selected such that the following integral is evaluated exactly for $0\leq l \leq 2l_{\max}$, the Fourier coefficients are computed exactly as well. 
+\begin{align}
+&\int_{\SO} D^l_{m,n} (R) dR\nonumber\\
+& = \frac{1}{8\pi^2} \int_0^{2\pi} e^{-im\alpha} d\alpha
+\int_0^{\pi} d^l_{m,n}(\beta)\sin\beta d\beta \int_0^{2\pi} e^{-in\gamma} d\gamma\nonumber\\
+& = \frac{1}{2}\delta_{m,0}\delta_{n,0} \int_0^{\pi} d^l_{m,n}(\beta)\sin\beta d\beta\nonumber\\
+& = \frac{1}{2}\delta_{m,0}\delta_{n,0} \int_0^{\pi} d^l_{0,0}(\beta)\sin\beta d\beta\nonumber\\
+& = \delta_{m,0}\delta_{n,0}\delta_{l,0}.\label{eqn:intD}
+\end{align}
+
+Consider the following uniform grid for $(\alpha,\beta,\gamma)\in[0,2\pi]\times[0,\pi]\times[0,2\pi]$:
+\[
+[\SO]_d=\{(\alpha_{j_1},\beta_k,\gamma_{j_2})\,|\, j_1,j_2,k\in\{0,\ldots, 2l_{\max}-1\}\},
+\]
+with
+\[
+\alpha_j=\gamma_j= \frac{j\pi}{l_{\max}},\quad \beta_k = \frac{(2k+1)\pi}{4l_{\max}}.
+\]
+Let $w_k$ be the weight of $(\alpha_{j_1},\beta_k,\gamma_{j_2})$. The weighted sum of the $D^l_{m,n}$ at the grid points is given by
+\begin{align*}
+&\sum_{j_1,j_2,k=0}^{2l_{\max}-1} w_k D^l_{m,n}(R(\alpha_{j_1},\beta_k,\gamma_{j_2}))\\
+& =  \sum_{j_1=0}^{2l_{\max}-1}e^{-im\alpha_{j_1}}\times  \sum_{k=0}^{2l_{\max}-1} w_k d^l_{m,n} (\beta_k) \times \sum_{j_2=0}^{2l_{\max}-1} e^{-in\gamma_{j_2}}\\
+& =  4l_{\max}^2 \delta_{m,0}\delta_{n,0}\sum_{k=0}^{2l_{\max}-1} w_k d^l_{0,0} (\beta_k).
+\end{align*}
+Let $w_{\beta_k}$ be the weight satisfying
+\[
+\sum_{k=0}^{2l_{\max}-1} w_{\beta_k} d^l_{0,0} (\beta_k)=\delta_{l,0}
+\]
+for $0\leq l\leq 2l_{\max}$. The solution is explicitly given in~\cite{KosRocJFAA08}, but  numerical tests reveal that there is an error for the factor of 2. The scaled expression is given as follows:
+\[
+w_{\beta_k}=\frac{1}{l_{\max}}\sin\beta_k \sum_{j=0}^{l_{\max}-1}\frac{1}{2j+1}\sin((2j+1)\beta_k).
+\]
+Then, the weight for the exact Fourier transform of a band-limited function is given by
+\[
+w_k = \frac{w_{\beta_k}} {4l_{\max}^2},
+\]
+which results in
+\[
+\sum_{j_1,j_2,k=0}^{2l_{\max}-1} w_k D^l_{m,n}(R(\alpha_{j_1},\beta_k,\gamma_{j_2}))=\delta_{l,0}\delta_{m,0}\delta_{n,0},
+\]
+i.e., the weighted sum under the given grid and weight calculates \refeqn{intD} exactly. 
+
+Utilizing this, the Fourier transform of a band-limited function can be written as
+\[
+f^l_{m,n}=\sum_{j_1,j_2,k=0}^{2l_{\max}-1} w_k f(\alpha_{j_1},\beta_k,\gamma_{j_2})
+(D^l_{m,n}(R(\alpha_{j_1},\beta_k,\gamma_{j_2})))^*.
+\]
+
+\subsection{Fast Fourier Transform}
+The above summation can be decomposed into
+\begin{align*}
+f^l_{m,n}&=\sum_{j_1,j_2,k=0}^{2l_{\max}-1} w_k f(\alpha_{j_1},\beta_k,\gamma_{j_2})
+e^{im\alpha_{j_1}} d^l_{m,n}(\beta_k) e^{in\gamma_{j_2}}\\
+&=\sum_{j_1=0}^{2l_{\max}-1} 
+e^{im\alpha_{j_1}}\sum_{j_2=0}^{2l_{\max}-1} e^{in\gamma_{j_2}} \sum_{k}^{2l_{\max}-1}w_k f(\alpha_{j_1},\beta_k,\gamma_{j_2})d^l_{m,n}(\beta_k) \\
+\end{align*}
+This can be compute in the following order:
+\begin{align*}
+F^{\beta}_{l,m,n}(j_1,j_2)&=\sum_{k=0}^{2l_{\max}-1}w_k f(\alpha_{j_1},\beta_k,\gamma_{j_2})d^l_{m,n}(\beta_k),\\
+F^{\gamma}_{l,m,n}(j_1)&=\sum_{j_2=0}^{2l_{\max}-1}e^{in\gamma_{j_2}}F^{\beta}_{l,m,n}(j_1,j_2),\\
+f^l_{m,n} & = \sum_{j_1=0}^{2l_{\max}-1} e^{im\alpha_{j_1}}F^{\gamma}_{l,m,n}(j_1).
+\end{align*}
 
 \bibliography{/Users/tylee/Documents/BibMaster17}
 \bibliographystyle{IEEEtran}

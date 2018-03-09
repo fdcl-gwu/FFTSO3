@@ -29,6 +29,8 @@ public:
 	void init(int l_max);
 	Eigen::Matrix<ScalarType,Dynamic,Dynamic>& operator[](int l); // return l-th matrix 
 	ScalarType& operator()(int l, int m, int n); // access (m,n)-th element of the l-th matrix
+	void setRandom();
+	void setZero();
 	
 	template<typename _ScalarType>
     friend ostream& operator<<(ostream& os, const fdcl_FFTSO3_matrix<_ScalarType>& M);  	

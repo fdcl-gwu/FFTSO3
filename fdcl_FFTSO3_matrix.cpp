@@ -57,7 +57,28 @@ ostream& operator<< (ostream& os, const fdcl_FFTSO3_matrix<ScalarType>& M)
 	return os;
 }
 
+template <class ScalarType>
+void fdcl_FFTSO3_matrix<ScalarType>::setRandom()
+{
+	for(int i=0;i<=l_max;i++)
+	{
+		M[i].setRandom();
+	}
+}
+
+template <class ScalarType>
+void fdcl_FFTSO3_matrix<ScalarType>::setZero()
+{
+	for(int i=0;i<=l_max;i++)
+	{
+		M[i].setZero();
+	}
+}
+
+
 template class fdcl_FFTSO3_matrix<double>;
 template class fdcl_FFTSO3_matrix<complex<double>>;
+template ostream& operator<< (ostream& os, const fdcl_FFTSO3_matrix<double>& M);
+template ostream& operator<< (ostream& os, const fdcl_FFTSO3_matrix<complex<double>>& M);
 
 
