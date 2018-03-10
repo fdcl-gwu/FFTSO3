@@ -301,7 +301,7 @@ std::vector<double> fdcl_FFTSO3::compute_weight()
         for(k=0;k<B;k++)
 			sum+=1./((double)(2*k+1))*sin((double)((2*j+1)*(2*k+1))*factor);
 		
-        sum*=1./((double)16*B*B)*sin((double)(2*j+1)*factor);
+        sum*=1./((double)4*B*B*B)*sin((double)(2*j+1)*factor);
       
         weight[j]=sum;
 	}
@@ -349,8 +349,11 @@ void fdcl_FFTSO3::check_weight()
 	for (int l=0;l<2*B;l++)
 		cout << "l=" << l << ": " << Delta[l].norm() << endl;
 
-				
-		
+	
+/*	cout << "weight(k)/sin(beta_k)" << endl;
+	for(k=0;k<2*B;k++)
+		cout << "k=" << k << ": " << weight[k]/sin(beta_k(k)) << endl;
+*/		
 }
 
 void fdcl_FFTSO3::check_wigner_d()
@@ -566,9 +569,7 @@ double fdcl_FFTSO3::gamma_j(int j)
 
 complex<double> fdcl_FFTSO3::f(double alpha, double beta, double gamma)
 {
-//	return sin(alpha)*cos(beta)*sin(gamma);
-//	return inverse_transform(F0,alpha,beta,gamma).real();
-	fdcl_FFTSO3_matrix_complex D(l_max);
+/*	fdcl_FFTSO3_matrix_complex D(l_max);
 	complex<double> y={0.,0.};
 	
 	D=wigner_D(alpha,beta,gamma);
@@ -580,6 +581,13 @@ complex<double> fdcl_FFTSO3::f(double alpha, double beta, double gamma)
 	
 	
 	return y;
+*/
+		
+//	return Euler3232R(alpha,beta,gamma).trace();
+	
+	return alpha+beta+gamma;
+//	return inverse_transform(F0,alpha,beta,gamma);
+	
 }
 
 
@@ -698,7 +706,7 @@ fdcl_FFTSO3_matrix_complex fdcl_FFTSO3::forward_transform()
 
 int main()
 {
-	int l_max=3;
+	int l_max=7;
 	fdcl_FFTSO3_matrix_real d(l_max), d1(l_max);
 	fdcl_FFTSO3_matrix_complex D(l_max), F(l_max);
 
@@ -708,8 +716,10 @@ int main()
 //	FFTSO3.check_wigner_d();
 
 	F=FFTSO3.forward_transform();
-	cout << F << endl;
 
+//	for(int l=0;l<=l_max;l++)
+//		cout << (FFTSO3.F0[l]-F[l]).norm() << endl;
+	
 	cout << FFTSO3.f(1.,2.,3.) << endl;
 	cout << FFTSO3.inverse_transform(F,1.,2.,3.) << endl;
 	
