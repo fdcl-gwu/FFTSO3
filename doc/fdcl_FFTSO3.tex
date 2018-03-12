@@ -321,16 +321,16 @@ Since $f(R)$ can be expanded as a linear combination of $D^{l_1}$ for $0\leq l_1
 \subsection{Fast Fourier Transform}
 The above summation can be decomposed into
 \begin{align*}
-f^l_{m,n}&=\sum_{j_1,j_2,k=0}^{2l_{\max}-1} w_k f(\alpha_{j_1},\beta_k,\gamma_{j_2})
+f^l_{m,n}&=\sum_{j_1,j_2,k=0}^{2B-1} w_k f(\alpha_{j_1},\beta_k,\gamma_{j_2})
 e^{im\alpha_{j_1}} d^l_{m,n}(\beta_k) e^{in\gamma_{j_2}}\\
-&=\sum_{j_1=0}^{2l_{\max}-1} 
-e^{im\alpha_{j_1}}\sum_{j_2=0}^{2l_{\max}-1} e^{in\gamma_{j_2}} \sum_{k}^{2l_{\max}-1}w_k f(\alpha_{j_1},\beta_k,\gamma_{j_2})d^l_{m,n}(\beta_k) \\
+&=\sum_{j_1=0}^{2B-1} 
+e^{im\alpha_{j_1}}\sum_{j_2=0}^{2B-1} e^{in\gamma_{j_2}} \sum_{k}^{2l_{\max}-1}w_k f(\alpha_{j_1},\beta_k,\gamma_{j_2})d^l_{m,n}(\beta_k) \\
 \end{align*}
 This can be compute in the following order:
 \begin{align*}
-F^{\beta}_{l,m,n}(j_1,j_2)&=\sum_{k=0}^{2l_{\max}-1}w_k f(\alpha_{j_1},\beta_k,\gamma_{j_2})d^l_{m,n}(\beta_k),\\
-F^{\gamma}_{l,m,n}(j_1)&=\sum_{j_2=0}^{2l_{\max}-1}e^{in\gamma_{j_2}}F^{\beta}_{l,m,n}(j_1,j_2),\\
-f^l_{m,n} & = \sum_{j_1=0}^{2l_{\max}-1} e^{im\alpha_{j_1}}F^{\gamma}_{l,m,n}(j_1).
+F^{\beta}_{l,m,n}(j_1,j_2)&=\sum_{k=0}^{2B-1}w_k f(\alpha_{j_1},\beta_k,\gamma_{j_2})d^l_{m,n}(\beta_k),\\
+F^{\gamma}_{l,m,n}(j_1)&=\sum_{j_2=0}^{2B-1}e^{in\gamma_{j_2}}F^{\beta}_{l,m,n}(j_1,j_2),\\
+f^l_{m,n} & = \sum_{j_1=0}^{2B-1} e^{im\alpha_{j_1}}F^{\gamma}_{l,m,n}(j_1).
 \end{align*}
 
 \bibliography{/Users/tylee/Documents/BibMaster17}

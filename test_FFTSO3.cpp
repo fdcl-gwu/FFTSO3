@@ -11,6 +11,25 @@ using namespace Eigen;
 
 typedef Eigen::Matrix<double, 3, 3> Matrix3;
 
+class fdcl_tictoc
+{
+public:
+	std::chrono::steady_clock::time_point t0, t1;
+	fdcl_tictoc(){};
+	void tic();
+	void toc();
+};
+
+void fdcl_tictoc::tic()
+{
+	t0 = std::chrono::steady_clock::now();	
+}
+void fdcl_tictoc::toc()
+{
+	t1 = std::chrono::steady_clock::now();	
+	cout << "fdcl_tictoc = " << std::chrono::duration_cast<std::chrono::microseconds>(t1 - t0).count()/1e6 << " sec" << endl;
+}
+
 
 class fdcl_FFTSO3
 {
@@ -38,7 +57,9 @@ public:
 	complex<double> inverse_transform(Matrix3);
 	std::vector<double> character(double beta);
 	std::vector<double> compute_weight();
-	fdcl_FFTSO3_matrix_complex forward_transform();
+	fdcl_FFTSO3_matrix_complex forward_transform_0();
+	fdcl_FFTSO3_matrix_complex forward_transform_1();
+	fdcl_FFTSO3_matrix_complex forward_transform_2();
 
 	void check_weight();
 	void check_wigner_d();
@@ -195,7 +216,6 @@ fdcl_FFTSO3_matrix_real fdcl_FFTSO3::wigner_d_explicit(double beta)
 	return d;
 }
 
-
 fdcl_FFTSO3_matrix_real fdcl_FFTSO3::wigner_d(double beta)
 {
 	return wigner_d(beta,l_max);
@@ -286,7 +306,6 @@ fdcl_FFTSO3_matrix_complex fdcl_FFTSO3::wigner_D(double alpha, double beta, doub
 	return D;
 }
 
-
 std::vector<double> fdcl_FFTSO3::compute_weight()
 {	
     int j, k;
@@ -308,7 +327,6 @@ std::vector<double> fdcl_FFTSO3::compute_weight()
 	
 	return weight;
 }
-
 
 void fdcl_FFTSO3::check_weight()
 {
@@ -349,11 +367,6 @@ void fdcl_FFTSO3::check_weight()
 	for (int l=0;l<2*B;l++)
 		cout << "l=" << l << ": " << Delta[l].norm() << endl;
 
-	
-/*	cout << "weight(k)/sin(beta_k)" << endl;
-	for(k=0;k<2*B;k++)
-		cout << "k=" << k << ": " << weight[k]/sin(beta_k(k)) << endl;
-*/		
 }
 
 void fdcl_FFTSO3::check_wigner_d()
@@ -569,7 +582,7 @@ double fdcl_FFTSO3::gamma_j(int j)
 
 complex<double> fdcl_FFTSO3::f(double alpha, double beta, double gamma)
 {
-/*	fdcl_FFTSO3_matrix_complex D(l_max);
+	fdcl_FFTSO3_matrix_complex D(l_max);
 	complex<double> y={0.,0.};
 	
 	D=wigner_D(alpha,beta,gamma);
@@ -581,23 +594,21 @@ complex<double> fdcl_FFTSO3::f(double alpha, double beta, double gamma)
 	
 	
 	return y;
-*/
+
 		
 //	return Euler3232R(alpha,beta,gamma).trace();
 	
-	return alpha+beta+gamma;
+//	return alpha+beta+gamma;
 //	return inverse_transform(F0,alpha,beta,gamma);
 	
 }
 
 
 
-fdcl_FFTSO3_matrix_complex fdcl_FFTSO3::forward_transform()
+fdcl_FFTSO3_matrix_complex fdcl_FFTSO3::forward_transform_0()
 {
-	fdcl_FFTSO3_matrix_complex F_beta[2*l_max][2*l_max];
 	int j1, j2, k, l, m, n;
 	fdcl_FFTSO3_matrix_real d_beta_k(l_max);
-	fdcl_FFTSO3_matrix_complex F_gamma[2*l_max];
 	fdcl_FFTSO3_matrix_complex F(l_max);
 	
 	complex<double> exp_imalpha, exp_ingamma, f_j1kj2;
@@ -633,95 +644,119 @@ fdcl_FFTSO3_matrix_complex fdcl_FFTSO3::forward_transform()
 		}
 	}
 		
-/*	for(j1=0;j1<2*l_max;j1++)
+	return F;
+}
+
+fdcl_FFTSO3_matrix_complex fdcl_FFTSO3::forward_transform_1()
+{
+	fdcl_FFTSO3_matrix_complex F_beta[2*B][2*B];
+	int j1, j2, k, l, m, n;
+	fdcl_FFTSO3_matrix_real d_beta_k(l_max);
+	fdcl_FFTSO3_matrix_complex F_gamma[2*B];
+	fdcl_FFTSO3_matrix_complex F(l_max);
+	
+	complex<double> exp_imalpha, exp_ingamma, f_j1kj2;
+	double alpha, beta, gamma;
+	
+	compute_weight();
+	
+	for(j1=0;j1<2*B;j1++)
 	{
-		for(j2=0;j2<2*l_max;j2++)
+		for(j2=0;j2<2*B;j2++)
 		{
 			F_beta[j1][j2].init(l_max);
 			F_beta[j1][j2].setZero();
 		}
 	}
 
-	compute_weight();
-	
-	for(k=0;k<2*l_max;k++)
+	for(k=0;k<2*B;k++)
 	{
+		beta=beta_k(k);		
 		d_beta_k=wigner_d(beta_k(k));
-		for(l=0;l<=l_max;l++)
+		for(j1=0;j1<2*B;j1++)
 		{
-			for(j1=0;j1<2*l_max;j1++)
+			alpha=alpha_j(j1);				
+			for(j2=0;j2<2*B;j2++)
 			{
-				for(j2=0;j2<2*l_max;j2++)
+				f_j1kj2=f(alpha,beta,gamma_j(j2));
+				for(l=0;l<=l_max;l++)
 				{
-					F_beta[j1][j2][l]+=weight[k]*f(alpha_j(j1),beta_k(k),gamma_j(j2))*d_beta_k[l];
+					F_beta[j1][j2][l]+=weight[k]*f_j1kj2*d_beta_k[l];
 				}
 			}
 		}
-		
-			
-	}
-	
-	
-	for(j1=0;j1<2*l_max;j1++)
+	}	
+
+	for(j1=0;j1<2*B;j1++)
 	{
 		F_gamma[j1].init(l_max);
 		F_gamma[j1].setZero();
 	}
 
-	for(j1=0;j1<2*l_max;j1++)
+	for(j1=0;j1<2*B;j1++)
 	{
-		for(j2=0;j2<2*l_max;j2++)
+		for(j2=0;j2<2*B;j2++)
 		{
+			gamma=gamma_j(j2);			
 			for(l=0;l<=l_max;l++)
 			{
 				for(m=-l;m<=l;m++)
 				{
 					for(n=-l;n<=l;n++)
 					{
-						F_gamma[j1](l,m,n)+=exp(I*((double)n)*gamma_j(j2))*F_beta[j1][j2](l,m,n);						
+						F_gamma[j1](l,m,n)+=exp(I*((double)n)*gamma)*F_beta[j1][j2](l,m,n);						
 					}
 				}
 			}
 		}
 	}
-	
 
 	F.setZero();
-	for(j1=0;j1<2*l_max;j1++)
+	for(j1=0;j1<2*B;j1++)
 	{
+		alpha=alpha_j(j1);		
 		for(l=0;l<=l_max;l++)
 		{
 			for(m=-l;m<=l;m++)
 			{
 				for(n=-l;n<=l;n++)
 				{
-					F(l,m,n)+=exp(I*((double)m)*alpha_j(j1))*F_gamma[j1](l,m,n);						
+					F(l,m,n)+=exp(I*((double)m)*alpha)*F_gamma[j1](l,m,n);						
 				}
 			}
 		}
 	}
-*/	
+	
 	return F;
 }
 
+
+
 int main()
 {
-	int l_max=7;
+	int l_max=3;
 	fdcl_FFTSO3_matrix_real d(l_max), d1(l_max);
-	fdcl_FFTSO3_matrix_complex D(l_max), F(l_max);
-
+	fdcl_FFTSO3_matrix_complex D(l_max), F0(l_max), F1(l_max);
 	fdcl_FFTSO3 FFTSO3(l_max);
-
-	FFTSO3.check_weight();
+	fdcl_tictoc tictoc;
+	
+//	FFTSO3.check_weight();
 //	FFTSO3.check_wigner_d();
 
-	F=FFTSO3.forward_transform();
+	tictoc.tic();
+	F0=FFTSO3.forward_transform_0();
+	tictoc.toc();
 
-//	for(int l=0;l<=l_max;l++)
-//		cout << (FFTSO3.F0[l]-F[l]).norm() << endl;
+	tictoc.tic();
+	F1=FFTSO3.forward_transform_1();
+	tictoc.toc();
+
+	for(int l=0;l<=l_max;l++)
+		cout << (F0[l]-F1[l]).norm() << endl;
 	
 	cout << FFTSO3.f(1.,2.,3.) << endl;
-	cout << FFTSO3.inverse_transform(F,1.,2.,3.) << endl;
+	cout << FFTSO3.inverse_transform(F0,1.,2.,3.) << endl;
+	cout << FFTSO3.inverse_transform(F1,1.,2.,3.) << endl;
 	
 
 }
