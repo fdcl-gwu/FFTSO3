@@ -57,6 +57,66 @@ ostream& operator<< (ostream& os, const fdcl_FFTSO3_matrix<ScalarType>& M)
 	return os;
 }
 
+/*template<class ScalarType> template<typename U>
+fdcl_FFTSO3_matrix<ScalarType> fdcl_FFTSO3_matrix<ScalarType>::operator+(const fdcl_FFTSO3_matrix<U>& M) 
+{
+	fdcl_FFTSO3_matrix<ScalarType> Z;
+	
+	Z.init(l_max);
+	for(int l=0;l<l_max;l++)
+		Z[l]=this->M[l]+M.M[l];
+	
+	return Z;
+}*/
+
+template<class ScalarType>
+fdcl_FFTSO3_matrix<complex<double>> fdcl_FFTSO3_matrix<ScalarType>::operator+(fdcl_FFTSO3_matrix<complex<double>> const& M)
+{
+	fdcl_FFTSO3_matrix<complex<double>> Z(l_max);
+	
+	for(int l=0;l<=l_max;l++)
+		Z[l]=this->M[l]+M.M[l];
+			
+	return Z;
+}
+
+template<class ScalarType>
+fdcl_FFTSO3_matrix<ScalarType> fdcl_FFTSO3_matrix<ScalarType>::operator+(fdcl_FFTSO3_matrix<double> const& M)
+{
+	fdcl_FFTSO3_matrix<ScalarType> Z(l_max);
+	
+	for(int l=0;l<=l_max;l++)
+		Z[l]=this->M[l]+M.M[l];
+			
+	return Z;
+}
+
+
+template<class ScalarType>
+fdcl_FFTSO3_matrix<complex<double>> fdcl_FFTSO3_matrix<ScalarType>::operator*(const complex<double>& c)
+{
+	fdcl_FFTSO3_matrix<complex<double>> Z;
+	
+	Z.init(l_max);
+	for(int l=0;l<=l_max;l++)
+		Z[l]=this->M[l]*c;
+			
+	return Z;
+}
+
+template<class ScalarType>
+fdcl_FFTSO3_matrix<ScalarType> fdcl_FFTSO3_matrix<ScalarType>::operator*(const double& c)  	
+{
+	fdcl_FFTSO3_matrix<ScalarType> Z;
+	
+	Z.init(l_max);
+	for(int l=0;l<=l_max;l++)
+		Z[l]=this->M[l]*c;
+			
+	return Z;
+}
+
+
 template <class ScalarType>
 void fdcl_FFTSO3_matrix<ScalarType>::setRandom()
 {
@@ -80,5 +140,6 @@ template class fdcl_FFTSO3_matrix<double>;
 template class fdcl_FFTSO3_matrix<complex<double>>;
 template ostream& operator<< (ostream& os, const fdcl_FFTSO3_matrix<double>& M);
 template ostream& operator<< (ostream& os, const fdcl_FFTSO3_matrix<complex<double>>& M);
-
+//template fdcl_FFTSO3_matrix<double> fdcl_FFTSO3_matrix<double>::operator+ (const fdcl_FFTSO3_matrix<double>& M);
+//template fdcl_FFTSO3_matrix<complex<double>> fdcl_FFTSO3_matrix<complex<double>>::operator+ (const fdcl_FFTSO3_matrix<complex<double>>& M);
 
