@@ -33,7 +33,7 @@ void fdcl_tictoc::toc()
 
 int main()
 {
-	int l_max=8;
+	int l_max=3;
 	fdcl_FFTSO3_matrix_real d(l_max), d1(l_max);
 	fdcl_FFTSO3_matrix_complex D(l_max), F0(l_max), F1(l_max);
 	fdcl_FFTSO3 FFTSO3(l_max);
@@ -42,23 +42,23 @@ int main()
 //	FFTSO3.check_weight();
 //	FFTSO3.check_wigner_d();
 
-/*	tictoc.tic();
-	F0=FFTSO3.forward_transform_0();
-	tictoc.toc();
-
-	cout << F0 << endl;
-	tictoc.tic();
-	F1=FFTSO3.forward_transform_1();
-	tictoc.toc();
-
-	
-	for(int l=0;l<=l_max;l++)
-		cout << (F0[l]-F1[l]).norm() << endl;
-	
-	cout << FFTSO3.f(1.,2.,3.) << endl;
-	cout << FFTSO3.inverse_transform(F0,1.,2.,3.) << endl;
-*/	cout << FFTSO3.inverse_transform(F1,1.,2.,3.) << endl;
-	
+	// tictoc.tic();
+	// F0=FFTSO3.forward_transform_0();
+	// tictoc.toc();
+// 
+	// cout << F0 << endl;
+	// tictoc.tic();
+	// F1=FFTSO3.forward_transform_1();
+	// tictoc.toc();
+// 
+	// 
+	// for(int l=0;l<=l_max;l++)
+		// cout << (F0[l]-F1[l]).norm() << endl;
+	// 
+	// cout << FFTSO3.f(1.,2.,3.) << endl;
+	// cout << FFTSO3.inverse_transform(F0,1.,2.,3.) << endl;
+	// cout << FFTSO3.inverse_transform(F1,1.,2.,3.) << endl;
+	// 
 	Vector3 eta1, eta2;
 	Matrix3 R1, R2;
 	eta1.setRandom();
@@ -66,20 +66,30 @@ int main()
 	
 	R1=expm_SO3(eta1);
 	R2=expm_SO3(eta2);
-	
+
+    cout << FFTSO3.wigner_D(R1)[2] << endl;
+    cout << FFTSO3.matrix2rsph(2) << endl;
+    cout << FFTSO3.wigner_D_real(R1) << endl;
+    cout << R1 << endl;
+    cout << FFTSO3.matrix2rsph(2)[2]*FFTSO3.matrix2rsph(2)[2].adjoint() << endl;
+// 
+    int l=2;
+    cout << FFTSO3.wigner_D_real(R1*R2)[l] << endl << endl;
+    cout << FFTSO3.wigner_D_real(R1)[l]*FFTSO3.wigner_D_real(R2)[l] << endl;
+    cout << FFTSO3.wigner_D_real(R1)[l].transpose()*FFTSO3.wigner_D_real(R1)[l] << endl;
 	cout << "D" << endl;
-	cout << FFTSO3.wigner_D(R1)[1]*FFTSO3.wigner_D(R2)[1] << endl;
-	cout << FFTSO3.wigner_D(R1*R2)[1] << endl;
+	// cout << FFTSO3.wigner_D(R1)[1]*FFTSO3.wigner_D(R2)[1] << endl;
+	// cout << FFTSO3.wigner_D(R1*R2)[1] << endl;
 
-	cout << FFTSO3.wigner_D(R1)[1].real()*FFTSO3.wigner_D(R2)[1].real() << endl << endl;
-	cout << FFTSO3.wigner_D(R1)[1].real()*FFTSO3.wigner_D(R2)[1].imag() << endl << endl;
-	cout << FFTSO3.wigner_D(R1)[1].imag()*FFTSO3.wigner_D(R2)[1].real() << endl << endl;
-	cout << FFTSO3.wigner_D(R1)[1].imag()*FFTSO3.wigner_D(R2)[1].imag() << endl << endl << endl;
-	
-	
-	cout << FFTSO3.wigner_D(R1*R2)[1].real() << endl << endl;
-	cout << FFTSO3.wigner_D(R1*R2)[1].imag() << endl;
-
-	cout << FFTSO3.wigner_D(R1)[1].real()*FFTSO3.wigner_D(R1)[1].real().transpose() << endl << endl;
-	
+	// cout << FFTSO3.wigner_D(R1)[1].real()*FFTSO3.wigner_D(R2)[1].real() << endl << endl;
+	// cout << FFTSO3.wigner_D(R1)[1].real()*FFTSO3.wigner_D(R2)[1].imag() << endl << endl;
+	// cout << FFTSO3.wigner_D(R1)[1].imag()*FFTSO3.wigner_D(R2)[1].real() << endl << endl;
+	// cout << FFTSO3.wigner_D(R1)[1].imag()*FFTSO3.wigner_D(R2)[1].imag() << endl << endl << endl;
+	// 
+	// 
+	// cout << FFTSO3.wigner_D(R1*R2)[1].real() << endl << endl;
+	// cout << FFTSO3.wigner_D(R1*R2)[1].imag() << endl;
+// 
+	// cout << FFTSO3.wigner_D(R1)[1].real()*FFTSO3.wigner_D(R1)[1].real().transpose() << endl << endl;
+	// 
 }

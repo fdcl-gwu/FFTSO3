@@ -230,20 +230,31 @@ fdcl_FFTSO3_matrix_complex fdcl_FFTSO3::wigner_D(double alpha, double beta, doub
 
 fdcl_FFTSO3_matrix_complex fdcl_FFTSO3::wigner_D_real(double alpha, double beta, double gamma, int L)
 {
-	fdcl_FFTSO3_matrix_real d(L);
-	fdcl_FFTSO3_matrix_complex D(L);
-	int l,m,n;
+	fdcl_FFTSO3_matrix_complex D(L), C(L), D_real(L) ;
+	int l;
 	
-	d=wigner_d(beta,L);
+	D=wigner_D(alpha,beta,gamma,L);
+    C=matrix2rsph(L);
 
-	for(l=0;l<=L;l++)
-		for(m=-l;m<=l;m++)
-			for(n=-l;n<=l;n++)
-				D(l,m,n)=d(l,m,n)*exp( -I*(alpha*((double)m) + gamma*((double)n)) );
-	
-	return D;
+    for(l=0;l<=L;l++)
+        D_real[l]=C[l].conjugate()*D[l]*C[l].transpose();
+
+	return D_real;
 }
 
+fdcl_FFTSO3_matrix_complex fdcl_FFTSO3::wigner_D_real(double alpha, double beta, double gamma)
+{
+    return wigner_D_real(alpha,beta,gamma,l_max);
+}
+
+fdcl_FFTSO3_matrix_complex fdcl_FFTSO3::wigner_D_real(Matrix3 R)
+{
+	std::vector<double> abg;
+	
+	abg.resize(3);
+	abg=R2Euler323(R);
+    return wigner_D_real(abg[0],abg[1],abg[2]);
+}
 
 fdcl_FFTSO3_matrix_complex fdcl_FFTSO3::wigner_D(Matrix3 R)
 {
@@ -255,6 +266,39 @@ fdcl_FFTSO3_matrix_complex fdcl_FFTSO3::wigner_D(Matrix3 R)
 	return wigner_D(abg[0],abg[1],abg[2]);		
 }
 
+fdcl_FFTSO3_matrix_complex fdcl_FFTSO3::matrix2rsph(int L)
+{
+    fdcl_FFTSO3_matrix_complex C(L);
+    int l,m;
+
+    for(l=0;l<=L;l++)
+    {
+        for(m=-l;m<0;m++)
+        {
+            C(l,m+l,m)=I/sqrt(2.);
+            C(l,m+l,-m)=-I/sqrt(2.)*pow(-1.,m);
+        }
+        C(l,0+l,0)=1.;
+        for(m=1;m<=l;m++)
+        {
+            C(l,-m,-m)=1./sqrt(2.);
+            C(l,-m,m)=pow(-1.,m)/sqrt(2.);
+        } 
+        // for(m=-l;m<0;m++)
+        // {
+            // C(l,m,m)=I/sqrt(2.);
+            // C(l,m,-m)=-I/sqrt(2.)*pow(-1.,m);
+        // }
+        // C(l,0,0)=1.;
+        // for(m=1;m<=l;m++)
+        // {
+            // C(l,m,-m)=1./sqrt(2.);
+            // C(l,m,m)=pow(-1.,m)/sqrt(2.);
+        // }
+    }
+
+    return C;
+}
 
 std::vector<double> fdcl_FFTSO3::compute_weight()
 {	

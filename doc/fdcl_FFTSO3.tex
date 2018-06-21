@@ -1,4 +1,4 @@
-\documentclass[onecolumn,11pt]{ieeetran}
+\documentclass[onecolumn,11pt]{IEEEtran}
 %\documentclass{ieeetran}
 \usepackage{amssymb,amsmath,amsthm,graphicx,subfigure}
 \usepackage{algpseudocode,cases,booktabs}
@@ -64,9 +64,6 @@
 \thanks{Taeyoung Lee, Mechanical and Aerospace Engineering, George Washington University, Washington DC 20052 {\tt tylee@gwu.edu}}
 }
 
-
-
-
 \begin{document}
 
 \maketitle
@@ -85,14 +82,22 @@ It is straightforward to show the representation is a homomorphism,
 \]
 By selecting a basis for the invariance subspaces of $\mathcal{L}^2(\Re^n)$, $U(g)$ can be represented by a matrix, which is called a matrix representation of $\G$. 
 
-Two matrix representations are \textit{equivalent}, if one can obtained by a similarity transform of the other. Any representation can be transformed into a \textit{unitary} representation by a similarity transform so that $U(g)U^*(g)=I$, or $U(g^{-1})=U^*(g)$.  A matrix representation is \textit{reducible}, if it is equivalent to the direct sum of others, or equivalently, it can be block-diagonalized. One can redefine \refeqn{Ug} with the group acting acting on the right side of $x$. Each irreducible representation acts only on the corresponding subspace, and the choice between the left action or the right action does not matter in the definition of the representation. 
-
+Two matrix representations are \textit{equivalent}, if one can obtained by a similarity transform of the other. 
+Any representation can be transformed into a \textit{unitary} representation by a similarity transform so that $U(g)U^*(g)=I$, or $U(g^{-1})=U^*(g)$. 
+A matrix representation is \textit{reducible}, if it is equivalent to the direct sum of others, or equivalently, it can be block-diagonalized. 
+One can redefine \refeqn{Ug} with the group acting acting on the right side of $x$. 
+Each irreducible representation acts only on the corresponding subspace, and the choice between the left action or the right action does not matter in the definition of the representation. 
 
 \subsection{Irreducible Unitary Representation on $\SO$}
 
-Since there is two-to-one homomorphism from $\mathsf{SU(2)}$ to $\SO$, the representation of $\SO$ should be a subset of those for $\mathsf{SU(2)}$, which is a set of linear transformation on $\mathcal{L}^2(\Cp^2)$. The set of homogeneous polynomials is a basis of $\mathcal{L}^2(\Cp^2)$, and one can find the matrix representation of $\mathsf{SU(2)}$ with \refeqn{Ug}, which results in generalizations of the associated Legendre function~\cite{ChiKya01} that is also shown to be unitary, and irreducible. An irreducible unitary representation of $\SO$ is constructed by taking the terms with integer indices. 
+Since there is two-to-one homomorphism from $\mathsf{SU(2)}$ to $\SO$, the representation of $\SO$ should be a subset of those for $\mathsf{SU(2)}$, which is a set of linear transformation on $\mathcal{L}^2(\Cp^2)$. 
+The set of homogeneous polynomials is a basis of $\mathcal{L}^2(\Cp^2)$, and one can find the matrix representation of $\mathsf{SU(2)}$ with \refeqn{Ug}, which results in generalizations of the associated Legendre function~\cite{ChiKya01} that is also shown to be unitary, and irreducible. 
+An irreducible unitary representation of $\SO$ is constructed by taking the terms with integer indices. 
 
-The wigner-D function is another irreducible unitary representation on $\mathsf{SU(2)}$ (or $\SO$) that is equivalent to the above representation based on the generalized associated Legendre function. Specifically, the wigner-D function is given by $D^l_{m,n}(R)\in\Cp$, where the index $l$ is a non-negative integer, and the integer indices $m,n$ vary in $-l\leq m,n \leq l$. When the low indices are dropped, $D^l(R)$ is considered as a square matrix where the row index (resp. the column index) corresponds to $m$ (resp. $n$) varying from $-l\leq m,n \leq l$. As such $D^l(R)\in\Cp^{2l+1,2l+1}$.
+The wigner-D function is another irreducible unitary representation on $\mathsf{SU(2)}$ (or $\SO$) that is equivalent to the above representation based on the generalized associated Legendre function. 
+Specifically, the wigner-D function is given by $D^l_{m,n}(R)\in\Cp$, where the index $l$ is a non-negative integer, and the integer indices $m,n$ vary in $-l\leq m,n \leq l$. 
+When the low indices are dropped, $D^l(R)$ is considered as a square matrix where the row index (resp. the column index) corresponds to $m$ (resp. $n$) varying from $-l\leq m,n \leq l$. 
+As such $D^l(R)\in\Cp^{2l+1,2l+1}$.
 
 Let $(\alpha,\beta,\gamma)\in[0,2\pi)\times[0,\pi]\times[0,2\pi)$ be the 3-2-3 Euler angles, i.e., 
 \[
@@ -102,9 +107,12 @@ Then, $D^l_{m,n}(R(\alpha,\beta,\gamma))$ is given by
 \begin{equation}\label{eqn:Dlmn}
 D^l_{m,n}(R(\alpha,\beta,\gamma)) = e^{-i m\alpha} d^l_{m,n}(\beta) e^{-i n\gamma},
 \end{equation}
-where $d^l_{m,n}(\beta)$ is a real-valued wigner-d function. A recursive formulation to evaluate the wigner-d function is presented in~\cite{BlaFloJMS97}. 
+where $d^l_{m,n}(\beta)$ is a real-valued wigner-d function. 
+A recursive formulation to evaluate the wigner-d function is presented in~\cite{BlaFloJMS97}. 
 
-As $D^l(R)$ is unitary, we have $D^l(R)(D^{l}(R))^*=I_{2l+1}$ or equivalently $(D^l(R))^{-1}=(D^l(R))^*$. Furthermore, as it is a homomorphism, $D^l(R)D^l(R^T)=I_{2l+1}$. Therefore,
+As $D^l(R)$ is unitary, we have $D^l(R)(D^{l}(R))^*=I_{2l+1}$ or equivalently $(D^l(R))^{-1}=(D^l(R))^*$. 
+Furthermore, as it is a homomorphism, $D^l(R)D^l(R^T)=I_{2l+1}$. 
+Therefore,
 \begin{gather*}
 D^l(R^T) = (D^l(R))^{-1} = (D^l(R))^*,\\
 D^l(I_{3\times 3}) =I_{2l+1},\quad
@@ -120,16 +128,20 @@ Also,
 \overline{D^l_{m,n}(R(\alpha,\beta,\gamma))}=(-1)^{m-n} D^l_{-m,-n}(R(\alpha,\beta,\gamma)).
 \end{equation}
 
-While this formulation is based on the particular 3-2-3 Euler angles, 3-1-3 Euler angles can be used without any modification, as it will be equivalent anyway~\cite{ChiKya01}. Another nice feature is that $D^l_{m,n}$ is given by a product of three terms, which depend solely on each of three Euler angles. This follows directly from the use of a Gel`fand-Tsetlin basis, i.e., a basis that respects the decomposition of the restriction to the subgroup $\mathsf{SO(2)}$~\cite{MasRocGC97}. This is useful for devising fast Fourier transforms on $\SO$. Alternatively, the wigner-D matrix is formulated in terms of quaternions and rotation matrices in~\cite{LynStoMS89}.
-
+While this formulation is based on the particular 3-2-3 Euler angles, 3-1-3 Euler angles can be used without any modification, as it will be equivalent anyway~\cite{ChiKya01}. 
+Another nice feature is that $D^l_{m,n}$ is given by a product of three terms, which depend solely on each of three Euler angles. 
+This follows directly from the use of a Gel`fand-Tsetlin basis, i.e., a basis that respects the decomposition of the restriction to the subgroup $\mathsf{SO(2)}$~\cite{MasRocGC97}. 
+This is useful for devising fast Fourier transforms on $\SO$. 
+Alternatively, the wigner-D matrix is formulated in terms of quaternions and rotation matrices in~\cite{LynStoMS89}.
 
 We define an inner product on $\mathcal{L}^2(\SO)$ as
 \[
-\pair{f(R),g(R)}=\int_{\SO} f(R) \overline{g(R)} dR.
+    \pair{f(R),g(R)}=\int_{\SO} \overline{f(R)} g(R) dR.
 \]
 For the 3-2-3 Euler angles, the Haar measure is written as $dR = \frac{1}{8\pi^2}\sin\beta d\alpha d\beta d\gamma$ that is normalized such that $\int_{SO} dR = 1$. 
 
-According to the Peter-Weyl theorem, the collection of the irreducible unitary representations on $\SO$ form a complete orthogonal basis for $\mathcal{L}^2(\SO)$ over the above inner product. Specifically
+According to the Peter-Weyl theorem, the collection of the irreducible unitary representations on $\SO$ form a complete orthogonal basis for $\mathcal{L}^2(\SO)$ over the above inner product. 
+Specifically
 \begin{equation}
 \pair{ D^{l_1}_{m_1,n_1}(R), D^{l_2}_{m_2,n_2}(R)} = \frac{1}{2l_1+1}\delta_{l_1,l_2}\delta_{m_1,m_2}\delta_{n_1,n_2}. \label{eqn:D_ortho}
 \end{equation}
@@ -138,7 +150,8 @@ When $m_1=m_2$ and $n_1=n_2$, this reduces to
 \int_{0}^\pi d^{l_1}_{m,n}(\beta)d^{l_2}_{m,n}(\beta)\sin\beta d\beta = \frac{2}{2l_1+1}\delta_{l_1,l_2}. 
 \]
 
-The various identities, symmetry relatives, and derivatives of $D^{l}_{m,n}$ are provided in~\cite{VarMos88}. In particular,
+The various identities, symmetry relatives, and derivatives of $D^{l}_{m,n}$ are provided in~\cite{VarMos88}. 
+In particular,
 \begin{align}
 &\deriv{}{\beta} D^l_{m,n}(\alpha,\beta,\gamma)\nonumber\\
 & = -\frac{1}{2}\sqrt{(l+m)(l-m+1)}e^{-i\alpha} D^l_{m-1,n}(\alpha,\beta,\gamma)\nonumber\\
@@ -164,7 +177,9 @@ As such, the character only depends on the rotation angle, i.e., when $R=\exp(\t
 =\frac{\sin(\frac{2l+1}{2}\theta)}{\sin\frac{\theta}{2}}.
 \end{align*}
 
-Let a rotation matrix parameterized by spherical coordinates $(\lambda,\nu,\theta)\in[0,2\pi]\times[0,\pi]\times[0,\pi]$, where $\lambda$ and $\nu$ are the polar and azimuthal angles for the axis of rotation, and $\theta$ is the angle of rotation. In these coordinate, the normalized Haar measure is given by $dR=\frac{1}{2\pi^2} \sin^2\frac{\theta}{2} \sin\nu d\lambda d\nu d\theta$. We can show the orthogonality of the character as follows
+Let a rotation matrix parameterized by spherical coordinates $(\lambda,\nu,\theta)\in[0,2\pi]\times[0,\pi]\times[0,\pi]$, where $\lambda$ and $\nu$ are the polar and azimuthal angles for the axis of rotation, and $\theta$ is the angle of rotation. 
+In these coordinate, the normalized Haar measure is given by $dR=\frac{1}{2\pi^2} \sin^2\frac{\theta}{2} \sin\nu d\lambda d\nu d\theta$. 
+We can show the orthogonality of the character as follows
 \begin{align*}
 &\pair{\chi^{l_1}(R), \chi^{l_2}(R)}
 \\
@@ -172,7 +187,7 @@ Let a rotation matrix parameterized by spherical coordinates $(\lambda,\nu,\thet
 &=\frac{2}{\pi} \int_0^\pi \sin(\frac{2l_1+1}{2}\theta)\sin(\frac{2l_2+1}{2}\theta)  d\theta =\delta_{l_1,l_2}.
 \end{align*}
 
-It has been shown that a representation $\chi(R)$ is irreducible if and only if $\|\chi(R)\|=1$. Consequently, the above orthogonality implies that $D^l(R)$ is irreducible for any $l$.
+It has been shown that a representation $D(R)$ is irreducible if and only if $\|\chi(R)\|=1$. Consequently, the above orthogonality implies that $D^l(R)$ is irreducible for any $l$.
 
 
 \subsection{Operational Properties}
@@ -213,20 +228,23 @@ u^l_{m,n}(e_1)
 
 \subsection{Fourier Transform on $\SO$}
 
-Due to the Peter-Weyl
 According to the Peter-Weyl theorem, any $f\in\mathcal{L}^2(\SO)$ has the following decomposition
 \begin{align}
 f(R(\alpha,\beta,\gamma)) &= \sum_{l=0}^\infty \sum_{m,n=-l}^l (2l+1)\tilde f^l_{m,n} D^l_{m,n}(\alpha,\beta,\gamma)\nonumber\\
 &= \sum_{l=0}^\infty (2l+1)\trs{(\bar f^l)^T D^l(\alpha,\beta,\gamma)},\label{eqn:f_IFT}
 \end{align}
-which is the Fourier transform. From the orthogonality property \refeqn{D_ortho}, the Fourier parameter $\tilde f^l_{m,n}\in\Cp$ is obtained by
+which is the Fourier transform. 
+From the orthogonality property \refeqn{D_ortho}, the Fourier parameter $\tilde f^l_{m,n}\in\Cp$ is obtained by
 \begin{align}
 & \tilde f^l_{m,n}=\pair{ f(R), D^l_{m,n}(R)}\nonumber\\
 & =\frac{1}{8\pi^2}\int_0^{2\pi}\int_{0}^\pi\int_0^{2\pi} f(R(\alpha,\beta,\gamma)) \overline{D^{l}_{m,n}(R(\alpha,\beta,\gamma))}d\alpha d\beta d\gamma,\label{eqn:f_FT}
 \end{align}
-which is the inverse transform. Several variations of the above definition exist. For example, in~\cite{KosRocJFAA08}, $D^l_{m,n}$ is normalized such that the factor $2l+1$ does not appear. We follow the convention of~\cite{ChiKya01}, and the factor appears in \refeqn{f_IFT}.
+which is the inverse transform. 
+Several variations of the above definition exist. 
+For example, in~\cite{KosRocJFAA08}, $D^l_{m,n}$ is normalized such that the factor $2l+1$ does not appear. 
+We follow the convention of~\cite{ChiKya01}, and the factor appears in \refeqn{f_IFT}.
 
-We also have the Plancherel theorem:
+We also have the Plancherel theorem, stating
 \[
 \pair{f_1(R), f_2(R)} = \sum_{l=0}^\infty (2l+1)\pair{\bar f_1^l, \bar f_2^l},
 \]
@@ -242,7 +260,8 @@ A function $f\in\mathcal{L}^2(\SO)$ is called \textit{band-limited} with the ban
 \begin{align}
 f(R(\alpha,\beta,\gamma)) &= \sum_{l=0}^{B-1} \sum_{m,n=-l}^l (2l+1)\tilde f^l_{m,n} D^l_{m,n}(\alpha,\beta,\gamma).\label{eqn:fB}
 \end{align}
-The classical sampling theorem stated that the Fourier transform of a band limited function can be recovered from the sample values of the function that are chosen at a uniform grid with with a frequency that is at least twice of the band limit. Consequently, the Fourier transform of the above function can be computed from finite samples. 
+The classical sampling theorem stated that the Fourier transform of a band limited function can be recovered from the sample values of the function that are chosen at a uniform grid with with a frequency that is at least twice of the band limit. 
+Consequently, the Fourier transform of the above function can be computed from finite samples. 
 
 Consider the following uniform grid for $(\alpha,\beta,\gamma)\in[0,2\pi)\times[0,\pi]\times[0,2\pi)$:
 \[
@@ -257,7 +276,8 @@ Define a sampling distribution of bandwidth $B$ as
 \begin{equation}
 s(R(\alpha,\beta,\gamma))=\sum_{j_1,k,j_2=0}^{2B-1} w_k \delta_{R(\alpha,\beta,\gamma),R(\alpha_{j_1},\beta_k,\gamma_{j_2})},
 \end{equation}
-which is the linear combination of grid points weighted by the parameter $w_k$. The Fourier transform of $s_B$ is given by
+which is the linear combination of grid points weighted by the parameter $w_k$. 
+The Fourier transform of $s_B$ is given by
 \begin{align*}
 \bar s^l_{m,n} & = \pair{s(R(\alpha,\beta,\gamma)), D^l_{m,n}(R)}\\
 &=\sum_{j_1,k,j_2=0}^{2B-1} w_k \overline{D^l_{m,n}(R(\alpha_{j_1},\beta_k,\gamma_{j_2}))}\\
@@ -265,14 +285,15 @@ which is the linear combination of grid points weighted by the parameter $w_k$. 
 \sum_{j_2=0}^{2B-1} e^{in\gamma_{j_2}}
 \sum_{k=0}^{2B-1} w_k d^l_{m,n}(\beta_k).
 \end{align*}
-For the selected grid, $\sum_{j_1=0}^{2B-1} e^{im\alpha_{j_1}}=2B \delta_{m,0}$. Therefore,
+For the selected grid, $\sum_{j_1=0}^{2B-1} e^{im\alpha_{j_1}}=2B \delta_{m,0}$. 
+Therefore, it reduces to
 \begin{align*}
-\bar s^l_{m,n} & = \pair{s(R(\alpha,\beta,\gamma)), D^l_{m,n}(R)}\\
-&=\sum_{j_1,k,j_2=0}^{2B-1} w_k \overline{D^l_{m,n}(R(\alpha_{j_1},\beta_k,\gamma_{j_2}))}\\
+\bar s^l_{m,n}  
 & = 4B^2 \delta_{m,0}\delta_{n,0}\sum_{k=0}^{2B-1} w_k d^l_{0,0}(\beta_k),\\
 & = 4B^2 \delta_{m,0}\delta_{n,0}\sum_{k=0}^{2B-1} w_k P_l(\beta_k),
 \end{align*}
-where $P_l$ is the $l$-th Legendre polynomial. We select the weight such that
+where $P_l$ is the $l$-th Legendre polynomial. 
+We select the weight such that
 \begin{equation}
 \sum_{k=0}^{2B-1} w_k P_l(\beta_k) = \frac{1}{4B^2} \delta_{l,0},\quad l=0,\ldots 2B-1.
 \end{equation}
@@ -286,7 +307,8 @@ Substituting this, the Fourier transform of the sampling distribution is given b
 \label{eqn:bar_s}
 \end{equation}
 
-Define $f_s(R)=f(R) s(R)$. It is straightforward to show
+Define $f_s(R)=f(R) s(R)$. 
+It is straightforward to show
 \begin{align*}
 &f_s(R(\alpha,\beta,\gamma))\\
 & = 
@@ -310,7 +332,12 @@ Then,
 \begin{align*}
 f_s(R)&=f(R)+f(R)\sum_{l=2B}^\infty \sum_{m,n=-l}^l \tilde s^l_{m,n} D^l_{m,n}(R).
 \end{align*}
-Since $f(R)$ can be expanded as a linear combination of $D^{l_1}$ for $0\leq l_1 \leq B-1$. The last term of the above equation is expanded by the product $D^{l_1}D^{l_2}$ with $0\leq l_1 \leq B-1$  and $2B\leq l_2$. According to the Clebsch-Gordon theorem, $D^{l_1}D^{l_2}$ is a linear combination of $D^{l_3}$ for $|l_1-l_2|\leq l_3 \leq l_1+l_2$. We have $\min|l_1-l_2|=2B-1-B=B+1$. As such, $f$ and $f_s$ share the Fourier coefficients in the given band limit. Or equivalently, 
+Since $f(R)$ can be expanded as a linear combination of $D^{l_1}$ for $0\leq l_1 \leq B-1$. 
+The last term of the above equation is expanded by the product $D^{l_1}D^{l_2}$ with $0\leq l_1 \leq B-1$  and $2B\leq l_2$. 
+According to the Clebsch-Gordon theorem, $D^{l_1}D^{l_2}$ is a linear combination of $D^{l_3}$ for $|l_1-l_2|\leq l_3 \leq l_1+l_2$. 
+We have $\min|l_1-l_2|=2B-1-B=B+1$. 
+As such, $f$ and $f_s$ share the Fourier coefficients in the given band limit. 
+Or equivalently, 
 \begin{align}
 &\tilde f^l_{m,n}\nonumber\\
 & = 
@@ -357,6 +384,7 @@ where the last two operations are Fourier transforms in a linear space, which ca
 
 \section{Real Harmonic Analysis}
 
+Next, we consider harmonic analysis for real-valued functions on $\SO$. 
 For $D^l_{m,n}(R)$, the indices for $(m,n)$ belongs to the set $I^l=\{-l\leq m,n \leq l\}$. Let $I^l_-=\{(m,n)\in I_l\,|\, (m<0), \text{ or } (m=0,n<0)\}$, and $I^l_+=\{(m,n)\in I_l\,|\, (m>0), \text{ or } (m=0,n>0)\}$. Then, we can show
 \[
 I^l = I^l_- \cup \{(0,0)\} \cup I^l_+,
@@ -385,7 +413,72 @@ f(R(\alpha,\beta,\gamma)) &= \sum_{l=0}^{B-1} (2l+1) \tilde f^l_{0,0} d^l_{0,0}(
 \mathrm{Re}[\tilde f^l_{m,n}] \mathrm{Re}[D^l_{m,n}(\alpha,\beta,\gamma)]
 -\mathrm{Im}[\tilde f^l_{m,n}] \mathrm{Im}[D^l_{m,n}(\alpha,\beta,\gamma)].
 \end{align*}
-Therefore, any real-valued, band= function is expanded by $D^l_{m,n}$ for $(m,n)\in I^l_- \cup \{(0,0)\}=I^l\setminus I^l_+$ with $0\leq l\leq B-1$. 
+Therefore, any real-valued, band-limited function is expanded by $D^l_{m,n}$ for $(m,n)\in I^l_- \cup \{(0,0)\}=I^l\setminus I^l_+$ with $0\leq l\leq B-1$. 
+
+\paragraph{Spherical Harmonics}
+Instead of using the real and the imaginary parts of $D^l_{m,n}$, it is desirable to construct a real-valued irreducible representation. 
+We will induce it from real spherical harmonics as follows. 
+
+Spherical harmonics $Y_{lm}(\theta,\phi)$ forms a basis of square-integrable function on $\Sph^2$, and it is defined as
+\begin{align}
+    Y_{l,m}(\theta,\phi) = e^{im\phi} \sqrt{\frac{2l+1}{4\pi}\frac{(l-m)!}{(l+m)!}}  P^m_l(\cos\theta),
+\end{align}
+with $\theta\in[0,\pi]$ and $\phi\in[0,2\pi)$ are the polar coordinates of $\Sph^2$, parameterizing $x\in\Sph^2$ as 
+\[
+    x(\theta,\phi)=[\cos\phi\sin\theta, \sin\phi\sin\theta, \cos\theta]. 
+\]
+Due to Sturm-Liouville theory, it is given by the product of the $\phi$-dependent term and the $\theta$-dependent term. 
+The former is given by the basis of $\Sph^1$ and the latter is given by the associated Legendre polynomials. 
+
+Let $dx=\frac{1}{4\pi} \sin\theta d\phi d\theta$ be the surface area of $\Sph^2$, normalized such that $\int_{\Sph^2} dx =1$. 
+We define an inner product on $\mathcal{L}^2(\Sph^2)$ as
+\begin{align*}
+    \pair{ f(x), g(x) } = \int_{\Sph^2} \overline{f(x)}g(x) dx.
+\end{align*}
+The spherical harmonics satisfies the following orthogonality,
+\begin{align*}
+    \pair{ Y_{l_1,m_1}(x), Y_{l_2,m_2}(x)} = \frac{1}{4\pi} \delta_{l_1l_2} \delta_{m_1m_2}.
+\end{align*}
+
+Spherical harmonics is closely related to the wigner-D function. 
+Interestingly, $R(\alpha,\beta,\gamma)e_3=x(\theta,\phi)$ with $\theta=\beta$ and $\phi=\alpha$: when the 3-2-3 Euler angles are used to parameterize $R\in\SO$, the third column of $R$ corresponds to the parameterization of $x\in\Sph^2$ with the polar coordinates.  
+We can further show
+\begin{align*}
+    D^l_{m,0}(\alpha,\beta,\gamma) &= \sqrt{\frac{4\pi}{2l+1}}\overline{Y_{l,m}(\beta,\alpha)},\\
+    D^l_{0,m}(\alpha,\beta,\gamma) &= (-1)^m\sqrt{\frac{4\pi}{2l+1}}\overline{Y_{l,m}(\beta,\gamma)}.
+\end{align*}
+Using the homomorphism property of the group representation, the above equations imply (see ~\cite[pp. 342]{ChiKya01})
+\begin{align*}
+    Y_{l,n}(R^T x) = \sum_{m'} Y_{l,m'}(x) D^l_{m',n}(R) .
+\end{align*}
+
+Therefore, the wigner-D function can be rediscovered from the spherical harmonics as
+\begin{align*}
+    \pair{Y_{l,m}(x), Y_{l,n}(R^T x) } &= \sum_{m'} \pair{Y_{l,m}(x), Y_{l,m'}(x) D^l_{m',n}(R) }\\
+    & = \frac{1}{4\pi} D^l_{m,n}(R).
+\end{align*}
+
+\paragraph{Real Spherical Harmonics}
+
+When spherical harmonics are considered as a basis for real-valued square-integrable functions on $\Sph^2$, real spherical harmonics can be formulated. 
+In particular, real spherical harmonics $S_{l,m}$ is constructed by the following transform in~\cite{BlaFloJMS97}
+\begin{align*}
+    S_l = C_l Y_l,
+\end{align*}
+where $S_l$ is the $2l+1$-by-one column whose elements are composed of $S_{l,m}$ for $m\in\{-l,\ldots l\}$ in the ascending order, and $Y_l$ is defined similarly. 
+The matrix $C_l\in\C^{(2l+1)\times(2l+1)}$ is defined as
+\begin{align*}
+    C_l=\frac{1}{\sqrt{2}}
+    \begin{bmatrix}
+        i & 0 \cdots & 0 & \cdots & 0 & -i(-1)^l\\
+        0 & i \cdots & 0 & \cdots & -i(-1)^{l-1} & 0 \\
+        \vdots & \vdots  & 
+
+
+\bibliography{/Users/tylee/Documents/BibMaster17}
+\bibliographystyle{IEEEtran}
+
+\end{document}
 
 Motivated by these, the real part and the imaginary part of $D^l_{m,n}$ scaled by a factor $\sqrt{2}$ are defined as
 \begin{align*}
