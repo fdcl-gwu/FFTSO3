@@ -67,17 +67,20 @@ int main()
 	R1=expm_SO3(eta1);
 	R2=expm_SO3(eta2);
 
-    cout << FFTSO3.wigner_D(R1)[2] << endl;
-    cout << FFTSO3.matrix2rsph(2) << endl;
-    cout << FFTSO3.wigner_D_real(R1) << endl;
-    cout << R1 << endl;
-    cout << FFTSO3.matrix2rsph(2)[2]*FFTSO3.matrix2rsph(2)[2].adjoint() << endl;
+    cout << FFTSO3.wigner_D_real(R1).real() << endl;
+    cout << FFTSO3.wigner_D_real_direct(R1) << endl;
+    cout << FFTSO3.wigner_D_real(R1).real()-FFTSO3.wigner_D_real_direct(R1) << endl;
+    // cout << FFTSO3.wigner_D(R1)[2] << endl;
+    // cout << FFTSO3.matrix2rsph(2) << endl;
+    // cout << FFTSO3.wigner_D_real(R1) << endl;
+    // cout << R1 << endl;
+    // cout << FFTSO3.matrix2rsph(2)[2]*FFTSO3.matrix2rsph(2)[2].adjoint() << endl;
 // 
-    int l=2;
-    cout << FFTSO3.wigner_D_real(R1*R2)[l] << endl << endl;
-    cout << FFTSO3.wigner_D_real(R1)[l]*FFTSO3.wigner_D_real(R2)[l] << endl;
-    cout << FFTSO3.wigner_D_real(R1)[l].transpose()*FFTSO3.wigner_D_real(R1)[l] << endl;
-	cout << "D" << endl;
+    // int l=2;
+    // cout << FFTSO3.wigner_D_real(R1*R2)[l] << endl << endl;
+    // cout << FFTSO3.wigner_D_real(R1)[l]*FFTSO3.wigner_D_real(R2)[l] << endl;
+    // cout << FFTSO3.wigner_D_real(R1)[l].transpose()*FFTSO3.wigner_D_real(R1)[l] << endl;
+	// cout << "D" << endl;
 	// cout << FFTSO3.wigner_D(R1)[1]*FFTSO3.wigner_D(R2)[1] << endl;
 	// cout << FFTSO3.wigner_D(R1*R2)[1] << endl;
 

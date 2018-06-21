@@ -4,6 +4,7 @@
 \usepackage{algpseudocode,cases,booktabs}
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta}
+\usepackage{mathdots}
 
 \newcommand{\norm}[1]{\ensuremath{\left\| #1 \right\|}}
 \newcommand{\bracket}[1]{\ensuremath{\left[ #1 \right]}}
@@ -439,6 +440,10 @@ The spherical harmonics satisfies the following orthogonality,
 \begin{align*}
     \pair{ Y_{l_1,m_1}(x), Y_{l_2,m_2}(x)} = \frac{1}{4\pi} \delta_{l_1l_2} \delta_{m_1m_2}.
 \end{align*}
+Also,
+\[
+    \overline{Y_{l,m}(x)} = (-1)^m Y_{l,-m}(x).
+\]
 
 Spherical harmonics is closely related to the wigner-D function. 
 Interestingly, $R(\alpha,\beta,\gamma)e_3=x(\theta,\phi)$ with $\theta=\beta$ and $\phi=\alpha$: when the 3-2-3 Euler angles are used to parameterize $R\in\SO$, the third column of $R$ corresponds to the parameterization of $x\in\Sph^2$ with the polar coordinates.  
@@ -457,185 +462,280 @@ Therefore, the wigner-D function can be rediscovered from the spherical harmonic
     \pair{Y_{l,m}(x), Y_{l,n}(R^T x) } &= \sum_{m'} \pair{Y_{l,m}(x), Y_{l,m'}(x) D^l_{m',n}(R) }\\
     & = \frac{1}{4\pi} D^l_{m,n}(R).
 \end{align*}
+Let $Y_l$ be the $2l+1$-by-one column whose elements are composed of $Y_{l,m}$ for $m\in\{-l,\ldots l\}$ in the ascending order. 
+The above equation is rewritten in a matrix form as
+\[
+    \pair{ Y_l(x), (Y_l(R^Tx))^T } = \frac{1}{4\pi} D^l(R).
+\]
 
 \paragraph{Real Spherical Harmonics}
 
 When spherical harmonics are considered as a basis for real-valued square-integrable functions on $\Sph^2$, real spherical harmonics can be formulated. 
 In particular, real spherical harmonics $S_{l,m}$ is constructed by the following transform in~\cite{BlaFloJMS97}
+\begin{align}
+    S_l = C^l Y_l,\label{eqn:YtoS}
+\end{align}
+where $S_l$ is the $2l+1$-by-one column whose elements are composed of $S_{l,m}$ for $m\in\{-l,\ldots l\}$ in the ascending order. 
+The matrix $C^l\in\Cp^{(2l+1)\times(2l+1)}$ is defined as
 \begin{align*}
-    S_l = C_l Y_l,
-\end{align*}
-where $S_l$ is the $2l+1$-by-one column whose elements are composed of $S_{l,m}$ for $m\in\{-l,\ldots l\}$ in the ascending order, and $Y_l$ is defined similarly. 
-The matrix $C_l\in\C^{(2l+1)\times(2l+1)}$ is defined as
-\begin{align*}
-    C_l=\frac{1}{\sqrt{2}}
+    C^l=\frac{1}{\sqrt{2}}
     \begin{bmatrix}
-        i & 0 \cdots & 0 & \cdots & 0 & -i(-1)^l\\
-        0 & i \cdots & 0 & \cdots & -i(-1)^{l-1} & 0 \\
-        \vdots & \vdots  & 
-
-
-\bibliography{/Users/tylee/Documents/BibMaster17}
-\bibliographystyle{IEEEtran}
-
-\end{document}
-
-Motivated by these, the real part and the imaginary part of $D^l_{m,n}$ scaled by a factor $\sqrt{2}$ are defined as
-\begin{align*}
-\mathcal{R}^l_{m,n}=\frac{1}{\sqrt{2}} (D^l_{m,n}+\overline{D^l_{m,n}}) = \sqrt{2} d^l_{m,n}(\beta) \cos (m\alpha+n\gamma),\\
-\mathcal{I}^l_{m,n}=\frac{1}{\sqrt{2}i} (D^l_{m,n}-\overline{D^l_{m,n}}) = \sqrt{2} d^l_{m,n}(\beta) \sin (m\alpha+n\gamma).
+        i & 0 & \cdots & 0 & \cdots & 0 & -i(-1)^l\\
+        0 & i & \cdots & 0 & \cdots & -i(-1)^{l-1} & 0 \\
+        \vdots & \vdots & \ddots &\vdots & \iddots & \vdots & \vdots\\
+        0 & 0 & \hdots & \sqrt{2} & \hdots & 0 & 0 \\
+        \vdots & \vdots & \iddots &\vdots & \ddots & \vdots & \vdots\\
+        0 & 1 & \cdots & 0 & \cdots & (-1)^{l-1} & 0 \\
+        1 & 0 & \cdots & 0 & \cdots & 0 & (-1)^l\\
+    \end{bmatrix}.
 \end{align*}
-They are mutually orthogonal as
-\begin{align*}
-\pair{\mathcal{R}^{l_1}_{m_1,n_1},\mathcal{R}^{l_2}_{m_2,n_2}}
-&= \frac{1}{8\pi^2}\int_0^{2\pi}\int_{0}^\pi\int_0^{2\pi} 2 d^{l_1}_{m_1,n_1}(\beta)\cos(m_1\alpha+n_1\gamma)
-d^{l_2}_{m_2,n_2}(\beta)\cos(m_2\alpha+n_2\gamma)\sin\beta d\alpha d\beta d\gamma\\
-&=\frac{1}{2\pi^2} \frac{1}{2l_1+1} \delta_{l_1,l_2} \int_0^{2\pi}\int_0^{2\pi}\cos(m_1\alpha+n_1\gamma)
-\cos(m_2\alpha+n_2\gamma) d\alpha d\gamma\\
-&=\frac{1}{2l_1+1} \delta_{l_1,l_2}\delta_{m_1,m_2}\delta_{n_1,n_2}\\
-\pair{\mathcal{I}^{l_1}_{m_1,n_1},\mathcal{I}^{l_2}_{m_2,n_2}}
-&=\frac{1}{2l_1+1} \delta_{l_1,l_2}\delta_{m_1,m_2}\delta_{n_1,n_2}\\
-\pair{\mathcal{R}^{l_1}_{m_1,n_1},\mathcal{I}^{l_2}_{m_2,n_2}}
-&=0.
-\end{align*}
+Or equivalently, the elements of $C^l$ satisfy the following rules.
+\begin{itemize}
+    \item $C^l_{0,0}=1$
+    \item $C^l_{m,n}=0$ if $|m|\neq|n|$
+    \item $C^l_{-m,-m} = \frac{i}{\sqrt{2}}$ for $m>0$
+    \item $C^l_{-m,m}=\frac{-i(-1)^m}{\sqrt{2}}$ for $m>0$
+    \item $C^l_{m,-m}=\frac{1}{\sqrt{2}}$ for $m>0$
+    \item $C^l_{m,m}=\frac{(-1)^m}{\sqrt{2}} $ for $m>0$
+\end{itemize}
+It is straightforward to show that the columns of $C^l$ are mutually orthonormal. 
+Therefore,
+\[
+    (C^l)^{-1} = (C^l)^* = (\overline{C^l})^T,\quad C (\overline C)^T= \overline{C} C^T = I_{2l+1}.
+\]
 
-
-
-Similar with real spherical harmonics, we formulate the matrix representation for the real-valued functions as
-\begin{align}
-U^l_{m,n}(R) = \begin{cases}
-\mathcal{I}^l_{m,n}(I)=\sqrt{2} d^l_{m,n}(\beta) \sin (m\alpha+n\gamma) & (m,n)\in I^l_-,\\
-\mathcal{R}^l_{0,0}(R)=\sqrt{2} d^l_{0,0}(\beta) & (m,n)=(0,0),\\
-\mathcal{R}^l_{-m,-n}(R)=\sqrt{2} d^l_{-m,-n}(\beta) \cos (m\alpha+n\gamma) & (m,n)\in I^l_+.
-\end{cases}
-\end{align}
-Due to the orthogonality of $\mathcal{R}$ and $\mathcal{I}$, 
+\paragraph{Real Harmonic Analysis on $\SO$}
+Let $U^l_{m,n}(R)$ be the matrix representation for  real-valued square-integrable functions on $\SO$. 
+Motivated by above~\cite{BlaFloJMS97}, it is defined as
+\[
+    \pair{ S_l(x), (S_l(R^Tx))^T } = \frac{1}{4\pi} U^l(R).
+\]
+From \eqref{eqn:YtoS},
+\[
+\frac{1}{4\pi} U^l(R) = \pair{ C^l Y_l(x),  (Y_l(R^T x))^T (C^l)^T } 
+= \overline{C^l} \pair{ Y_l(x), (Y_1(R^T x))^T} (C^l)^T
+= \frac{1}{4\pi} \overline{C^l} D^l(R) (C^l)^T,
+\]
+which yields the following real matrix representation of $SO$
 \begin{equation}
-\pair{ U^{l_1}_{m_1,n_1}(R), U^{l_2}_{m_2,n_2}(R)} = \frac{1}{2l_1+1}\delta_{l_1,l_2}\delta_{m_1,m_2}\delta_{n_1,n_2}. \label{eqn:U_ortho}
+    U^l (R) = \overline{C^l} D^l(R) (C^l)^T.
 \end{equation}
-
-And, a real-valued, band-limited function is expanded by
+Each element of $U^l$ is given by
 \begin{align}
-f(R(\alpha,\beta,\gamma)) &= \sum_{l=0}^{B-1} \sum_{m,n=-l}^l (2l+1)\tilde f^l_{m,n} U^l_{m,n}(\alpha,\beta,\gamma).\label{eqn:fB_real}
+    U^l_{m,n}(R) & = \sum_{p,q} \overline{C}^l_{m,p} C_{n,q} D^l_{p,q} (R).
 \end{align}
-The Fourier spectrum is calculated by
-\begin{align}
-\tilde f^l_{m,n} & = \pair{f(R(\alpha,\beta,\gamma)), U^l_{m,n}}\nonumber\\
-& =\frac{1}{8\pi^2}\int_0^{2\pi}\int_{0}^\pi\int_0^{2\pi} f(R(\alpha,\beta,\gamma)) U^{l}_{m,n}(R(\alpha,\beta,\gamma)) d\alpha d\beta d\gamma.\label{eqn:f_FT_real}
-\end{align}
-
-However, $U$ is not a homomorphism, i.e., $U(R_1)U(R_2)\neq U(R_1R_2)$ in general. 
-
-
-\[
-R=
-\begin{bmatrix}
-\cos\beta \cos\alpha\cos\gamma - \sin\alpha\sin\gamma& - \cos\gamma\sin\alpha - \cos\alpha\cos\beta\sin\gamma& \cos\alpha\sin\beta\\
-\cos\alpha\sin\gamma + \cos\beta\cos\gamma\sin\alpha&   \cos\alpha\cos\gamma - \cos\beta\sin\alpha\sin\gamma& sin\alpha\sin\beta\\
--\cos\gamma\sin\beta&	\sin\beta\sin\gamma &\cos\beta
-\end{bmatrix}
-\]
-
-\[
-R=
-\begin{bmatrix}
-\cos\beta (c_{\alpha+\gamma}+c_{\alpha-\gamma}) +(c_{\alpha+\gamma}-c_{\alpha-\gamma})& - (s_{\alpha+\gamma}+s_{\alpha-\gamma}) - (s_{\alpha+\gamma}-s_{\alpha-\gamma})\cos\beta& \cos\alpha\sin\beta\\
-(s_{\alpha+\gamma}-s_{\alpha-\gamma}) + \cos\beta(s_{\alpha+\gamma}+s_{\alpha-\gamma})&   (c_{\alpha+\gamma}+c_{\alpha-\gamma}) + \cos\beta(c_{\alpha+\gamma}-c_{\alpha-\gamma})& \sin\alpha\sin\beta\\
--\cos\gamma\sin\beta&	\sin\beta\sin\gamma &\cos\beta
-\end{bmatrix}
-\]
-
+According to the sign of $m,n$, there are four cases of the above equation.
 \begin{align*}
-2\cos\alpha\cos\gamma  &=\cos(\alpha+\gamma)+\cos(\alpha-\gamma)=c_{\alpha+\gamma}+c_{\alpha-\gamma}\\
-2\sin\alpha\sin\gamma  &=-\cos(\alpha+\gamma)+\cos(\alpha-\gamma)=-c_{\alpha+\gamma}+c_{\alpha-\gamma}\\
-2\cos\alpha\sin\gamma  &=\sin(\alpha+\gamma)-\sin(\alpha-\gamma)=s_{\alpha+\gamma}-s_{\alpha-\gamma}\\
-2\sin\alpha\cos\gamma  &=\sin(\alpha+\gamma)+\sin(\alpha-\gamma)=s_{\alpha+\gamma}+s_{\alpha-\gamma}\\
+    U^l_{0,0} (R) &= D^l_{0,0} (R) = d^l_{0,0}(R),\\
+    U^l_{m,0} (R) &= \overline{C}^l_{m,m} D^l_{m,0} (R) + \overline{C}^l_{m,-m} D^l_{-m,0} (R),\\
+    U^l_{0,n} (R) &= C_{n,n} D^l_{0,n}(R) + C_{n,-n} D^l_{0,-n}(R),\\
+    U^l_{m,n} (R) &= \overline{C}^l_{m,m} C_{n,n} D^l_{m,n} (R) + \overline{C}^l_{m,m} C_{n,-n} D^l_{m,-n} (R) + \overline{C}^l_{m,-m} C_{n,n} D^l_{-m,n} (R) + \overline{C}^l_{m,-m} C_{n,-n} D^l_{-m,-n} (R).
+\end{align*}
+The last three cases are further divided for $m,n>0$ into
+\begin{align*}
+    U^l_{m,0} (R) &= \overline{C}^l_{m,m} D^l_{m,0} (R) + \overline{C}^l_{m,-m} D^l_{-m,0} (R),\\
+    U^l_{-m,0} (R) &= \overline{C}^l_{-m,-m} D^l_{-m,0} (R) + \overline{C}^l_{-m,m} D^l_{m,0} (R),\\
+    U^l_{0,n} (R) &= C_{n,n} D^l_{0,n}(R) + C_{n,-n} D^l_{0,-n}(R),\\
+    U^l_{0,-n} (R) &= C_{-n,-n} D^l_{0,-n}(R) + C_{-n,n} D^l_{0,n}(R),\\
+    U^l_{m,n} (R) &= \overline{C}^l_{m,m} C_{n,n} D^l_{m,n} (R) + \overline{C}^l_{m,m} C_{n,-n} D^l_{m,-n} (R) + \overline{C}^l_{m,-m} C_{n,n} D^l_{-m,n} (R) + \overline{C}^l_{m,-m} C_{n,-n} D^l_{-m,-n} (R),\\
+    U^l_{m,-n} (R) &= \overline{C}^l_{m,m} C_{-n,-n} D^l_{m,-n} (R) + \overline{C}^l_{m,m} C_{-n,n} D^l_{m,n} (R) + \overline{C}^l_{m,-m} C_{-n,-n} D^l_{-m,-n} (R) + \overline{C}^l_{m,-m} C_{-n,n} D^l_{-m,n} (R),\\
+    U^l_{-m,n} (R) &= \overline{C}^l_{-m,-m} C_{n,n} D^l_{-m,n} (R) + \overline{C}^l_{-m,-m} C_{n,-n} D^l_{-m,-n} (R) + \overline{C}^l_{-m,m} C_{n,n} D^l_{m,n} (R) + \overline{C}^l_{-m,m} C_{n,-n} D^l_{m,-n} (R),\\
+    U^l_{-m,-n} (R) &= \overline{C}^l_{-m,-m} C_{-n,-n} D^l_{-m,-n} (R) + \overline{C}^l_{-m,-m} C_{-n,n} D^l_{-m,n} (R) + \overline{C}^l_{-m,m} C_{-n,-n} D^l_{m,-n} (R) + \overline{C}^l_{-m,m} C_{-n,n} D^l_{m,n} (R).
+\end{align*}
+Substituting the values of $C^l$, for $m,n>0$,
+\begin{align*}
+    U^l_{m,0} (R) &= \frac{(-1)^m}{\sqrt{2}} D^l_{m,0} (R) + \frac{1}{\sqrt{2}} D^l_{-m,0} (R),\\
+    U^l_{-m,0} (R) &= \frac{-i}{\sqrt{2}} D^l_{-m,0} (R) + \frac{i(-1)^m}{\sqrt{2}} D^l_{m,0} (R),\\
+    U^l_{0,n} (R) &= \frac{(-1)^n}{\sqrt{2}} D^l_{0,n}(R) + \frac{1}{\sqrt{2}} D^l_{0,-n}(R),\\
+    U^l_{0,-n} (R) &= \frac{i}{\sqrt{2}} D^l_{0,-n}(R) + \frac{-i(-1)^n}{\sqrt{2}} D^l_{0,n}(R),\\
+    U^l_{m,n} (R) &= \frac{(-1)^m}{\sqrt{2}} \frac{(-1)^n}{\sqrt{2}} D^l_{m,n} (R) + \frac{(-1)^m}{\sqrt{2}} \frac{1}{\sqrt{2}} D^l_{m,-n} (R) + \frac{1}{\sqrt{2}} \frac{(-1)^n}{\sqrt{2}} D^l_{-m,n} (R) + \frac{1}{\sqrt{2}} \frac{1}{\sqrt{2}} D^l_{-m,-n} (R),\\
+    U^l_{m,-n} (R) &= \frac{(-1)^m}{\sqrt{2}} \frac{i}{\sqrt{2}} D^l_{m,-n} (R) + \frac{(-1)^m}{\sqrt{2}} \frac{-i(-1)^n}{\sqrt{2}} D^l_{m,n} (R) + \frac{1}{\sqrt{2}} \frac{i}{\sqrt{2}} D^l_{-m,-n} (R) + \frac{1}{\sqrt{2}} \frac{-i(-1)^n}{\sqrt{2}} D^l_{-m,n} (R),\\
+    U^l_{-m,n} (R) &= \frac{-i}{\sqrt{2}} \frac{(-1)^n}{\sqrt{2}} D^l_{-m,n} (R) + \frac{-i}{\sqrt{2}} \frac{1}{\sqrt{2}} D^l_{-m,-n} (R) + \frac{i(-1)^m}{\sqrt{2}} \frac{(-1)^n}{\sqrt{2}} D^l_{m,n} (R) + \frac{i(-1)^m}{\sqrt{2}} \frac{1}{\sqrt{2}} D^l_{m,-n} (R),\\
+    U^l_{-m,-n} (R) &= \frac{-i}{\sqrt{2}} \frac{i}{\sqrt{2}} D^l_{-m,-n} (R) + \frac{-i}{\sqrt{2}} \frac{-i(-1)^n}{\sqrt{2}} D^l_{-m,n} (R) + \frac{i(-1)^m}{\sqrt{2}} \frac{i}{\sqrt{2}} D^l_{m,-n} (R) + \frac{i(-1)^m}{\sqrt{2}} \frac{-i(-1)^n}{\sqrt{2}} D^l_{m,n} (R).
+\end{align*}
+The last four equations are rearranged into
+\begin{align*}
+    U^l_{m,n} (R) &= \frac{(-1)^{m+n}}{2}  D^l_{m,n} (R) + \frac{(-1)^m}{2}  D^l_{m,-n} (R) +  \frac{(-1)^n}{2} D^l_{-m,n} (R) + \frac{1}{2}  D^l_{-m,-n} (R),\\
+    U^l_{m,-n} (R) &= \frac{i(-1)^m}{2}  D^l_{m,-n} (R) + \frac{-i(-1)^{m+n}}{2} D^l_{m,n} (R) +  \frac{i}{2} D^l_{-m,-n} (R) +  \frac{-i(-1)^n}{2} D^l_{-m,n} (R),\\
+    U^l_{-m,n} (R) &=  \frac{-i(-1)^n}{2} D^l_{-m,n} (R) + \frac{-i}{2}  D^l_{-m,-n} (R) + \frac{i(-1)^{m+n}}{2}  D^l_{m,n} (R) + \frac{i(-1)^m}{2}  D^l_{m,-n} (R),\\
+    U^l_{-m,-n} (R) &= \frac{1}{2}  D^l_{-m,-n} (R) +  \frac{-(-1)^n}{2} D^l_{-m,n} (R) + \frac{-(-1)^m}{2}  D^l_{m,-n} (R) + \frac{(-1)^{m+n}}{2}  D^l_{m,n} (R).
 \end{align*}
 
+Using the symmetry of the wigner-$d$ functions, and after rearranging, 
 \begin{align*}
-R
-&=
-\begin{bmatrix}
-\frac{1}{2}(\mathcal{R}^1_{-1,-1}-\mathcal{R}^1_{1,-1}) & \frac{1}{2}(\mathcal{I}^1_{-1,-1}-\mathcal{I}^1_{1,-1}) & \sqrt{2}\mathcal{R}_{-1,0}\\
-\frac{1}{2}(-\mathcal{I}^1_{-1,-1}+\mathcal{I}^1_{-1,1})
-&\frac{1}{2}(\mathcal{R}^1_{-1,-1}+\mathcal{R}^1_{-1,1})
-&-\sqrt{2}\mathcal{I}_{-1,0}\\
--\sqrt{2}\mathcal{R}_{0,-1}
-& \sqrt{2}\mathcal{I}_{0,-1}
-& \mathcal{R}_{0,0}
-\end{bmatrix}\\
-&=
-\begin{bmatrix}
-\frac{1}{2}(\mathcal{R}^1_{1,1}-\mathcal{R}^1_{-1,1}) 
-& \frac{1}{2}(-\mathcal{I}^1_{1,1}+\mathcal{I}^1_{-1,1}) 
-& -\sqrt{2}\mathcal{R}_{1,0}\\
-\frac{1}{2}(\mathcal{I}^1_{1,1}-\mathcal{I}^1_{1,-1})
-&  \frac{1}{2}(\mathcal{R}^1_{1,1}+\mathcal{R}^1_{1,-1})
-& -\sqrt{2}\mathcal{I}_{1,0}\\
-\sqrt{2}\mathcal{R}_{0,1}
-&\sqrt{2}\mathcal{I}_{0,1}
-& \mathcal{R}_{0,0}
-\end{bmatrix}\\
-&=
-\begin{bmatrix}
-\frac{1}{2}(\mathcal{R}^1_{-1,-1}-\mathcal{R}^1_{-1,1}) 
-& \frac{1}{2}(\mathcal{I}^1_{-1,-1}+\mathcal{I}^1_{-1,1}) 
-& \sqrt{2}\mathcal{R}_{-1,0}\\
-\frac{1}{2}(-\mathcal{I}^1_{-1,-1}+\mathcal{I}^1_{-1,1})
-&\frac{1}{2}(\mathcal{R}^1_{-1,-1}+\mathcal{R}^1_{-1,1})
-&-\sqrt{2}\mathcal{I}_{-1,0}\\
--\sqrt{2}\mathcal{R}_{0,-1}
-& \sqrt{2}\mathcal{I}_{0,-1}
-& \mathcal{R}_{0,0}
-\end{bmatrix}\\
-\end{align*}
-
-
-\begin{align*}
-R&=
-\begin{bmatrix}
-\frac{1}{2}(\mathcal{R}^1_{-1,-1}-\mathcal{R}^1_{1,-1}) 
-& \sqrt{2}\mathcal{R}_{-1,0}
-& \frac{1}{2}(\mathcal{I}^1_{-1,-1}-\mathcal{I}^1_{1,-1}) \\
--\sqrt{2}\mathcal{R}_{0,-1}
-& \mathcal{R}_{0,0}
-& \sqrt{2}\mathcal{I}_{0,-1}\\
-\frac{1}{2}(-\mathcal{I}^1_{-1,-1}+\mathcal{I}^1_{-1,1})
-&-\sqrt{2}\mathcal{I}_{-1,0}
-&\frac{1}{2}(\mathcal{R}^1_{-1,-1}+\mathcal{R}^1_{-1,1})
-\end{bmatrix}\\
-&=
-\begin{bmatrix}
-\frac{1}{2}(\mathcal{R}^1_{1,1}-\mathcal{R}^1_{-1,1}) 
-& -\sqrt{2}\mathcal{R}_{1,0}
-& \frac{1}{2}(-\mathcal{I}^1_{1,1}+\mathcal{I}^1_{-1,1}) \\
-\sqrt{2}\mathcal{R}_{0,1}
-& \mathcal{R}_{0,0}
-&\sqrt{2}\mathcal{I}_{0,1}\\
-\frac{1}{2}(\mathcal{I}^1_{1,1}-\mathcal{I}^1_{1,-1})
-& -\sqrt{2}\mathcal{I}_{-1,0}
-&  \frac{1}{2}(\mathcal{R}^1_{1,1}+\mathcal{R}^1_{1,-1})
-\end{bmatrix}
-\end{align*}
-
-
+    U^l_{m,0} (R) &= (-1)^m \sqrt{2} d^l_{m,0}(\beta) \cos m\alpha, \\
+    U^l_{-m,0} (R) &= (-1)^m \sqrt{2} d^l_{m,0}(\beta) \sin m\alpha,\\
+    U^l_{0,n} (R) &= (-1)^{n} \sqrt{2} d^l_{0,n}(\beta) \cos n\gamma, \\ 
+    U^l_{0,-n} (R) &= (-1)^{n+1} \sqrt{2} d^l_{0,n}(\beta) \sin n\gamma,\\
+\end{align*} 
+We can show that it is also a homomorphism as
 \[
-d^1=\begin{bmatrix}
-\frac{1}{2}(1+\cos\beta) & \frac{1}{\sqrt{2}}\sin\beta & \frac{1}{2}(1-\cos\beta)\\
--\frac{1}{\sqrt{2}}\sin\beta & \cos\beta & \frac{1}{\sqrt{2}}\sin\beta\\
-\frac{1}{2}(1-\cos\beta) & -\frac{1}{\sqrt{2}}\sin\beta & \frac{1}{2}(1+\cos\beta)
-\end{bmatrix}
+    U^l( R_1 R_2) = \overline{C^l} D^l(R_1)D^l(R_2)  (C^l)^T
+    =\overline{C^l} D^l(R_1) (C^l)^T  \overline{C^l} D^l(R_2)  (C^l)^T
+    = U^l(R_1) U^l(R_2).
 \]
-
-\[
-D^1=\begin{bmatrix}
-\frac{1}{2}(1+\cos\beta)(\cos(\alpha+\gamma)-i\sin(\alpha+\gamma)) & \frac{1}{\sqrt{2}}\sin\beta(\cos\alpha-i\sin\alpha) & \frac{1}{2}(1-\cos\beta)(\cos(\alpha-\gamma)-i\sin(\alpha-\gamma))\\
--\frac{1}{\sqrt{2}}\sin\beta(\cos\gamma-i\sin\gamma) & \cos\beta & \frac{1}{\sqrt{2}}\sin\beta(\cos\gamma+i\sin\gamma)\\
-\frac{1}{2}(1-\cos\beta)(\cos(\alpha-\gamma)+i\sin(\alpha-\gamma)) & -\frac{1}{\sqrt{2}}\sin\beta(\cos\alpha+i\sin\alpha) & \frac{1}{2}(1+\cos\beta)(\cos(\alpha+\gamma)+i\sin(\alpha+\gamma))
-\end{bmatrix}
-\]
-
+Also, they are orthogonal as
 \bibliography{/Users/tylee/Documents/BibMaster17}
 \bibliographystyle{IEEEtran}
 
 \end{document}
+
+% Motivated by these, the real part and the imaginary part of $D^l_{m,n}$ scaled by a factor $\sqrt{2}$ are defined as
+% \begin{align*}
+% \mathcal{R}^l_{m,n}=\frac{1}{\sqrt{2}} (D^l_{m,n}+\overline{D^l_{m,n}}) = \sqrt{2} d^l_{m,n}(\beta) \cos (m\alpha+n\gamma),\\
+% \mathcal{I}^l_{m,n}=\frac{1}{\sqrt{2}i} (D^l_{m,n}-\overline{D^l_{m,n}}) = \sqrt{2} d^l_{m,n}(\beta) \sin (m\alpha+n\gamma).
+% \end{align*}
+% They are mutually orthogonal as
+% \begin{align*}
+% \pair{\mathcal{R}^{l_1}_{m_1,n_1},\mathcal{R}^{l_2}_{m_2,n_2}}
+% &= \frac{1}{8\pi^2}\int_0^{2\pi}\int_{0}^\pi\int_0^{2\pi} 2 d^{l_1}_{m_1,n_1}(\beta)\cos(m_1\alpha+n_1\gamma)
+% d^{l_2}_{m_2,n_2}(\beta)\cos(m_2\alpha+n_2\gamma)\sin\beta d\alpha d\beta d\gamma\\
+% &=\frac{1}{2\pi^2} \frac{1}{2l_1+1} \delta_{l_1,l_2} \int_0^{2\pi}\int_0^{2\pi}\cos(m_1\alpha+n_1\gamma)
+% \cos(m_2\alpha+n_2\gamma) d\alpha d\gamma\\
+% &=\frac{1}{2l_1+1} \delta_{l_1,l_2}\delta_{m_1,m_2}\delta_{n_1,n_2}\\
+% \pair{\mathcal{I}^{l_1}_{m_1,n_1},\mathcal{I}^{l_2}_{m_2,n_2}}
+% &=\frac{1}{2l_1+1} \delta_{l_1,l_2}\delta_{m_1,m_2}\delta_{n_1,n_2}\\
+% \pair{\mathcal{R}^{l_1}_{m_1,n_1},\mathcal{I}^{l_2}_{m_2,n_2}}
+% &=0.
+% \end{align*}
+% 
+% 
+% 
+% Similar with real spherical harmonics, we formulate the matrix representation for the real-valued functions as
+% \begin{align}
+% U^l_{m,n}(R) = \begin{cases}
+% \mathcal{I}^l_{m,n}(I)=\sqrt{2} d^l_{m,n}(\beta) \sin (m\alpha+n\gamma) & (m,n)\in I^l_-,\\
+% \mathcal{R}^l_{0,0}(R)=\sqrt{2} d^l_{0,0}(\beta) & (m,n)=(0,0),\\
+% \mathcal{R}^l_{-m,-n}(R)=\sqrt{2} d^l_{-m,-n}(\beta) \cos (m\alpha+n\gamma) & (m,n)\in I^l_+.
+% \end{cases}
+% \end{align}
+% Due to the orthogonality of $\mathcal{R}$ and $\mathcal{I}$, 
+% \begin{equation}
+% \pair{ U^{l_1}_{m_1,n_1}(R), U^{l_2}_{m_2,n_2}(R)} = \frac{1}{2l_1+1}\delta_{l_1,l_2}\delta_{m_1,m_2}\delta_{n_1,n_2}. \label{eqn:U_ortho}
+% \end{equation}
+% 
+% And, a real-valued, band-limited function is expanded by
+% \begin{align}
+% f(R(\alpha,\beta,\gamma)) &= \sum_{l=0}^{B-1} \sum_{m,n=-l}^l (2l+1)\tilde f^l_{m,n} U^l_{m,n}(\alpha,\beta,\gamma).\label{eqn:fB_real}
+% \end{align}
+% The Fourier spectrum is calculated by
+% \begin{align}
+% \tilde f^l_{m,n} & = \pair{f(R(\alpha,\beta,\gamma)), U^l_{m,n}}\nonumber\\
+% & =\frac{1}{8\pi^2}\int_0^{2\pi}\int_{0}^\pi\int_0^{2\pi} f(R(\alpha,\beta,\gamma)) U^{l}_{m,n}(R(\alpha,\beta,\gamma)) d\alpha d\beta d\gamma.\label{eqn:f_FT_real}
+% \end{align}
+% 
+% However, $U$ is not a homomorphism, i.e., $U(R_1)U(R_2)\neq U(R_1R_2)$ in general. 
+% 
+% 
+% \[
+% R=
+% \begin{bmatrix}
+% \cos\beta \cos\alpha\cos\gamma - \sin\alpha\sin\gamma& - \cos\gamma\sin\alpha - \cos\alpha\cos\beta\sin\gamma& \cos\alpha\sin\beta\\
+% \cos\alpha\sin\gamma + \cos\beta\cos\gamma\sin\alpha&   \cos\alpha\cos\gamma - \cos\beta\sin\alpha\sin\gamma& sin\alpha\sin\beta\\
+% -\cos\gamma\sin\beta&	\sin\beta\sin\gamma &\cos\beta
+% \end{bmatrix}
+% \]
+% 
+% \[
+% R=
+% \begin{bmatrix}
+% \cos\beta (c_{\alpha+\gamma}+c_{\alpha-\gamma}) +(c_{\alpha+\gamma}-c_{\alpha-\gamma})& - (s_{\alpha+\gamma}+s_{\alpha-\gamma}) - (s_{\alpha+\gamma}-s_{\alpha-\gamma})\cos\beta& \cos\alpha\sin\beta\\
+% (s_{\alpha+\gamma}-s_{\alpha-\gamma}) + \cos\beta(s_{\alpha+\gamma}+s_{\alpha-\gamma})&   (c_{\alpha+\gamma}+c_{\alpha-\gamma}) + \cos\beta(c_{\alpha+\gamma}-c_{\alpha-\gamma})& \sin\alpha\sin\beta\\
+% -\cos\gamma\sin\beta&	\sin\beta\sin\gamma &\cos\beta
+% \end{bmatrix}
+% \]
+% 
+% \begin{align*}
+% 2\cos\alpha\cos\gamma  &=\cos(\alpha+\gamma)+\cos(\alpha-\gamma)=c_{\alpha+\gamma}+c_{\alpha-\gamma}\\
+% 2\sin\alpha\sin\gamma  &=-\cos(\alpha+\gamma)+\cos(\alpha-\gamma)=-c_{\alpha+\gamma}+c_{\alpha-\gamma}\\
+% 2\cos\alpha\sin\gamma  &=\sin(\alpha+\gamma)-\sin(\alpha-\gamma)=s_{\alpha+\gamma}-s_{\alpha-\gamma}\\
+% 2\sin\alpha\cos\gamma  &=\sin(\alpha+\gamma)+\sin(\alpha-\gamma)=s_{\alpha+\gamma}+s_{\alpha-\gamma}\\
+% \end{align*}
+% 
+% \begin{align*}
+% R
+% &=
+% \begin{bmatrix}
+% \frac{1}{2}(\mathcal{R}^1_{-1,-1}-\mathcal{R}^1_{1,-1}) & \frac{1}{2}(\mathcal{I}^1_{-1,-1}-\mathcal{I}^1_{1,-1}) & \sqrt{2}\mathcal{R}_{-1,0}\\
+% \frac{1}{2}(-\mathcal{I}^1_{-1,-1}+\mathcal{I}^1_{-1,1})
+% &\frac{1}{2}(\mathcal{R}^1_{-1,-1}+\mathcal{R}^1_{-1,1})
+% &-\sqrt{2}\mathcal{I}_{-1,0}\\
+% -\sqrt{2}\mathcal{R}_{0,-1}
+% & \sqrt{2}\mathcal{I}_{0,-1}
+% & \mathcal{R}_{0,0}
+% \end{bmatrix}\\
+% &=
+% \begin{bmatrix}
+% \frac{1}{2}(\mathcal{R}^1_{1,1}-\mathcal{R}^1_{-1,1}) 
+% & \frac{1}{2}(-\mathcal{I}^1_{1,1}+\mathcal{I}^1_{-1,1}) 
+% & -\sqrt{2}\mathcal{R}_{1,0}\\
+% \frac{1}{2}(\mathcal{I}^1_{1,1}-\mathcal{I}^1_{1,-1})
+% &  \frac{1}{2}(\mathcal{R}^1_{1,1}+\mathcal{R}^1_{1,-1})
+% & -\sqrt{2}\mathcal{I}_{1,0}\\
+% \sqrt{2}\mathcal{R}_{0,1}
+% &\sqrt{2}\mathcal{I}_{0,1}
+% & \mathcal{R}_{0,0}
+% \end{bmatrix}\\
+% &=
+% \begin{bmatrix}
+% \frac{1}{2}(\mathcal{R}^1_{-1,-1}-\mathcal{R}^1_{-1,1}) 
+% & \frac{1}{2}(\mathcal{I}^1_{-1,-1}+\mathcal{I}^1_{-1,1}) 
+% & \sqrt{2}\mathcal{R}_{-1,0}\\
+% \frac{1}{2}(-\mathcal{I}^1_{-1,-1}+\mathcal{I}^1_{-1,1})
+% &\frac{1}{2}(\mathcal{R}^1_{-1,-1}+\mathcal{R}^1_{-1,1})
+% &-\sqrt{2}\mathcal{I}_{-1,0}\\
+% -\sqrt{2}\mathcal{R}_{0,-1}
+% & \sqrt{2}\mathcal{I}_{0,-1}
+% & \mathcal{R}_{0,0}
+% \end{bmatrix}\\
+% \end{align*}
+% 
+% 
+% \begin{align*}
+% R&=
+% \begin{bmatrix}
+% \frac{1}{2}(\mathcal{R}^1_{-1,-1}-\mathcal{R}^1_{1,-1}) 
+% & \sqrt{2}\mathcal{R}_{-1,0}
+% & \frac{1}{2}(\mathcal{I}^1_{-1,-1}-\mathcal{I}^1_{1,-1}) \\
+% -\sqrt{2}\mathcal{R}_{0,-1}
+% & \mathcal{R}_{0,0}
+% & \sqrt{2}\mathcal{I}_{0,-1}\\
+% \frac{1}{2}(-\mathcal{I}^1_{-1,-1}+\mathcal{I}^1_{-1,1})
+% &-\sqrt{2}\mathcal{I}_{-1,0}
+% &\frac{1}{2}(\mathcal{R}^1_{-1,-1}+\mathcal{R}^1_{-1,1})
+% \end{bmatrix}\\
+% &=
+% \begin{bmatrix}
+% \frac{1}{2}(\mathcal{R}^1_{1,1}-\mathcal{R}^1_{-1,1}) 
+% & -\sqrt{2}\mathcal{R}_{1,0}
+% & \frac{1}{2}(-\mathcal{I}^1_{1,1}+\mathcal{I}^1_{-1,1}) \\
+% \sqrt{2}\mathcal{R}_{0,1}
+% & \mathcal{R}_{0,0}
+% &\sqrt{2}\mathcal{I}_{0,1}\\
+% \frac{1}{2}(\mathcal{I}^1_{1,1}-\mathcal{I}^1_{1,-1})
+% & -\sqrt{2}\mathcal{I}_{-1,0}
+% &  \frac{1}{2}(\mathcal{R}^1_{1,1}+\mathcal{R}^1_{1,-1})
+% \end{bmatrix}
+% \end{align*}
+% 
+% 
+% \[
+% d^1=\begin{bmatrix}
+% \frac{1}{2}(1+\cos\beta) & \frac{1}{\sqrt{2}}\sin\beta & \frac{1}{2}(1-\cos\beta)\\
+% -\frac{1}{\sqrt{2}}\sin\beta & \cos\beta & \frac{1}{\sqrt{2}}\sin\beta\\
+% \frac{1}{2}(1-\cos\beta) & -\frac{1}{\sqrt{2}}\sin\beta & \frac{1}{2}(1+\cos\beta)
+% \end{bmatrix}
+% \]
+% 
+% \[
+% D^1=\begin{bmatrix}
+% \frac{1}{2}(1+\cos\beta)(\cos(\alpha+\gamma)-i\sin(\alpha+\gamma)) & \frac{1}{\sqrt{2}}\sin\beta(\cos\alpha-i\sin\alpha) & \frac{1}{2}(1-\cos\beta)(\cos(\alpha-\gamma)-i\sin(\alpha-\gamma))\\
+% -\frac{1}{\sqrt{2}}\sin\beta(\cos\gamma-i\sin\gamma) & \cos\beta & \frac{1}{\sqrt{2}}\sin\beta(\cos\gamma+i\sin\gamma)\\
+% \frac{1}{2}(1-\cos\beta)(\cos(\alpha-\gamma)+i\sin(\alpha-\gamma)) & -\frac{1}{\sqrt{2}}\sin\beta(\cos\alpha+i\sin\alpha) & \frac{1}{2}(1+\cos\beta)(\cos(\alpha+\gamma)+i\sin(\alpha+\gamma))
+% \end{bmatrix}
+% \]
+% 
+% \bibliography{/Users/tylee/Documents/BibMaster17}
+% \bibliographystyle{IEEEtran}
+% 
+% \end{document}

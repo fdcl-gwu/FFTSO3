@@ -70,6 +70,17 @@ fdcl_FFTSO3_matrix<ScalarType> fdcl_FFTSO3_matrix<ScalarType>::operator+(const f
 }*/
 
 template<class ScalarType>
+fdcl_FFTSO3_matrix<double> fdcl_FFTSO3_matrix<ScalarType>::real()  	
+{
+    fdcl_FFTSO3_matrix<double> Z(l_max);
+
+    for(int l=0;l<=l_max;l++)
+        Z[l]=this->M[l].real();
+
+    return Z;
+}
+
+template<class ScalarType>
 fdcl_FFTSO3_matrix<complex<double>> fdcl_FFTSO3_matrix<ScalarType>::operator+(fdcl_FFTSO3_matrix<complex<double>> const& M)
 {
 	fdcl_FFTSO3_matrix<complex<double>> Z(l_max);
@@ -91,6 +102,27 @@ fdcl_FFTSO3_matrix<ScalarType> fdcl_FFTSO3_matrix<ScalarType>::operator+(fdcl_FF
 	return Z;
 }
 
+template<class ScalarType>
+fdcl_FFTSO3_matrix<complex<double>> fdcl_FFTSO3_matrix<ScalarType>::operator-(fdcl_FFTSO3_matrix<complex<double>> const& M)
+{
+	fdcl_FFTSO3_matrix<complex<double>> Z(l_max);
+	
+	for(int l=0;l<=l_max;l++)
+		Z[l]=this->M[l]-M.M[l];
+			
+	return Z;
+}
+
+template<class ScalarType>
+fdcl_FFTSO3_matrix<ScalarType> fdcl_FFTSO3_matrix<ScalarType>::operator-(fdcl_FFTSO3_matrix<double> const& M)
+{
+	fdcl_FFTSO3_matrix<ScalarType> Z(l_max);
+	
+	for(int l=0;l<=l_max;l++)
+		Z[l]=this->M[l]-M.M[l];
+			
+	return Z;
+}
 
 template<class ScalarType>
 fdcl_FFTSO3_matrix<complex<double>> fdcl_FFTSO3_matrix<ScalarType>::operator*(const complex<double>& c)

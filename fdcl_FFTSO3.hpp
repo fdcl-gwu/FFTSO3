@@ -34,6 +34,10 @@ public:
 	fdcl_FFTSO3_matrix_complex wigner_D_real(double alpha, double beta, double gamma, int L);
 	fdcl_FFTSO3_matrix_complex wigner_D_real(double alpha, double beta, double gamma);
 	fdcl_FFTSO3_matrix_complex wigner_D_real(Matrix3);
+    fdcl_FFTSO3_matrix_real wigner_D_real_direct(double alpha, double beta, double gamma, int L);
+	fdcl_FFTSO3_matrix_real wigner_D_real_direct(double alpha, double beta, double gamma);
+	fdcl_FFTSO3_matrix_real wigner_D_real_direct(Matrix3);
+
 
     fdcl_FFTSO3_matrix_complex matrix2rsph(int L);
 

@@ -32,12 +32,16 @@ public:
 	void setRandom();
 	void setZero();
 	
+	fdcl_FFTSO3_matrix<double> real();  	
+
 	template<typename _ScalarType>
     friend ostream& operator<<(ostream& os, const fdcl_FFTSO3_matrix<_ScalarType>& M);  	
 
 	fdcl_FFTSO3_matrix<complex<double>> operator+(fdcl_FFTSO3_matrix<complex<double>> const& M1);  	
 	fdcl_FFTSO3_matrix<ScalarType> operator+(fdcl_FFTSO3_matrix<double> const& M2);  		
-
+	fdcl_FFTSO3_matrix<complex<double>> operator-(fdcl_FFTSO3_matrix<complex<double>> const& M1);  	
+	fdcl_FFTSO3_matrix<ScalarType> operator-(fdcl_FFTSO3_matrix<double> const& M2);  		
+    
     fdcl_FFTSO3_matrix<complex<double>> operator*(const complex<double>& c);  	
     fdcl_FFTSO3_matrix<ScalarType> operator*(const double& c);  	
 

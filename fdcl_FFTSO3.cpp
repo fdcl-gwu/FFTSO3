@@ -256,6 +256,44 @@ fdcl_FFTSO3_matrix_complex fdcl_FFTSO3::wigner_D_real(Matrix3 R)
     return wigner_D_real(abg[0],abg[1],abg[2]);
 }
 
+fdcl_FFTSO3_matrix_real fdcl_FFTSO3::wigner_D_real_direct(double alpha, double beta, double gamma, int L)
+{
+	fdcl_FFTSO3_matrix_real U(L), d(L);
+	int l,m,n;
+	
+	d=wigner_d(beta,L);
+
+    for(l=0;l<=L;l++)
+    {
+        U(l,0,0)=d(l,0,0);
+        for(m=1;m<=l;m++)
+        {
+            U(l,-m,0)=pow(-1.,m)*sqrt(2.)*d(l,m,0)*sin(((double) m)*alpha);
+            U(l,m,0)=pow(-1.,m)*sqrt(2.)*d(l,m,0)*cos(((double) m)*alpha);
+        }
+        for(n=1;n<=l;n++)
+        {
+            U(l,0,-n)=pow(-1.,n+1)*sqrt(2.)*d(l,0,n)*sin(((double) n)*gamma);
+            U(l,0,n)=pow(-1.,n)*sqrt(2.)*d(l,0,n)*cos(((double) n)*gamma);
+        }
+    }
+        
+	return U;
+}
+
+fdcl_FFTSO3_matrix_real fdcl_FFTSO3::wigner_D_real_direct(double alpha, double beta, double gamma)
+{
+    return wigner_D_real_direct(alpha,beta,gamma,l_max);
+}
+
+fdcl_FFTSO3_matrix_real fdcl_FFTSO3::wigner_D_real_direct(Matrix3 R)
+{
+	std::vector<double> abg;
+	
+	abg.resize(3);
+	abg=R2Euler323(R);
+    return wigner_D_real_direct(abg[0],abg[1],abg[2]);
+}
 fdcl_FFTSO3_matrix_complex fdcl_FFTSO3::wigner_D(Matrix3 R)
 {
 	std::vector<double> abg;
@@ -273,28 +311,28 @@ fdcl_FFTSO3_matrix_complex fdcl_FFTSO3::matrix2rsph(int L)
 
     for(l=0;l<=L;l++)
     {
-        for(m=-l;m<0;m++)
-        {
-            C(l,m+l,m)=I/sqrt(2.);
-            C(l,m+l,-m)=-I/sqrt(2.)*pow(-1.,m);
-        }
-        C(l,0+l,0)=1.;
-        for(m=1;m<=l;m++)
-        {
-            C(l,-m,-m)=1./sqrt(2.);
-            C(l,-m,m)=pow(-1.,m)/sqrt(2.);
-        } 
         // for(m=-l;m<0;m++)
         // {
-            // C(l,m,m)=I/sqrt(2.);
-            // C(l,m,-m)=-I/sqrt(2.)*pow(-1.,m);
+            // C(l,m+l,m)=I/sqrt(2.);
+            // C(l,m+l,-m)=-I/sqrt(2.)*pow(-1.,m);
         // }
-        // C(l,0,0)=1.;
+        // C(l,0+l,0)=1.;
         // for(m=1;m<=l;m++)
         // {
-            // C(l,m,-m)=1./sqrt(2.);
-            // C(l,m,m)=pow(-1.,m)/sqrt(2.);
-        // }
+            // C(l,-m,-m)=1./sqrt(2.);
+            // C(l,-m,m)=pow(-1.,m)/sqrt(2.);
+        // } 
+        for(m=-l;m<0;m++)
+        {
+            C(l,m,m)=I/sqrt(2.);
+            C(l,m,-m)=-I/sqrt(2.)*pow(-1.,m);
+        }
+        C(l,0,0)=1.;
+        for(m=1;m<=l;m++)
+        {
+            C(l,m,-m)=1./sqrt(2.);
+            C(l,m,m)=pow(-1.,m)/sqrt(2.);
+        }
     }
 
     return C;
