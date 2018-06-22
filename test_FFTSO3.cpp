@@ -33,7 +33,7 @@ void fdcl_tictoc::toc()
 
 int main()
 {
-	int l_max=3;
+	int l_max=5;
 	fdcl_FFTSO3_matrix_real d(l_max), d1(l_max);
 	fdcl_FFTSO3_matrix_complex D(l_max), F0(l_max), F1(l_max);
 	fdcl_FFTSO3 FFTSO3(l_max);
@@ -67,8 +67,14 @@ int main()
 	R1=expm_SO3(eta1);
 	R2=expm_SO3(eta2);
 
+    tictoc.tic();
     cout << FFTSO3.wigner_D_real(R1).real() << endl;
+    tictoc.toc();
+
+    tictoc.tic();
     cout << FFTSO3.wigner_D_real_direct(R1) << endl;
+    tictoc.toc();
+
     cout << FFTSO3.wigner_D_real(R1).real()-FFTSO3.wigner_D_real_direct(R1) << endl;
     // cout << FFTSO3.wigner_D(R1)[2] << endl;
     // cout << FFTSO3.matrix2rsph(2) << endl;

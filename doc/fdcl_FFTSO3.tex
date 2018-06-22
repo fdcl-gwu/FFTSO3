@@ -564,9 +564,13 @@ The last four equations are rearranged into
 Using the symmetry of the wigner-$d$ functions, and after rearranging, 
 \begin{align*}
     U^l_{m,0} (R) &= (-1)^m \sqrt{2} d^l_{m,0}(\beta) \cos m\alpha, \\
-    U^l_{-m,0} (R) &= (-1)^m \sqrt{2} d^l_{m,0}(\beta) \sin m\alpha,\\
+    U^l_{-m,0} (R) &= (-1)^m \sqrt{2} d^l_{m,0}(\beta) \sin m\alpha = \sqrt{2} d^l_{-m,0}(\beta) \sin m\alpha,\\
     U^l_{0,n} (R) &= (-1)^{n} \sqrt{2} d^l_{0,n}(\beta) \cos n\gamma, \\ 
-    U^l_{0,-n} (R) &= (-1)^{n+1} \sqrt{2} d^l_{0,n}(\beta) \sin n\gamma,\\
+    U^l_{0,-n} (R) &= (-1)^{n+1} \sqrt{2} d^l_{0,n}(\beta) \sin n\gamma = -\sqrt{2} d^l_{0,-n}(\beta) \sin n\gamma,\\
+    U^l_{m,n} (R) &= (-1)^{m+n} d^l_{m,n}(\beta) \cos (m\alpha + n\gamma) + (-1)^m d^l_{m,-n}(\beta) \cos(m\alpha - n\gamma),\\
+    U^l_{m,-n} (R) & = (-1)^{m} d^l_{m,-n}(\beta) \sin(m\alpha-n\gamma) - (-1)^{m+n} d^l_{m,n}(\beta)\sin(m\alpha+n\gamma),\\
+    U^l_{-m,n} (R) & = -(-1)^n d^l_{-m,n}(\beta) \sin(-m\alpha+n\gamma) + d^l_{-m,-n}(\beta) \sin(m\alpha+n\gamma),\\
+    U^l_{-m,-n} (R) & = d^l_{-m,-n}(\beta) \cos (m\alpha + n\gamma) - (-1)^n d^l_{-m,n}(\beta) \cos(-m\alpha + n\gamma).
 \end{align*} 
 We can show that it is also a homomorphism as
 \[

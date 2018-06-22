@@ -162,7 +162,7 @@ fdcl_FFTSO3_matrix_real fdcl_FFTSO3::wigner_d(double beta, int L)
 	d(1,1,0)=-1./sqrt(2.)*sb;
 	d(1,1,1)=pow(cb2,2.);
 	
-	// fill the lower triangualr region
+	// fill the lower triangular region
 	for(l=2;l<=L;l++)
 	{
 		for(m=0;m<=l-2;m++)
@@ -260,7 +260,7 @@ fdcl_FFTSO3_matrix_real fdcl_FFTSO3::wigner_D_real_direct(double alpha, double b
 {
 	fdcl_FFTSO3_matrix_real U(L), d(L);
 	int l,m,n;
-	
+    double cos_mamg, cos_ma_mg, sin_mamg, sin_ma_mg;	
 	d=wigner_d(beta,L);
 
     for(l=0;l<=L;l++)
@@ -268,12 +268,29 @@ fdcl_FFTSO3_matrix_real fdcl_FFTSO3::wigner_D_real_direct(double alpha, double b
         U(l,0,0)=d(l,0,0);
         for(m=1;m<=l;m++)
         {
-            U(l,-m,0)=pow(-1.,m)*sqrt(2.)*d(l,m,0)*sin(((double) m)*alpha);
+            // U(l,-m,0)=pow(-1.,m)*sqrt(2.)*d(l,m,0)*sin(((double) m)*alpha);
+            U(l,-m,0)=sqrt(2.)*d(l,-m,0)*sin(((double) m)*alpha);
             U(l,m,0)=pow(-1.,m)*sqrt(2.)*d(l,m,0)*cos(((double) m)*alpha);
+            for(n=1;n<=l;n++)
+            {
+                cos_mamg = cos( ((double)m)*alpha + ((double)n)*gamma);
+                cos_ma_mg = cos( ((double)m)*alpha - ((double)n)*gamma);
+                sin_mamg = sin( ((double)m)*alpha + ((double)n)*gamma);
+                sin_ma_mg = sin( ((double)m)*alpha - ((double)n)*gamma);
+
+                U(l,m,n)=pow(-1.,m+n)*d(l,m,n)*cos_mamg + pow(-1.,m)*d(l,m,-n)*cos_ma_mg;
+                U(l,m,-n)=pow(-1.,m)*d(l,m,-n)*sin_ma_mg
+                    - pow(-1.,m+n)*d(l,m,n)*sin_mamg;
+                U(l,-m,n)=-pow(-1.,n)*d(l,-m,n)*-sin_ma_mg
+                    + d(l,-m,-n)*sin_mamg;
+                U(l,-m,-n)=d(l,-m,-n)*cos_mamg
+                    - pow(-1.,n)*d(l,-m,n)*cos_ma_mg;
+            }
         }
         for(n=1;n<=l;n++)
         {
-            U(l,0,-n)=pow(-1.,n+1)*sqrt(2.)*d(l,0,n)*sin(((double) n)*gamma);
+            // U(l,0,-n)=pow(-1.,n+1)*sqrt(2.)*d(l,0,n)*sin(((double) n)*gamma);
+            U(l,0,-n)=-sqrt(2.)*d(l,0,-n)*sin(((double) n)*gamma);
             U(l,0,n)=pow(-1.,n)*sqrt(2.)*d(l,0,n)*cos(((double) n)*gamma);
         }
     }
