@@ -228,7 +228,7 @@ fdcl_FFTSO3_matrix_complex fdcl_FFTSO3::wigner_D(double alpha, double beta, doub
     return D;
 }
 
-fdcl_FFTSO3_matrix_complex fdcl_FFTSO3::wigner_D_real(double alpha, double beta, double gamma, int L)
+fdcl_FFTSO3_matrix_complex fdcl_FFTSO3::wigner_D_real_converted(double alpha, double beta, double gamma, int L)
 {
     fdcl_FFTSO3_matrix_complex D(L), C(L), D_real(L) ;
     int l;
@@ -242,12 +242,12 @@ fdcl_FFTSO3_matrix_complex fdcl_FFTSO3::wigner_D_real(double alpha, double beta,
     return D_real;
 }
 
-fdcl_FFTSO3_matrix_complex fdcl_FFTSO3::wigner_D_real(double alpha, double beta, double gamma)
+fdcl_FFTSO3_matrix_real fdcl_FFTSO3::wigner_D_real(double alpha, double beta, double gamma)
 {
     return wigner_D_real(alpha,beta,gamma,l_max);
 }
 
-fdcl_FFTSO3_matrix_complex fdcl_FFTSO3::wigner_D_real(Matrix3 R)
+fdcl_FFTSO3_matrix_real fdcl_FFTSO3::wigner_D_real(Matrix3 R)
 {
     std::vector<double> abg;
     
@@ -256,7 +256,7 @@ fdcl_FFTSO3_matrix_complex fdcl_FFTSO3::wigner_D_real(Matrix3 R)
     return wigner_D_real(abg[0],abg[1],abg[2]);
 }
 
-fdcl_FFTSO3_matrix_real fdcl_FFTSO3::wigner_D_real_direct_short(double alpha, double beta, double gamma, int L)
+fdcl_FFTSO3_matrix_real fdcl_FFTSO3::wigner_D_real_Phi(double alpha, double beta, double gamma, int L)
 {
     fdcl_FFTSO3_matrix_real U(L), d(L);
     int l,m,n;
@@ -315,7 +315,7 @@ int fdcl_FFTSO3::signum(int x)
     return y;
 }
 
-fdcl_FFTSO3_matrix_real fdcl_FFTSO3::wigner_D_real_direct(double alpha, double beta, double gamma, int L)
+fdcl_FFTSO3_matrix_real fdcl_FFTSO3::wigner_D_real(double alpha, double beta, double gamma, int L)
 {
     fdcl_FFTSO3_matrix_real U(L), d(L);
     int l,m,n;
@@ -357,19 +357,6 @@ fdcl_FFTSO3_matrix_real fdcl_FFTSO3::wigner_D_real_direct(double alpha, double b
     return U;
 }
 
-fdcl_FFTSO3_matrix_real fdcl_FFTSO3::wigner_D_real_direct(double alpha, double beta, double gamma)
-{
-    return wigner_D_real_direct(alpha,beta,gamma,l_max);
-}
-
-fdcl_FFTSO3_matrix_real fdcl_FFTSO3::wigner_D_real_direct(Matrix3 R)
-{
-    std::vector<double> abg;
-    
-    abg.resize(3);
-    abg=R2Euler323(R);
-    return wigner_D_real_direct(abg[0],abg[1],abg[2]);
-}
 fdcl_FFTSO3_matrix_complex fdcl_FFTSO3::wigner_D(Matrix3 R)
 {
     std::vector<double> abg;

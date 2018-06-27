@@ -31,16 +31,12 @@ public:
 	fdcl_FFTSO3_matrix_complex wigner_D(Matrix3);	
 	fdcl_FFTSO3_matrix_complex wigner_D(double alpha, double beta, double gamma);
 	fdcl_FFTSO3_matrix_complex wigner_D(double alpha, double beta, double gamma, int L);
-	fdcl_FFTSO3_matrix_complex wigner_D_real(double alpha, double beta, double gamma, int L);
-	fdcl_FFTSO3_matrix_complex wigner_D_real(double alpha, double beta, double gamma);
-	fdcl_FFTSO3_matrix_complex wigner_D_real(Matrix3);
-    fdcl_FFTSO3_matrix_real wigner_D_real_direct(double alpha, double beta, double gamma, int L);
-	fdcl_FFTSO3_matrix_real wigner_D_real_direct(double alpha, double beta, double gamma);
-	fdcl_FFTSO3_matrix_real wigner_D_real_direct(Matrix3);
-	fdcl_FFTSO3_matrix_real wigner_D_real_direct_short(double alpha, double beta, double gamma, int L);
 
-
-    fdcl_FFTSO3_matrix_complex matrix2rsph(int L);
+	fdcl_FFTSO3_matrix_real wigner_D_real(double alpha, double beta, double gamma, int L);
+	fdcl_FFTSO3_matrix_real wigner_D_real(double alpha, double beta, double gamma);
+	fdcl_FFTSO3_matrix_real wigner_D_real(Matrix3);
+    fdcl_FFTSO3_matrix_complex wigner_D_real_converted(double alpha, double beta, double gamma, int L); // alternative method with U = \bar C D C^T
+	fdcl_FFTSO3_matrix_real wigner_D_real_Phi(double alpha, double beta, double gamma, int L);// alternative formulation based on Phi_1 and Phi_2
 
 	complex<double> inverse_transform(fdcl_FFTSO3_matrix_complex, double alpha, double beta, double gamma);
 	complex<double> inverse_transform(fdcl_FFTSO3_matrix_complex, Matrix3);
@@ -49,6 +45,7 @@ public:
 	
 	fdcl_FFTSO3_matrix_complex forward_transform_0();
 	fdcl_FFTSO3_matrix_complex forward_transform_1();
+    fdcl_FFTSO3_matrix_real forward_transform_real();
 
 	std::vector<double> compute_weight();
 	std::vector<fdcl_FFTSO3_matrix_complex> deriv_D();
@@ -67,7 +64,7 @@ private:
 	double gamma_j(int j);
 	Eigen::VectorXd Legendre_poly(double x, int n);
     int signum(int );
-
+    fdcl_FFTSO3_matrix_complex matrix2rsph(int L);
 	
 };
 
