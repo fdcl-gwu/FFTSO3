@@ -518,20 +518,29 @@ From \eqref{eqn:YtoS},
 \]
 which yields the following real matrix representation of $SO$
 \begin{equation}
-    U^l (R) = \overline{C^l} D^l(R) (C^l)^T.
+    U^l (R) = \overline{C^l} D^l(R) (C^l)^T.\label{eqn:Ul}
 \end{equation}
-Each element of $U^l$ is given by
+We can show that it is also a homomorphism as
+\[
+    U^l( R_1 R_2) = \overline{C^l} D^l(R_1)D^l(R_2)  (C^l)^T
+    =\overline{C^l} D^l(R_1) (C^l)^T  \overline{C^l} D^l(R_2)  (C^l)^T
+    = U^l(R_1) U^l(R_2).
+\]
+
+While $U^l(R)$ can be evaluated by transforming $D^l(R)$ according to \eqref{eqn:Ul}, the procedure will unnecessary steps involving complex variables. 
+Therefore, we find an alternative expressions for each real element of $U^l$. 
+Using element-wise operation of \eqref{eqn:Ul},
 \begin{align}
     U^l_{m,n}(R) & = \sum_{p,q} \overline{C}^l_{m,p} C_{n,q} D^l_{p,q} (R).
 \end{align}
-According to the sign of $m,n$, there are four cases of the above equation.
+According to the values of $m,n$, there are four cases of the above equation.
 \begin{align*}
     U^l_{0,0} (R) &= D^l_{0,0} (R) = d^l_{0,0}(R),\\
     U^l_{m,0} (R) &= \overline{C}^l_{m,m} D^l_{m,0} (R) + \overline{C}^l_{m,-m} D^l_{-m,0} (R),\\
     U^l_{0,n} (R) &= C_{n,n} D^l_{0,n}(R) + C_{n,-n} D^l_{0,-n}(R),\\
     U^l_{m,n} (R) &= \overline{C}^l_{m,m} C_{n,n} D^l_{m,n} (R) + \overline{C}^l_{m,m} C_{n,-n} D^l_{m,-n} (R) + \overline{C}^l_{m,-m} C_{n,n} D^l_{-m,n} (R) + \overline{C}^l_{m,-m} C_{n,-n} D^l_{-m,-n} (R).
 \end{align*}
-The last three cases are further divided for $m,n>0$ into
+For positive indices $m,n>0$, the last three cases are further divided into the following eight cases.
 \begin{align*}
     U^l_{m,0} (R) &= \overline{C}^l_{m,m} D^l_{m,0} (R) + \overline{C}^l_{m,-m} D^l_{-m,0} (R),\\
     U^l_{-m,0} (R) &= \overline{C}^l_{-m,-m} D^l_{-m,0} (R) + \overline{C}^l_{-m,m} D^l_{m,0} (R),\\
@@ -561,24 +570,210 @@ The last four equations are rearranged into
     U^l_{-m,-n} (R) &= \frac{1}{2}  D^l_{-m,-n} (R) +  \frac{-(-1)^n}{2} D^l_{-m,n} (R) + \frac{-(-1)^m}{2}  D^l_{m,-n} (R) + \frac{(-1)^{m+n}}{2}  D^l_{m,n} (R).
 \end{align*}
 
-Using the symmetry of the wigner-$d$ functions, and after rearranging, 
-\begin{align*}
-    U^l_{m,0} (R) &= (-1)^m \sqrt{2} d^l_{m,0}(\beta) \cos m\alpha, \\
-    U^l_{-m,0} (R) &= (-1)^m \sqrt{2} d^l_{m,0}(\beta) \sin m\alpha = \sqrt{2} d^l_{-m,0}(\beta) \sin m\alpha,\\
+Using the symmetry of the wigner-$d$ functions, and after rearranging, we obtain 
+\begin{align}
+    U^l_{m,0} (R) &= (-1)^m \sqrt{2} d^l_{m,0}(\beta) \cos m\alpha,\label{eqn:U_lm0} \\
+    U^l_{-m,0} (R) &= \sqrt{2} d^l_{-m,0}(\beta) \sin m\alpha,\\
     U^l_{0,n} (R) &= (-1)^{n} \sqrt{2} d^l_{0,n}(\beta) \cos n\gamma, \\ 
-    U^l_{0,-n} (R) &= (-1)^{n+1} \sqrt{2} d^l_{0,n}(\beta) \sin n\gamma = -\sqrt{2} d^l_{0,-n}(\beta) \sin n\gamma,\\
+    U^l_{0,-n} (R) &= -\sqrt{2} d^l_{0,-n}(\beta) \sin n\gamma,\\
     U^l_{m,n} (R) &= (-1)^{m+n} d^l_{m,n}(\beta) \cos (m\alpha + n\gamma) + (-1)^m d^l_{m,-n}(\beta) \cos(m\alpha - n\gamma),\\
     U^l_{m,-n} (R) & = (-1)^{m} d^l_{m,-n}(\beta) \sin(m\alpha-n\gamma) - (-1)^{m+n} d^l_{m,n}(\beta)\sin(m\alpha+n\gamma),\\
     U^l_{-m,n} (R) & = -(-1)^n d^l_{-m,n}(\beta) \sin(-m\alpha+n\gamma) + d^l_{-m,-n}(\beta) \sin(m\alpha+n\gamma),\\
-    U^l_{-m,-n} (R) & = d^l_{-m,-n}(\beta) \cos (m\alpha + n\gamma) - (-1)^n d^l_{-m,n}(\beta) \cos(-m\alpha + n\gamma).
-\end{align*} 
-We can show that it is also a homomorphism as
+    U^l_{-m,-n} (R) & = d^l_{-m,-n}(\beta) \cos (m\alpha + n\gamma) - (-1)^n d^l_{-m,n}(\beta) \cos(-m\alpha + n\gamma).\label{eqn:U_lmmmn}
+\end{align} 
+For arbitrary $m,n\in\{-l,-1+1,\ldots,l\}$, the above equations can be written as 
+\begin{align*}
+    U^l_{m,n} =  d^l_{|m|,|n|}(\beta) \Phi^1_{m,n}(\alpha,\gamma) + d^l_{|m|,-|n|} \Phi^2_{m,n}(\alpha,\gamma),
+\end{align*}
+where
+\begin{align*}
+    \Phi^1_{m,n}(\alpha,\gamma) 
+    & =\begin{cases}
+    1 \quad &(m=0,n=0)\\
+    (-1)^{m-n}\sqrt{2} \cos(m\alpha+n\gamma) \quad & (m>0,n=0) \text{ or } (m=0,n>0)\\
+    -(-1)^{m-n}\sqrt{2} \sin(m\alpha-n\gamma) \quad & (m<0,n=0) \text{ or } (m=0,n<0)\\
+    (-1)^{m-n} \cos(m\alpha+n\gamma) \quad & mn >0 \\
+    -(-1)^{m-n} \sin(m\alpha-n\gamma) \quad & mn < 0 
+\end{cases}\\
+\Phi^2_{m,n}(\alpha,\gamma) 
+    & =\begin{cases}
+(-1)^{m}\mathrm{sgn}(m) \cos(m\alpha-n\gamma) \quad & mn >0 \\
+(-1)^{m}\mathrm{sgn}(m) \sin(m\alpha+n\gamma) \quad & mn <0\\
+0 & \text{otherwise}
+    \end{cases}
+\end{align*}
+Numerical tests show that \eqref{eqn:U_lm0}--\eqref{eqn:U_lmmmn} are more computationally efficient than the above formulation involving $\Phi^1$ and $\Phi^2$. 
+
+The orthogonality can be shown as follows. 
+For any nonzero $m_1,n_1,m_2,n_2\in\mathbb{Z}$,
 \[
-    U^l( R_1 R_2) = \overline{C^l} D^l(R_1)D^l(R_2)  (C^l)^T
-    =\overline{C^l} D^l(R_1) (C^l)^T  \overline{C^l} D^l(R_2)  (C^l)^T
-    = U^l(R_1) U^l(R_2).
+    \int_{0}^{2\pi}\int_0^{2\pi} \cos(m_1\alpha+n_1\gamma)\cos(m_2\alpha+n_2\gamma) d\alpha d\gamma = 
+    \begin{cases}
+        2\pi^2 & (m_1=m_2,n_1=n_2) \text{ or } (m_1=-m_2,n_2=-n_2)\\
+        0 & \text{otherwise}
+    \end{cases}
 \]
-Also, they are orthogonal as
+For $m_1,n_1,m_2,n_2 > 0$, 
+\begin{align*}
+    \pair{ U^{l_1}_{m_1,0}(R), U^{l_2}_{m_2,0}(R) } & = 2 \pair{ d^{l_1}_{m_1,0}(\beta) \cos m_1\alpha , d^{l_2}_{m_2,0}(\beta)\cos m_2\alpha },\\
+                                                    & = \frac{1}{8\pi^2}\times  2 \times \delta_{m_1,m_2} \pi \times 2\pi \times \frac{2}{2l_1+1} \delta_{l_1,l_2}\\
+                                                    & = \frac{1}{2l_1+1} \delta_{l_1,l_2}\delta{m_1,m_2}.
+\end{align*}
+Also,
+\begin{align*}
+    \pair{ U^{l_1}_{m_1,n_1}(R), U^{l_2}_{m_2,n_2}(R) } & =
+                                                  \pair{ d^{l_1}_{m_1,n_1}(\beta)\cos(m_1\alpha+n_1\gamma), d^{l_2}_{m_2,n_2}(\beta)\cos(m_2\alpha+n_2\gamma) }\\
+                                                  &\quad +\pair{ d^{l_1}_{m_1,n_1}(\beta)\cos(m_1\alpha+n_1\gamma), (-1)^n d^{l_2}_{m_2,-n_2}(\beta)\cos(m_2\alpha-n_2\gamma) }\\
+                                                  &\quad +\pair{ d^{l_1}_{m_1,-n_1}(\beta)\cos(m_1\alpha-n_1\gamma), (-1)^nd^{l_2}_{m_2,n_2}(\beta)\cos(m_2\alpha+n_2\gamma) }\\
+                                                  &\quad +\pair{ d^{l_1}_{m_1,-n_1}(\beta)\cos(m_1\alpha-n_1\gamma), d^{l_2}_{m_2,-n_2}(\beta)\cos(m_2\alpha-n_2\gamma) }\\
+                                                  & = \frac{1}{8\pi^2} \delta_{l_1,l_2}\delta_{m_1,m_2} \delta_{n_1,n_2} \frac{2}{2l_1+1}\times 2\pi^2 \times 2\\
+                                                  & = \frac{1}{2l_1+1} \delta_{l_1,l_2}\delta_{m_1,m_2} \delta_{n_1,n_2}.
+\end{align*}
+These can be repeated for all of other cases to show that
+\begin{align}
+    \pair{ U^{l_1}_{m_1,n_1}(R) , U^{l_2}_{m_2,n_2} (R) } =  \frac{1}{2l_1+1} \delta_{l_1,l_2}\delta_{m_1,m_2} \delta_{n_1,n_2}.\label{eqn:U_ortho}
+\end{align}
+
+\subsection{Character}
+
+The character of $U^l(R)$ is identical to that of $D^l(R)$, as
+\[
+    \chi(R) = \trs{U^l(R)} = \trs{ \overline{C^l} D^l(R) (C^l)^T } = \trs{D^l(R) (C^l)^T \overline{C^l}} = \trs{D^l(R)}.
+\]
+
+\subsection{Operational Properties}
+\subsection{Fourier Transform}
+According to the Peter-Weyl theorem, any $f\in\mathcal{L}^2(\SO)$ has the following decomposition
+\begin{align}
+f(R(\alpha,\beta,\gamma)) &= \sum_{l=0}^\infty \sum_{m,n=-l}^l (2l+1)\tilde f^l_{m,n} U^l_{m,n}(\alpha,\beta,\gamma)\nonumber\\
+                          &= \sum_{l=0}^\infty (2l+1)\trs{(\bar f^l)^T U^l(\alpha,\beta,\gamma)},\label{eqn:f_IFT_real}
+\end{align}
+which is the Fourier transform. 
+From the orthogonality property \refeqn{U_ortho}, the Fourier parameter $\tilde f^l_{m,n}\in\Re$ is obtained by
+\begin{align}
+    \tilde f^l_{m,n} &= \pair{ f(R), U^l_{m,n}(R)}\nonumber\\
+                     & =\frac{1}{8\pi^2}\int_0^{2\pi}\int_{0}^\pi\int_0^{2\pi} f(R(\alpha,\beta,\gamma)) {U^{l}_{m,n}(R(\alpha,\beta,\gamma))}d\alpha d\beta d\gamma,\label{eqn:f_FT_real}
+\end{align}
+which is the inverse transform. 
+
+We also have the Plancherel theorem, stating
+\[
+\pair{f_1(R), f_2(R)} = \sum_{l=0}^\infty (2l+1)\pair{\bar f_1^l, \bar f_2^l},
+\]
+with the inner product $\pair{A,B}=\trs{A^TB}$ on $A,B\in\Re^{n\times n}$. Also, 
+\[
+\| f(R)\|^2 = \sum_{l=0}^\infty (2l+1)\|\bar f^l\|^2
+\]
+
+\subsection{Sampling}
+
+A function $f\in\mathcal{L}^2(\SO)$ is called \textit{band-limited} with the band $B$ if $\tilde f^l=0$ for any $l\geq B$ in \refeqn{f_IFT_real}, or equivalently
+\begin{align}
+f(R(\alpha,\beta,\gamma)) &= \sum_{l=0}^{B-1} \sum_{m,n=-l}^l (2l+1)\tilde f^l_{m,n} U^l_{m,n}(\alpha,\beta,\gamma).\label{eqn:fB_real}
+\end{align}
+The classical sampling theorem stated that the Fourier transform of a band limited function can be recovered from the sample values of the function that are chosen at a uniform grid with with a frequency that is at least twice of the band limit. 
+Consequently, the Fourier transform of the above function can be computed from finite samples. 
+
+Consider the following uniform grid for $(\alpha,\beta,\gamma)\in[0,2\pi)\times[0,\pi]\times[0,2\pi)$:
+\[
+[\SO]_d=\{(\alpha_{j_1},\beta_k,\gamma_{j_2})\,|\, j_1,j_2,k\in\{0,\ldots, 2B-1\}\},
+\]
+with
+\begin{equation}\label{eqn:grid_real}
+\alpha_j=\gamma_j= \frac{\pi j}{B},\quad \beta_k = \frac{\pi (2k+1)}{4B}.
+\end{equation}
+
+Define a sampling distribution of bandwidth $B$ as
+\begin{equation}
+s(R(\alpha,\beta,\gamma))=\sum_{j_1,k,j_2=0}^{2B-1} w_k \delta_{R(\alpha,\beta,\gamma),R(\alpha_{j_1},\beta_k,\gamma_{j_2})},
+\end{equation}
+which is the linear combination of grid points weighted by the parameter $w_k$. 
+The Fourier transform of $s$ is given by
+\begin{align*}
+\bar s^l_{m,n} & = \pair{s(R(\alpha,\beta,\gamma)), U^l_{m,n}(R)}\\
+               & = \sum_{j_1,k,j_2=0}^{2B-1} w_k U^l_{m,n}(R(\alpha_{j_1},\beta_k,\gamma_{j_2}))\\
+               & = \sum_{j_1,j_2=0}^{2B-1} \Phi^1_{m,n}(\alpha_{j_1},\gamma_{j_2}) \sum_{k=0}^{2B-1} w_k d^l_{|m|,|n|}(\beta_k)\\
+               & \quad + \sum_{j_1,j_2=0}^{2B-1} \Phi^2_{m,n}(\alpha_{j_1},\gamma_{j_2}) \sum_{k=0}^{2B-1} w_k d^l_{|m|,-|n|}(\beta_k).
+\end{align*}
+For the selected grid, it is straightforward to show that
+\[
+    \sum_{j_1,j_2=0}^{2B-1} \Phi^1_{m,n}(\alpha_{j_1},\gamma_{j_2})=4B^2 \delta_{m,0}\delta_{n,0},\quad
+    \sum_{j_1,j_2=0}^{2B-1} \Phi^2_{m,n}(\alpha_{j_1},\gamma_{j_2})=0.
+\]
+Therefore, it reduces to
+\begin{align*}
+\bar s^l_{m,n}  
+& = 4B^2 \delta_{m,0}\delta_{n,0}\sum_{k=0}^{2B-1} w_k d^l_{0,0}(\beta_k),\\
+& = 4B^2 \delta_{m,0}\delta_{n,0}\sum_{k=0}^{2B-1} w_k P_l(\beta_k),
+\end{align*}
+where $P_l$ is the $l$-th Legendre polynomial. 
+We select the weight such that
+\begin{equation}
+\sum_{k=0}^{2B-1} w_k P_l(\beta_k) = \frac{1}{4B^2} \delta_{l,0},\quad l=0,\ldots 2B-1.
+\end{equation}
+In~\cite{DriHeaAAM94}, it is explicitly given as
+\begin{equation}
+w_k = \frac{1}{4B^3}\sin\beta_k \sum_{j=0}^{B-1} \frac{1}{2j+1}\sin((2j+1)\beta_k).
+\end{equation}
+Substituting this, the Fourier transform of the sampling distribution is given by
+\begin{equation}
+\bar s ^l_{m,n}=\delta_{m,0}\delta_{n,0}\delta_{l,0},\quad l=0,\ldots 2B-1.
+\label{eqn:bar_s_real}
+\end{equation}
+
+Define $f_s(R)=f(R) s(R)$. 
+It is straightforward to show
+\begin{align*}
+&f_s(R(\alpha,\beta,\gamma))\\
+& = 
+\sum_{j_1,k,j_2=0}^{2B-1} w_k f(R(\alpha_{j_1},\beta_k,\gamma_{j_2})) 
+\delta_{R(\alpha,\beta,\gamma),R(\alpha_{j_1},\beta_k,\gamma_{j_2})},
+\end{align*}
+and the Fourier transform is given by
+\begin{align*}
+&(\bar{f_s})^l_{m,n}\\
+& = 
+\sum_{j_1,k,j_2=0}^{2B-1} w_k f(R(\alpha_{j_1},\beta_k,\gamma_{j_2})) 
+{U^l_{m,n}(R(\alpha_{j_1},\beta_k,\gamma_{j_2}))}.
+\end{align*}
+Next, we show that this corresponds to the Fourier coefficient of $f$ within the band limit. 
+
+From \refeqn{bar_s_real}, the sampling distribution can be expanded as
+\[
+s(R)=1+\sum_{l=2B}^\infty \sum_{m,n=-l}^l \tilde s^l_{m,n} U^l_{m,n}(R).
+\]
+Then,
+\begin{align*}
+    f_s(R)&=f(R)+f(R)\sum_{l=2B}^\infty \sum_{m,n=-l}^l \tilde s^l_{m,n} U^l_{m,n}(R).
+\end{align*}
+Since $f(R)$ can be expanded as a linear combination of $U^{l_1}$ for $0\leq l_1 \leq B-1$. 
+The last term of the above equation is expanded by the product $U^{l_1}U^{l_2}$ with $0\leq l_1 \leq B-1$  and $2B\leq l_2$. 
+According to the Clebsch-Gordon theorem, $U^{l_1}U^{l_2}$ is a linear combination of $U^{l_3}$ for $|l_1-l_2|\leq l_3 \leq l_1+l_2$. 
+We have $\min|l_1-l_2|=2B-1-B=B+1$. 
+As such, $f$ and $f_s$ share the Fourier coefficients in the given band limit. 
+Or equivalently, 
+\begin{align}
+    \tilde f^l_{m,n}
+    & = 
+    \sum_{j_1,k,j_2=0}^{2B-1} w_k f(R(\alpha_{j_1},\beta_k,\gamma_{j_2})) {U^l_{m,n}(R(\alpha_{j_1},\beta_k,\gamma_{j_2}))}.
+\end{align}
+
+The above summation can be decomposed into
+\begin{align*}
+    \tilde f^l_{m,n} & = \sum_{j_1,j_2=0}^{2B-1} \Phi^1_{m,n}(\alpha_{j_1},\gamma_{j_2}) \left\{ \sum_{k=0}^{2B-1} w_k d^l_{|m|,|n|}(\beta_k) f(\alpha_{j_1},\beta_k,\gamma_{j_2}) \right\}\\
+                     & \quad + \sum_{j_1,j_2=0}^{2B-1} \Phi^2_{m,n}(\alpha_{j_1},\gamma_{j_2}) \left\{ \sum_{k=0}^{2B-1} w_k d^l_{|m|,-|n|}(\beta_k) f(\alpha_{j_1},\beta_k,\gamma_{j_2}) \right\}.
+\end{align*}
+% This can be computed in the following order:
+% \begin{align*}
+% F^{1,\beta}_{l,m,n}(j_1,j_2) &= \sum_{k=0}^{2B-1}w_k f(\alpha_{j_1},\beta_k,\gamma_{j_2})d^l_{|m|,|n|}(\beta_k),\\
+% F^{2,\beta}_{l,m,n}(j_1,j_2) &= \sum_{k=0}^{2B-1}w_k f(\alpha_{j_1},\beta_k,\gamma_{j_2})d^l_{|m|,-|n|}(\beta_k),\\
+% F^{\gamma}_{l,m,n}(j_1)&=\sum_{j_2=0}^{2B-1}e^{\frac{i 2 n \pi j_2}{2B}}F^{\beta}_{l,m,n}(j_1,j_2),\\
+% f^l_{m,n} & = \sum_{j_1=0}^{2B-1} e^{\frac{i 2 m\pi j_1}{2B}}F^{\gamma}_{l,m,n}(j_1),
+% \end{align*}
+% where the last two operations are Fourier transforms in a linear space, which can be computed by various FFT algorithms. 
+% 
+
+
 \bibliography{/Users/tylee/Documents/BibMaster17}
 \bibliographystyle{IEEEtran}
 

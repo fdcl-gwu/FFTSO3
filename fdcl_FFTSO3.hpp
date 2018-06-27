@@ -37,6 +37,7 @@ public:
     fdcl_FFTSO3_matrix_real wigner_D_real_direct(double alpha, double beta, double gamma, int L);
 	fdcl_FFTSO3_matrix_real wigner_D_real_direct(double alpha, double beta, double gamma);
 	fdcl_FFTSO3_matrix_real wigner_D_real_direct(Matrix3);
+	fdcl_FFTSO3_matrix_real wigner_D_real_direct_short(double alpha, double beta, double gamma, int L);
 
 
     fdcl_FFTSO3_matrix_complex matrix2rsph(int L);
@@ -65,7 +66,8 @@ private:
 	double alpha_j(int j);
 	double gamma_j(int j);
 	Eigen::VectorXd Legendre_poly(double x, int n);
-	
+    int signum(int );
+
 	
 };
 
