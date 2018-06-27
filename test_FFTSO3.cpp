@@ -33,7 +33,7 @@ void fdcl_tictoc::toc()
 
 int main()
 {
-    int l_max=2;
+    int l_max=10;
     fdcl_FFTSO3_matrix_real d(l_max), d1(l_max);
     fdcl_FFTSO3_matrix_complex D(l_max), F0(l_max), F1(l_max);
     fdcl_FFTSO3 FFTSO3(l_max);
@@ -72,19 +72,24 @@ int main()
     b=-9.234235;
     g=0.4324235;
 
-    tictoc.tic();
-    for(int i=0;i<100;i++)
-        FFTSO3.wigner_D_real(a,b,g,l_max);
-    tictoc.toc();
-
-    tictoc.tic();
-    for(int i=0;i<100;i++)
-        FFTSO3.wigner_D_real_converted(a,b,g,l_max);
-    tictoc.toc();
-
-    tictoc.tic();
-    for(int i=0;i<100;i++)
-        FFTSO3.wigner_D_real_Phi(a,b,g,l_max);
-    tictoc.toc();
-
+    // tictoc.tic();
+    // for(int i=0;i<100;i++)
+        // FFTSO3.wigner_D_real(a,b,g,l_max);
+    // tictoc.toc();
+// 
+    // tictoc.tic();
+    // for(int i=0;i<100;i++)
+        // FFTSO3.wigner_D_real_converted(a,b,g,l_max);
+    // tictoc.toc();
+// 
+    // tictoc.tic();
+    // for(int i=0;i<100;i++)
+        // FFTSO3.wigner_D_real_Phi(a,b,g,l_max);
+    // tictoc.toc();
+// 
+    // cout << FFTSO3.wigner_D_real(a,b,g,l_max)-FFTSO3.wigner_D_real_Phi(a,b,g,l_max) << endl;
+    // cout << FFTSO3.wigner_D_real_converted(a,b,g,l_max)-FFTSO3.wigner_D_real(a,b,g,l_max) << endl;
+// 
+//
+    cout << FFTSO3.forward_transform_real() << endl;
 }

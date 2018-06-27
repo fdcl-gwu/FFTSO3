@@ -260,8 +260,10 @@ fdcl_FFTSO3_matrix_real fdcl_FFTSO3::wigner_D_real_Phi(double alpha, double beta
 {
     fdcl_FFTSO3_matrix_real U(L), d(L);
     int l,m,n;
-    double Phi1, Phi2;  
+    std::vector<double> Phi;
     d=wigner_d(beta,L);
+
+    Phi.resize(2);
 
     for(l=0;l<=L;l++)
     {
@@ -269,32 +271,8 @@ fdcl_FFTSO3_matrix_real fdcl_FFTSO3::wigner_D_real_Phi(double alpha, double beta
         {
             for(n=-l;n<=l;n++)
             {
-                if (m*n > 0)
-                {
-                    Phi1 = pow(-1.,m-n) * cos( ((double)m)*alpha + ((double)n)*gamma);
-                    Phi2 = pow(-1.,m)* signum(m) *  cos( ((double)m)*alpha - ((double)n)*gamma);
-                }
-                else if (m*n < 0)
-                {
-                    Phi1 = -pow(-1.,m-n)*sin( ((double)m)*alpha - ((double)n)*gamma);
-                    Phi2 = pow(-1.,m)* signum(m) *sin( ((double)m)*alpha + ((double)n)*gamma);
-                }
-                else if ( (m>0 && n==0) || (m==0 && n > 0) )
-                {
-                    Phi1 = pow(-1.,m-n)*sqrt(2)* cos( ((double)m)*alpha + ((double)n)*gamma);
-                    Phi2 = 0.0;
-                }
-                else if ( (m<0 && n==0) || (m==0 & n < 0) )
-                {
-                    Phi1 = -pow(-1.,m-n)*sqrt(2.)*sin( ((double)m)*alpha - ((double)n)*gamma);
-                    Phi2 = 0.0;
-                }
-                else if(m==0 && n==0)
-                {
-                    Phi1 = 1.0;
-                    Phi2 = 0.0;
-                }  
-                U(l,m,n)=Phi1*d(l,abs(m),abs(n))+Phi2*d(l,abs(m),-abs(n));
+                Phi=compute_Phi(m,n,alpha,gamma);
+                U(l,m,n)=Phi[0]*d(l,abs(m),abs(n))+Phi[1]*d(l,abs(m),-abs(n));
             }
         }
     }
@@ -675,6 +653,21 @@ double fdcl_FFTSO3::gamma_j(int j)
     return alpha_j(j);
 }
 
+double fdcl_FFTSO3::f_real(double alpha, double beta, double gamma)
+{
+    fdcl_FFTSO3_matrix_real d(l_max);
+    double y=0.0;
+
+    d=wigner_D_real(alpha,beta,gamma);
+
+    for(int l=0;l<=l_max;l++)
+        for(int m=-l;m<=l;m++)
+            for(int n=-l;n<=l;n++)
+                y+=((double)2*l+1)*d(l,m,n);
+   
+    return y;
+}
+
 complex<double> fdcl_FFTSO3::f(double alpha, double beta, double gamma)
 {
 /*  fdcl_FFTSO3_matrix_complex D(l_max);
@@ -820,4 +813,99 @@ fdcl_FFTSO3_matrix_complex fdcl_FFTSO3::forward_transform_1()
     return F;
 }
 
+fdcl_FFTSO3_matrix_real fdcl_FFTSO3::forward_transform_real()
+{
+    fdcl_FFTSO3_matrix_real F_beta_1[2*B][2*B], F_beta_2[2*B][2*B], d_beta_k(l_max);
+    fdcl_FFTSO3_matrix_real F(l_max);
+    int j1, j2, k, l, m, n;
+    std::vector<double> Phi;
+    double f_j1kj2, alpha, beta, gamma;
 
+    Phi.resize(2);
+    compute_weight();
+
+    for(j1=0;j1<2*B;j1++)
+    {
+        for(j2=0;j2<2*B;j2++)
+        {
+            F_beta_1[j1][j2].init(l_max);
+            F_beta_2[j1][j2].init(l_max);
+            F_beta_1[j1][j2].setZero();
+            F_beta_2[j1][j2].setZero();
+        }
+    }
+
+    for(k=0;k<2*B;k++)
+    {
+        beta=beta_k(k);     
+        d_beta_k=wigner_d(beta_k(k));
+        for(j1=0;j1<2*B;j1++)
+        {
+            alpha=alpha_j(j1);              
+            for(j2=0;j2<2*B;j2++)
+            {
+                gamma=gamma_j(j2);
+                f_j1kj2=f_real(alpha,beta,gamma);
+                for (l=0;l<=l_max;l++)
+                    for(m=-l;m<=l;m++)
+                        for(n=-l;n<=l;n++)
+                        {
+                            F_beta_1[j1][j2](l,m,n)+=weight[k]*d_beta_k(l,abs(m),abs(n))*f_j1kj2; 
+                            F_beta_2[j1][j2](l,m,n)+=weight[k]*d_beta_k(l,abs(m),-abs(n))*f_j1kj2; 
+                        }
+            }
+        }
+    }   
+
+    F.setZero();
+    for(j1=0;j1<2*B;j1++)
+    {
+        alpha=alpha_j(j1);              
+        for(j2=0;j2<2*B;j2++)
+        {
+            gamma=gamma_j(j2);
+            for (l=0;l<=l_max;l++)
+                for(m=-l;m<=l;m++)
+                    for(n=-l;n<=l;n++)
+                    {
+                        Phi=compute_Phi(m,n,alpha,gamma);
+                        F(l,m,n)+=Phi[0]*F_beta_1[j1][j2](l,m,n)+Phi[1]*F_beta_2[j1][j2](l,m,n);
+                    }
+        }
+    }
+    return F;
+}
+
+std::vector<double> fdcl_FFTSO3::compute_Phi(int m, int n, double alpha, double gamma)
+{
+    std::vector<double> Phi;
+    Phi.resize(2);
+
+    if (m*n > 0)
+    {
+        Phi[0] = pow(-1.,m-n) * cos( ((double)m)*alpha + ((double)n)*gamma);
+        Phi[1] = pow(-1.,m)* signum(m) *  cos( ((double)m)*alpha - ((double)n)*gamma);
+    }
+    else if (m*n < 0)
+    {
+        Phi[0] = -pow(-1.,m-n)*sin( ((double)m)*alpha - ((double)n)*gamma);
+        Phi[1] = pow(-1.,m)* signum(m) *sin( ((double)m)*alpha + ((double)n)*gamma);
+    }
+    else if ( (m>0 && n==0) || (m==0 && n > 0) )
+    {
+        Phi[0] = pow(-1.,m-n)*sqrt(2)* cos( ((double)m)*alpha + ((double)n)*gamma);
+        Phi[1] = 0.0;
+    }
+    else if ( (m<0 && n==0) || (m==0 & n < 0) )
+    {
+        Phi[0] = -pow(-1.,m-n)*sqrt(2.)*sin( ((double)m)*alpha - ((double)n)*gamma);
+        Phi[1] = 0.0;
+    }
+    else if(m==0 && n==0)
+    {
+        Phi[0] = 1.0;
+        Phi[1] = 0.0;
+    }  
+
+    return Phi;
+}

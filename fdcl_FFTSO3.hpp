@@ -47,7 +47,6 @@ public:
 	fdcl_FFTSO3_matrix_complex forward_transform_1();
     fdcl_FFTSO3_matrix_real forward_transform_real();
 
-	std::vector<double> compute_weight();
 	std::vector<fdcl_FFTSO3_matrix_complex> deriv_D();
 	std::vector<double> character(double beta);
 
@@ -56,6 +55,7 @@ public:
 	void check_deriv_D();
 
 	complex<double> f(double alpha, double beta, double gamma);
+	double f_real(double alpha, double beta, double gamma);
 
 private:
 	double delta(int ,int );
@@ -65,7 +65,8 @@ private:
 	Eigen::VectorXd Legendre_poly(double x, int n);
     int signum(int );
     fdcl_FFTSO3_matrix_complex matrix2rsph(int L);
-	
+	std::vector<double> compute_weight();
+    std::vector<double> compute_Phi(int m, int n, double alpha, double gamma);	
 };
 
 #endif
