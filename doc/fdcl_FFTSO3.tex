@@ -583,7 +583,7 @@ Using the symmetry of the wigner-$d$ functions, and after rearranging, we obtain
 \end{align} 
 For arbitrary $m,n\in\{-l,-1+1,\ldots,l\}$, the above equations can be written as 
 \begin{align*}
-    U^l_{m,n} =  d^l_{|m|,|n|}(\beta) \Phi^1_{m,n}(\alpha,\gamma) + d^l_{|m|,-|n|} \Phi^2_{m,n}(\alpha,\gamma),
+    U^l_{m,n} =  d^l_{|m|,|n|}(\beta) \Phi^1_{m,n}(\alpha,\gamma) + d^l_{|m|,-|n|}(\beta) \Phi^2_{m,n}(\alpha,\gamma),
 \end{align*}
 where
 \begin{align*}
@@ -602,6 +602,31 @@ where
 0 & \text{otherwise}
     \end{cases}
 \end{align*}
+Or equivalently,
+\begin{align*}
+    U^l_{m,n} (R) =
+    \begin{cases}
+        \sin m\alpha \sin n\gamma \Theta^l_{m,n} (\beta) + \cos m\alpha \cos n\gamma \Psi^l_{m,n}(\beta) & (m\geq 0, n\geq 0) \text{ or } (m<0,n<0)\\
+        \sin m\alpha \cos n\gamma \Theta^l_{m,n} (\beta) + \cos m\alpha \sin n\gamma \Psi^l_{m,n}(\beta) & (m\geq 0, n < 0) \text{ or } (m<0,n\geq0),
+    \end{cases}
+\end{align*}
+where
+\begin{align*}
+    \Theta^l_{m,n}(\beta) & =
+    \begin{cases}
+        -(-1)^{m-n} d^l_{|m|,|n|}(\beta) + (-1)^m\mathrm{sgn}(m) d^l_{|m|,-|n|}(\beta) & mn\neq 0\\
+        -(-1)^{m-n} \sqrt{2} d^l_{|m|,|n|}(\beta) & mn = 0 \text{ and } m^2+n^2 \neq 0\\
+        0 & m=n=0.
+    \end{cases}\\
+    \Psi^l_{m,n}(\beta) & = 
+    \begin{cases}
+        (-1)^{m-n} d^l_{|m|,|n|}(\beta) + (-1)^m\mathrm{sgn}(m) d^l_{|m|,-|n|}(\beta) & mn\neq 0\\
+        (-1)^{m-n} \sqrt{2} d^l_{|m|,|n|}(\beta) & mn = 0 \text{ and } m^2+n^2 \neq 0\\
+        d^l_{0,0} & m=n=0.
+    \end{cases}
+\end{align*}
+
+
 Numerical tests show that \eqref{eqn:U_lm0}--\eqref{eqn:U_lmmmn} are more computationally efficient than the above formulation involving $\Phi^1$ and $\Phi^2$. 
 
 The orthogonality can be shown as follows. 

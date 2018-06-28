@@ -638,6 +638,23 @@ complex<double> fdcl_FFTSO3::inverse_transform(Matrix3 R)
     return inverse_transform(abg[0],abg[1],abg[2]); 
 }
 
+double fdcl_FFTSO3::inverse_transform(fdcl_FFTSO3_matrix_real F, double alpha, double beta, double gamma)
+{
+    double f=0.;
+    int l,m,n;
+    fdcl_FFTSO3_matrix_real U;
+    
+    U=wigner_D_real(alpha,beta,gamma);   
+    
+    for(l=0;l<=l_max;l++)
+        for(m=-l;m<=l;m++)
+            for(n=-l;n<=l;n++)
+                f+=((double) 2*l+1 )* F(l,m,n)*U(l,m,n);
+    
+    return f;
+}
+
+
 double fdcl_FFTSO3::beta_k(int k)
 {
     return ((double)(2*k+1))*M_PI/4./((double)B);
@@ -657,23 +674,28 @@ double fdcl_FFTSO3::f_real(double alpha, double beta, double gamma)
 {
     fdcl_FFTSO3_matrix_real d(l_max);
     double y=0.0;
+    Matrix3 R;
+    // d=wigner_D_real(alpha,beta,gamma);
+// 
+    // for(int l=0;l<=l_max;l++)
+        // for(int m=-l;m<=l;m++)
+            // for(int n=-l;n<=l;n++)
+                // y+=((double)2*l+1)*d(l,m,n);
+   // 
+    // y=alpha+beta+gamma; 
+    R = Euler3232R(alpha,beta,gamma);
+    y=R(0,0)+R(0,1)*R(0,2)+exp(R(2,2));
 
-    d=wigner_D_real(alpha,beta,gamma);
-
-    for(int l=0;l<=l_max;l++)
-        for(int m=-l;m<=l;m++)
-            for(int n=-l;n<=l;n++)
-                y+=((double)2*l+1)*d(l,m,n);
-   
     return y;
 }
 
 complex<double> fdcl_FFTSO3::f(double alpha, double beta, double gamma)
 {
-/*  fdcl_FFTSO3_matrix_complex D(l_max);
+    Matrix3 R;
+    fdcl_FFTSO3_matrix_complex D(l_max);
     complex<double> y={0.,0.};
     
-    D=wigner_D(alpha,beta,gamma);
+/*    D=wigner_D(alpha,beta,gamma);
     
     for(int l=0;l<=l_max;l++)
         for(int m=-l;m<=l;m++)
@@ -686,9 +708,12 @@ complex<double> fdcl_FFTSO3::f(double alpha, double beta, double gamma)
         
 //  return Euler3232R(alpha,beta,gamma).trace();
     
-    return alpha+beta+gamma;
+    //return alpha+beta+gamma;
 //  return inverse_transform(F0,alpha,beta,gamma);
-    
+    R = Euler3232R(alpha,beta,gamma);
+    y=R(0,0)+R(0,1)*R(0,2)+exp(R(2,2));
+    return y;
+
 }
 
 fdcl_FFTSO3_matrix_complex fdcl_FFTSO3::forward_transform_0()
@@ -909,3 +934,75 @@ std::vector<double> fdcl_FFTSO3::compute_Phi(int m, int n, double alpha, double 
 
     return Phi;
 }
+
+std::vector<fdcl_FFTSO3_matrix_real> fdcl_FFTSO3::compute_Theta_Psi(double beta, int L)
+{
+    std::vector<fdcl_FFTSO3_matrix_real> TP;
+    fdcl_FFTSO3_matrix_real d(L);
+    int l,m,n;
+    double A, B, C;
+
+    TP.resize(2);
+    TP[0].init(L);
+    TP[1].init(L);
+
+    d=wigner_d(beta,L);
+
+    for(l=0;l<=L;l++)
+        for(m=-l;m<=l;m++)
+            for(n=-l;n<=l;n++)
+            {
+                if(m*n != 0)
+                {
+                    A=pow(-1.,m-n)*d(l,abs(m),abs(n));
+                    B=pow(-1.,m)*signum(m)*d(l,abs(m),-abs(n));
+                    TP[0](l,m,n)=-A+B;
+                    TP[1](l,m,n)=A+B;
+                }
+                else if ( m*n==0 && m*m+n*n != 0)
+                {
+                    C=pow(-1.,m-n)*sqrt(2.)*d(l,abs(m),abs(n));
+                    TP[0](l,m,n)=-C;
+                    TP[1](l,m,n)=C;
+                }
+                else if ( m==0 && n==0)
+                {
+                    TP[0](l,m,n)=0.;
+                    TP[1](l,m,n)=d(l,0,0);
+                }
+            }
+
+    return TP;
+}
+
+fdcl_FFTSO3_matrix_real fdcl_FFTSO3::wigner_D_real_0(double alpha, double beta, double gamma, int L)
+{
+    fdcl_FFTSO3_matrix_real U(L);
+    std::vector<fdcl_FFTSO3_matrix_real> TP(L);
+    int l,m,n;
+    double cos_ma, sin_ma, cos_ng, sin_ng;
+    TP.resize(2);
+    TP=compute_Theta_Psi(beta,L);
+
+    for(l=0;l<=L;l++)
+        for(m=-l;m<=l;m++)
+        {
+            cos_ma=cos( ((double)m)*alpha);
+            sin_ma=sin( ((double)m)*alpha);
+            for (n=-l;n<=l;n++)
+            {
+                cos_ng=cos( ((double)n)*gamma);
+                sin_ng=sin( ((double)n)*gamma);
+                if ( (m>=0 && n>=0) || (m<0 && n<0))
+                    U(l,m,n)=sin_ma*sin_ng*TP[0](l,m,n)+cos_ma*cos_ng*TP[1](l,m,n);
+                else if ( (m>=0 && n <0) || (m<0 && n>=0) )
+                    U(l,m,n)=sin_ma*cos_ng*TP[0](l,m,n)+cos_ma*sin_ng*TP[1](l,m,n);
+            }
+        }
+
+    return U;
+}
+ 
+
+
+

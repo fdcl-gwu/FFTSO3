@@ -3,6 +3,8 @@
 #include <math.h> // pow
 #include <iomanip>      // std::setprecision
 #include <Eigen/Dense>
+#include <string>
+
 #include "fdcl_FFTSO3_matrix.hpp"
 #include "fdcl_FFTSO3.hpp"
 #include "misc_matrix_func.h"
@@ -19,6 +21,7 @@ public:
     fdcl_tictoc(){};
     void tic();
     void toc();
+    void toc(string message);
 };
 
 void fdcl_tictoc::tic()
@@ -30,35 +33,49 @@ void fdcl_tictoc::toc()
     t1 = std::chrono::steady_clock::now();  
     cout << "fdcl_tictoc = " << std::chrono::duration_cast<std::chrono::microseconds>(t1 - t0).count()/1e6 << " sec" << endl;
 }
+void fdcl_tictoc::toc(string message)
+{
+    cout << message << ": ";
+    toc();
+}
 
 int main()
 {
-    int l_max=10;
-    fdcl_FFTSO3_matrix_real d(l_max), d1(l_max);
-    fdcl_FFTSO3_matrix_complex D(l_max), F0(l_max), F1(l_max);
+    int l_max=2;
+    fdcl_FFTSO3_matrix_real d(l_max), d1(l_max), F_real(l_max);
+    fdcl_FFTSO3_matrix_complex D(l_max), F0(l_max), F1(l_max), F(l_max);
     fdcl_FFTSO3 FFTSO3(l_max);
     fdcl_tictoc tictoc;
-    
+    double a, b, g;
+    a=.12345;
+    b=-0.234235;
+    g=0.4324235;
+
+   
 //  FFTSO3.check_weight();
 //  FFTSO3.check_wigner_d();
 
     // tictoc.tic();
     // F0=FFTSO3.forward_transform_0();
-    // tictoc.toc();
+    // tictoc.toc("complex forward transform 0");
 // 
     // cout << F0 << endl;
     // tictoc.tic();
     // F1=FFTSO3.forward_transform_1();
-    // tictoc.toc();
-// 
+    // tictoc.toc("complex forward transform 1");
+
     // 
     // for(int l=0;l<=l_max;l++)
         // cout << (F0[l]-F1[l]).norm() << endl;
     // 
-    // cout << FFTSO3.f(1.,2.,3.) << endl;
-    // cout << FFTSO3.inverse_transform(F0,1.,2.,3.) << endl;
-    // cout << FFTSO3.inverse_transform(F1,1.,2.,3.) << endl;
-    // 
+    // cout << FFTSO3.f(a,b,g) << endl;
+    // tictoc.tic();
+    // cout << FFTSO3.inverse_transform(F0,a,b,g) << endl;
+    // tictoc.toc("complex inverse transform 0");
+    // tictoc.tic();
+    // cout << FFTSO3.inverse_transform(F1,a,b,g) << endl;
+    // tictoc.toc("complex inverse transform 1");
+    
     Vector3 eta1, eta2;
     Matrix3 R1, R2;
     eta1.setRandom();
@@ -67,29 +84,36 @@ int main()
     R1=expm_SO3(eta1);
     R2=expm_SO3(eta2);
 
-    double a, b, g;
-    a=.12345;
-    b=-9.234235;
-    g=0.4324235;
+    cout << FFTSO3.wigner_D_real(a,b,g,l_max) << endl;
+    cout << FFTSO3.wigner_D_real_0(a,b,g,l_max) << endl;
+    cout << FFTSO3.wigner_D_real(a,b,g,l_max)-FFTSO3.wigner_D_real_0(a,b,g,l_max) << endl;
+    tictoc.tic();
+    for(int i=0;i<100;i++)
+        FFTSO3.wigner_D_real(a,b,g,l_max);
+    tictoc.toc();
 
-    // tictoc.tic();
-    // for(int i=0;i<100;i++)
-        // FFTSO3.wigner_D_real(a,b,g,l_max);
-    // tictoc.toc();
-// 
-    // tictoc.tic();
-    // for(int i=0;i<100;i++)
-        // FFTSO3.wigner_D_real_converted(a,b,g,l_max);
-    // tictoc.toc();
-// 
-    // tictoc.tic();
-    // for(int i=0;i<100;i++)
-        // FFTSO3.wigner_D_real_Phi(a,b,g,l_max);
-    // tictoc.toc();
-// 
+    tictoc.tic();
+    for(int i=0;i<100;i++)
+        FFTSO3.wigner_D_real_converted(a,b,g,l_max);
+    tictoc.toc();
+
+    tictoc.tic();
+    for(int i=0;i<100;i++)
+        FFTSO3.wigner_D_real_0(a,b,g,l_max);
+    tictoc.toc();
+
     // cout << FFTSO3.wigner_D_real(a,b,g,l_max)-FFTSO3.wigner_D_real_Phi(a,b,g,l_max) << endl;
     // cout << FFTSO3.wigner_D_real_converted(a,b,g,l_max)-FFTSO3.wigner_D_real(a,b,g,l_max) << endl;
 // 
 //
-    cout << FFTSO3.forward_transform_real() << endl;
+    // cout << FFTSO3.forward_transform_real() << endl;
+    // tictoc.tic();
+    // F_real=FFTSO3.forward_transform_real();
+    // tictoc.toc("real forward transform");
+// 
+    // cout << FFTSO3.f_real(a,b,g) << endl;
+// 
+    // tictoc.tic();
+    // cout << FFTSO3.inverse_transform(F_real,a,b,g) << endl; 
+    // tictoc.toc("real inverse transform");
 }

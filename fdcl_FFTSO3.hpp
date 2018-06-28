@@ -37,6 +37,7 @@ public:
 	fdcl_FFTSO3_matrix_real wigner_D_real(Matrix3);
     fdcl_FFTSO3_matrix_complex wigner_D_real_converted(double alpha, double beta, double gamma, int L); // alternative method with U = \bar C D C^T
 	fdcl_FFTSO3_matrix_real wigner_D_real_Phi(double alpha, double beta, double gamma, int L);// alternative formulation based on Phi_1 and Phi_2
+    fdcl_FFTSO3_matrix_real wigner_D_real_0(double alpha, double beta, double gamma, int L);
 
 	complex<double> inverse_transform(fdcl_FFTSO3_matrix_complex, double alpha, double beta, double gamma);
 	complex<double> inverse_transform(fdcl_FFTSO3_matrix_complex, Matrix3);
@@ -45,7 +46,9 @@ public:
 	
 	fdcl_FFTSO3_matrix_complex forward_transform_0();
 	fdcl_FFTSO3_matrix_complex forward_transform_1();
+
     fdcl_FFTSO3_matrix_real forward_transform_real();
+    double inverse_transform(fdcl_FFTSO3_matrix_real, double alpha, double beta, double gamma);
 
 	std::vector<fdcl_FFTSO3_matrix_complex> deriv_D();
 	std::vector<double> character(double beta);
@@ -67,6 +70,7 @@ private:
     fdcl_FFTSO3_matrix_complex matrix2rsph(int L);
 	std::vector<double> compute_weight();
     std::vector<double> compute_Phi(int m, int n, double alpha, double gamma);	
+    std::vector<fdcl_FFTSO3_matrix_real> compute_Theta_Psi(double beta, int L);
 };
 
 #endif
