@@ -48,6 +48,7 @@ public:
 	fdcl_FFTSO3_matrix_complex forward_transform_1();
 
     fdcl_FFTSO3_matrix_real forward_transform_real();
+    fdcl_FFTSO3_matrix_real forward_transform_real_0();
     double inverse_transform(fdcl_FFTSO3_matrix_real, double alpha, double beta, double gamma);
 
 	std::vector<fdcl_FFTSO3_matrix_complex> deriv_D();

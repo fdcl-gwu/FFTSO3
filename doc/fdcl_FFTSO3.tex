@@ -625,6 +625,14 @@ where
         d^l_{0,0} & m=n=0.
     \end{cases}
 \end{align*}
+There are the symmetries of
+\begin{align*}
+    \Theta^l_{m,n}=\Theta^l_{m,-n},\quad
+    \Psi^l_{m,n}=\Psi^l_{m,-n},\quad
+    \Theta^l_{m,0}=\Theta^l_{-m,0},\quad
+    \Psi^l_{m,0}=\Psi^l_{-m,0}.
+\end{align*}
+
 
 
 Numerical tests show that \eqref{eqn:U_lm0}--\eqref{eqn:U_lmmmn} are more computationally efficient than the above formulation involving $\Phi^1$ and $\Phi^2$. 
@@ -788,16 +796,36 @@ The above summation can be decomposed into
     \tilde f^l_{m,n} & = \sum_{j_1,j_2=0}^{2B-1} \Phi^1_{m,n}(\alpha_{j_1},\gamma_{j_2}) \left\{ \sum_{k=0}^{2B-1} w_k d^l_{|m|,|n|}(\beta_k) f(\alpha_{j_1},\beta_k,\gamma_{j_2}) \right\}\\
                      & \quad + \sum_{j_1,j_2=0}^{2B-1} \Phi^2_{m,n}(\alpha_{j_1},\gamma_{j_2}) \left\{ \sum_{k=0}^{2B-1} w_k d^l_{|m|,-|n|}(\beta_k) f(\alpha_{j_1},\beta_k,\gamma_{j_2}) \right\}.
 \end{align*}
-% This can be computed in the following order:
-% \begin{align*}
-% F^{1,\beta}_{l,m,n}(j_1,j_2) &= \sum_{k=0}^{2B-1}w_k f(\alpha_{j_1},\beta_k,\gamma_{j_2})d^l_{|m|,|n|}(\beta_k),\\
-% F^{2,\beta}_{l,m,n}(j_1,j_2) &= \sum_{k=0}^{2B-1}w_k f(\alpha_{j_1},\beta_k,\gamma_{j_2})d^l_{|m|,-|n|}(\beta_k),\\
-% F^{\gamma}_{l,m,n}(j_1)&=\sum_{j_2=0}^{2B-1}e^{\frac{i 2 n \pi j_2}{2B}}F^{\beta}_{l,m,n}(j_1,j_2),\\
-% f^l_{m,n} & = \sum_{j_1=0}^{2B-1} e^{\frac{i 2 m\pi j_1}{2B}}F^{\gamma}_{l,m,n}(j_1),
-% \end{align*}
-% where the last two operations are Fourier transforms in a linear space, which can be computed by various FFT algorithms. 
-% 
 
+
+
+Or equivalently,
+\begin{align*}
+    U^l_{m,n} (R) =
+    \begin{cases}
+        \sin m\alpha \sin n\gamma \Theta^l_{m,n} (\beta) + \cos m\alpha \cos n\gamma \Psi^l_{m,n}(\beta) & (m\geq 0, n\geq 0) \text{ or } (m<0,n<0)\\
+        \sin m\alpha \cos n\gamma \Theta^l_{m,n} (\beta) + \cos m\alpha \sin n\gamma \Psi^l_{m,n}(\beta) & (m\geq 0, n < 0) \text{ or } (m<0,n\geq0),
+    \end{cases}
+\end{align*}
+This can be computed in the following order:
+\begin{align*}
+    F^{\theta,\beta}_{l,m,n}(j_1,j_2) &= \sum_{k=0}^{2B-1}w_k f(\alpha_{j_1},\beta_k,\gamma_{j_2})\Phi^l_{m,n}(\beta_k),\\
+    F^{\psi,\beta}_{l,m,n}(j_1,j_2) &= \sum_{k=0}^{2B-1}w_k f(\alpha_{j_1},\beta_k,\gamma_{j_2}) \Theta^l_{m,n}(\beta_k),\\
+F^{\theta,\gamma}_{l,m,n}(j_1)&=
+\begin{cases}
+    \sum_{j_2=0}^{2B-1} \sin n\gamma_{j_2} F^{\theta,\beta}_{l,m,n}(j_1,j_2) & (m\geq 0,n\geq 0) \text{ or } (m<0,n<0)\\
+    \sum_{j_2=0}^{2B-1} \cos n\gamma_{j_2} F^{\theta,\beta}_{l,m,n}(j_1,j_2) & (m\geq 0, n<0) \text{ or } (m<0,n\geq 0)
+\end{cases}\\
+F^{\psi,\gamma}_{l,m,n}(j_1)&=
+\begin{cases}
+    \sum_{j_2=0}^{2B-1} \cos n\gamma_{j_2} F^{\psi,\beta}_{l,m,n}(j_1,j_2) & (m\geq 0,n\geq 0) \text{ or } (m<0,n<0)\\
+    \sum_{j_2=0}^{2B-1} \sin n\gamma_{j_2} F^{\psi,\beta}_{l,m,n}(j_1,j_2) & (m\geq 0, n<0) \text{ or } (m<0,n\geq 0)
+\end{cases}\\
+f^l_{m,n} & = \sum_{j_1=0}^{2B-1} \sin m\alpha_{j_1} F^{\theta,\gamma}_{l,m,n}(j_1) + \cos m\alpha_{j_1} F^{\psi,\gamma}_{l,m,n}(j_1).
+\end{align*}
+where the last two operations are Fourier transforms in a linear space, which can be computed by various FFT algorithms. 
+
+% 
 
 \bibliography{/Users/tylee/Documents/BibMaster17}
 \bibliographystyle{IEEEtran}
