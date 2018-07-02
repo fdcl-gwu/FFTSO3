@@ -383,6 +383,35 @@ where the last two operations are Fourier transforms in a linear space, which ca
 %\end{align*}
 %These transforms the original DFT of the length $N$ to two DFTs of the length $N/2$. It can be recursively applied when $N$ is a power of $2$. 
 
+\subsection{Clebsch-Gordon Coefficients}
+
+The product of two wigner D matrices can be transformed, and the resulting Fourier coefficients are referred to as Clebsch-Gordon coefficients. 
+It has been shown that
+\begin{align*}
+    D^{l_1}_{m_1,n_1} (R) D^{l_2}_{m_2,n_2}(R) = \sum_{|l_1-l_2|}^{l_1+l_2} \sum_{m,n=-l}^l C^{l,m}_{l_1,m_1,l_2,m_2} C^{l,m}_{l_1,n_2,l_2,n_2} D^{l}_{m,n}(R).
+\end{align*}
+From now on, it is assumed that $l_1\leq l_2$ without loss of generality. 
+
+The coefficients $C^{l,m}_{l_1,m_1,l_2,m_2}$ can be arranged into a matrix~\cite{MarPec11}, namely $C_{l_1,l_2}$. 
+The column index is determined by $(l,m)$. 
+Since $|l_1-l_2|\leq l \leq l_1+l_2$ and $-l\leq m \leq m$, the number of columns is given by
+\[
+    \sum_{l=|l_1-l_2|}^{l_1+l_2} (2l+1) = (2l_1+1)(2l_2+1).
+\]
+The row index is determined by $(l_1,m_1,l_2,m_2)$. 
+Since $-l_1\leq m_1 \leq l_1$ and $-l_2\leq m_2\leq l_2$, the number of rows is also $(2l_1+1)(2l_2+1)$. 
+Therefore, $C_{l_1,l_2} \in \Re^{(2l_1+1)(2l_2+1)\times(2l_1+1)(2l_2+1)}$.
+The ordering schemes are proposed in~\cite{MarPec11}, and their analytic forms are presented in~\cite{Dif17} as
+\begin{align*}
+    (\text{column index of } C^{l,m}_{l_1,m_1,l_2,m_2}) &= l^2-(l_2-l_1)^2 + l + m,\\
+    (\text{row index of } C^{l,m}_{l_1,m_1,l_2,m_2}) &= (l_1+m_1)(2l_2+1) + l_2+m_2.
+\end{align*}
+In this formulation, 
+\[
+    D^{l_1} \otimes D^{l_2} = C_{l_1,l_2} \bracket{ \bigoplus_{l=|l_1-l_2|}{l_1+l_2} D^l} C_{l_1,l_2}^T.
+\]
+A computational scheme is proposed in~\cite{Str14}. 
+
 \section{Real Harmonic Analysis}
 
 Next, we consider harmonic analysis for real-valued functions on $\SO$. 
