@@ -5,6 +5,8 @@
 #include <vector>
 #include <math.h> // pow
 #include <Eigen/Dense>
+
+#include "fdcl_tictoc.hpp"
 #include "misc_matrix_func.h"
 
 using namespace std;
@@ -28,37 +30,40 @@ public:
 	fdcl_FFTSO3_matrix_real wigner_d(double beta);
 	fdcl_FFTSO3_matrix_real wigner_d_explicit(double beta);
 
+    // complex transform
 	fdcl_FFTSO3_matrix_complex wigner_D(Matrix3);	
 	fdcl_FFTSO3_matrix_complex wigner_D(double alpha, double beta, double gamma);
 	fdcl_FFTSO3_matrix_complex wigner_D(double alpha, double beta, double gamma, int L);
 
-	fdcl_FFTSO3_matrix_real wigner_D_real(double alpha, double beta, double gamma, int L);
-	fdcl_FFTSO3_matrix_real wigner_D_real(double alpha, double beta, double gamma);
-	fdcl_FFTSO3_matrix_real wigner_D_real(Matrix3);
-    fdcl_FFTSO3_matrix_complex wigner_D_real_converted(double alpha, double beta, double gamma, int L); // alternative method with U = \bar C D C^T
-	fdcl_FFTSO3_matrix_real wigner_D_real_Phi(double alpha, double beta, double gamma, int L);// alternative formulation based on Phi_1 and Phi_2
-    fdcl_FFTSO3_matrix_real wigner_D_real_0(double alpha, double beta, double gamma, int L);
+	fdcl_FFTSO3_matrix_complex forward_transform(std::function <complex<double>(double, double, double)>);
+	fdcl_FFTSO3_matrix_complex forward_transform(std::function <complex<double>(Matrix3)>);
 
 	complex<double> inverse_transform(fdcl_FFTSO3_matrix_complex, double alpha, double beta, double gamma);
 	complex<double> inverse_transform(fdcl_FFTSO3_matrix_complex, Matrix3);
 	complex<double> inverse_transform(double alpha, double beta, double gamma);
 	complex<double> inverse_transform(Matrix3);
 	
-	fdcl_FFTSO3_matrix_complex forward_transform_0();
-	fdcl_FFTSO3_matrix_complex forward_transform_1();
+	std::vector<fdcl_FFTSO3_matrix_complex> deriv_D();
+	std::vector<double> character(double beta);
+    
+    // real transform
+	fdcl_FFTSO3_matrix_real wigner_D_real(double alpha, double beta, double gamma, int L);
+	fdcl_FFTSO3_matrix_real wigner_D_real(double alpha, double beta, double gamma);
+	fdcl_FFTSO3_matrix_real wigner_D_real(Matrix3);
 
     fdcl_FFTSO3_matrix_real forward_transform_real();
     fdcl_FFTSO3_matrix_real forward_transform_real_0();
+
     double inverse_transform(fdcl_FFTSO3_matrix_real, double alpha, double beta, double gamma);
 
-	std::vector<fdcl_FFTSO3_matrix_complex> deriv_D();
-	std::vector<double> character(double beta);
-
+    // test
 	void check_weight();
 	void check_wigner_d();
 	void check_deriv_D();
+    void check_wigner_D_real();
+    void check_forward_transform();
+    void check_forward_transform_real();
 
-	complex<double> f(double alpha, double beta, double gamma);
 	double f_real(double alpha, double beta, double gamma);
 
 private:
@@ -70,6 +75,17 @@ private:
     int signum(int );
     fdcl_FFTSO3_matrix_complex matrix2rsph(int L);
 	std::vector<double> compute_weight();
+
+    static complex<double> f_4_check_forward_transform(double alpha, double beta, double gamma);
+    double f_real4check_forward_transform(double alpha, double beta, double gamma);
+
+	fdcl_FFTSO3_matrix_complex forward_transform_0(std::function <complex<double>(double, double, double)>);
+
+    fdcl_FFTSO3_matrix_complex wigner_D_real_2(double alpha, double beta, double gamma, int L); // alternative method with U = \bar C D C^T
+	fdcl_FFTSO3_matrix_real wigner_D_real_1(double alpha, double beta, double gamma, int L);// alternative formulation based on Phi_1 and Phi_2
+    fdcl_FFTSO3_matrix_real wigner_D_real_0(double alpha, double beta, double gamma, int L);// alternative formulation based on Theta/Psi
+
+
     std::vector<double> compute_Phi(int m, int n, double alpha, double gamma);	
     std::vector<fdcl_FFTSO3_matrix_real> compute_Theta_Psi(double beta, int L);
 };

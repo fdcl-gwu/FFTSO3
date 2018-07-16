@@ -168,6 +168,17 @@ void fdcl_FFTSO3_matrix<ScalarType>::setZero()
 }
 
 
+template <class ScalarType>
+double fdcl_FFTSO3_matrix<ScalarType>::norm()
+{
+    double y=0.;
+
+    for(int i=0;i<=l_max;i++)
+        y+=M[i].norm();
+
+    return y;
+}
+
 template class fdcl_FFTSO3_matrix<double>;
 template class fdcl_FFTSO3_matrix<complex<double>>;
 template ostream& operator<< (ostream& os, const fdcl_FFTSO3_matrix<double>& M);

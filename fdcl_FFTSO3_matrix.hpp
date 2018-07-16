@@ -26,11 +26,13 @@ public:
 	fdcl_FFTSO3_matrix(){};
 	~fdcl_FFTSO3_matrix(){};
 	fdcl_FFTSO3_matrix(int l_max); 
+
 	void init(int l_max);
 	Eigen::Matrix<ScalarType,Dynamic,Dynamic>& operator[](int l); // return l-th matrix 
 	ScalarType& operator()(int l, int m, int n); // access (m,n)-th element of the l-th matrix
 	void setRandom();
 	void setZero();
+    double norm();
 	
 	fdcl_FFTSO3_matrix<double> real();  	
 
