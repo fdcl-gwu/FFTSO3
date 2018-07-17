@@ -15,14 +15,20 @@ using namespace Eigen;
 
 typedef Eigen::Matrix<double, 3, 3> Matrix3;
 
+double myrf(double a, double b, double g)
+{
+    return Euler3232R(a,b,g).trace();
+}
+
+double myrfR(Matrix3 R)
+{
+    return R.trace();
+}
 complex<double> myf(double a, double b, double g)
 {
     return Euler3232R(a,b,g).trace();
 }
-complex<double> myfof(std::function <complex<double>(double, double, double)> func )
-{
-    return func(0.,1.,2.);
-}
+
 complex<double> myfR(Matrix3 R)
 {
     return R.trace();
@@ -30,7 +36,7 @@ complex<double> myfR(Matrix3 R)
 
 int main()
 {
-    int l_max=2;
+    int l_max=4;
     fdcl_FFTSO3_matrix_real d(l_max), d1(l_max), F_real(l_max);
     fdcl_FFTSO3_matrix_complex D(l_max), F0(l_max), F1(l_max), F(l_max);
     fdcl_FFTSO3 FFTSO3(l_max);
@@ -48,12 +54,13 @@ int main()
     
     R1=expm_SO3(eta1);
     R2=expm_SO3(eta2);
-    //
-   // FFTSO3.check_weight();
+    
+    // FFTSO3.check_weight();
     // FFTSO3.check_wigner_d();
     // FFTSO3.check_wigner_D_real();
     // FFTSO3.check_forward_transform();
-
-    cout << FFTSO3.forward_transform(myf) << endl;
-    cout << (FFTSO3.forward_transform(myf)-FFTSO3.forward_transform(myfR)).norm() << endl;
+    // FFTSO3.check_forward_transform_real();
+    F_real=FFTSO3.forward_transform_real(myrfR);
+    cout << FFTSO3.inverse_transform_real(F_real,R1) << endl;
+    cout << myrfR(R1) << endl;
 }

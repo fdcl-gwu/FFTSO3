@@ -18,7 +18,8 @@ class fdcl_FFTSO3
 {
 public:
 	std::vector<fdcl_FFTSO3_matrix_real> d_beta;
-	fdcl_FFTSO3_matrix_complex D, u, F, F0;
+	fdcl_FFTSO3_matrix_complex D, F, F0, u;
+    fdcl_FFTSO3_matrix_real F_real;
 	int B, l_max;
 	std::vector<double> weight;
 	
@@ -51,10 +52,13 @@ public:
 	fdcl_FFTSO3_matrix_real wigner_D_real(double alpha, double beta, double gamma);
 	fdcl_FFTSO3_matrix_real wigner_D_real(Matrix3);
 
-    fdcl_FFTSO3_matrix_real forward_transform_real();
-    fdcl_FFTSO3_matrix_real forward_transform_real_0();
+    fdcl_FFTSO3_matrix_real forward_transform_real(std::function <double(double, double, double)>);
+    fdcl_FFTSO3_matrix_real forward_transform_real(std::function <double(Matrix3)>);
 
-    double inverse_transform(fdcl_FFTSO3_matrix_real, double alpha, double beta, double gamma);
+    double inverse_transform_real(fdcl_FFTSO3_matrix_real, double alpha, double beta, double gamma);
+    double inverse_transform_real(fdcl_FFTSO3_matrix_real, Matrix3);
+    double inverse_transform_real(double alpha, double beta, double gamma);
+    double inverse_transform_real(Matrix3);
 
     // test
 	void check_weight();
@@ -63,8 +67,6 @@ public:
     void check_wigner_D_real();
     void check_forward_transform();
     void check_forward_transform_real();
-
-	double f_real(double alpha, double beta, double gamma);
 
 private:
 	double delta(int ,int );
@@ -77,7 +79,7 @@ private:
 	std::vector<double> compute_weight();
 
     static complex<double> f_4_check_forward_transform(double alpha, double beta, double gamma);
-    double f_real4check_forward_transform(double alpha, double beta, double gamma);
+    static double f_4_check_forward_transform_real(double alpha, double beta, double gamma);
 
 	fdcl_FFTSO3_matrix_complex forward_transform_0(std::function <complex<double>(double, double, double)>);
 
@@ -85,6 +87,7 @@ private:
 	fdcl_FFTSO3_matrix_real wigner_D_real_1(double alpha, double beta, double gamma, int L);// alternative formulation based on Phi_1 and Phi_2
     fdcl_FFTSO3_matrix_real wigner_D_real_0(double alpha, double beta, double gamma, int L);// alternative formulation based on Theta/Psi
 
+    fdcl_FFTSO3_matrix_real forward_transform_real_0(std::function <double(double, double, double)>);
 
     std::vector<double> compute_Phi(int m, int n, double alpha, double gamma);	
     std::vector<fdcl_FFTSO3_matrix_real> compute_Theta_Psi(double beta, int L);
