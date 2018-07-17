@@ -17,7 +17,15 @@ typedef Eigen::Matrix<double, 3, 3> Matrix3;
 
 complex<double> myf(double a, double b, double g)
 {
-    return 1.0;
+    return Euler3232R(a,b,g).trace();
+}
+complex<double> myfof(std::function <complex<double>(double, double, double)> func )
+{
+    return func(0.,1.,2.);
+}
+complex<double> myfR(Matrix3 R)
+{
+    return R.trace();
 }
 
 int main()
@@ -31,28 +39,8 @@ int main()
     a=.12345;
     b=-0.234235;
     g=0.4324235;
-
-   
-//  FFTSO3.check_weight();
-//  FFTSO3.check_wigner_d();
-
-    // tictoc.tic();
-    // F0=FFTSO3.forward_transform_0();
-    // tictoc.toc("complex forward transform 0");
-
-    // tictoc.tic();
-    // F1=FFTSO3.forward_transform_1();
-    // tictoc.toc("complex forward transform 1");
-    
-   // 
-    // cout << FFTSO3.f(a,b,g) << endl;
-    // tictoc.tic();
-    // cout << FFTSO3.inverse_transform(F0,a,b,g) << endl;
-    // tictoc.toc("complex inverse transform 0");
-    // tictoc.tic();
-    // cout << FFTSO3.inverse_transform(F1,a,b,g) << endl;
-    // tictoc.toc("complex inverse transform 1");
-    
+    Matrix3 R;
+    R.setIdentity();
     Vector3 eta1, eta2;
     Matrix3 R1, R2;
     eta1.setRandom();
@@ -60,22 +48,12 @@ int main()
     
     R1=expm_SO3(eta1);
     R2=expm_SO3(eta2);
+    //
+   // FFTSO3.check_weight();
+    // FFTSO3.check_wigner_d();
+    // FFTSO3.check_wigner_D_real();
+    // FFTSO3.check_forward_transform();
 
-    FFTSO3.check_wigner_D_real();
-
-    FFTSO3.check_forward_transform();
-
-    // tictoc.tic();
-    // F_real=FFTSO3.forward_transform_real();
-    // tictoc.toc("real forward transform");
-// 
-    // tictoc.tic();
-    // F_real=FFTSO3.forward_transform_real_0();
-    // tictoc.toc("real forward transform 0");
-// 
-    // cout << FFTSO3.f_real(a,b,g) << endl;
-// 
-    // tictoc.tic();
-    // cout << FFTSO3.inverse_transform(F_real,a,b,g) << endl; 
-    // tictoc.toc("real inverse transform");
+    cout << FFTSO3.forward_transform(myf) << endl;
+    cout << (FFTSO3.forward_transform(myf)-FFTSO3.forward_transform(myfR)).norm() << endl;
 }

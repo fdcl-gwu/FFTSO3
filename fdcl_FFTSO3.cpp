@@ -718,7 +718,6 @@ void fdcl_FFTSO3::check_forward_transform()
     cout << "forward transform of a scaled wigner D matrices: all of the Fourier parameters for l up 3 must be zero " << endl;
 
     cout << F << endl;
-
     cout << "error from forward_transform_0: " << (F-F_0).norm() << endl;
 }
 
@@ -842,6 +841,15 @@ fdcl_FFTSO3_matrix_complex fdcl_FFTSO3::forward_transform(std::function <complex
     }
    
     return F;
+}
+
+fdcl_FFTSO3_matrix_complex fdcl_FFTSO3::forward_transform(std::function <complex<double>(Matrix3)> func) 
+{
+    // See lambda expression : https://www.geeksforgeeks.org/lambda-expression-in-c/
+    return forward_transform([=] (double a, double b, double g)
+            {
+                return func(Euler3232R(a,b,g));
+            });
 }
 
 fdcl_FFTSO3_matrix_real fdcl_FFTSO3::forward_transform_real()
