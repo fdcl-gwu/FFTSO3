@@ -6,6 +6,7 @@
 #include <string>
 
 #include "misc_matrix_func.h"
+#include "fdcl_FFTSO3_matrix.hpp"
 
 using namespace std;
 using namespace Eigen;
@@ -20,7 +21,7 @@ class fdcl_Clebsch_Gordon_matrix
         void init(int l1, int l2);
         ~fdcl_Clebsch_Gordon_matrix(){};
         int l1, l2;
-        Eigen::Matrix<double,Dynamic,Dynamic> C;
+        Eigen::Matrix<double,Dynamic,Dynamic> C,c;
 
         double& operator()(int l, int m, int l1, int m1, int l2, int m2); 
 
@@ -29,7 +30,8 @@ class fdcl_Clebsch_Gordon_matrix
         void assert_index(int l, int m, int l1, int m1, int l2, int m2);
         void compute_sub(int l, int m, int l1, int l2);
 		void compute(int l1, int l2);
-
+        void compute_real(int l1, int l2);
+        fdcl_FFTSO3_matrix_complex matrix2rsph(int L);
 };
 
 fdcl_Clebsch_Gordon_matrix::fdcl_Clebsch_Gordon_matrix(int l1, int l2)
@@ -81,6 +83,8 @@ void fdcl_Clebsch_Gordon_matrix::compute_sub(int l, int m, int l1, int l2)
     n = (m+l1+l2-abs(l1-l2-m))/2-mm+1;
     BB.resize(2*n,1);
     CC.resize(n+1,1);
+    BB.setZero();
+    CC.setZero();
 
     count=0.;
     CC(n-1)=1.;
@@ -120,8 +124,58 @@ void fdcl_Clebsch_Gordon_matrix::compute(int l1, int l2)
 		for (int m=-l;m<=l;m++)
 			compute_sub(l,m,l1,l2);
 
+}
 
-	cout << C << endl;
+fdcl_FFTSO3_matrix_complex fdcl_Clebsch_Gordon_matrix::matrix2rsph(int L)
+{
+    fdcl_FFTSO3_matrix_complex T(L);
+    int l,m;
+
+    for(l=0;l<=L;l++)
+    {
+        for(m=-l;m<0;m++)
+        {
+            T(l,m,m)=I/sqrt(2.);
+            T(l,m,-m)=-I/sqrt(2.)*pow(-1.,m);
+        }
+        T(l,0,0)=1.;
+        for(m=1;m<=l;m++)
+        {
+            T(l,m,-m)=1./sqrt(2.);
+            T(l,m,m)=pow(-1.,m)/sqrt(2.);
+        }
+    }
+
+    return T;
+}
+
+void fdcl_Clebsch_Gordon_matrix::compute_real(int l1, int l2)
+{
+    fdcl_FFTSO3_matrix_complex T;
+    Eigen::Matrix<complex<double>,Dynamic,Dynamic> T12, OTl;
+    int n, n1, n2;
+
+    n1 = (2*l1+1);
+    n2 = (2*l2+1);
+    n = n1*n2;
+    T.init(max(l1,l2));
+    T = matrix2rsph(max(l1,l2));
+    T12.resize(n,n);
+    T12.setZero();
+    OTl.resize(n,n);
+    OTl.setZero();
+
+    compute(l1,l2);
+    for(int i=0;i<2*l1+1;i++)
+        for(int j=0;j<2*l1+1;j++)
+        {
+            T12.block(n2*i,n2*j,n2,n2)=T[l2]*T[l1](i,j);
+            // cout << T[l2] << endl;
+        }
+    // c=T12;
+    cout << T[l1] << endl;
+    cout << T[l2] << endl;
+    cout << T12 << endl;
 }
 
 int main()
@@ -129,7 +183,7 @@ int main()
     fdcl_Clebsch_Gordon_matrix C;
     int l1, l2, m1, m2, l, m;
     l1=1;
-    l2=3;
+    l2=2;
     m1=1;
     m2=2;
 
@@ -146,6 +200,7 @@ int main()
 // 
 //
     C.compute(l1,l2);
+    C.compute_real(l1,l2);
 // cout << C.C.rows() << ", " << C.C.cols() << endl;
 
     return 0;

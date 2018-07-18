@@ -407,9 +407,9 @@ The ordering schemes are proposed in~\cite{MarPec11}, and their analytic forms a
     (\text{row index of } C^{l,m}_{l_1,m_1,l_2,m_2}) &= (l_1+m_1)(2l_2+1) + l_2+m_2.
 \end{align*}
 In this formulation, 
-\[
-    D^{l_1} \otimes D^{l_2} = C_{l_1,l_2} \bracket{ \bigoplus_{l=|l_1-l_2|}{l_1+l_2} D^l} C_{l_1,l_2}^T.
-\]
+\begin{equation}
+    D^{l_1}(R) \otimes D^{l_2}(R) = C_{l_1,l_2} \bracket{ \bigoplus_{l=|l_1-l_2|}^{l_1+l_2} D^l(R)} C_{l_1,l_2}^T.\label{eqn:Clebsch_Gordon}
+\end{equation}
 A computational scheme is proposed in~\cite{Str14}. 
 
 \section{Real Harmonic Analysis}
@@ -502,12 +502,12 @@ The above equation is rewritten in a matrix form as
 When spherical harmonics are considered as a basis for real-valued square-integrable functions on $\Sph^2$, real spherical harmonics can be formulated. 
 In particular, real spherical harmonics $S_{l,m}$ is constructed by the following transform in~\cite{BlaFloJMS97}
 \begin{align}
-    S_l = C^l Y_l,\label{eqn:YtoS}
+    S_l = T^l Y_l,\label{eqn:YtoS}
 \end{align}
 where $S_l$ is the $2l+1$-by-one column whose elements are composed of $S_{l,m}$ for $m\in\{-l,\ldots l\}$ in the ascending order. 
-The matrix $C^l\in\Cp^{(2l+1)\times(2l+1)}$ is defined as
+The matrix $T^l\in\Cp^{(2l+1)\times(2l+1)}$ is defined as
 \begin{align*}
-    C^l=\frac{1}{\sqrt{2}}
+    T^l=\frac{1}{\sqrt{2}}
     \begin{bmatrix}
         i & 0 & \cdots & 0 & \cdots & 0 & -i(-1)^l\\
         0 & i & \cdots & 0 & \cdots & -i(-1)^{l-1} & 0 \\
@@ -518,19 +518,19 @@ The matrix $C^l\in\Cp^{(2l+1)\times(2l+1)}$ is defined as
         1 & 0 & \cdots & 0 & \cdots & 0 & (-1)^l\\
     \end{bmatrix}.
 \end{align*}
-Or equivalently, the elements of $C^l$ satisfy the following rules.
+Or equivalently, the elements of $T^l$ satisfy the following rules.
 \begin{itemize}
-    \item $C^l_{0,0}=1$
-    \item $C^l_{m,n}=0$ if $|m|\neq|n|$
-    \item $C^l_{-m,-m} = \frac{i}{\sqrt{2}}$ for $m>0$
-    \item $C^l_{-m,m}=\frac{-i(-1)^m}{\sqrt{2}}$ for $m>0$
-    \item $C^l_{m,-m}=\frac{1}{\sqrt{2}}$ for $m>0$
-    \item $C^l_{m,m}=\frac{(-1)^m}{\sqrt{2}} $ for $m>0$
+    \item $T^l_{0,0}=1$
+    \item $T^l_{m,n}=0$ if $|m|\neq|n|$
+    \item $T^l_{-m,-m} = \frac{i}{\sqrt{2}}$ for $m>0$
+    \item $T^l_{-m,m}=\frac{-i(-1)^m}{\sqrt{2}}$ for $m>0$
+    \item $T^l_{m,-m}=\frac{1}{\sqrt{2}}$ for $m>0$
+    \item $T^l_{m,m}=\frac{(-1)^m}{\sqrt{2}} $ for $m>0$
 \end{itemize}
-It is straightforward to show that the columns of $C^l$ are mutually orthonormal. 
+It is straightforward to show that the columns of $T^l$ are mutually orthonormal. 
 Therefore,
 \[
-    (C^l)^{-1} = (C^l)^* = (\overline{C^l})^T,\quad C (\overline C)^T= \overline{C} C^T = I_{2l+1}.
+    (T^l)^{-1} = (T^l)^* = (\overline{T^l})^T,\quad T (\overline T)^T= \overline{T} T^T = I_{2l+1}.
 \]
 
 \paragraph{Real Harmonic Analysis on $\SO$}
@@ -541,18 +541,18 @@ Motivated by above~\cite{BlaFloJMS97}, it is defined as
 \]
 From \eqref{eqn:YtoS},
 \[
-\frac{1}{4\pi} U^l(R) = \pair{ C^l Y_l(x),  (Y_l(R^T x))^T (C^l)^T } 
-= \overline{C^l} \pair{ Y_l(x), (Y_1(R^T x))^T} (C^l)^T
-= \frac{1}{4\pi} \overline{C^l} D^l(R) (C^l)^T,
+\frac{1}{4\pi} U^l(R) = \pair{ T^l Y_l(x),  (Y_l(R^T x))^T (T^l)^T } 
+= \overline{T^l} \pair{ Y_l(x), (Y_1(R^T x))^T} (T^l)^T
+= \frac{1}{4\pi} \overline{T^l} D^l(R) (T^l)^T,
 \]
 which yields the following real matrix representation of $SO$
 \begin{equation}
-    U^l (R) = \overline{C^l} D^l(R) (C^l)^T.\label{eqn:Ul}
+    U^l (R) = \overline{T^l} D^l(R) (T^l)^T.\label{eqn:Ul}
 \end{equation}
 We can show that it is also a homomorphism as
 \[
-    U^l( R_1 R_2) = \overline{C^l} D^l(R_1)D^l(R_2)  (C^l)^T
-    =\overline{C^l} D^l(R_1) (C^l)^T  \overline{C^l} D^l(R_2)  (C^l)^T
+    U^l( R_1 R_2) = \overline{T^l} D^l(R_1)D^l(R_2)  (T^l)^T
+    =\overline{T^l} D^l(R_1) (T^l)^T  \overline{T^l} D^l(R_2)  (T^l)^T
     = U^l(R_1) U^l(R_2).
 \]
 
@@ -560,27 +560,27 @@ While $U^l(R)$ can be evaluated by transforming $D^l(R)$ according to \eqref{eqn
 Therefore, we find an alternative expressions for each real element of $U^l$. 
 Using element-wise operation of \eqref{eqn:Ul},
 \begin{align}
-    U^l_{m,n}(R) & = \sum_{p,q} \overline{C}^l_{m,p} C_{n,q} D^l_{p,q} (R).
+    U^l_{m,n}(R) & = \sum_{p,q} \overline{T}^l_{m,p} T^l_{n,q} D^l_{p,q} (R).
 \end{align}
 According to the values of $m,n$, there are four cases of the above equation.
 \begin{align*}
     U^l_{0,0} (R) &= D^l_{0,0} (R) = d^l_{0,0}(R),\\
-    U^l_{m,0} (R) &= \overline{C}^l_{m,m} D^l_{m,0} (R) + \overline{C}^l_{m,-m} D^l_{-m,0} (R),\\
-    U^l_{0,n} (R) &= C_{n,n} D^l_{0,n}(R) + C_{n,-n} D^l_{0,-n}(R),\\
-    U^l_{m,n} (R) &= \overline{C}^l_{m,m} C_{n,n} D^l_{m,n} (R) + \overline{C}^l_{m,m} C_{n,-n} D^l_{m,-n} (R) + \overline{C}^l_{m,-m} C_{n,n} D^l_{-m,n} (R) + \overline{C}^l_{m,-m} C_{n,-n} D^l_{-m,-n} (R).
+    U^l_{m,0} (R) &= \overline{T}^l_{m,m} D^l_{m,0} (R) + \overline{T}^l_{m,-m} D^l_{-m,0} (R),\\
+    U^l_{0,n} (R) &= T^l_{n,n} D^l_{0,n}(R) + T^l_{n,-n} D^l_{0,-n}(R),\\
+    U^l_{m,n} (R) &= \overline{T}^l_{m,m} T^l_{n,n} D^l_{m,n} (R) + \overline{T}^l_{m,m} T^l_{n,-n} D^l_{m,-n} (R) + \overline{T}^l_{m,-m} T^l_{n,n} D^l_{-m,n} (R) + \overline{T}^l_{m,-m} T^l_{n,-n} D^l_{-m,-n} (R).
 \end{align*}
 For positive indices $m,n>0$, the last three cases are further divided into the following eight cases.
 \begin{align*}
-    U^l_{m,0} (R) &= \overline{C}^l_{m,m} D^l_{m,0} (R) + \overline{C}^l_{m,-m} D^l_{-m,0} (R),\\
-    U^l_{-m,0} (R) &= \overline{C}^l_{-m,-m} D^l_{-m,0} (R) + \overline{C}^l_{-m,m} D^l_{m,0} (R),\\
-    U^l_{0,n} (R) &= C_{n,n} D^l_{0,n}(R) + C_{n,-n} D^l_{0,-n}(R),\\
-    U^l_{0,-n} (R) &= C_{-n,-n} D^l_{0,-n}(R) + C_{-n,n} D^l_{0,n}(R),\\
-    U^l_{m,n} (R) &= \overline{C}^l_{m,m} C_{n,n} D^l_{m,n} (R) + \overline{C}^l_{m,m} C_{n,-n} D^l_{m,-n} (R) + \overline{C}^l_{m,-m} C_{n,n} D^l_{-m,n} (R) + \overline{C}^l_{m,-m} C_{n,-n} D^l_{-m,-n} (R),\\
-    U^l_{m,-n} (R) &= \overline{C}^l_{m,m} C_{-n,-n} D^l_{m,-n} (R) + \overline{C}^l_{m,m} C_{-n,n} D^l_{m,n} (R) + \overline{C}^l_{m,-m} C_{-n,-n} D^l_{-m,-n} (R) + \overline{C}^l_{m,-m} C_{-n,n} D^l_{-m,n} (R),\\
-    U^l_{-m,n} (R) &= \overline{C}^l_{-m,-m} C_{n,n} D^l_{-m,n} (R) + \overline{C}^l_{-m,-m} C_{n,-n} D^l_{-m,-n} (R) + \overline{C}^l_{-m,m} C_{n,n} D^l_{m,n} (R) + \overline{C}^l_{-m,m} C_{n,-n} D^l_{m,-n} (R),\\
-    U^l_{-m,-n} (R) &= \overline{C}^l_{-m,-m} C_{-n,-n} D^l_{-m,-n} (R) + \overline{C}^l_{-m,-m} C_{-n,n} D^l_{-m,n} (R) + \overline{C}^l_{-m,m} C_{-n,-n} D^l_{m,-n} (R) + \overline{C}^l_{-m,m} C_{-n,n} D^l_{m,n} (R).
+    U^l_{m,0} (R) &= \overline{T}^l_{m,m} D^l_{m,0} (R) + \overline{T}^l_{m,-m} D^l_{-m,0} (R),\\
+    U^l_{-m,0} (R) &= \overline{T}^l_{-m,-m} D^l_{-m,0} (R) + \overline{T}^l_{-m,m} D^l_{m,0} (R),\\
+    U^l_{0,n} (R) &= T^l_{n,n} D^l_{0,n}(R) + T^l_{n,-n} D^l_{0,-n}(R),\\
+    U^l_{0,-n} (R) &= T^l_{-n,-n} D^l_{0,-n}(R) + T^l_{-n,n} D^l_{0,n}(R),\\
+    U^l_{m,n} (R) &= \overline{T}^l_{m,m} T^l_{n,n} D^l_{m,n} (R) + \overline{T}^l_{m,m} T^l_{n,-n} D^l_{m,-n} (R) + \overline{T}^l_{m,-m} T^l_{n,n} D^l_{-m,n} (R) + \overline{T}^l_{m,-m} T^l_{n,-n} D^l_{-m,-n} (R),\\
+    U^l_{m,-n} (R) &= \overline{T}^l_{m,m} T^l_{-n,-n} D^l_{m,-n} (R) + \overline{T}^l_{m,m} T^l_{-n,n} D^l_{m,n} (R) + \overline{T}^l_{m,-m} T^l_{-n,-n} D^l_{-m,-n} (R) + \overline{T}^l_{m,-m} T^l_{-n,n} D^l_{-m,n} (R),\\
+    U^l_{-m,n} (R) &= \overline{T}^l_{-m,-m} T^l_{n,n} D^l_{-m,n} (R) + \overline{T}^l_{-m,-m} T^l_{n,-n} D^l_{-m,-n} (R) + \overline{T}^l_{-m,m} T^l_{n,n} D^l_{m,n} (R) + \overline{T}^l_{-m,m} T^l_{n,-n} D^l_{m,-n} (R),\\
+    U^l_{-m,-n} (R) &= \overline{T}^l_{-m,-m} T^l_{-n,-n} D^l_{-m,-n} (R) + \overline{T}^l_{-m,-m} T^l_{-n,n} D^l_{-m,n} (R) + \overline{T}^l_{-m,m} T^l_{-n,-n} D^l_{m,-n} (R) + \overline{T}^l_{-m,m} T^l_{-n,n} D^l_{m,n} (R).
 \end{align*}
-Substituting the values of $C^l$, for $m,n>0$,
+Substituting the values of $T^l$, for $m,n>0$,
 \begin{align*}
     U^l_{m,0} (R) &= \frac{(-1)^m}{\sqrt{2}} D^l_{m,0} (R) + \frac{1}{\sqrt{2}} D^l_{-m,0} (R),\\
     U^l_{-m,0} (R) &= \frac{-i}{\sqrt{2}} D^l_{-m,0} (R) + \frac{i(-1)^m}{\sqrt{2}} D^l_{m,0} (R),\\
@@ -854,7 +854,29 @@ f^l_{m,n} & = \sum_{j_1=0}^{2B-1} \sin m\alpha_{j_1} F^{\theta,\gamma}_{l,m,n}(j
 \end{align*}
 where the last two operations are Fourier transforms in a linear space, which can be computed by various FFT algorithms. 
 
-% 
+\subsection{Clebsch-Gordon Coefficients}
+
+From \eqref{eqn:Ul},
+\begin{align*}
+    U^{l_1}(R) \otimes U^{l_2}(R) = (\overline{T}^{l_1} D^{l_1}(R) (T^{l_1})^T) \otimes (\overline{T}^{l_2} D^{l_2}(R) (T^{l_2})^T) .
+\end{align*}
+Repeatedly using the property of Kronecker product, $(AC)\otimes (BD) = (A\otimes B)(C \otimes D)$, 
+\begin{align*}
+    U^{l_1}(R) \otimes U^{l_2}(R) = (\overline{T}^{l_1} \otimes \overline{T}^{l_2}) (D^{l_1}(R) \otimes D^{l_2}(R)) (T^{l_1} \otimes   T^{l_2})^T .
+\end{align*}
+Substituting \eqref{eqn:Clebsch_Gordon} and \eqref{eqn:Ul},
+\begin{align*}
+    U^{l_1}(R) \otimes U^{l_2}(R) = (\overline{T}^{l_1} \otimes \overline{T}^{l_2}) C_{l_1,l_2} \bracket{ \bigoplus_{l=|l_1-l_2|}^{l_1+l_2} (T^l)^T U^l(R) \overline{T}^l } C_{l_1,l_2}^T (T^{l_1} \otimes   T^{l_2})^T .
+\end{align*}
+Define the Clebsch-Gordon matrix for the real harmonics as
+\begin{align}
+    c_{l_1,l_2} = (\overline{T}^{l_1} \otimes \overline{T}^{l_2}) C_{l_1,l_2} \bracket{ \bigoplus_{l=|l_1-l_2|}^{l_1+l_2} (T^l)^T }.
+\end{align}
+Then, 
+\begin{align}
+    U^{l_1}(R) \otimes U^{l_2}(R) & = c_{l_1,l_2} \bracket{ \bigoplus_{l=|l_1-l_2|}^{l_1+l_2} U^l(R) } c_{l_1,l_2}^*.
+\end{align}
+
 
 \bibliography{/Users/tylee/Documents/BibMaster17}
 \bibliographystyle{IEEEtran}

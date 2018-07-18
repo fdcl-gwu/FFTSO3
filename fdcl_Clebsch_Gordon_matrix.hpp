@@ -6,6 +6,8 @@
 #include <math.h> // pow
 #include <Eigen/Dense>
 
+#include "fdcl_FFTSO3_matrix.hpp"
+
 using namespace std;
 using namespace Eigen;
 
@@ -19,7 +21,7 @@ class fdcl_Clebsch_Gordon_matrix
         void init(int l1, int l2);
         ~fdcl_Clebsch_Gordon_matrix(){};
         int l1, l2;
-        Eigen::Matrix<double,Dynamic,Dynamic> C;
+        Eigen::Matrix<double,Dynamic,Dynamic> C, c;
 
         double& operator()(int l, int m, int l1, int m1, int l2, int m2); 
 
@@ -28,7 +30,8 @@ class fdcl_Clebsch_Gordon_matrix
         void assert_index(int l, int m, int l1, int m1, int l2, int m2);
         void compute_sub(int l, int m, int l1, int l2);
 		void compute(int l1, int l2);
-
+    private:
+        fdcl_FFTSO3_matrix_complex matrix2rsph(int );
 };
 
 #endif

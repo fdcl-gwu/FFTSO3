@@ -13,6 +13,8 @@ void fdcl_Clebsch_Gordon_matrix::init(int l1, int l2)
     n = (2*l1+1)*(2*l2+1);
     C.resize(n,n);
     C.setZero();
+    c.resize(n,n);
+    c.setZero();
 }
 
 int fdcl_Clebsch_Gordon_matrix::row(int l, int m, int l1, int m1, int l2, int m2)
@@ -91,3 +93,33 @@ void fdcl_Clebsch_Gordon_matrix::compute(int l1, int l2)
 			compute_sub(l,m,l1,l2);
 }
 
+fdcl_FFTSO3_matrix_complex fdcl_Clebsch_Gordon_matrix::matrix2rsph(int L)
+{
+    fdcl_FFTSO3_matrix_complex T(L);
+    int l,m;
+
+    for(l=0;l<=L;l++)
+    {
+        for(m=-l;m<0;m++)
+        {
+            T(l,m,m)=I/sqrt(2.);
+            T(l,m,-m)=-I/sqrt(2.)*pow(-1.,m);
+        }
+        T(l,0,0)=1.;
+        for(m=1;m<=l;m++)
+        {
+            T(l,m,-m)=1./sqrt(2.);
+            T(l,m,m)=pow(-1.,m)/sqrt(2.);
+        }
+    }
+
+    return T;
+}
+
+void fdcl_Clebsch_Gordon_matrix::compute_real(int l1, int l2)
+{
+    fdcl_FFTSO3_matrix_complex T;
+    T.init(max(l1,l2));
+    compute(l1,l2);
+    c=C;
+}
