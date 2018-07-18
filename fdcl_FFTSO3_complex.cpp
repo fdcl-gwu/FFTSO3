@@ -687,3 +687,47 @@ fdcl_FFTSO3_matrix_complex fdcl_FFTSO3_complex::forward_transform(std::function 
             });
 }
 
+void fdcl_FFTSO3_complex::check_Clebsch_Gordon()
+{
+    int l1=2, l2=5, l, m1, m2, m, n1, n2, n;
+    double alpha, beta, gamma;
+    fdcl_FFTSO3_matrix_complex D(l1+l2);
+    complex<double> y, y_CB={0., 0.};
+    double error=0.;
+
+    alpha=(double)rand()/RAND_MAX*2.*M_PI;
+    beta=(double)rand()/RAND_MAX*M_PI;
+    gamma=(double)rand()/RAND_MAX*2.*M_PI;
+
+    D=wigner_D(alpha,beta,gamma,l1+l2);
+
+    C.compute(l1,l2);
+
+    cout << "fdcl_FFTSO3_complex:check_Clebsch_Gordon" << endl;
+    cout << "l1 = " << l1 << ", l2 = " << l2 << endl;
+    cout << "alpha = " << alpha << ", beta = " << beta << ", gamma = " << gamma << endl;
+
+    for(m1=-l1;m1<=l1;m1++)
+        for(n1=-l1;n1<=l1;n1++)
+            for(m2=-l2;m2<=l2;m2++)
+                for(n2=-l2;n2<=l2;n2++)
+                {
+                    y=D(l1,m1,n1)*D(l2,m2,n2);
+                    y_CB={0., 0.};
+                    for(l=abs(l1-l2);l<=l1+l2;l++)
+                        for(m=-l;m<=l;m++)
+                            for(n=-l;n<=l;n++)
+                                y_CB+=C(l,m,l1,m1,l2,m2)*C(l,n,l1,n1,l2,n2)*D(l,m,n);
+
+                    // cout << "y = " << y << endl;
+                    // cout << "y_Clebsch_Gordon = " << y_CB << endl;
+                    if(abs(y-y_CB) > error)
+                        error = abs(y-y_CB);
+                }
+
+    cout << "error = " << error << endl;
+    cout << "fdcl_FFTSO3_complex:check_Clebsch_Gordon:completed" << endl << endl;
+
+
+}
+

@@ -4,7 +4,6 @@
 #include <iomanip>      // std::setprecision
 #include <Eigen/Dense>
 
-
 #include "fdcl_FFTSO3_matrix.hpp"
 #include "fdcl_FFTSO3_complex.hpp"
 #include "fdcl_FFTSO3_real.hpp"
@@ -57,12 +56,13 @@ int main()
     R1=expm_SO3(eta1);
     R2=expm_SO3(eta2);
     
-    FFTSO3.check_weight();
-    FFTSO3.check_wigner_d();
-    FFTSO3.check_forward_transform();
+    // FFTSO3.check_weight();
+    // FFTSO3.check_wigner_d();
+    // FFTSO3.check_forward_transform();
+    FFTSO3.check_Clebsch_Gordon();
 
-    FFTSO3_real.check_weight();
-    FFTSO3_real.check_wigner_d();
-    FFTSO3_real.check_wigner_D_real();
-    FFTSO3_real.check_forward_transform();
+    // FFTSO3_real.check_weight();
+    // FFTSO3_real.check_wigner_d();
+    // FFTSO3_real.check_wigner_D_real();
+    // FFTSO3_real.check_forward_transform();
 }
