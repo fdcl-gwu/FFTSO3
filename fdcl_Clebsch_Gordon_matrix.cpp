@@ -13,8 +13,6 @@ void fdcl_Clebsch_Gordon_matrix::init(int l1, int l2)
     n = (2*l1+1)*(2*l2+1);
     C.resize(n,n);
     C.setZero();
-    c.resize(n,n);
-    c.setZero();
 }
 
 int fdcl_Clebsch_Gordon_matrix::row(int l, int m, int l1, int m1, int l2, int m2)
@@ -87,7 +85,8 @@ void fdcl_Clebsch_Gordon_matrix::compute_sub(int l, int m, int l1, int l2)
 
 void fdcl_Clebsch_Gordon_matrix::compute(int l1, int l2)
 {
-    this->init(l1,l2);
+    cout << "fdcl_Clebsch_Gordon_matrix::compute" << endl;
+    init(l1,l2);
 	for (int l=abs(l1-l2);l<=l1+l2;l++)
 		for (int m=-l;m<=l;m++)
 			compute_sub(l,m,l1,l2);
@@ -116,10 +115,49 @@ fdcl_FFTSO3_matrix_complex fdcl_Clebsch_Gordon_matrix::matrix2rsph(int L)
     return T;
 }
 
-void fdcl_Clebsch_Gordon_matrix::compute_real(int l1, int l2)
+void fdcl_Clebsch_Gordon_real::compute(int l1, int l2)
 {
     fdcl_FFTSO3_matrix_complex T;
-    T.init(max(l1,l2));
-    compute(l1,l2);
-    c=C;
+    Eigen::Matrix<complex<double>,Dynamic,Dynamic> T12, OTl;
+    int n, n1, n2, il;
+
+    n1 = (2*l1+1);
+    n2 = (2*l2+1);
+    n = n1*n2;
+    T.init(l1+l2);
+    T = matrix2rsph(l1+l2);
+    T12.resize(n,n);
+    T12.setZero();
+    OTl.resize(n,n);
+    OTl.setZero();
+
+    fdcl_Clebsch_Gordon_matrix::compute(l1,l2);
+    cout << "back to real::compute" << endl;
+    for(int i=0;i<2*l1+1;i++)
+        for(int j=0;j<2*l1+1;j++)
+        {
+            T12.block(n2*i,n2*j,n2,n2)=T[l2]*T[l1](i,j);
+        }
+
+    il=0;
+    for(int l=abs(l1-l2); l<=l1+l2; l++)
+    {
+        OTl.block(il,il,2*l+1,2*l+1)=T[l];
+        il+=2*l+1;
+        // cout << il << endl;
+    }
+    c = T12.conjugate()*C*OTl.transpose();
+
+    // cout << T[l1] << endl << endl;
+    // cout << T[l2] << endl << endl;
+    // cout << T12 << endl << endl;
+    // cout << T12.conjugate() << endl << endl;
+    // cout << OTl << endl << endl;
+    // cout << c*c.adjoint() << endl;
+}
+
+complex<double>& fdcl_Clebsch_Gordon_real::operator() (int l, int m, int l1, int m1, int l2, int m2)
+{
+    assert_index(l,m,l1,m1,l2,m2);
+    return c(row(l,m,l1,m1,l2,m2),col(l,m,l1,m1,l2,m2));
 }

@@ -968,4 +968,51 @@ void fdcl_FFTSO3_real::check_wigner_D_real()
     cout << "fdcl_FFTSO3_real::check_wigner_D_real completed" << endl << endl;
 }
 
+void fdcl_FFTSO3_real::check_Clebsch_Gordon()
+{
+    int l1=2, l2=5, l, m1, m2, m, n1, n2, n;
+    double alpha, beta, gamma;
+    fdcl_FFTSO3_matrix_real U(l1+l2);
+    complex<double> y, y_CB={0., 0.};
+    double error=0.;
+
+    alpha=(double)rand()/RAND_MAX*2.*M_PI;
+    beta=(double)rand()/RAND_MAX*M_PI;
+    gamma=(double)rand()/RAND_MAX*2.*M_PI;
+
+    U=wigner_D_real(alpha,beta,gamma,l1+l2);
+
+    c.compute(l1,l2);
+
+    cout << "fdcl_FFTSO3_real:check_Clebsch_Gordon" << endl;
+    cout << "l1 = " << l1 << ", l2 = " << l2 << endl;
+    cout << "alpha = " << alpha << ", beta = " << beta << ", gamma = " << gamma << endl;
+
+    for(m1=-l1;m1<=l1;m1++)
+        for(n1=-l1;n1<=l1;n1++)
+            for(m2=-l2;m2<=l2;m2++)
+                for(n2=-l2;n2<=l2;n2++)
+                {
+                    y=U(l1,m1,n1)*U(l2,m2,n2);
+                    y_CB={0., 0.};
+                    for(l=abs(l1-l2);l<=l1+l2;l++)
+                        for(m=-l;m<=l;m++)
+                            for(n=-l;n<=l;n++)
+                            {
+                                y_CB+=c(l,m,l1,m1,l2,m2)*std::conj(c(l,n,l1,n1,l2,n2))*U(l,m,n);
+                                double tmp=std::imag(c(l,m,l1,m1,l2,m2)*std::conj(c(l,n,l1,n1,l2,n2))); 
+                                if (abs(tmp) > 1e-6)
+                                    cout << tmp << endl;
+                            }
+
+                    // cout << "y = " << y << endl;
+                    // cout << "y_Clebsch_Gordon = " << y_CB << endl;
+                    if(abs(y-y_CB) > error)
+                        error = abs(y-y_CB);
+                }
+
+    cout << "error = " << error << endl;
+    cout << "fdcl_FFTSO3_real:check_Clebsch_Gordon:completed" << endl << endl;
+}
+
 

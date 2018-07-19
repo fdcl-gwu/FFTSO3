@@ -387,10 +387,9 @@ where the last two operations are Fourier transforms in a linear space, which ca
 
 The product of two wigner D matrices can be transformed, and the resulting Fourier coefficients are referred to as Clebsch-Gordon coefficients. 
 It has been shown that
-\begin{align*}
+\begin{align}
     D^{l_1}_{m_1,n_1} (R) D^{l_2}_{m_2,n_2}(R) = \sum_{|l_1-l_2|}^{l_1+l_2} \sum_{m,n=-l}^l C^{l,m}_{l_1,m_1,l_2,m_2} C^{l,m}_{l_1,n_2,l_2,n_2} D^{l}_{m,n}(R).
-\end{align*}
-From now on, it is assumed that $l_1\leq l_2$ without loss of generality. 
+\end{align}
 
 The coefficients $C^{l,m}_{l_1,m_1,l_2,m_2}$ can be arranged into a matrix~\cite{MarPec11}, namely $C_{l_1,l_2}$. 
 The column index is determined by $(l,m)$. 
@@ -874,7 +873,9 @@ Define the Clebsch-Gordon matrix for the real harmonics as
 \end{align}
 Then, 
 \begin{align}
-    U^{l_1}(R) \otimes U^{l_2}(R) & = c_{l_1,l_2} \bracket{ \bigoplus_{l=|l_1-l_2|}^{l_1+l_2} U^l(R) } c_{l_1,l_2}^*.
+    U^{l_1}(R) \otimes U^{l_2}(R) & = c_{l_1,l_2} \bracket{ \bigoplus_{l=|l_1-l_2|}^{l_1+l_2} U^l(R) } \overline{c}_{l_1,l_2}^T\\
+                                  & = \frac{1}{2}\parenth{c_{l_1,l_2} \bracket{ \bigoplus_{l=|l_1-l_2|}^{l_1+l_2} U^l(R) } \overline{c}_{l_1,l_2}^T+
+\overline c_{l_1,l_2} \bracket{ \bigoplus_{l=|l_1-l_2|}^{l_1+l_2} U^l(R) } {c}_{l_1,l_2}^T}
 \end{align}
 
 

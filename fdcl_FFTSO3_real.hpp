@@ -7,6 +7,7 @@
 #include <Eigen/Dense>
 
 #include "fdcl_tictoc.hpp"
+#include "fdcl_Clebsch_Gordon_matrix.hpp"
 #include "misc_matrix_func.h"
 
 using namespace std;
@@ -21,6 +22,7 @@ public:
     fdcl_FFTSO3_matrix_real F;
 	int B, l_max;
 	std::vector<double> weight;
+    fdcl_Clebsch_Gordon_real c;
 	
 	fdcl_FFTSO3_real(){};
 	fdcl_FFTSO3_real(int l_max);
@@ -50,6 +52,7 @@ public:
 	void check_wigner_d();
     void check_wigner_D_real();
     void check_forward_transform();
+    void check_Clebsch_Gordon();
 
 private:
 	double delta(int ,int );

@@ -21,7 +21,8 @@ class fdcl_Clebsch_Gordon_matrix
         void init(int l1, int l2);
         ~fdcl_Clebsch_Gordon_matrix(){};
         int l1, l2;
-        Eigen::Matrix<double,Dynamic,Dynamic> C,c;
+        Eigen::Matrix<double,Dynamic,Dynamic> C;
+        Eigen::Matrix<complex<double>,Dynamic,Dynamic> c;
 
         double& operator()(int l, int m, int l1, int m1, int l2, int m2); 
 
@@ -153,13 +154,13 @@ void fdcl_Clebsch_Gordon_matrix::compute_real(int l1, int l2)
 {
     fdcl_FFTSO3_matrix_complex T;
     Eigen::Matrix<complex<double>,Dynamic,Dynamic> T12, OTl;
-    int n, n1, n2;
+    int n, n1, n2, il;
 
     n1 = (2*l1+1);
     n2 = (2*l2+1);
     n = n1*n2;
-    T.init(max(l1,l2));
-    T = matrix2rsph(max(l1,l2));
+    T.init(l1+l2);
+    T = matrix2rsph(l1+l2);
     T12.resize(n,n);
     T12.setZero();
     OTl.resize(n,n);
@@ -172,10 +173,22 @@ void fdcl_Clebsch_Gordon_matrix::compute_real(int l1, int l2)
             T12.block(n2*i,n2*j,n2,n2)=T[l2]*T[l1](i,j);
             // cout << T[l2] << endl;
         }
-    // c=T12;
-    cout << T[l1] << endl;
-    cout << T[l2] << endl;
-    cout << T12 << endl;
+
+    il=0;
+    for(int l=abs(l1-l2); l<=l1+l2; l++)
+    {
+        OTl.block(il,il,2*l+1,2*l+1)=T[l];
+        il+=2*l+1;
+        cout << il << endl;
+    }
+    c = T12.conjugate()*C*OTl.transpose();
+
+    cout << T[l1] << endl << endl;
+    cout << T[l2] << endl << endl;
+    cout << T12 << endl << endl;
+    cout << T12.conjugate() << endl << endl;
+    cout << OTl << endl << endl;
+    cout << c*c.adjoint() << endl;
 }
 
 int main()
@@ -183,7 +196,7 @@ int main()
     fdcl_Clebsch_Gordon_matrix C;
     int l1, l2, m1, m2, l, m;
     l1=1;
-    l2=2;
+    l2=1;
     m1=1;
     m2=2;
 

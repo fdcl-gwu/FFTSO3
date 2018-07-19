@@ -21,7 +21,7 @@ class fdcl_Clebsch_Gordon_matrix
         void init(int l1, int l2);
         ~fdcl_Clebsch_Gordon_matrix(){};
         int l1, l2;
-        Eigen::Matrix<double,Dynamic,Dynamic> C, c;
+        Eigen::Matrix<double,Dynamic,Dynamic> C;
 
         double& operator()(int l, int m, int l1, int m1, int l2, int m2); 
 
@@ -30,8 +30,19 @@ class fdcl_Clebsch_Gordon_matrix
         void assert_index(int l, int m, int l1, int m1, int l2, int m2);
         void compute_sub(int l, int m, int l1, int l2);
 		void compute(int l1, int l2);
-    private:
+    protected:
         fdcl_FFTSO3_matrix_complex matrix2rsph(int );
+};
+
+class fdcl_Clebsch_Gordon_real : public fdcl_Clebsch_Gordon_matrix
+{
+    public:
+        fdcl_Clebsch_Gordon_real(){};
+        ~fdcl_Clebsch_Gordon_real(){};
+
+        Eigen::Matrix<complex<double>,Dynamic,Dynamic> c;
+        complex<double>& operator()(int l, int m, int l1, int m1, int l2, int m2); 
+		void compute(int l1, int l2);
 };
 
 #endif

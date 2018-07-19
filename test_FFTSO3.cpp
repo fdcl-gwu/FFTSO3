@@ -60,9 +60,11 @@ int main()
     // FFTSO3.check_wigner_d();
     // FFTSO3.check_forward_transform();
     FFTSO3.check_Clebsch_Gordon();
+    
 
     // FFTSO3_real.check_weight();
     // FFTSO3_real.check_wigner_d();
     // FFTSO3_real.check_wigner_D_real();
     // FFTSO3_real.check_forward_transform();
+    FFTSO3_real.check_Clebsch_Gordon();
 }
