@@ -388,12 +388,20 @@ where the last two operations are Fourier transforms in a linear space, which ca
 The product of two wigner D matrices can be transformed, and the resulting Fourier coefficients are referred to as Clebsch-Gordon coefficients. 
 It has been shown that
 \begin{align}
-    D^{l_1}_{m_1,n_1} (R) D^{l_2}_{m_2,n_2}(R) = \sum_{|l_1-l_2|}^{l_1+l_2} \sum_{m,n=-l}^l C^{l,m}_{l_1,m_1,l_2,m_2} C^{l,m}_{l_1,n_2,l_2,n_2} D^{l}_{m,n}(R).
+    D^{l_1}_{m_1,n_1} (R) D^{l_2}_{m_2,n_2}(R) = \sum_{l=|l_1-l_2|}^{l_1+l_2} \sum_{m,n=-l}^l C^{l,m}_{l_1,m_1,l_2,m_2} C^{l,n}_{l_1,n_1,l_2,n_2} D^{l}_{m,n}(R).
 \end{align}
-
+It is shown that
+\begin{gather*}
+    C^{l,m}_{l_1,m_1,l_2,m_2} = 0,\quad \text{ if } m \neq m_1 + m_2,\\
+    \sum_{m_1,m_2} C^{l,m}_{l_1,m_1,l_2,m_2} C^{l',m'}_{l_1,m_1,l_2,m_2} = \delta_{l,l'}\delta_{m,m'},\\
+    \sum_{l,m} C^{l,m}_{l_1,m_1,l_2,m_2} C^{l,m}_{l_1,m_1',l_2,m_2'} = \delta_{m_1,m_1'}\delta_{m_2,m_2'}.
+\end{gather*}
+\begin{align}
+    D^{l_1}_{m_1,n_1} (R) D^{l_2}_{m_2,n_2}(R) = \sum_{l=\max\{|l_1-l_2|,|m_1+m_2|,|n_1+n_2|\}}^{l_1+l_2} C^{l,m_1+m_2}_{l_1,m_1,l_2,m_2} C^{l,n_1+n_2}_{l_1,n_1,l_2,n_2} D^{l}_{m_1+m_2,n_1+n_2}(R).
+\end{align}
 The coefficients $C^{l,m}_{l_1,m_1,l_2,m_2}$ can be arranged into a matrix~\cite{MarPec11}, namely $C_{l_1,l_2}$. 
 The column index is determined by $(l,m)$. 
-Since $|l_1-l_2|\leq l \leq l_1+l_2$ and $-l\leq m \leq m$, the number of columns is given by
+Since $|l_1-l_2|\leq l \leq l_1+l_2$ and $-l\leq m \leq l$, the number of columns is given by
 \[
     \sum_{l=|l_1-l_2|}^{l_1+l_2} (2l+1) = (2l_1+1)(2l_2+1).
 \]
@@ -871,14 +879,25 @@ Define the Clebsch-Gordon matrix for the real harmonics as
 \begin{align}
     c_{l_1,l_2} = (\overline{T}^{l_1} \otimes \overline{T}^{l_2}) C_{l_1,l_2} \bracket{ \bigoplus_{l=|l_1-l_2|}^{l_1+l_2} (T^l)^T }.
 \end{align}
+One can show
+\begin{align}
+    c_{l_1,l_2} \overline{c}_{l_1,l_2}^T = I.
+\end{align}
 Then, 
 \begin{align}
     U^{l_1}(R) \otimes U^{l_2}(R) & = c_{l_1,l_2} \bracket{ \bigoplus_{l=|l_1-l_2|}^{l_1+l_2} U^l(R) } \overline{c}_{l_1,l_2}^T\\
                                   & = \frac{1}{2}\parenth{c_{l_1,l_2} \bracket{ \bigoplus_{l=|l_1-l_2|}^{l_1+l_2} U^l(R) } \overline{c}_{l_1,l_2}^T+
 \overline c_{l_1,l_2} \bracket{ \bigoplus_{l=|l_1-l_2|}^{l_1+l_2} U^l(R) } {c}_{l_1,l_2}^T}
 \end{align}
-
-
+In the element-wise form,
+\begin{align}
+    U^{l_1}_{m_1,n_1} (R) U^{l_2}_{m_2,n_2}(R) = \sum_{l=|l_1-l_2|}^{l_1+l_2} \sum_{m,n=-l}^l c^{l,m}_{l_1,m_1,l_2,m_2} \overline{c}^{l,n}_{l_1,n_1,l_2,n_2} U^{l}_{m,n}(R).
+\end{align}
+\begin{gather*}
+    C^{l,m}_{l_1,m_1,l_2,m_2} = 0,\quad \text{ if } m \neq m_1 + m_2,\\
+    \sum_{m_1,m_2} C^{l,m}_{l_1,m_1,l_2,m_2} C^{l',m'}_{l_1,m_1,l_2,m_2} = \delta_{l,l'}\delta_{m,m'},\\
+    \sum_{l,m} C^{l,m}_{l_1,m_1,l_2,m_2} C^{l,m}_{l_1,m_1',l_2,m_2'} = \delta_{m_1,m_1'}\delta_{m_2,m_2'}.
+\end{gather*}
 \bibliography{/Users/tylee/Documents/BibMaster17}
 \bibliographystyle{IEEEtran}
 

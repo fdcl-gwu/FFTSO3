@@ -970,7 +970,7 @@ void fdcl_FFTSO3_real::check_wigner_D_real()
 
 void fdcl_FFTSO3_real::check_Clebsch_Gordon()
 {
-    int l1=2, l2=5, l, m1, m2, m, n1, n2, n;
+    int l1=1, l2=2, l, m1, m2, m, n1, n2, n;
     double alpha, beta, gamma;
     fdcl_FFTSO3_matrix_real U(l1+l2);
     complex<double> y, y_CB={0., 0.};
@@ -1000,6 +1000,7 @@ void fdcl_FFTSO3_real::check_Clebsch_Gordon()
                             for(n=-l;n<=l;n++)
                             {
                                 y_CB+=c(l,m,l1,m1,l2,m2)*std::conj(c(l,n,l1,n1,l2,n2))*U(l,m,n);
+
                                 double tmp=std::imag(c(l,m,l1,m1,l2,m2)*std::conj(c(l,n,l1,n1,l2,n2))); 
                                 if (abs(tmp) > 1e-6)
                                     cout << tmp << endl;

@@ -714,10 +714,10 @@ void fdcl_FFTSO3_complex::check_Clebsch_Gordon()
                 {
                     y=D(l1,m1,n1)*D(l2,m2,n2);
                     y_CB={0., 0.};
-                    for(l=abs(l1-l2);l<=l1+l2;l++)
-                        for(m=-l;m<=l;m++)
-                            for(n=-l;n<=l;n++)
-                                y_CB+=C(l,m,l1,m1,l2,m2)*C(l,n,l1,n1,l2,n2)*D(l,m,n);
+                    for(l=max(abs(l1-l2),max(abs(m1+m2),abs(n1+n2))) ;l<=l1+l2; l++)
+                        // for(m=-l;m<=l;m++)
+                            // for(n=-l;n<=l;n++)
+                                y_CB+=C(l,m1+m2,l1,m1,l2,m2)*C(l,n1+n2,l1,n1,l2,n2)*D(l,m1+m2,n1+n2);
 
                     // cout << "y = " << y << endl;
                     // cout << "y_Clebsch_Gordon = " << y_CB << endl;

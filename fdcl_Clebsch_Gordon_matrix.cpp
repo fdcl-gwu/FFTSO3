@@ -119,16 +119,16 @@ void fdcl_Clebsch_Gordon_real::compute(int l1, int l2)
 {
     fdcl_FFTSO3_matrix_complex T;
     Eigen::Matrix<complex<double>,Dynamic,Dynamic> T12, OTl;
-    int n, n1, n2, il;
+    int N, N1, N2, il;
 
-    n1 = (2*l1+1);
-    n2 = (2*l2+1);
-    n = n1*n2;
+    N1 = (2*l1+1);
+    N2 = (2*l2+1);
+    N = N1*N2;
     T.init(l1+l2);
     T = matrix2rsph(l1+l2);
-    T12.resize(n,n);
+    T12.resize(N,N);
     T12.setZero();
-    OTl.resize(n,n);
+    OTl.resize(N,N);
     OTl.setZero();
 
     fdcl_Clebsch_Gordon_matrix::compute(l1,l2);
@@ -136,7 +136,7 @@ void fdcl_Clebsch_Gordon_real::compute(int l1, int l2)
     for(int i=0;i<2*l1+1;i++)
         for(int j=0;j<2*l1+1;j++)
         {
-            T12.block(n2*i,n2*j,n2,n2)=T[l2]*T[l1](i,j);
+            T12.block(N2*i,N2*j,N2,N2)=T[l2]*T[l1](i,j);
         }
 
     il=0;
@@ -147,6 +147,26 @@ void fdcl_Clebsch_Gordon_real::compute(int l1, int l2)
         // cout << il << endl;
     }
     c = T12.conjugate()*C*OTl.transpose();
+
+
+    Eigen::Matrix<complex<double>,Dynamic,Dynamic> c_new;
+    c_new.resize(N,N);
+    c_new.setZero();
+
+    for(int m1=-l1; m1<=l1; m1++)
+        for(int m2=-l2; m2<=l2; m2++)
+            for(int l=abs(l1-l2); l<=l1+l2; l++)
+                for(int m=-l; m<=l; m++)
+                {
+                    for(int p1=-l1; p1<=l1; p1++)
+                        for(int p2=-l2; p2<=l2; p2++)
+                                for(int q2=-l; q2<=l; q2++)
+                                    c_new(row(l,m,l1,m1,l2,m2),col(l,m,l1,m1,l2,m2))+=conj(T(l1,m1,p1))*conj(T(l2,m2,p2))*C(row(l,q2,l1,p1,l2,p2),col(l,q2,l1,p1,l2,p2))*T(l,m,q2);
+                }
+// 
+    cout << "c = " << endl << c << endl;
+    cout << "c_new = " << endl << c_new << endl;
+    cout << "c_error " << (c-c_new).norm() << endl; 
 
     // cout << T[l1] << endl << endl;
     // cout << T[l2] << endl << endl;
