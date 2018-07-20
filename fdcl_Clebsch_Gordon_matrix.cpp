@@ -83,6 +83,11 @@ void fdcl_Clebsch_Gordon_matrix::compute_sub(int l, int m, int l1, int l2)
     // cout << CC << endl;
 }
 
+fdcl_Clebsch_Gordon_real::fdcl_Clebsch_Gordon_real(int l1, int l2)
+{
+    init(l1,l2);
+}
+
 void fdcl_Clebsch_Gordon_matrix::compute(int l1, int l2)
 {
     cout << "fdcl_Clebsch_Gordon_matrix::compute" << endl;
@@ -115,65 +120,95 @@ fdcl_FFTSO3_matrix_complex fdcl_Clebsch_Gordon_matrix::matrix2rsph(int L)
     return T;
 }
 
+void fdcl_Clebsch_Gordon_real::init(int l1, int l2)
+{
+    fdcl_Clebsch_Gordon_matrix::init(l1,l2);
+    int n = (2*l1+1)*(2*l2+1);
+    c.resize(n,n);
+    c.setZero();
+}
+
 void fdcl_Clebsch_Gordon_real::compute(int l1, int l2)
 {
+    init(l1,l2);
+    fdcl_tictoc tictoc;
     fdcl_FFTSO3_matrix_complex T;
-    Eigen::Matrix<complex<double>,Dynamic,Dynamic> T12, OTl;
-    int N, N1, N2, il;
-
-    N1 = (2*l1+1);
-    N2 = (2*l2+1);
-    N = N1*N2;
+    int p1, p2;
     T.init(l1+l2);
     T = matrix2rsph(l1+l2);
-    T12.resize(N,N);
-    T12.setZero();
-    OTl.resize(N,N);
-    OTl.setZero();
 
     fdcl_Clebsch_Gordon_matrix::compute(l1,l2);
-    cout << "back to real::compute" << endl;
-    for(int i=0;i<2*l1+1;i++)
-        for(int j=0;j<2*l1+1;j++)
-        {
-            T12.block(N2*i,N2*j,N2,N2)=T[l2]*T[l1](i,j);
-        }
-
-    il=0;
-    for(int l=abs(l1-l2); l<=l1+l2; l++)
-    {
-        OTl.block(il,il,2*l+1,2*l+1)=T[l];
-        il+=2*l+1;
-        // cout << il << endl;
-    }
-    c = T12.conjugate()*C*OTl.transpose();
-
-
-    Eigen::Matrix<complex<double>,Dynamic,Dynamic> c_new;
-    c_new.resize(N,N);
-    c_new.setZero();
+    cout << "c row/col" << c.rows() << c.cols() << endl;
 
     for(int m1=-l1; m1<=l1; m1++)
         for(int m2=-l2; m2<=l2; m2++)
             for(int l=abs(l1-l2); l<=l1+l2; l++)
                 for(int m=-l; m<=l; m++)
                 {
-                    for(int p1=-l1; p1<=l1; p1++)
-                        for(int p2=-l2; p2<=l2; p2++)
-                                for(int q2=-l; q2<=l; q2++)
-                                    c_new(row(l,m,l1,m1,l2,m2),col(l,m,l1,m1,l2,m2))+=conj(T(l1,m1,p1))*conj(T(l2,m2,p2))*C(row(l,q2,l1,p1,l2,p2),col(l,q2,l1,p1,l2,p2))*T(l,m,q2);
-                }
-// 
-    cout << "c = " << endl << c << endl;
-    cout << "c_new = " << endl << c_new << endl;
-    cout << "c_error " << (c-c_new).norm() << endl; 
+                    p1=m1; p2=m2;
+                    if(abs(p1+p2) == abs(m))
+                        c(row(l,m,l1,m1,l2,m2),col(l,m,l1,m1,l2,m2))+=conj(T(l1,m1,p1))*conj(T(l2,m2,p2))*C(row(l,p1+p2,l1,p1,l2,p2),col(l,p1+p2,l1,p1,l2,p2))*T(l,m,p1+p2);
 
-    // cout << T[l1] << endl << endl;
-    // cout << T[l2] << endl << endl;
-    // cout << T12 << endl << endl;
-    // cout << T12.conjugate() << endl << endl;
-    // cout << OTl << endl << endl;
-    // cout << c*c.adjoint() << endl;
+                    if (m1!=0)   
+                    {
+                        p1=-m1; p2=m2;
+                        if(abs(p1+p2) == abs(m))
+                            c(row(l,m,l1,m1,l2,m2),col(l,m,l1,m1,l2,m2))+=conj(T(l1,m1,p1))*conj(T(l2,m2,p2))*C(row(l,p1+p2,l1,p1,l2,p2),col(l,p1+p2,l1,p1,l2,p2))*T(l,m,p1+p2);
+                    }
+                    if (m2!=0)
+                    {
+                        p1=m1; p2=-m2;
+                        if(abs(p1+p2) == abs(m))
+                            c(row(l,m,l1,m1,l2,m2),col(l,m,l1,m1,l2,m2))+=conj(T(l1,m1,p1))*conj(T(l2,m2,p2))*C(row(l,p1+p2,l1,p1,l2,p2),col(l,p1+p2,l1,p1,l2,p2))*T(l,m,p1+p2);
+                    }
+                    if (m1*m2 !=0)
+                    {
+                        p1=-m1; p2=-m2;
+                        if(abs(p1+p2) == abs(m))
+                            c(row(l,m,l1,m1,l2,m2),col(l,m,l1,m1,l2,m2))+=conj(T(l1,m1,p1))*conj(T(l2,m2,p2))*C(row(l,p1+p2,l1,p1,l2,p2),col(l,p1+p2,l1,p1,l2,p2))*T(l,m,p1+p2);
+                    }
+                }
+
+    // alternative method: matrix computation using Kronecker product : slower
+    // int N, N1, N2;
+    // int il;
+    // Eigen::Matrix<complex<double>,Dynamic,Dynamic> T12, OTl, c_new;
+    // N1 = (2*l1+1);
+    // N2 = (2*l2+1);
+    // N = N1*N2;
+    // T12.resize(N,N);
+    // T12.setZero();
+    // OTl.resize(N,N);
+    // OTl.setZero();
+    // c_new.resize(N,N);
+    // c_new.setZero();
+// 
+    // for(int i=0;i<2*l1+1;i++)
+        // for(int j=0;j<2*l1+1;j++)
+            // T12.block(N2*i,N2*j,N2,N2)=T[l2]*T[l1](i,j);
+// 
+    // il=0;
+    // for(int l=abs(l1-l2); l<=l1+l2; l++)
+    // {
+        // OTl.block(il,il,2*l+1,2*l+1)=T[l];
+        // il+=2*l+1;
+    // }
+    // c_new = T12.conjugate()*C*OTl.transpose();
+// 
+    // cout << "c error = " << (c-c_new).norm() << endl;
+    
+
+    // alternative method: element-wise computation with triple summation: slowest
+    // for(int m1=-l1; m1<=l1; m1++)
+        // for(int m2=-l2; m2<=l2; m2++)
+            // for(int l=abs(l1-l2); l<=l1+l2; l++)
+                // for(int m=-l; m<=l; m++)
+                // {
+                    // for(p1=-l1; p1<=l1; p1++)
+                        // for(p2=-l2; p2<=l2; p2++)
+                            // for(int p=-l; p<=l; p++)
+                                // c_new(row(l,m,l1,m1,l2,m2),col(l,m,l1,m1,l2,m2))+=conj(T(l1,m1,p1))*conj(T(l2,m2,p2))*C(row(l,p,l1,p1,l2,p2),col(l,p,l1,p1,l2,p2))*T(l,m,p);
+                // }
 }
 
 complex<double>& fdcl_Clebsch_Gordon_real::operator() (int l, int m, int l1, int m1, int l2, int m2)

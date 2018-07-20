@@ -7,6 +7,7 @@
 #include <Eigen/Dense>
 
 #include "fdcl_FFTSO3_matrix.hpp"
+#include "fdcl_tictoc.hpp"
 
 using namespace std;
 using namespace Eigen;
@@ -38,6 +39,8 @@ class fdcl_Clebsch_Gordon_real : public fdcl_Clebsch_Gordon_matrix
 {
     public:
         fdcl_Clebsch_Gordon_real(){};
+        fdcl_Clebsch_Gordon_real(int l1, int l2);
+        void init(int l1, int l2);
         ~fdcl_Clebsch_Gordon_real(){};
 
         Eigen::Matrix<complex<double>,Dynamic,Dynamic> c;
