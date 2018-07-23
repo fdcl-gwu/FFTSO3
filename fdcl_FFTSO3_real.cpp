@@ -970,11 +970,12 @@ void fdcl_FFTSO3_real::check_wigner_D_real()
 
 void fdcl_FFTSO3_real::check_Clebsch_Gordon()
 {
-    int l1=1, l2=2, l, m1, m2, m, n1, n2, n;
+    int l1=1, l2=4, l, m1, m2, n1, n2;
     double alpha, beta, gamma;
     fdcl_FFTSO3_matrix_real U(l1+l2);
-    complex<double> y, y_CB={0., 0.};
+    double y, y_CB=0.;
     double error=0.;
+    std::vector<int> M, N;
 
     alpha=(double)rand()/RAND_MAX*2.*M_PI;
     beta=(double)rand()/RAND_MAX*M_PI;
@@ -983,6 +984,27 @@ void fdcl_FFTSO3_real::check_Clebsch_Gordon()
     U=wigner_D_real(alpha,beta,gamma,l1+l2);
 
     c.compute(l1,l2);
+    double cr,ci;
+    for(int i=0;i<(2*l1+1)*(2*l2+1);i++)
+        for(int j=0;j<(2*l1+1)*(2*l2+1);j++)
+        {
+            if (abs(real(c.c(i,j))) < 1e-10)
+                cr=0.;
+            else
+                cr=real(c.c(i,j));
+
+            if (abs(imag(c.c(i,j))) < 1e-10)
+                ci=0.;
+            else
+                ci=imag(c.c(i,j));
+
+            c.c(i,j)=cr+I*ci;
+        }
+
+
+
+
+    cout << c.c << endl;
 
     cout << "fdcl_FFTSO3_real:check_Clebsch_Gordon" << endl;
     cout << "l1 = " << l1 << ", l2 = " << l2 << endl;
@@ -993,13 +1015,25 @@ void fdcl_FFTSO3_real::check_Clebsch_Gordon()
             for(m2=-l2;m2<=l2;m2++)
                 for(n2=-l2;n2<=l2;n2++)
                 {
+                    M.clear();
+                    M.insert(M.end(),{m1+m2,m1-m2,-m1+m2,-m1-m2});
+                    std::sort(M.begin(),M.end());
+                    auto last_M=std::unique(M.begin(),M.end());
+                    M.erase(last_M,M.end());
+
+                    N.clear();
+                    N.insert(N.end(),{n1+n2,n1-n2,-n1+n2,-n1-n2});
+                    std::sort(N.begin(),N.end());
+                    auto last_N=std::unique(N.begin(),N.end());
+                    N.erase(last_N,N.end());
+
                     y=U(l1,m1,n1)*U(l2,m2,n2);
-                    y_CB={0., 0.};
-                    for(l=abs(l1-l2);l<=l1+l2;l++)
-                        for(m=-l;m<=l;m++)
-                            for(n=-l;n<=l;n++)
+                    y_CB=0.;
+                    for(int m : M)
+                        for(int n : N)
+                            for(l=max(max(abs(l1-l2),abs(m)),abs(n));l<=l1+l2;l++)
                             {
-                                y_CB+=c(l,m,l1,m1,l2,m2)*std::conj(c(l,n,l1,n1,l2,n2))*U(l,m,n);
+                                y_CB+=real(c(l,m,l1,m1,l2,m2)*std::conj(c(l,n,l1,n1,l2,n2)))*U(l,m,n);
 
                                 double tmp=std::imag(c(l,m,l1,m1,l2,m2)*std::conj(c(l,n,l1,n1,l2,n2))); 
                                 if (abs(tmp) > 1e-6)

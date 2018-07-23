@@ -881,7 +881,7 @@ Define the Clebsch-Gordon matrix for the real harmonics as
 \end{align}
 From the ordering rules of of $C_{l_1,l_2}$, the corresponding element of $c_{l_1,l_2}$ can be written as
 \begin{align}
-    c^{l,m}_{l_1,m_1,l_2,n_2} = \sum_{p_1=-l_1}^{l_1} \sum_{p_2 = -l_2}^{l_2} \sum_{p=-l}^l \overline T^{l_1}_{m_1,p_1} \overline T^{l_2}_{m_2,p_2} T^l_{m,p} C^{l,p}_{l_1,p_1,l_2,p_2}.
+    c^{l,m}_{l_1,m_1,l_2,m_2} = \sum_{p_1=-l_1}^{l_1} \sum_{p_2 = -l_2}^{l_2} \sum_{p=-l}^l \overline T^{l_1}_{m_1,p_1} \overline T^{l_2}_{m_2,p_2} T^l_{m,p} C^{l,p}_{l_1,p_1,l_2,p_2}.
 \end{align}
 We have $T^l_{m,n}=0$ if $|m|\neq|n|$, and $C^{l,m}_{l_1,m_1,l_2,m_2}=0$ if $m\neq m_1+m_2$. 
 Therefore, the summation in the above equation can be reduced to
@@ -890,14 +890,15 @@ Therefore, the summation in the above equation can be reduced to
                               & = \sum_{p_1\in\{-m_1,m_1\}} \sum_{p_2 =\{ -m_2,m_2\}} \delta_{|m|,|p_1+p_2|} \overline T^{l_1}_{m_1,p_1} \overline T^{l_2}_{m_2,p_2} T^l_{m,p_1+p_2} C^{l,p_1+p_2}_{l_1,p_1,l_2,p_2}.
 \end{align}
 This implies
-\begin{align*}
-    c^{l,m}_{l_1,m_1,l_2,m_2} = 0, \text{ if  $|m|\neq |m_1+m_2|$ or $|m|\neq |m_1-m_2|$}.
-\end{align*}
-One can show
+\begin{align}
+    c^{l,m}_{l_1,m_1,l_2,m_2} = 0, \text{ if  $|m|\neq |m_1+m_2|$ or $|m|\neq |m_1-m_2|$}.\label{eqn:c_lm_zero}
+\end{align}
+From the orthogonality of $C$ and $T$, one can show
 \begin{align}
     c_{l_1,l_2} \overline{c}_{l_1,l_2}^T = I.
 \end{align}
-Then, 
+
+From this formulation, we have
 \begin{align}
     U^{l_1}(R) \otimes U^{l_2}(R) & = c_{l_1,l_2} \bracket{ \bigoplus_{l=|l_1-l_2|}^{l_1+l_2} U^l(R) } \overline{c}_{l_1,l_2}^T.
 \end{align}
@@ -905,11 +906,17 @@ In the element-wise form,
 \begin{align}
     U^{l_1}_{m_1,n_1} (R) U^{l_2}_{m_2,n_2}(R) = \sum_{l=|l_1-l_2|}^{l_1+l_2} \sum_{m,n=-l}^l c^{l,m}_{l_1,m_1,l_2,m_2} \overline{c}^{l,n}_{l_1,n_1,l_2,n_2} U^{l}_{m,n}(R).
 \end{align}
-\begin{gather*}
-    C^{l,m}_{l_1,m_1,l_2,m_2} = 0,\quad \text{ if } m \neq m_1 + m_2,\\
-    \sum_{m_1,m_2} C^{l,m}_{l_1,m_1,l_2,m_2} C^{l',m'}_{l_1,m_1,l_2,m_2} = \delta_{l,l'}\delta_{m,m'},\\
-    \sum_{l,m} C^{l,m}_{l_1,m_1,l_2,m_2} C^{l,m}_{l_1,m_1',l_2,m_2'} = \delta_{m_1,m_1'}\delta_{m_2,m_2'}.
-\end{gather*}
+From \eqref{eqn:c_lm_zero}, the summation reduces to
+\begin{align}
+    U^{l_1}_{m_1,n_1} (R) U^{l_2}_{m_2,n_2}(R) =  \sum_{m\in M} \sum_{n\in N} \sum_{l=\max\{|l_1-l_2|,|m|,|n|\}}^{l_1+l_2} c^{l,m}_{l_1,m_1,l_2,m_2} \overline{c}^{l,n}_{l_1,n_1,l_2,n_2} U^{l}_{m,n}(R).
+\end{align}
+where
+\begin{align}
+    M=\{m_1+m_2,m_1-m_2,-m_1+m_2,-m_1-m_2\},\quad N=\{n_1+n_2,n_1-n_2,-n_1+n_2,-n_1-n_2\}.
+\end{align}
+Interestingly, the Clebsch-Gordon coefficients for the real harmonics are complex in general. 
+But, it appears that the term $ c^{l,m}_{l_1,m_1,l_2,m_2} \overline{c}^{l,n}_{l_1,n_1,l_2,n_2}$ is real always.
+
 \bibliography{/Users/tylee/Documents/BibMaster17}
 \bibliographystyle{IEEEtran}
 

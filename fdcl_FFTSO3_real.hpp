@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <math.h> // pow
+#include <algorithm> // sort, unique
 #include <Eigen/Dense>
 
 #include "fdcl_tictoc.hpp"

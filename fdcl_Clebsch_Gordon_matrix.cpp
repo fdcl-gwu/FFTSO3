@@ -90,7 +90,6 @@ fdcl_Clebsch_Gordon_real::fdcl_Clebsch_Gordon_real(int l1, int l2)
 
 void fdcl_Clebsch_Gordon_matrix::compute(int l1, int l2)
 {
-    cout << "fdcl_Clebsch_Gordon_matrix::compute" << endl;
     init(l1,l2);
 	for (int l=abs(l1-l2);l<=l1+l2;l++)
 		for (int m=-l;m<=l;m++)
@@ -138,7 +137,6 @@ void fdcl_Clebsch_Gordon_real::compute(int l1, int l2)
     T = matrix2rsph(l1+l2);
 
     fdcl_Clebsch_Gordon_matrix::compute(l1,l2);
-    cout << "c row/col" << c.rows() << c.cols() << endl;
 
     for(int m1=-l1; m1<=l1; m1++)
         for(int m2=-l2; m2<=l2; m2++)
