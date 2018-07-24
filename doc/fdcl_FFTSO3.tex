@@ -984,15 +984,76 @@ We can expand the above expression for several cases.
         \begin{align*}
             c^{l,-m_1-m_2}_{l_1,m_1,l_2,m_2} & = \frac{-1}{\sqrt{8}} ( 1 + (-1)^{l_1+l_2-l}) C^{l,-m_1-m_2}_{l_1,-m_1,l_2,-m_2}.
         \end{align*}
-% 
-        % \begin{align*}
-            % c^{l,m_1-m_2}_{l_1,m_1,l_2,m_2} & =  \overline T^{l_1}_{m_1,m_1} \overline T^{l_2}_{m_2,-m_2} T^l_{m_1-m_2,m_1-m_2} C^{l,m_1-m_2}_{l_1,m_1,l_2,-m_2}\\
-                                            % & \quad + \overline T^{l_1}_{m_1,-m_1} \overline T^{l_2}_{m_2,m_2} T^l_{m_1-m_2,-m_1+m_2} C^{l,-m_1+m_2}_{l_1,-m_1,l_2,m_2} .
-        % \end{align*}
-        % \begin{align*}
-            % c^{l,-m_1+m_2}_{l_1,m_1,l_2,m_2} & = \overline T^{l_1}_{m_1,-m_1} \overline T^{l_2}_{m_2,m_2} T^l_{-m_1+m_2,-m_1+m_2} C^{l,-m_1+m_2}_{l_1,-m_1,l_2,m_2} \nonumber\\
-                                             % &\quad + \overline T^{l_1}_{m_1,m_1} \overline T^{l_2}_{m_2,-m_2} T^l_{-m_1+m_2,m_1-m_2} C^{l,m_1-m_2}_{l_1,m_1,l_2,-m_2}. 
-        % \end{align*}
+
+    \item $m_1 > 0$ and $m_2 < 0$
+        \begin{align*}
+            c^{l,m_1-m_2}_{l_1,m_1,l_2,m_2} & =  \overline T^{l_1}_{m_1,m_1} \overline T^{l_2}_{m_2,-m_2} T^l_{m_1-m_2,m_1-m_2} C^{l,m_1-m_2}_{l_1,m_1,l_2,-m_2}\\
+                                            & \quad + \overline T^{l_1}_{m_1,-m_1} \overline T^{l_2}_{m_2,m_2} T^l_{m_1-m_2,-m_1+m_2} C^{l,-m_1+m_2}_{l_1,-m_1,l_2,m_2} \\
+                                            & = \frac{i}{\sqrt{8}} ( 1 - (-1)^{l_1+l_2-l}) C^{l,m_1-m_2}_{l_1,m_1,l_2,-m_2}.
+        \end{align*}
+        \begin{align*}
+            c^{l,-m_1+m_2}_{l_1,m_1,l_2,m_2} & = \overline T^{l_1}_{m_1,-m_1} \overline T^{l_2}_{m_2,m_2} T^l_{-m_1+m_2,-m_1+m_2} C^{l,-m_1+m_2}_{l_1,-m_1,l_2,m_2} \nonumber\\
+                                             &\quad + \overline T^{l_1}_{m_1,m_1} \overline T^{l_2}_{m_2,-m_2} T^l_{-m_1+m_2,m_1-m_2} C^{l,m_1-m_2}_{l_1,m_1,l_2,-m_2} \\
+                                             & =\frac{1}{\sqrt{8}} ( 1 + (-1)^{l_1+l_2-l}) C^{l,-m_1+m_2}_{l_1,-m_1,l_2,m_2}.
+        \end{align*}
+
+    \item $m_1 < 0$ and $m_2 > 0$
+        \begin{align*}
+            c^{l,m_1-m_2}_{l_1,m_1,l_2,m_2} & = \frac{1}{\sqrt{8}} ( 1 + (-1)^{l_1+l_2-l}) C^{l,m_1-m_2}_{l_1,m_1,l_2,-m_2}.
+        \end{align*}
+        \begin{align*}
+            c^{l,-m_1+m_2}_{l_1,m_1,l_2,m_2} & = \frac{i}{\sqrt{8}} ( 1 - (-1)^{l_1+l_2-l}) C^{l,-m_1+m_2}_{l_1,-m_1,l_2,m_2}.
+        \end{align*}
+
+    \item $m_1 > 0$ and $m_2 > 0$ and $m_1-m_2 >0$
+        \begin{align*}
+            c^{l,m_1-m_2}_{l_1,m_1,l_2,m_2} & = \frac{(-1)^{m_2}}{\sqrt{8}} ( 1 + (-1)^{l_1+l_2-l}) C^{l,m_1-m_2}_{l_1,m_1,l_2,-m_2}.
+        \end{align*}
+        \begin{align*}
+            c^{l,-m_1+m_2}_{l_1,m_1,l_2,m_2} & = \frac{i(-1)^{m_2}}{\sqrt{8}} ( 1 - (-1)^{l_1+l_2-l}) C^{l,-m_1+m_2}_{l_1,-m_1,l_2,m_2}.
+        \end{align*}
+
+    \item $m_1 > 0$ and $m_2 > 0$ and $m_1-m_2 = 0$
+        \begin{align*}
+            c^{l,m_1-m_2}_{l_1,m_1,l_2,m_2} & = \frac{(-1)^{m_1}}{2} ( 1 + (-1)^{l_1+l_2-l}) C^{l,m_1-m_2}_{l_1,m_1,l_2,-m_2}.
+        \end{align*}
+        \begin{align*}
+            c^{l,-m_1+m_2}_{l_1,m_1,l_2,m_2} & = \frac{(-1)^{m_1}}{2} ( 1 + (-1)^{l_1+l_2-l}) C^{l,-m_1+m_2}_{l_1,-m_1,l_2,m_2}.
+        \end{align*}
+
+    \item $m_1 > 0$ and $m_2 > 0$ and $m_1-m_2 < 0$
+        \begin{align*}
+            c^{l,m_1-m_2}_{l_1,m_1,l_2,m_2} & = \frac{i(-1)^{m_1}}{\sqrt{8}} ( 1 - (-1)^{l_1+l_2-l}) C^{l,m_1-m_2}_{l_1,m_1,l_2,-m_2}.
+        \end{align*}
+        \begin{align*}
+            c^{l,-m_1+m_2}_{l_1,m_1,l_2,m_2} & = \frac{(-1)^{m_1}}{\sqrt{8}} ( 1 + (-1)^{l_1+l_2-l}) C^{l,-m_1+m_2}_{l_1,-m_1,l_2,m_2}.
+        \end{align*}
+
+    \item $m_1 < 0$ and $m_2 < 0$ and $m_1-m_2 >0$
+        \begin{align*}
+            c^{l,m_1-m_2}_{l_1,m_1,l_2,m_2} & = \frac{(-1)^{m_1}}{\sqrt{8}} ( 1 + (-1)^{l_1+l_2-l}) C^{l,m_1-m_2}_{l_1,m_1,l_2,-m_2}.
+        \end{align*}
+        \begin{align*}
+            c^{l,-m_1+m_2}_{l_1,m_1,l_2,m_2} & = \frac{i(-1)^{m_1}}{\sqrt{8}} ( 1 - (-1)^{l_1+l_2-l}) C^{l,-m_1+m_2}_{l_1,-m_1,l_2,m_2}.
+        \end{align*}
+
+    \item $m_1 < 0$ and $m_2 < 0$ and $m_1-m_2 = 0$
+        \begin{align*}
+            c^{l,m_1-m_2}_{l_1,m_1,l_2,m_2} & = \frac{(-1)^{m_1}}{2} ( 1 + (-1)^{l_1+l_2-l}) C^{l,m_1-m_2}_{l_1,m_1,l_2,-m_2}.
+        \end{align*}
+        \begin{align*}
+            c^{l,-m_1+m_2}_{l_1,m_1,l_2,m_2} & = \frac{(-1)^{m_1}}{2} ( 1 + (-1)^{l_1+l_2-l}) C^{l,-m_1+m_2}_{l_1,-m_1,l_2,m_2}.
+        \end{align*}
+
+    \item $m_1 < 0$ and $m_2 < 0$ and $m_1-m_2 < 0$
+        \begin{align*}
+            c^{l,m_1-m_2}_{l_1,m_1,l_2,m_2} & = \frac{i(-1)^{m_2}}{\sqrt{8}} ( 1 - (-1)^{l_1+l_2-l}) C^{l,m_1-m_2}_{l_1,m_1,l_2,-m_2}.
+        \end{align*}
+        \begin{align*}
+            c^{l,-m_1+m_2}_{l_1,m_1,l_2,m_2} & = \frac{(-1)^{m_2}}{\sqrt{8}} ( 1 + (-1)^{l_1+l_2-l}) C^{l,-m_1+m_2}_{l_1,-m_1,l_2,m_2}.
+        \end{align*}
+
+
 \end{itemize}
 
 From the orthogonality of $C$ and $T$, one can show

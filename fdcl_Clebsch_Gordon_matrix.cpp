@@ -375,10 +375,131 @@ void fdcl_Clebsch_Gordon_real::compute(int l1, int l2)
                         cout << "m1,m2 " << m1 << m2 << " " << tmp <<  endl;
                 }
 
+                if (m1 > 0 && m2 < 0  && abs(m1-m2) <=l )
+                {
+                    m=m1-m2;
+                    c_new(row(l,m,l1,m1,l2,m2),col(l,m,l1,m1,l2,m2)) = I/sqrt(8.)*(1.0-pow(-1.,l1+l2-l))* C(row(l,m,l1,m1,l2,-m2),col(l,m,l1,m1,l2,-m2));
+                    tmp=std::norm(c_new(row(l,m,l1,m1,l2,m2),col(l,m,l1,m1,l2,m2))-c(row(l,m,l1,m1,l2,m2),col(l,m,l1,m1,l2,m2)));
+                    if(tmp > 1e-5)
+                        cout << "m1,m2 " << m1 << m2 << " " << tmp <<  endl;
 
+                    m=-m1+m2;
+                    c_new(row(l,m,l1,m1,l2,m2),col(l,m,l1,m1,l2,m2)) = 1./sqrt(8.)*(1.+pow(-1.,l1+l2-l))* C(row(l,m,l1,-m1,l2,m2),col(l,m,l1,-m1,l2,m2));
+                    tmp=std::norm(c_new(row(l,m,l1,m1,l2,m2),col(l,m,l1,m1,l2,m2))-c(row(l,m,l1,m1,l2,m2),col(l,m,l1,m1,l2,m2)));
+                    if(tmp > 1e-5)
+                        cout << "m1,m2 " << m1 << m2 << " " << tmp <<  endl;
+                }
+
+
+                if (m1 < 0 && m2 > 0  && abs(m1-m2) <=l )
+                {
+                    m=m1-m2;
+                    c_new(row(l,m,l1,m1,l2,m2),col(l,m,l1,m1,l2,m2)) = 1./sqrt(8.)*(1.0+pow(-1.,l1+l2-l))* C(row(l,m,l1,m1,l2,-m2),col(l,m,l1,m1,l2,-m2));
+                    tmp=std::norm(c_new(row(l,m,l1,m1,l2,m2),col(l,m,l1,m1,l2,m2))-c(row(l,m,l1,m1,l2,m2),col(l,m,l1,m1,l2,m2)));
+                    if(tmp > 1e-5)
+                        cout << "m1,m2 " << m1 << m2 << " " << tmp <<  endl;
+
+                    m=-m1+m2;
+                    c_new(row(l,m,l1,m1,l2,m2),col(l,m,l1,m1,l2,m2)) = I/sqrt(8.)*(1.-pow(-1.,l1+l2-l))* C(row(l,m,l1,-m1,l2,m2),col(l,m,l1,-m1,l2,m2));
+                    tmp=std::norm(c_new(row(l,m,l1,m1,l2,m2),col(l,m,l1,m1,l2,m2))-c(row(l,m,l1,m1,l2,m2),col(l,m,l1,m1,l2,m2)));
+                    if(tmp > 1e-5)
+                        cout << "m1,m2 " << m1 << m2 << " " << tmp <<  endl;
+                }
+
+                if (m1 > 0 && m2 > 0  && m1-m2> 0 && abs(m1-m2) <=l )
+                {
+                    m=m1-m2;
+                    c_new(row(l,m,l1,m1,l2,m2),col(l,m,l1,m1,l2,m2)) = pow(-1.,m2)/sqrt(8.)*(1.0+pow(-1.,l1+l2-l))* C(row(l,m,l1,m1,l2,-m2),col(l,m,l1,m1,l2,-m2));
+                    tmp=std::norm(c_new(row(l,m,l1,m1,l2,m2),col(l,m,l1,m1,l2,m2))-c(row(l,m,l1,m1,l2,m2),col(l,m,l1,m1,l2,m2)));
+                    if(tmp > 1e-5)
+                        cout << "m1,m2 " << m1 << m2 << " " << tmp <<  endl;
+
+                    m=-m1+m2;
+                    c_new(row(l,m,l1,m1,l2,m2),col(l,m,l1,m1,l2,m2)) = I*pow(-1.,m2)/sqrt(8.)*(1.-pow(-1.,l1+l2-l))* C(row(l,m,l1,-m1,l2,m2),col(l,m,l1,-m1,l2,m2));
+                    tmp=std::norm(c_new(row(l,m,l1,m1,l2,m2),col(l,m,l1,m1,l2,m2))-c(row(l,m,l1,m1,l2,m2),col(l,m,l1,m1,l2,m2)));
+                    if(tmp > 1e-5)
+                        cout << "m1,m2 " << m1 << m2 << " " << tmp <<  endl;
+                }
+
+                if (m1 > 0 && m2 > 0  && m1-m2 == 0 && abs(m1-m2) <=l )
+                {
+                    m=m1-m2;
+                    c_new(row(l,m,l1,m1,l2,m2),col(l,m,l1,m1,l2,m2)) = pow(-1.,m1)/2.*(1.0+pow(-1.,l1+l2-l))* C(row(l,m,l1,m1,l2,-m2),col(l,m,l1,m1,l2,-m2));
+                    tmp=std::norm(c_new(row(l,m,l1,m1,l2,m2),col(l,m,l1,m1,l2,m2))-c(row(l,m,l1,m1,l2,m2),col(l,m,l1,m1,l2,m2)));
+                    if(tmp > 1e-5)
+                        cout << "m1,m2 " << m1 << m2 << " " << tmp <<  endl;
+
+                    m=-m1+m2;
+                    c_new(row(l,m,l1,m1,l2,m2),col(l,m,l1,m1,l2,m2)) = pow(-1.,m1)/2.*(1.+pow(-1.,l1+l2-l))* C(row(l,m,l1,-m1,l2,m2),col(l,m,l1,-m1,l2,m2));
+                    tmp=std::norm(c_new(row(l,m,l1,m1,l2,m2),col(l,m,l1,m1,l2,m2))-c(row(l,m,l1,m1,l2,m2),col(l,m,l1,m1,l2,m2)));
+                    if(tmp > 1e-5)
+                        cout << "m1,m2 " << m1 << m2 << " " << tmp <<  endl;
+                }
+
+                if (m1 > 0 && m2 > 0  && m1-m2 < 0 && abs(m1-m2) <=l )
+                {
+                    m=m1-m2;
+                    c_new(row(l,m,l1,m1,l2,m2),col(l,m,l1,m1,l2,m2)) = I*pow(-1.,m1)/sqrt(8.)*(1.0-pow(-1.,l1+l2-l))* C(row(l,m,l1,m1,l2,-m2),col(l,m,l1,m1,l2,-m2));
+                    tmp=std::norm(c_new(row(l,m,l1,m1,l2,m2),col(l,m,l1,m1,l2,m2))-c(row(l,m,l1,m1,l2,m2),col(l,m,l1,m1,l2,m2)));
+                    if(tmp > 1e-5)
+                        cout << "m1,m2 " << m1 << m2 << " " << tmp <<  endl;
+
+                    m=-m1+m2;
+                    c_new(row(l,m,l1,m1,l2,m2),col(l,m,l1,m1,l2,m2)) = pow(-1.,m1)/sqrt(8.)*(1.+pow(-1.,l1+l2-l))* C(row(l,m,l1,-m1,l2,m2),col(l,m,l1,-m1,l2,m2));
+                    tmp=std::norm(c_new(row(l,m,l1,m1,l2,m2),col(l,m,l1,m1,l2,m2))-c(row(l,m,l1,m1,l2,m2),col(l,m,l1,m1,l2,m2)));
+                    if(tmp > 1e-5)
+                        cout << "m1,m2 " << m1 << m2 << " " << tmp <<  endl;
+                }
+
+                if (m1 < 0 && m2 < 0  && m1-m2> 0 && abs(m1-m2) <=l )
+                {
+                    m=m1-m2;
+                    c_new(row(l,m,l1,m1,l2,m2),col(l,m,l1,m1,l2,m2)) = pow(-1.,m1)/sqrt(8.)*(1.0+pow(-1.,l1+l2-l))* C(row(l,m,l1,m1,l2,-m2),col(l,m,l1,m1,l2,-m2));
+                    tmp=std::norm(c_new(row(l,m,l1,m1,l2,m2),col(l,m,l1,m1,l2,m2))-c(row(l,m,l1,m1,l2,m2),col(l,m,l1,m1,l2,m2)));
+                    if(tmp > 1e-5)
+                        cout << "m1,m2 " << m1 << m2 << " " << tmp <<  endl;
+
+                    m=-m1+m2;
+                    c_new(row(l,m,l1,m1,l2,m2),col(l,m,l1,m1,l2,m2)) = I*pow(-1.,m1)/sqrt(8.)*(1.-pow(-1.,l1+l2-l))* C(row(l,m,l1,-m1,l2,m2),col(l,m,l1,-m1,l2,m2));
+                    tmp=std::norm(c_new(row(l,m,l1,m1,l2,m2),col(l,m,l1,m1,l2,m2))-c(row(l,m,l1,m1,l2,m2),col(l,m,l1,m1,l2,m2)));
+                    if(tmp > 1e-5)
+                        cout << "m1,m2 " << m1 << m2 << " " << tmp <<  endl;
+                }
+
+                if (m1 < 0 && m2 < 0  && m1-m2 == 0 && abs(m1-m2) <=l )
+                {
+                    m=m1-m2;
+                    c_new(row(l,m,l1,m1,l2,m2),col(l,m,l1,m1,l2,m2)) = pow(-1.,m1)/2.*(1.0+pow(-1.,l1+l2-l))* C(row(l,m,l1,m1,l2,-m2),col(l,m,l1,m1,l2,-m2));
+                    tmp=std::norm(c_new(row(l,m,l1,m1,l2,m2),col(l,m,l1,m1,l2,m2))-c(row(l,m,l1,m1,l2,m2),col(l,m,l1,m1,l2,m2)));
+                    if(tmp > 1e-5)
+                        cout << "m1,m2 " << m1 << m2 << " " << tmp <<  endl;
+
+                    m=-m1+m2;
+                    c_new(row(l,m,l1,m1,l2,m2),col(l,m,l1,m1,l2,m2)) = pow(-1.,m1)/2.*(1.+pow(-1.,l1+l2-l))* C(row(l,m,l1,-m1,l2,m2),col(l,m,l1,-m1,l2,m2));
+                    tmp=std::norm(c_new(row(l,m,l1,m1,l2,m2),col(l,m,l1,m1,l2,m2))-c(row(l,m,l1,m1,l2,m2),col(l,m,l1,m1,l2,m2)));
+                    if(tmp > 1e-5)
+                        cout << "m1,m2 " << m1 << m2 << " " << tmp <<  endl;
+                }
+
+                if (m1 < 0 && m2 < 0  && m1-m2 < 0 && abs(m1-m2) <=l )
+                {
+                    m=m1-m2;
+                    c_new(row(l,m,l1,m1,l2,m2),col(l,m,l1,m1,l2,m2)) = I*pow(-1.,m2)/sqrt(8.)*(1.0-pow(-1.,l1+l2-l))* C(row(l,m,l1,m1,l2,-m2),col(l,m,l1,m1,l2,-m2));
+                    tmp=std::norm(c_new(row(l,m,l1,m1,l2,m2),col(l,m,l1,m1,l2,m2))-c(row(l,m,l1,m1,l2,m2),col(l,m,l1,m1,l2,m2)));
+                    if(tmp > 1e-5)
+                        cout << "m1,m2 " << m1 << m2 << " " << tmp <<  endl;
+
+                    m=-m1+m2;
+                    c_new(row(l,m,l1,m1,l2,m2),col(l,m,l1,m1,l2,m2)) = pow(-1.,m2)/sqrt(8.)*(1.+pow(-1.,l1+l2-l))* C(row(l,m,l1,-m1,l2,m2),col(l,m,l1,-m1,l2,m2));
+                    tmp=std::norm(c_new(row(l,m,l1,m1,l2,m2),col(l,m,l1,m1,l2,m2))-c(row(l,m,l1,m1,l2,m2),col(l,m,l1,m1,l2,m2)));
+                    if(tmp > 1e-5)
+                        cout << "m1,m2 " << m1 << m2 << " " << tmp <<  endl;
+                }
 
 
             }
+
+    cout << "c_new error = " << (c-c_new).norm() << endl;
 
     // alternative method: matrix computation using Kronecker product : slower
     // int N, N1, N2;
