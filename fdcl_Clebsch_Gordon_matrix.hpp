@@ -46,6 +46,7 @@ class fdcl_Clebsch_Gordon_real : public fdcl_Clebsch_Gordon_matrix
         Eigen::Matrix<complex<double>,Dynamic,Dynamic> c;
         complex<double>& operator()(int l, int m, int l1, int m1, int l2, int m2); 
 		void compute(int l1, int l2);
+        void print();
 };
 
 #endif
