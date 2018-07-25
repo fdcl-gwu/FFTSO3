@@ -5,6 +5,8 @@
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta}
 \usepackage{mathdots}
+\usepackage{array,threeparttable,multirow}
+\usepackage[math]{cellspace}
 
 \newcommand{\norm}[1]{\ensuremath{\left\| #1 \right\|}}
 \newcommand{\bracket}[1]{\ensuremath{\left[ #1 \right]}}
@@ -934,7 +936,7 @@ We can expand the above expression for several cases.
             c^{l,m_1+m_2}_{l_1,m_1,l_2,m_2} & = \frac{i(-1)^{m_2}}{\sqrt{8}} ( -1 + (-1)^{l_1+l_2-l}) C^{l,m_1+m_2}_{l_1,m_1,l_2,m_2}.
         \end{align*}
         \begin{align*}
-            c^{l,-m_1-m_2}_{l_1,m_1,l_2,m_2} & = \frac{-(-1)^{m_2}i}{\sqrt{8}} ( 1 + (-1)^{l_1+l_2-l}) C^{l,-m_1-m_2}_{l_1,-m_1,l_2,-m_2}.
+            c^{l,-m_1-m_2}_{l_1,m_1,l_2,m_2} & = \frac{-(-1)^{m_2}}{\sqrt{8}} ( 1 + (-1)^{l_1+l_2-l}) C^{l,-m_1-m_2}_{l_1,-m_1,l_2,-m_2}.
         \end{align*}
 
     \item $m_1 > 0 > m_2 $ and $m_1+m_2 = 0$
@@ -1055,6 +1057,40 @@ We can expand the above expression for several cases.
 
 
 \end{itemize}
+
+\newcolumntype{C}{>{$\displaystyle} c <{$}}
+
+\begin{table}
+    \begin{center}
+        \begin{threeparttable}
+            % \renewcommand{\arraystretch}{3}
+            \begin{tabular}{c | CCCC | C|C|C|C}\hline\hline
+                Case & m_1 & m_2 & m_1+m_2 & m_1-m_2 & \dfrac{c^{l,m_1+m_2}_{l_1,m_1,l_2,m_2}}{ C^{m_1+m_2}_{l_1,m_1,l_2,m_2}}  & \dfrac{c^{l,-m_1-m_2}_{l_1,m_1,l_2,m_2}}{ C^{-m_1-m_2}_{l_1,m_1,l_2,m_2}}  & \dfrac{c^{l,m_1-m_2}_{l_1,m_1,l_2,m_2}}{ C^{m_1-m_2}_{l_1,m_1,l_2,m_2}}  & \dfrac{c^{l,-m_1+m_2}_{l_1,m_1,l_2,m_2}}{ C^{m_1-m_2}_{l_1,m_1,l_2,m_2}}  \\ \hline
+                0 & 0 & 0 & 0 & 0 & 1 & 1 & 1 & 1\\\hline
+                1 & + & 0 & + & + & \frac{1}{2}\eta & \frac{i}{2}\zeta & \\\hline
+                2 & + & + & + & + & \multirow{3}{*}{$\frac{1}{\sqrt{8}}\eta$} & \multirow{3}{*}{$\frac{i}{\sqrt{8}}\zeta$} \\\cline{1-5}\cline{8-9}
+                3 & + & + & + & 0 & & & &\\\cline{1-5}\cline{8-9}
+                4 & + & + & + & - & & & & \\\hline
+                5 & 0 & + & + & - & \frac{1}{2}\eta & \frac{i}{2}\zeta &\\\hline
+                6 & - & + & + & - & -\frac{i(-1)^{m_1}}{\sqrt{8}}\zeta & -\frac{(-1)^{m_1}}{\sqrt{8}}\eta \\\hline
+                7 & - & + & 0 & - & -\frac{i(-1)^{m_1}}{2}\zeta & \frac{i(-1)^{m_1}}{2}\zeta & \\\hline
+                8 & - & + & - & - & \frac{(-1)^{m_2}}{\sqrt{8}}\eta & \frac{i(-1)^{m_2}}{\sqrt{8}}\zeta & \\\hline
+                9 & - & 0 & - & - & \frac{1}{2}\eta & \frac{i}{2}\zeta \\\hline
+                10 & - & - & - & - & \multirow{3}{*}{$-\frac{i}{\sqrt{8}}\zeta$}  & \multirow{3}{*}{$-\frac{1}{\sqrt{8}}\eta$} &\\\cline{1-5}
+                11 & - & - & - & 0 & & &\\\cline{1-5}
+                12 & - & - & - & + & & &\\\hline
+                13 & 0 & - & - & + & \frac{1}{2}\eta & \frac{i}{2}\zeta \\\hline
+                14 & + & - & - & + & \frac{(-1)^{m_1}}{\sqrt{8}}\eta & \frac{i(-1)^{m_1}}{\sqrt{8}}\zeta & \\\hline
+                15 & + & - & 0 & + & -\frac{i(-1)^{m_1}}{2}\zeta & \frac{i (-1)^{m_1}}{2}\zeta & \\\hline
+                16 & + & - & + & + & -\frac{i(-1)^{m_2}}{\sqrt{8}}\zeta & -\frac{(-1)^{m_2}}{\sqrt{8}}\eta & \\ \hline
+            \end{tabular}
+            \begin{tablenotes}
+            \item $\eta=(-1)^{l_1+l_2-l}+1$,\quad $\zeta=(-1)^{l_1+l_2-l}-1$.
+            \end{tablenotes}
+        \end{threeparttable}
+
+    \end{center}
+\end{table}
 
 From the orthogonality of $C$ and $T$, one can show
 \begin{align}
