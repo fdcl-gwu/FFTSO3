@@ -1067,15 +1067,16 @@ We can expand the above expression for several cases.
         \begin{threeparttable}
             % \renewcommand{\arraystretch}{3}
             \begin{tabular}{c | CCCC | C|C|C|C}\toprule
-                Case & m_1 & m_2 & m_1+m_2 & m_1-m_2 & \dfrac{c^{l,m_1+m_2}_{l_1,m_1,l_2,m_2}}{ C^{m_1+m_2}_{l_1,m_1,l_2,m_2}}  & \dfrac{c^{l,-m_1-m_2}_{l_1,m_1,l_2,m_2}}{ C^{-m_1-m_2}_{l_1,m_1,l_2,m_2}}  & \dfrac{c^{l,m_1-m_2}_{l_1,m_1,l_2,m_2}}{ C^{m_1-m_2}_{l_1,m_1,l_2,m_2}}  & \dfrac{c^{l,-m_1+m_2}_{l_1,m_1,l_2,m_2}}{ C^{m_1-m_2}_{l_1,m_1,l_2,m_2}}  \\ \midrule
+                Case & m_1 & m_2 & m_1+m_2 & m_1-m_2 & \dfrac{c^{l,m_1+m_2}_{l_1,m_1,l_2,m_2}}{ C^{m_1+m_2}_{l_1,m_1,l_2,m_2}}  & \dfrac{c^{l,-m_1-m_2}_{l_1,m_1,l_2,m_2}}{ C^{m_1+m_2}_{l_1,m_1,l_2,m_2}}  & \dfrac{c^{l,m_1-m_2}_{l_1,m_1,l_2,m_2}}{ C^{m_1-m_2}_{l_1,m_1,l_2,-m_2}}  & \dfrac{c^{l,-m_1+m_2}_{l_1,m_1,l_2,m_2}}{ C^{m_1-m_2}_{l_1,m_1,l_2,-m_2}}\\
+                     & & & & & \multicolumn{2}{c|}{$(|m_1+m_2| \leq l \leq l_1+l_2)$} & \multicolumn{2}{c}{$(|m_1-m_2| \leq l \leq l_1+l_2)$} \\ \midrule
                 0 & 0 & 0 & 0 & 0 & 1 & 1 & 1 & 1\\\midrule
                 1 & + & 0 & + & + & \frac{1}{2}\eta & \frac{i}{2}\zeta & \frac{1}{2}\eta & \frac{i}{2}\zeta \\\midrule
                 2 & + & + & + & + & \frac{1}{\sqrt{8}}\eta & \frac{i}{\sqrt{8}}\zeta & \frac{(-1)^{m_2}}{\sqrt{8}} \eta & \frac{i(-1)^{m_2}}{\sqrt{8}}\zeta \\\hline
                 3 & + & + & + & 0 & \frac{1}{\sqrt{8}}\eta & \frac{i}{\sqrt{8}}\zeta & \frac{(-1)^{m_1}}{2}\eta & \frac{(-1)^{m_1}}{2}\eta \\\hline
-                4 & + & + & + & - & \frac{1}{\sqrt{8}}\eta & \frac{i}{\sqrt{8}}\zeta & \frac{i(-1)^{m-1}}{\sqrt{8}}\zeta & \frac{(-1)^{m_1}}{\sqrt{8}} \\\midrule
+                4 & + & + & + & - & \frac{1}{\sqrt{8}}\eta & \frac{i}{\sqrt{8}}\zeta & -\frac{i(-1)^{m_1}}{\sqrt{8}}\zeta & \frac{(-1)^{m_1}}{\sqrt{8}} \\\midrule
                 5 & 0 & + & + & - & \frac{1}{2}\eta & \frac{i}{2}\zeta & \frac{1}{2}\eta & \frac{i}{2}\zeta \\\midrule
-                6 & - & + & + & - & -\frac{i(-1)^{m_1}}{\sqrt{8}}\zeta & -\frac{(-1)^{m_1}}{\sqrt{8}}\eta  & \frac{1}{\sqrt{8}}\eta & \frac{i}{\sqrt{8}}\zeta \\\hline
-                7 & - & + & 0 & - & -\frac{i(-1)^{m_1}}{2}\zeta & \frac{i(-1)^{m_1}}{2}\zeta & \frac{1}{\sqrt{8}}\eta & \frac{i}{\sqrt{8}}\zeta\\\hline
+                6 & - & + & + & - & \frac{i(-1)^{m_1}}{\sqrt{8}}\zeta & -\frac{(-1)^{m_1}}{\sqrt{8}}\eta  & \frac{1}{\sqrt{8}}\eta & \frac{i}{\sqrt{8}}\zeta \\\hline
+                7 & - & + & 0 & - & \frac{i(-1)^{m_1}}{2}\zeta & \frac{i(-1)^{m_1}}{2}\zeta & \frac{1}{\sqrt{8}}\eta & \frac{i}{\sqrt{8}}\zeta\\\hline
                 8 & - & + & - & - & \frac{(-1)^{m_2}}{\sqrt{8}}\eta & \frac{i(-1)^{m_2}}{\sqrt{8}}\zeta &\frac{1}{\sqrt{8}}\eta & \frac{i}{\sqrt{8}}\zeta \\\midrule
                 9 & - & 0 & - & - & \frac{1}{2}\eta & \frac{i}{2}\zeta & \frac{1}{2}\eta & \frac{i}{2}\zeta \\\midrule
                 10 & - & - & - & - & -\frac{i}{\sqrt{8}}\zeta  & -\dfrac{1}{\sqrt{8}}\eta & \frac{i(-1)^{m_2}}{\sqrt{8}}\zeta & \frac{(-1)^{m_2}}{\sqrt{8}}\eta \\\hline

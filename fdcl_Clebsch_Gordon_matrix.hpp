@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <math.h> // pow
+#include <array>
 #include <Eigen/Dense>
 
 #include "fdcl_FFTSO3_matrix.hpp"
@@ -43,10 +44,15 @@ class fdcl_Clebsch_Gordon_real : public fdcl_Clebsch_Gordon_matrix
         void init(int l1, int l2);
         ~fdcl_Clebsch_Gordon_real(){};
 
-        Eigen::Matrix<complex<double>,Dynamic,Dynamic> c;
+        Eigen::Matrix<std::complex<double>,Dynamic,Dynamic> c;
+        Eigen::Matrix<std::complex<double>,Dynamic,Dynamic> X;
         complex<double>& operator()(int l, int m, int l1, int m1, int l2, int m2); 
 		void compute(int l1, int l2);
         void print();
+    private:
+        void compute_sub_01(int l1, int m1, int l2, int m2, complex<double> ratio0, complex<double> ratio1);
+        void compute_sub_23(int l1, int m1, int l2, int m2, complex<double> ratio2, complex<double> ratio3);
+
 };
 
 #endif
