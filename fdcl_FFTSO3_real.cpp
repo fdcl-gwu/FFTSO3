@@ -970,7 +970,7 @@ void fdcl_FFTSO3_real::check_wigner_D_real()
 
 void fdcl_FFTSO3_real::check_Clebsch_Gordon()
 {
-    int l1=2, l2=8, l, m1, m2, n1, n2;
+    int l1=2, l2=4, l, m1, m2, n1, n2;
     double alpha, beta, gamma;
     fdcl_FFTSO3_matrix_real U(l1+l2);
     double y, y_CB=0.;

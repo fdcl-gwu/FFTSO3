@@ -50,6 +50,7 @@ class fdcl_Clebsch_Gordon_real : public fdcl_Clebsch_Gordon_matrix
 		void compute(int l1, int l2);
         void print();
     private:
+        void compute_0(int l1, int l2);
         void compute_sub_01(int l1, int m1, int l2, int m2, complex<double> ratio0, complex<double> ratio1);
         void compute_sub_23(int l1, int m1, int l2, int m2, complex<double> ratio2, complex<double> ratio3);
 

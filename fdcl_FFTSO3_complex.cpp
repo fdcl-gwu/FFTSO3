@@ -689,7 +689,7 @@ fdcl_FFTSO3_matrix_complex fdcl_FFTSO3_complex::forward_transform(std::function 
 
 void fdcl_FFTSO3_complex::check_Clebsch_Gordon()
 {
-    int l1=2, l2=5, l, m1, m2, m, n1, n2, n;
+    int l1=2, l2=5, l, m1, m2, n1, n2;
     double alpha, beta, gamma;
     fdcl_FFTSO3_matrix_complex D(l1+l2);
     complex<double> y, y_CB={0., 0.};
