@@ -150,13 +150,13 @@ void fdcl_Clebsch_Gordon_real::compute(int l1, int l2)
     init(l1,l2);
     fdcl_tictoc tictoc;
     fdcl_FFTSO3_matrix_complex T;
-    int p1, p2;
     T.init(l1+l2);
     T = matrix2rsph(l1+l2);
     std::vector<int> P1, P2;
 
     fdcl_Clebsch_Gordon_matrix::compute(l1,l2);
 
+    tictoc.tic();
     for(int m1=-l1; m1<=l1; m1++)
         for(int m2=-l2; m2<=l2; m2++)
             for(int l=abs(l1-l2); l<=l1+l2; l++)
@@ -182,9 +182,11 @@ void fdcl_Clebsch_Gordon_real::compute(int l1, int l2)
                                 c(row(l,m,l1,m1,l2,m2),col(l,m,l1,m1,l2,m2))+=conj(T(l1,m1,p1))*conj(T(l2,m2,p2))*C(row(l,p1+p2,l1,p1,l2,p2),col(l,p1+p2,l1,p1,l2,p2))*T(l,m,p1+p2);
 
                }
+    tictoc.toc("matrix form");
 
+    tictoc.tic();
     
-    int m1, m2;
+    int m1, m2, p1, p2;
     double one_over_sqrt8=1./sqrt(8.);
 
 
@@ -192,65 +194,167 @@ void fdcl_Clebsch_Gordon_real::compute(int l1, int l2)
     for(int l=abs(l1-l2); l<=l1+l2; l++)
         X(row(l,0,l1,0,l2,0),col(l,0,l1,0,l2,0))=C(row(l,0,l1,0,l2,0),col(l,0,l1,0,l2,0));
         
-    // case 1
-    for (m1=1; m1<=l1; m1++)
+    // case 1,9
+    for (p1=1; p1<=l1; p1++)
+    {
+        m1=p1;
         compute_sub_01(l1,m1,l2,0,{0.5,0.},{0.,0.5});  
+        m1=-p1;
+        compute_sub_01(l1,m1,l2,0,{0.5,0.},{0.,0.5});  
+    }
 
-    // case 2
-    for (m1=1; m1<=l1; m1++)
-        for (m2=1; m2 <= min(m1-1, l2); m2++)
+    // case 5,13
+    for (p2=1; p2<=l2; p2++)
+    {
+        m2=p2;
+        compute_sub_01(l1,0,l2,m2,{0.5,0.},{0.,0.5});  
+        m2=-p2;
+        compute_sub_01(l1,0,l2,m2,{0.5,0.},{0.,0.5});  
+    }
+
+    // case 2, 8, 10, 16
+    for (p1=1; p1<=l1; p1++)
+        for (p2=1; p2 <= min(m1-1, l2); p2++)
         {    
+            // case 2
+            m1=p1; m2=p2;
             compute_sub_01(l1,m1,l2,m2,{one_over_sqrt8,0.}, {0., one_over_sqrt8});  
             compute_sub_23(l1,m1,l2,m2,{pow(-1.,m2)*one_over_sqrt8,0}, {0, pow(-1.,m2)*one_over_sqrt8});  
-        }
 
-    // case 3
-    for (m1=1; m1<=min(l1, l2); m1++)
-    {
-        m2=m1;
-        compute_sub_01(l1,m1,l2,m2,{one_over_sqrt8,0.}, {0., one_over_sqrt8});  
-        compute_sub_23(l1,m1,l2,m2,{pow(-1.,m2)/2.,0}, {pow(-1.,m2)/2.,0});  
-    }
-
-    // case 4
-    for (m1=1; m1<=min(l1, l2-1); m1++)
-        for (m2=m1+1; m2 <= l2; m2++)
-        {    
-            compute_sub_01(l1,m1,l2,m2,{one_over_sqrt8,0.}, {0., one_over_sqrt8});  
-            compute_sub_23(l1,m1,l2,m2,{0., -pow(-1.,m1)*one_over_sqrt8}, {pow(-1.,m1)*one_over_sqrt8, 0.});  
-        }
-
-    // case 5
-    for (m2=1; m2<=l2; m2++)
-        compute_sub_01(l1,0,l2,m2,{0.5,0.},{0.,0.5});  
-
-    // case 6
-    for (m1=-1; m1>=-min(l1, l2-1); m1--)
-        for (m2=-m1+1; m2 <= l2; m2++)
-        {    
-            compute_sub_01(l1,m1,l2,m2,{0., pow(-1.,m1)*one_over_sqrt8}, {-pow(-1.,m1)*one_over_sqrt8, 0.});  
-            compute_sub_23(l1,m1,l2,m2,{one_over_sqrt8,0}, {0, one_over_sqrt8});  
-        }
-
-    // case 7
-    for (m1=-1; m1>=-min(l1, l2); m1--)
-    {
-        m2=-m1;
-        compute_sub_01(l1,m1,l2,m2,{0., pow(-1.,m1)/2.}, {0., pow(-1.,m1)/2.});
-        compute_sub_23(l1,m1,l2,m2,{one_over_sqrt8,0}, {0., one_over_sqrt8});
-    }
-
-    // case 8
-    for (m1=-1; m1>=l1; m1--)
-        for (m2=1; m2 <= min(-m1-1, l2); m2++)
-        {    
+            // case 8
+            m1=-p1; m2=p2;
             compute_sub_01(l1,m1,l2,m2,{pow(-1.,m2)*one_over_sqrt8,0.}, {0., pow(-1.,m2)*one_over_sqrt8});  
             compute_sub_23(l1,m1,l2,m2,{one_over_sqrt8,0}, {0,one_over_sqrt8});  
+
+            // case 10
+            m1=-p1; m2=-p2;
+            compute_sub_01(l1,m1,l2,m2,{0., one_over_sqrt8}, {-one_over_sqrt8, 0.});  
+            compute_sub_23(l1,m1,l2,m2,{0., -pow(-1.,m2)*one_over_sqrt8}, {pow(-1.,m2)*one_over_sqrt8, 0.});  
+
+            // case 16
+            m1=p1; m2=-p2;
+            compute_sub_01(l1,m1,l2,m2,{0., pow(-1.,m2)*one_over_sqrt8}, {-pow(-1.,m2)*one_over_sqrt8, 0.});  
+            compute_sub_23(l1,m1,l2,m2,{0., -one_over_sqrt8}, {one_over_sqrt8, 0.});  
         }
 
     // case 3
+    // for (m1=1; m1<=min(l1, l2); m1++)
+    // {
+        // m2=m1;
+        // compute_sub_01(l1,m1,l2,m2,{one_over_sqrt8,0.}, {0., one_over_sqrt8});  
+        // compute_sub_23(l1,m1,l2,m2,{pow(-1.,m2)/2.,0}, {pow(-1.,m2)/2.,0});  
+    // }
+// 
+    // case 4
+    // for (m1=1; m1<=min(l1, l2-1); m1++)
+        // for (m2=m1+1; m2 <= l2; m2++)
+        // {    
+            // compute_sub_01(l1,m1,l2,m2,{one_over_sqrt8,0.}, {0., one_over_sqrt8});  
+            // compute_sub_23(l1,m1,l2,m2,{0., -pow(-1.,m1)*one_over_sqrt8}, {pow(-1.,m1)*one_over_sqrt8, 0.});  
+        // }
+// 
+    // case 5
+    // for (m2=1; m2<=l2; m2++)
+        // compute_sub_01(l1,0,l2,m2,{0.5,0.},{0.,0.5});  
+// 
+    // case 6
+    // for (m1=-1; m1>=-min(l1, l2-1); m1--)
+        // for (m2=-m1+1; m2 <= l2; m2++)
+        // {    
+            // compute_sub_01(l1,m1,l2,m2,{0., pow(-1.,m1)*one_over_sqrt8}, {-pow(-1.,m1)*one_over_sqrt8, 0.});  
+            // compute_sub_23(l1,m1,l2,m2,{one_over_sqrt8,0}, {0, one_over_sqrt8});  
+        // }
+// 
+    // case 7
+    // for (m1=-1; m1>=-min(l1, l2); m1--)
+    // {
+        // m2=-m1;
+        // compute_sub_01(l1,m1,l2,m2,{0., pow(-1.,m1)/2.}, {0., pow(-1.,m1)/2.});
+        // compute_sub_23(l1,m1,l2,m2,{one_over_sqrt8,0}, {0., one_over_sqrt8});
+    // }
+// 
+    // case 8
+    // for (m1=-1; m1>=-l1; m1--)
+        // for (m2=1; m2 <= min(-m1-1, l2); m2++)
+        // {    
+            // compute_sub_01(l1,m1,l2,m2,{pow(-1.,m2)*one_over_sqrt8,0.}, {0., pow(-1.,m2)*one_over_sqrt8});  
+            // compute_sub_23(l1,m1,l2,m2,{one_over_sqrt8,0}, {0,one_over_sqrt8});  
+        // }
+// 
+    // case 9
+    // for (m1=-1; m1>=-l1; m1--)
+        // compute_sub_01(l1,m1,l2,0,{0.5,0.},{0.,0.5});  
+// 
+    // case 10
+    // for (m1=-1; m1>=-l1; m1--)
+        // for (m2=-1; m2 >= max(m1+1, -l2); m2--)
+        // {    
+            // compute_sub_01(l1,m1,l2,m2,{0., one_over_sqrt8}, {-one_over_sqrt8, 0.});  
+            // compute_sub_23(l1,m1,l2,m2,{0., -pow(-1.,m2)*one_over_sqrt8}, {pow(-1.,m2)*one_over_sqrt8, 0.});  
+        // }
+// 
+    // case 11
+    // for (m1=-1; m1>=-min(l1, l2); m1--)
+    // {
+        // m2=m1;
+        // compute_sub_01(l1,m1,l2,m2,{0., one_over_sqrt8}, {-one_over_sqrt8, 0.});
+        // compute_sub_23(l1,m1,l2,m2,{pow(-1.,m1)/2.,0}, {pow(-1.,m1)/2., 0.});
+    // }
+// 
+    // case 12
+    // for (m1=-1; m1>=-max(l1, l2-1); m1--)
+        // for (m2=m1-1; m2 >= -l2; m2--)
+        // {    
+            // compute_sub_01(l1,m1,l2,m2,{0., one_over_sqrt8}, {-one_over_sqrt8, 0.});
+            // compute_sub_23(l1,m1,l2,m2,{pow(-1.,m1)*one_over_sqrt8,0.}, {0., pow(-1.,m1)*one_over_sqrt8});  
+        // }
+// 
+    // case 13
+    // for (m2=-1; m2>=-l2; m2--)
+        // compute_sub_01(l1,0,l2,m2,{0.5,0.},{0.,0.5});  
+// 
+    // case 14
+    // for (m1=1; m1<=min(l1, l2-1); m1++)
+        // for (m2=-m1-1; m2 >= -l2; m2--)
+        // {    
+            // compute_sub_01(l1,m1,l2,m2,{pow(-1.,m1)*one_over_sqrt8,0.}, {0., pow(-1.,m1)*one_over_sqrt8});  
+            // compute_sub_23(l1,m1,l2,m2,{0., -one_over_sqrt8}, {one_over_sqrt8, 0.});  
+        // }
+// 
+    // case 15
+    // for (m1=1; m1<=min(l1, l2); m1++)
+    // {
+        // m2=-m1;
+        // compute_sub_01(l1,m1,l2,m2,{0., pow(-1.,m1)/2.}, {0., pow(-1.,m1)/2.});  
+        // compute_sub_23(l1,m1,l2,m2,{0., -one_over_sqrt8}, {one_over_sqrt8, 0.});  
+    // }
+// 
+    // case 16
+    // for (m1=1; m1<=l1; m1++)
+        // for (m2=-1; m2 >= -min(m1-1, l2); m2--)
+        // {    
+            // compute_sub_01(l1,m1,l2,m2,{0., pow(-1.,m2)*one_over_sqrt8}, {-pow(-1.,m2)*one_over_sqrt8, 0.});  
+            // compute_sub_23(l1,m1,l2,m2,{0., -one_over_sqrt8}, {one_over_sqrt8, 0.});  
+        // }
+// 
+// 
 
-    cout << "X error " << (c-X).norm() << endl;
+    tictoc.toc("element-wise conversion");
+
+    // cout << "X error " << (c-X).norm() << endl;
+    // for(int m1=-l1; m1<=l1; m1++)
+        // for(int m2=-l2; m2<=l2; m2++)
+            // for(int l=abs(l1-l2); l<=l1+l2; l++)
+                // for (int m=-l;m<=l; m++)
+                // {
+                    // int p=row(l,m,l1,m1,l2,m2);
+                    // int q=col(l,m,l1,m1,l2,m2);
+                    // if(norm(X(p,q)-c(p,q)) > 1e-5)
+                        // cout << "m1,m2 " << m1 << " " << m2 << endl;
+                // }
+// 
+    // cout << "c" << endl << c << endl;
+    // cout << "X" << endl << X << endl;
             // for(l=max(abs(l1-l2),abs(m1+m2)); l<=l1+l2; l++)
             // {
                 // eta=pow(-1.,l1+l2-l)+1.;
