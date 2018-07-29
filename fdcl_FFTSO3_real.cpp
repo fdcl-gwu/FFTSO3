@@ -155,10 +155,13 @@ fdcl_FFTSO3_matrix_real fdcl_FFTSO3_real::wigner_d(double beta, int L)
     
     d(0,0,0)=1.;
     
-    d(1,0,0)=cb;
-    d(1,1,-1)=pow(sb2,2.);  
-    d(1,1,0)=-1./sqrt(2.)*sb;
-    d(1,1,1)=pow(cb2,2.);
+    if (L >= 1)
+    {
+        d(1,0,0)=cb;
+        d(1,1,-1)=pow(sb2,2.);  
+        d(1,1,0)=-1./sqrt(2.)*sb;
+        d(1,1,1)=pow(cb2,2.);
+    }
     
     // fill the lower triangular region
     for(l=2;l<=L;l++)
@@ -970,7 +973,7 @@ void fdcl_FFTSO3_real::check_wigner_D_real()
 
 void fdcl_FFTSO3_real::check_Clebsch_Gordon()
 {
-    int l1=2, l2=4, l, m1, m2, n1, n2;
+    int l1=0, l2=0, l, m1, m2, n1, n2;
     double alpha, beta, gamma;
     fdcl_FFTSO3_matrix_real U(l1+l2);
     double y, y_CB=0.;
