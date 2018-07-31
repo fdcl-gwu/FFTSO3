@@ -160,6 +160,12 @@ In particular,
 & = -\frac{1}{2}\sqrt{(l+m)(l-m+1)}e^{-i\alpha} D^l_{m-1,n}(\alpha,\beta,\gamma)\nonumber\\
 & \quad + \frac{1}{2}\sqrt{(l-m)(l+m+1)}e^{i\alpha} D^l_{m+1,n}(\alpha,\beta,\gamma).\label{eqn:dD_dbeta}
 \end{align}
+Substituting $\alpha=\gamma=0$,
+\begin{align}
+&\deriv{}{\beta} d^l_{m,n}(\beta)\nonumber\\
+& = -\frac{1}{2}\sqrt{(l+m)(l-m+1)} d^l_{m-1,n}(\beta)\nonumber\\
+& \quad + \frac{1}{2}\sqrt{(l-m)(l+m+1)} d^l_{m+1,n}(\beta).\label{eqn:dd_dbeta}
+\end{align}
 
 
 \subsection{Character}
@@ -714,6 +720,74 @@ The character of $U^l(R)$ is identical to that of $D^l(R)$, as
 \]
 
 \subsection{Operational Properties}
+
+Given the matrix representation $U^l(R)$, we can define a representation of $\so\simeq \Re^3$ as
+\[
+u^l(\eta)= \frac{d}{d\epsilon}\bigg|_{\epsilon=0} U^l(\exp(\epsilon\hat\eta)),
+\]
+where $\eta\in\Re^3$. It satisfies
+\[
+u^l([\eta,\zeta])=[u^l(\eta),u^l(\zeta)].
+\]
+As it is a linear operator,
+\[
+u^l(\sum_{i=1}^3 \eta_i e_i) = \sum_{i=1}^3 \eta_i u^l(e_i).
+\]
+As such, we need to compute $u^l(e_1),u^l(e_2),u^l(e_3)\in\Cp^{(2l+1)\times(2l+1)}$ only.
+
+Since $\exp(\epsilon\hat e_3) = R(\epsilon,0,0)$,
+\begin{align}
+    u^l_{m,n}(e_3) & =
+    \begin{cases}
+        \frac{d}{d\epsilon}\bigg|_{\epsilon=0} \cos m\epsilon \Psi^l_{m,n}(0) & (m\geq 0, n\geq 0) \text{ or } (m<0,n<0)\\
+        \frac{d}{d\epsilon}\bigg|_{\epsilon=0} \sin m\epsilon \Theta^l_{m,n} (0) & (m\geq 0, n < 0) \text{ or } (m<0,n\geq0)
+    \end{cases},\nonumber\\
+    & =
+    \begin{cases}
+        0 & (m\geq 0, n\geq 0) \text{ or } (m<0,n<0)\\
+        m \Theta^l_{m,n} (0) & (m\geq 0, n < 0) \text{ or } (m<0,n\geq0)
+    \end{cases}\nonumber\\
+    & =
+    \begin{cases}
+        0 & (m\geq 0, n\geq 0) \text{ or } (m \leq 0, n \leq 0)\\
+        -(-1)^{m-n}\delta_{|m|,|n|}m & (m > 0, n < 0) \text{ or } (m < 0, n >0)
+    \end{cases}\nonumber\\
+    & =
+    \begin{cases}
+        -m  & (m=-n) \text{ and } (m \neq 0)\\
+        0 & \text{otherwise}
+    \end{cases}
+\end{align}
+
+Since $\exp(\epsilon\hat e_2) = R(0,\epsilon,0)$, 
+\begin{align}
+u^l_{m,n}(e_2) & = 
+    \begin{cases}
+        \frac{d}{d\epsilon}\bigg|_{\epsilon=0} \Psi^l_{m,n}(\epsilon) & (m\geq 0, n\geq 0) \text{ or } (m<0,n<0)\\
+        0 & (m\geq 0, n < 0) \text{ or } (m<0,n\geq0)
+    \end{cases},\nonumber\\
+    & = \begin{cases}
+    \frac{1}{2} \sqrt{(l+|m|)(l-|m|+1)} & (m\geq 2, n=m-1) \text{ or } (m\leq -2, n=m+1), \\
+    -\frac{1}{2} \sqrt{(l-|m|)(l+|m|+1)} & (1\leq m\leq l-1, n=m+1) \text{ or } (-l+1\leq m\leq -1, n=m-1), \\
+    \frac{1}{\sqrt{2}} \sqrt{l(l+1)} & m=1, n=0,\\
+    -\frac{1}{\sqrt{2}} \sqrt{l(l+1)} & m=0, n=1,\\
+    0 & \text{otherwise}
+    \end{cases},\nonumber\\
+\end{align}
+with $c^l_n=\sqrt{(l-n)(l+n+1)}$, which is obtained from \refeqn{dD_dbeta}.
+
+Last, $u^l(e_1)$ can be obtained by $u^l(e_1)=u^l(e_2\times e_3)=[u^l(e_2), u^l(e_3)]$ as
+\begin{align}
+    u^l_{m,n}(e_1) 
+    & = \begin{cases}
+    \frac{1}{2}(m+n)\sqrt{(l+|m|)(l-|m|+1)} & (m\geq 2, n=-m+1) \text{ or } (m\leq -2, n=-m-1)\\
+    -\frac{1}{2}(m+n)\sqrt{(l-|m|)(l+|m|+1)} & (1\leq m \leq l-1, n=-m-1) \text{ or } (-l+1\leq m \leq -1, n=-m+1)\\
+    \frac{1}{\sqrt{2}} \sqrt{l(l+1)} & m=-1, n=0,\\
+    -\frac{1}{\sqrt{2}} \sqrt{l(l+1)} & m=0, n=-1,\\
+    0 & \text{otherwise}
+\end{cases}
+\end{align}
+
 \subsection{Fourier Transform}
 According to the Peter-Weyl theorem, any $f\in\mathcal{L}^2(\SO)$ has the following decomposition
 \begin{align}

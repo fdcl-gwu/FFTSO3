@@ -40,6 +40,7 @@ public:
 	fdcl_FFTSO3_matrix_real wigner_D_real(double alpha, double beta, double gamma);
 	fdcl_FFTSO3_matrix_real wigner_D_real(Matrix3);
 
+    std::vector<fdcl_FFTSO3_matrix_real> deriv_U();
     fdcl_FFTSO3_matrix_real forward_transform(std::function <double(double, double, double)>);
     fdcl_FFTSO3_matrix_real forward_transform(std::function <double(Matrix3)>);
 
@@ -54,6 +55,7 @@ public:
     void check_wigner_D_real();
     void check_forward_transform();
     void check_Clebsch_Gordon();
+    void check_deriv_U();
 
 private:
 	double delta(int ,int );

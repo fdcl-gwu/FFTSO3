@@ -36,7 +36,7 @@ complex<double> myfR(Matrix3 R)
 
 int main()
 {
-    int l_max=2;
+    int l_max=10;
     fdcl_FFTSO3_matrix_real d(l_max), d1(l_max), F_real(l_max);
     fdcl_FFTSO3_matrix_complex D(l_max), F0(l_max), F1(l_max), F(l_max);
     fdcl_FFTSO3_complex FFTSO3(l_max);
@@ -65,6 +65,7 @@ int main()
     // FFTSO3_real.check_wigner_d();
     // FFTSO3_real.check_wigner_D_real();
     // FFTSO3_real.check_forward_transform();
-    FFTSO3_real.check_Clebsch_Gordon();
+    // FFTSO3_real.check_Clebsch_Gordon();
+    FFTSO3_real.check_deriv_U();
 
 }

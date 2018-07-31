@@ -1054,3 +1054,104 @@ void fdcl_FFTSO3_real::check_Clebsch_Gordon()
 }
 
 
+std::vector<fdcl_FFTSO3_matrix_real> fdcl_FFTSO3_real::deriv_U()
+{
+    std::vector<fdcl_FFTSO3_matrix_real> u;
+    double tmp;
+    u.resize(4);
+    u[1].init(l_max);
+    u[2].init(l_max);
+    u[3].init(l_max);   
+    
+    int l,m,n,p;
+    
+    for(l=0;l<=l_max;l++)
+    {
+        for(p=1;p<=l;p++)
+        {
+            m=p; n=-m;
+            u[3](l,m,n)=-m;
+
+            m=-p; n=-m;
+            u[3](l,m,n)=-m;
+
+        }
+        for(p=2; p<=l; p++)
+        {
+            m=p; n=m-1;
+            tmp=0.5*sqrt((l+m)*(l-m+1));
+            u[2](l,m,n)=tmp;
+
+            m=-p; n=m+1;
+            u[2](l,m,n)=tmp;
+
+            m=p; n=-m+1;
+            u[1](l,m,n)=(m+n)*tmp;
+
+            m=-p; n=-m-1;
+            u[1](l,m,n)=(m+n)*tmp;
+
+            m=p-1; n=m+1;
+            tmp=0.5*sqrt((l-m)*(l+m+1));
+            u[2](l,m,n)=-tmp;
+
+            m=-p+1; n=m-1;
+            u[2](l,m,n)=-tmp;
+
+            m=p-1; n=-m-1;
+            u[1](l,m,n)=-(m+n)*tmp;
+
+            m=-p+1; n=-m+1;
+            u[1](l,m,n)=-(m+n)*tmp;
+        }
+        if(l>=1)
+        {
+            tmp=1./sqrt(2.)*sqrt(l*(l+1));
+            m=1; n=0;
+            u[2](l,m,n)=tmp;
+
+            m=0; n=1;
+            u[2](l,m,n)=-tmp;
+
+            m=-1; n=0;
+            u[1](l,m,n)=-tmp;
+
+            m=0; n=-1;
+            u[1](l,m,n)=tmp;
+        }
+    }
+    
+    return u;
+}
+
+void fdcl_FFTSO3_real::check_deriv_U()
+{
+    std::vector<fdcl_FFTSO3_matrix_real> u;
+    fdcl_FFTSO3_matrix_real U, U_new;
+    std::vector<double>abg;
+    Eigen::Matrix<double, 3, 1> ei;
+    double eps=1.e-6;
+    
+    u=deriv_U();
+    U=wigner_D_real(0,0,0);
+
+    cout << "fdcl_FFTSO3_real::check_deriv_U" << endl;
+
+    for(int i=1;i<=3;i++)
+    {
+        cout << endl << "u_" << i << endl;
+        ei.setZero();
+        ei(i-1)=1.;
+        abg=R2Euler323(expm_SO3(ei*eps));
+        U_new=wigner_D_real(abg[0],abg[1],abg[2]);
+
+        for(int l=1;l<=l_max;l++)
+        {
+            cout << "l=" << l << ", error= " << ((U_new[l]-U[l])/eps-u[i][l]).norm()/u[i][l].norm() << endl;
+            // cout << u[i][l] << endl << endl; // analytic derivative
+            // cout << (U_new[l]-U[l])/eps << endl << endl; // numerical derivative
+        }
+    }
+
+}
+
