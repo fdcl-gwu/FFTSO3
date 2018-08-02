@@ -76,8 +76,7 @@ add_executable(test_FFTSO3 ${test_FFTSO3_src})
 ################################################################################
 # PYTHON BINDING
 ################################################################################
-# pybind11_add_module(asteroid MODULE
-# src/potential.cpp src/potential_bindings.cpp)
+pybind11_add_module(fftso3 MODULE src/fftso3_bind.cpp)
 # target_link_libraries(asteroid PRIVATE igl::core cgal_cpp)
 
 ################################################################################
