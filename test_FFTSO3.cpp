@@ -49,8 +49,6 @@ class fdcl_FFTS2_complex
        fdcl_FFTS2_matrix_complex spherical_harmonics(double theta, double phi, int L);
 
        fdcl_FFTS2_matrix_real nor_assoc_Legendre_poly(double cos_beta, int L);
-       fdcl_FFTS2_matrix_real normalizing_constant(int L);
-       int factorial(int n);
     private:
        fdcl_FFTS2_matrix_real N, nP;
 };
@@ -60,30 +58,25 @@ fdcl_FFTS2_complex::fdcl_FFTS2_complex(int l_max)
     this->l_max=l_max;
     Y.init(l_max);
 }
-int fdcl_FFTS2_complex::factorial(int n)
-{
-    int y=1;
-    for(int i=1; i<=n; i++)
-        y*=i;
 
-    return y;
-}
-fdcl_FFTS2_matrix_real fdcl_FFTS2_complex::normalizing_constant(int L)
+fdcl_FFTS2_matrix_complex fdcl_FFTS2_complex::spherical_harmonics(double theta, double phi, int L)
 {
-    if (N.l_max >= L)
-        return N;
-    else
+    nor_assoc_Legendre_poly(cos(theta),L);
+    Y.init(L);
+
+    for(int l=0;l<=L; l++)
     {
-        N.init(L);
-        for(int l=0; l<=L; l++)
-            for(int m=-l; m<=l; m++)
-            {
-                N(l,m)=sqrt((double)(2*l+1)/4.*(double)factorial(l-m)/(double)factorial(l+m)/M_PI);
-                cout << l << m << " " << N(l,m) << endl;
-            }
-        return N;
+        for(int m=0; m<=l; m++)
+            Y(l,m)=nP(l,m)*exp(I*(double)m*phi);
+
+        for(int m=1; m<=l; m++)
+            Y(l,-m)=pow(-1.,m)*std::conj(Y(l,m));
     }
+
+    return Y;
 }
+
+
 fdcl_FFTS2_matrix_real fdcl_FFTS2_complex::nor_assoc_Legendre_poly(double x, int L)
 {
     // normalized associated Legendre polynomial of x with |x| < 1
@@ -171,6 +164,6 @@ int main()
     //
 
     fdcl_FFTS2_complex FFTS2(l_max);
-    cout << FFTS2.nor_assoc_Legendre_poly(cos(0.12345),3) << endl;
+    cout << FFTS2.spherical_harmonics(0.12345,9.87654,3) << endl;
 
 }
