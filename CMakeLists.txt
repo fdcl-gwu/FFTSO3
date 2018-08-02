@@ -65,6 +65,15 @@ include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 ################################################################################
 include_directories(${PROJECT_SOURCE_DIR}/include)
 
+set(test_FFTSO3_src 
+    src/test_FFTSO3.cpp
+    src/fdcl_FFTSO3_real.cpp
+    src/fdcl_FFTSO3_complex.cpp
+    src/fdcl_Clebsch_Gordon_matrix.cpp
+    src/fdcl_tictoc.cpp
+    src/fdcl_FFTSO3_matrix.cpp
+    src/misc_matrix_func.cpp)
+add_executable(test_FFTSO3 ${test_FFTSO3_src})
 # mesh remeshing example
 # add_executable(remesh src/remesh_main.cpp)
 # target_link_libraries(remesh cgal_cpp input_parser_cpp igl::core)

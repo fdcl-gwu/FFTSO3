@@ -1,5 +1,8 @@
 # Created by https://www.gitignore.io/api/c,vim,c++,osx,latex,fortran
 
+bin/
+lib/
+
 ### C ###
 # Prerequisites
 *.d
