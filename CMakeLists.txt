@@ -25,6 +25,8 @@ if (OPENMP_FOUND)
     set (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
 endif()
 
+find_package(Threads REQUIRED)
+
 # Eigen setup
 find_package(Eigen3 3.3.4 REQUIRED)
 if (NOT Eigen3_FOUND)
