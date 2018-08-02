@@ -1,10 +1,6 @@
 cmake_minimum_required(VERSION 3.9.2)
 project( fdcl_FFTSO3 C CXX )
 
-# set python path
-# set(PYTHON_INCLUDE_DIR ~/anaconda3/envs/asteroid/include/python3.5m)
-# set(PYTHON_LIBRARY ~/anaconda3/envs/asteroid/lib/libpython3.5m.so)
-
 # set(CMAKE_CXX_FLAGS_DEBUG "-g -Wall -Wextra -pedantic")
 set(CMAKE_CXX_FLAGS_DEBUG "-g")
 # Add -Weffc++ for all sorts of good errors to fix
