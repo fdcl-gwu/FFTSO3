@@ -15,7 +15,10 @@
 using namespace std;
 using namespace Eigen;
 
+#ifndef _IMAGINARY_UNIT
+#define _IMAGINARY_UNIT
 const complex<double> I(0.0,1.0);    
+#endif
 
 template <class ScalarType>
 class fdcl_FFTSO3_matrix

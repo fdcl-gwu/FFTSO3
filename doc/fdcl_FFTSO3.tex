@@ -428,6 +428,23 @@ In this formulation,
 \end{equation}
 A computational scheme is proposed in~\cite{Str14}. 
 
+Next, consider the product of two Fourier expansions. 
+Let
+\begin{align*}
+    f(R) = \sum_{l_1=0}^{L_1} \sum_{m_1,n_1=-l_1}^{l_1} (2l_1+1) F^{l_1}_{m_1,n_1} D^{l_1}_{m_1,n_1} (R),\\
+    g(R) = \sum_{l_2=0}^{L_2} \sum_{m_2,n_2=-l_2}^{l_2} (2l_2+1) G^{l_2}_{m_2,n_2} D^{l_2}_{m_2,n_2} (R).
+\end{align*}
+We wish to find the Fourier spectrum of $h(R)=f(R)g(R)$. 
+\begin{align*}
+    f(R)g(R) & = \parenth{\sum_{l_1=0}^{L_1} \sum_{m_1,n_1=-l_1}^{l_1} (2l_1+1) F^{l_1}_{m_1,n_1} D^{l_1}_{m_1,n_1} (R)} \parenth{\sum_{l_2=0}^{L_2} \sum_{m_2,n_2=-l_2}^{l_2} (2l_2+1) G^{l_2}_{m_2,n_2} D^{l_2}_{m_2,n_2} (R)}\\
+             & = \sum_{l_1=0}^{L_1} \sum_{l_2=0}^{L_2} \sum_{m_1,n_1=-l_1}^{l_1} \sum_{m_2,n_2=-l_2}^{l_2} (2l_1+1) (2l_2+1) F^{l_1}_{m_1,n_1} D^{l_1}_{m_1,n_1} (R) G^{l_2}_{m_2,n_2} D^{l_2}_{m_2,n_2} (R)\\
+             & = \sum_{l_1=0}^{L_1} (2l_1+1) \sum_{l_2=0}^{L_2} (2l_2+1)\sum_{m_1,n_1=-l_1}^{l_1} F^{l_1}_{m_1,n_1} \sum_{m_2,n_2=-l_2}^{l_2} G^{l_2}_{m_2,n_2}\\
+             & \quad \sum_{l=\max\{|l_1=l_2|,|m_1+m_2|,|n_1+n_2|\}}^{l_1+l_2}     C^{l,m_1+m_2}_{l_1,m_1,l_2,m_2} C^{l,n_1+n_2}_{l_1,n_1,l_2,n_2} D^{l}_{m_1+m_2,n_1+n_2} (R)
+\end{align*}
+
+
+
+
 \section{Real Harmonic Analysis}
 
 Next, we consider harmonic analysis for real-valued functions on $\SO$. 
