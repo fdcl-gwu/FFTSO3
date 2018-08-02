@@ -62,6 +62,6 @@ cd ${EIGEN_VER}
 mkdir build
 cd build
 cmake ..
-sudo checkinstall make install
+sudo make install
 
 read -p "Press enter to exit"
