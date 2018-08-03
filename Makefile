@@ -1,4 +1,4 @@
-INCLUDE_PATH= ./eigen-3.3.4
+INCLUDE_PATH= /usr/local/include/eigen3
 CFLAGS=$(foreach d, $(INCLUDE_PATH), -I$d) -Wall -std=c++11 -O3
 VRPN_LIBS = -lvrpn -lquat -pthread
 OPTI_FLAG = -O3

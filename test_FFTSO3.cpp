@@ -35,7 +35,6 @@ complex<double> myfR(Matrix3 R)
     return R.trace();
 }
 
-
 class fdcl_FFTS2_complex
 {
     public:
