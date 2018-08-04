@@ -2,7 +2,7 @@ clear all;
 close all;
 
 B=10;
-m=0;
+m=1;
 
 for j1=0:2*B-1
     alpha_j1(j1+1)=j1*pi/B;

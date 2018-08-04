@@ -3,6 +3,7 @@
 #include <math.h> // pow
 #include <iomanip>      // std::setprecision
 #include <Eigen/Dense>
+#include <unsupported/Eigen/FFT>
 
 #include "fdcl_FFTSO3_matrix.hpp"
 #include "fdcl_FFTSO3_complex.hpp"
@@ -30,6 +31,11 @@ complex<double> myf(double a, double b, double g)
     return Euler3232R(a,b,g).trace();
 }
 
+complex<double> myf_S2(double theta, double phi)
+{
+    return 1.0;
+}
+
 complex<double> myfR(Matrix3 R)
 {
     return R.trace();
@@ -38,8 +44,9 @@ complex<double> myfR(Matrix3 R)
 class fdcl_FFTS2_complex
 {
     public:
-       int l_max;
+       int l_max, B;
        fdcl_FFTS2_matrix_complex Y;
+       std::vector<double> weight;
 
        fdcl_FFTS2_complex(){};
        fdcl_FFTS2_complex(int l_max);
@@ -47,15 +54,25 @@ class fdcl_FFTS2_complex
 
        fdcl_FFTS2_matrix_complex spherical_harmonics(double theta, double phi, int L);
 
-       fdcl_FFTS2_matrix_real nor_assoc_Legendre_poly(double cos_beta, int L);
+
+       fdcl_FFTS2_matrix_complex forward_transform(std::function <complex<double>(double, double)>);
+
+       void check_weight();
+
     private:
-       fdcl_FFTS2_matrix_real N, nP;
+       fdcl_FFTS2_matrix_real nor_assoc_Legendre_poly(double cos_beta, int L);
+       std::vector<double> compute_weight();
+       double theta_k(int k);
+    private:
+       fdcl_FFTS2_matrix_real nP;
 };
 
 fdcl_FFTS2_complex::fdcl_FFTS2_complex(int l_max)
 {
     this->l_max=l_max;
+    this->B=l_max+1;
     Y.init(l_max);
+    weight.resize(2*B);
 }
 
 fdcl_FFTS2_matrix_complex fdcl_FFTS2_complex::spherical_harmonics(double theta, double phi, int L)
@@ -126,6 +143,73 @@ fdcl_FFTS2_matrix_real fdcl_FFTS2_complex::nor_assoc_Legendre_poly(double x, int
 }
 
 
+std::vector<double> fdcl_FFTS2_complex::compute_weight()
+{   
+    int j, k;
+    double factor;
+    double sum;
+
+    factor = M_PI/((double)(4*B)) ;
+
+    for(j=0;j<2*B;j++)
+    {
+        sum=0.0;
+        for(k=0;k<B;k++)
+            sum+=1./((double)(2*k+1))*sin((double)((2*j+1)*(2*k+1))*factor);
+        
+        sum*=sqrt(M_PI)/((double)B*B)*sin((double)(2*j+1)*factor);
+      
+        weight[j]=sum;
+    }
+    
+    return weight;
+}
+
+fdcl_FFTS2_matrix_complex fdcl_FFTS2_complex::forward_transform(std::function <complex<double>(double, double)> func)
+{
+    fdcl_FFTS2_matrix_complex F;
+    double sum=0.;
+    compute_weight();
+
+    for(int i=0;i<2*B;i++)
+        sum+=weight[i];
+
+    cout << sum << endl;
+
+    return F;
+}
+
+
+void fdcl_FFTS2_complex::check_weight()
+{
+    fdcl_FFTS2_matrix_complex Y(2*B-1);
+    std::vector<complex<double>> sum;
+    sum.resize(2*B);
+    for (int l=0;l<2*B;l++)
+        sum[l]=0.;
+
+    this->compute_weight();
+    
+    for (int k=0;k<2*B; k++)
+    {
+        Y=spherical_harmonics(theta_k(k),0.,2*B-1);
+        for(int l=0;l<2*B;l++)
+        {
+            sum[l]+=Y(l,0)*weight[k];
+        }
+    }
+    
+    cout << "fdcl_FFTSO3_complex::check_weight" << endl;
+    cout << "\\sum_k w_k Y^l_m(\\theta_k,0) * 2B = \\delta_{0,l}" << endl; 
+    for (int l=0;l<2*B;l++)
+        cout << "l=" << l << ": " << sum[l]*((double)2*B) << endl;
+    
+}
+
+double fdcl_FFTS2_complex::theta_k(int k)
+{
+    return ((double)(2*k+1))*M_PI/4./((double)B);
+}
 
 int main()
 {
@@ -163,6 +247,20 @@ int main()
     //
 
     fdcl_FFTS2_complex FFTS2(l_max);
-    cout << FFTS2.spherical_harmonics(0.12345,9.87654,3) << endl;
+    FFTS2.check_weight();
 
+    // Eigen::FFT<double> fft;
+// 
+    // std::vector<double> in;
+    // in.resize(10);
+    // for(int i=0; i<10; i++)
+        // in[i]=sin((double)i);
+// 
+    // std::vector<complex<double>> out;
+    // fft.fwd(out, in);
+    // 
+    // cout << out.size() << endl;
+    // for (int i=0; i<10; i++)
+        // cout << out[i] << endl;
+// 
 }

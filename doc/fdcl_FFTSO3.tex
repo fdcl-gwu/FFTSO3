@@ -245,7 +245,7 @@ f(R(\alpha,\beta,\gamma)) &= \sum_{l=0}^\infty \sum_{m,n=-l}^l (2l+1)\tilde f^l_
 which is the Fourier transform. 
 From the orthogonality property \refeqn{D_ortho}, the Fourier parameter $\tilde f^l_{m,n}\in\Cp$ is obtained by
 \begin{align}
-& \tilde f^l_{m,n}=\pair{ f(R), D^l_{m,n}(R)}\nonumber\\
+& \tilde f^l_{m,n}=\pair{ D^l_{m,n}(R), f(R)}\nonumber\\
 & =\frac{1}{8\pi^2}\int_0^{2\pi}\int_{0}^\pi\int_0^{2\pi} f(R(\alpha,\beta,\gamma)) \overline{D^{l}_{m,n}(R(\alpha,\beta,\gamma))}d\alpha d\beta d\gamma,\label{eqn:f_FT}
 \end{align}
 which is the inverse transform. 
@@ -288,7 +288,7 @@ s(R(\alpha,\beta,\gamma))=\sum_{j_1,k,j_2=0}^{2B-1} w_k \delta_{R(\alpha,\beta,\
 which is the linear combination of grid points weighted by the parameter $w_k$. 
 The Fourier transform of $s_B$ is given by
 \begin{align*}
-\bar s^l_{m,n} & = \pair{s(R(\alpha,\beta,\gamma)), D^l_{m,n}(R)}\\
+\bar s^l_{m,n} & = \pair{ D^l_{m,n}(R), s(R(\alpha,\beta,\gamma))}\\
 &=\sum_{j_1,k,j_2=0}^{2B-1} w_k \overline{D^l_{m,n}(R(\alpha_{j_1},\beta_k,\gamma_{j_2}))}\\
 & = \sum_{j_1=0}^{2B-1} e^{im\alpha_{j_1}}
 \sum_{j_2=0}^{2B-1} e^{in\gamma_{j_2}}
@@ -443,6 +443,111 @@ We wish to find the Fourier spectrum of $h(R)=f(R)g(R)$.
 \end{align*}
 
 
+\section{Spherical Harmonics}
+% Instead of using the real and the imaginary parts of $D^l_{m,n}$, it is desirable to construct a real-valued irreducible representation. 
+% We will induce it from real spherical harmonics as follows. 
+
+Spherical harmonics $Y_{lm}(\theta,\phi)$ forms a basis of square-integrable function on $\Sph^2$, and it is defined as
+\begin{align}
+    Y_{l,m}(\theta,\phi) = e^{im\phi} \sqrt{\frac{2l+1}{4\pi}\frac{(l-m)!}{(l+m)!}}  P^m_l(\cos\theta) = e^{im\phi}\Theta^l_m(\theta),
+\end{align}
+with $\theta\in[0,\pi]$ and $\phi\in[0,2\pi)$ are the polar coordinates of $\Sph^2$, parameterizing $x\in\Sph^2$ as 
+\[
+    x(\theta,\phi)=[\cos\phi\sin\theta, \sin\phi\sin\theta, \cos\theta]. 
+\]
+Due to Sturm-Liouville theory, it is given by the product of the $\phi$-dependent term and the $\theta$-dependent term. 
+The former is given by the basis of $\Sph^1$ and the latter is given by the associated Legendre polynomials. 
+
+Let $dx=\frac{1}{4\pi} \sin\theta d\phi d\theta$ be the surface area of $\Sph^2$, normalized such that $\int_{\Sph^2} dx =1$. 
+We define an inner product on $\mathcal{L}^2(\Sph^2)$ as
+\begin{align*}
+    \pair{ f(x), g(x) } = \int_{\Sph^2} \overline{f(x)}g(x) dx.
+\end{align*}
+The spherical harmonics satisfies the following orthogonality,
+\begin{align*}
+    \pair{ Y_{l_1,m_1}(x), Y_{l_2,m_2}(x)} = \frac{1}{4\pi} \delta_{l_1l_2} \delta_{m_1m_2}.
+\end{align*}
+Also,
+\[
+    \overline{Y_{l,m}(x)} = (-1)^m Y_{l,-m}(x).
+\]
+A computational algorithm for the evaluation of $Y_{l,m}$ is available in~\cite{PreTeu07}.
+
+\subsection{Sampling}
+
+Consider a band-limited function:
+\begin{align*}
+    f(x) = \sum_{l=0}^{B-1} \sum_{m=-l}^l \tilde f^l_m Y^l_m(x).
+\end{align*}
+We have
+\begin{align*}
+    \pair{ Y^l_m(x), f(x) } = \frac{1}{4\pi} \tilde f^l_m.
+\end{align*}
+
+Define the uniform grid on $(\theta,\phi)\in[0,\pi]\times [0, 2\pi)$:
+\begin{align*}
+    [\Sph^2]_d = \{(\theta_k,\phi_j)| j,k\in\{0,\ldots, 2B-1\}\}
+\end{align*}
+with
+\begin{align*}
+    \theta_k = \frac{\pi(2k+1)}{4B}, \quad \phi = \frac{\pi j}{B}.
+\end{align*}
+Define a sampling distribution of bandwidth $B$ as
+\begin{align*}
+    s(x) = \frac{1}{4\pi} \sum_{j,k=0}^{2B-1} w_k \delta_{x,x(\theta_k,\phi_j)}.
+\end{align*}
+Its Fourier transform is given by
+\begin{align*}
+    \tilde s^l_m & = 4\pi \pair{  Y^l_m(x), s(x) } = \int_{\Sph^2} \overline{Y}^l_m(x) \sum_{j,k=0}^{2B-1} w_k \delta_{x,x(\theta_k,\phi_j)} dx\\
+                 & = \sum_{j,k=0}^{2B-1} w_k \overline{Y}^l_m(\theta_k,\phi_j)\\
+                 & = \sum_{j=0}^{2B-1} e^{-im\phi_j} \sum_{k=0}^{2B-1} w_k \sqrt{\frac{2l+1}{4\pi}} P^m_l(\cos\theta).
+\end{align*}
+For the selected grid, $\sum_{j=0}^{2B-1} e^{-im\phi_j}= 2B \delta_{m,0}$. 
+Therefore, it reduces to
+\begin{align*}
+    \tilde s^l_m & = 2B\delta_{m,0} \sum_{k=0}^{2B-1} w_k \sqrt{\frac{2l+1}{4\pi}} P^0_l(\cos\theta),
+\end{align*}
+where $P^0_l$ is equal to the $l$-th Legendre polynomial. 
+end{equation}
+Following~\cite{DriHeaAAM94}, choose the weight as
+\begin{equation}
+    w_k = \frac{\sqrt{\pi}}{B^2}\sin\theta_k \sum_{j=0}^{B-1} \frac{1}{2j+1}\sin((2j+1)\theta_k).
+\end{equation}
+Then,
+\begin{equation}
+    \sum_{k=0}^{2B-1} w_k Y^l_m(\theta_k,0) = \sum_{k=0}^{2B-1} w_k \sqrt{\frac{2l+1}{4\pi}} P_l(\theta_k) =\sqrt{\frac{2l+1}{4\pi}} \frac{\sqrt{\pi}}{B} \delta_{l,0}=\frac{1}{2B} \delta_{l,0},\quad l=0,\ldots 2B-1.
+\end{equation}
+Substituting this,
+\begin{equation}
+    \bar s ^l_{m,n} = \delta_{m,0}\delta_{l,0}
+\end{equation}
+for $0\leq l\leq 2B-1$. 
+
+Define $f_s(x)= f(x) s(x)$. It is straightforward to show
+\begin{align*}
+    f_s(x) = \frac{1}{4\pi}\sum_{j,k=0}^{2B-1} w_k f(x) \delta_{x, x(\theta_k,\phi_j)},
+\end{align*}
+and its Fourier transform is given by
+\begin{align}
+    (\tilde f_s)^l_m = 4\pi \pair{ Y^l_m(x), f_s(x) } =  \sum_{j,k=0}^{2B-1} w_k f(x(\theta_k,\phi_j)) \overline{Y}^l_m(\theta_k,\phi_j)
+\end{align}
+The sampling distribution is expanded into
+\begin{align*}
+    s(x) = 1 + \sum_{l=2B}^\infty \sum_{m=-l}^l \tilde s^l_m Y^l_m(x),
+\end{align*}
+and
+\begin{align*}
+    f_s(x) = f(x) + f(x)\sum_{l=2B}^\infty \sum_{m=-l}^l \tilde s^l_m Y^l_m(x).
+\end{align*}
+The second term of the above expression is expanded by $Y^l_m$ with $l\geq B+1$. 
+Consequently, $f$ and $f_s$ share the Fourier coefficients with in the given bandlimit.
+Therefore,
+\begin{align}
+    \tilde f^l_m = \sum_{j,k=0}^{2B-1} w_k f(x(\theta_k,\phi_j)) \overline{Y}^l_m(\theta_k,\phi_j)
+\end{align}
+
+\subsection{Fast Fourier Transform}
+
 
 
 \section{Real Harmonic Analysis}
@@ -477,35 +582,6 @@ f(R(\alpha,\beta,\gamma)) &= \sum_{l=0}^{B-1} (2l+1) \tilde f^l_{0,0} d^l_{0,0}(
 -\mathrm{Im}[\tilde f^l_{m,n}] \mathrm{Im}[D^l_{m,n}(\alpha,\beta,\gamma)].
 \end{align*}
 Therefore, any real-valued, band-limited function is expanded by $D^l_{m,n}$ for $(m,n)\in I^l_- \cup \{(0,0)\}=I^l\setminus I^l_+$ with $0\leq l\leq B-1$. 
-
-\paragraph{Spherical Harmonics}
-Instead of using the real and the imaginary parts of $D^l_{m,n}$, it is desirable to construct a real-valued irreducible representation. 
-We will induce it from real spherical harmonics as follows. 
-
-Spherical harmonics $Y_{lm}(\theta,\phi)$ forms a basis of square-integrable function on $\Sph^2$, and it is defined as
-\begin{align}
-    Y_{l,m}(\theta,\phi) = e^{im\phi} \sqrt{\frac{2l+1}{4\pi}\frac{(l-m)!}{(l+m)!}}  P^m_l(\cos\theta),
-\end{align}
-with $\theta\in[0,\pi]$ and $\phi\in[0,2\pi)$ are the polar coordinates of $\Sph^2$, parameterizing $x\in\Sph^2$ as 
-\[
-    x(\theta,\phi)=[\cos\phi\sin\theta, \sin\phi\sin\theta, \cos\theta]. 
-\]
-Due to Sturm-Liouville theory, it is given by the product of the $\phi$-dependent term and the $\theta$-dependent term. 
-The former is given by the basis of $\Sph^1$ and the latter is given by the associated Legendre polynomials. 
-
-Let $dx=\frac{1}{4\pi} \sin\theta d\phi d\theta$ be the surface area of $\Sph^2$, normalized such that $\int_{\Sph^2} dx =1$. 
-We define an inner product on $\mathcal{L}^2(\Sph^2)$ as
-\begin{align*}
-    \pair{ f(x), g(x) } = \int_{\Sph^2} \overline{f(x)}g(x) dx.
-\end{align*}
-The spherical harmonics satisfies the following orthogonality,
-\begin{align*}
-    \pair{ Y_{l_1,m_1}(x), Y_{l_2,m_2}(x)} = \frac{1}{4\pi} \delta_{l_1l_2} \delta_{m_1m_2}.
-\end{align*}
-Also,
-\[
-    \overline{Y_{l,m}(x)} = (-1)^m Y_{l,-m}(x).
-\]
 
 Spherical harmonics is closely related to the wigner-D function. 
 Interestingly, $R(\alpha,\beta,\gamma)e_3=x(\theta,\phi)$ with $\theta=\beta$ and $\phi=\alpha$: when the 3-2-3 Euler angles are used to parameterize $R\in\SO$, the third column of $R$ corresponds to the parameterization of $x\in\Sph^2$ with the polar coordinates.  
