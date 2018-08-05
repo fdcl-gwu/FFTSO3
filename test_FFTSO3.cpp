@@ -63,6 +63,7 @@ class fdcl_FFTS2_complex
        fdcl_FFTS2_matrix_real nor_assoc_Legendre_poly(double cos_beta, int L);
        std::vector<double> compute_weight();
        double theta_k(int k);
+       double phi_j(int j);
     private:
        fdcl_FFTS2_matrix_real nP;
 };
@@ -161,20 +162,41 @@ std::vector<double> fdcl_FFTS2_complex::compute_weight()
       
         weight[j]=sum;
     }
-    
+
     return weight;
 }
 
 fdcl_FFTS2_matrix_complex fdcl_FFTS2_complex::forward_transform(std::function <complex<double>(double, double)> func)
 {
-    fdcl_FFTS2_matrix_complex F;
-    double sum=0.;
+    fdcl_FFTS2_matrix_complex F(l_max);
+    Eigen::Matrix<complex<double>, Dynamic, Dynamic> F_km;
+    Eigen::VectorXcd func_k(2*B), tmp_out(2*B);
+    Eigen::FFT<double> fft;
+    double theta;
+
+    F_km.resize(2*B,2*B);
+
+    for(int k=0;k<2*B;k++)
+    {
+        theta=theta_k(k);
+        for(int j=0; j<2*B; j++)
+            func_k(j)=func(theta,phi_j(j));
+        fft.fwd(tmp_out,func_k);
+
+        F_km.row(k)=tmp_out;
+    }
+
+    F.setZero();
     compute_weight();
+    for(int k=0;k<2*B;k++)
+    {
+        nor_assoc_Legendre_poly(cos(theta_k(k)),l_max);
+        for(int l=0; l<=l_max; l++)
+            for(int m=0; m<=l; m++)
+                F(l,m)+=weight[k]*nP(l,m)*F_km(k,m);
+    }
 
-    for(int i=0;i<2*B;i++)
-        sum+=weight[i];
-
-    cout << sum << endl;
+    cout << F;
 
     return F;
 }
@@ -199,7 +221,7 @@ void fdcl_FFTS2_complex::check_weight()
         }
     }
     
-    cout << "fdcl_FFTSO3_complex::check_weight" << endl;
+    cout << "fdcl_FFTS2_complex::check_weight" << endl;
     cout << "\\sum_k w_k Y^l_m(\\theta_k,0) * 2B = \\delta_{0,l}" << endl; 
     for (int l=0;l<2*B;l++)
         cout << "l=" << l << ": " << sum[l]*((double)2*B) << endl;
@@ -209,6 +231,11 @@ void fdcl_FFTS2_complex::check_weight()
 double fdcl_FFTS2_complex::theta_k(int k)
 {
     return ((double)(2*k+1))*M_PI/4./((double)B);
+}
+
+double fdcl_FFTS2_complex::phi_j(int j)
+{
+    return ((double)j)*M_PI/((double)B);
 }
 
 int main()
@@ -247,7 +274,8 @@ int main()
     //
 
     fdcl_FFTS2_complex FFTS2(l_max);
-    FFTS2.check_weight();
+    // FFTS2.check_weight();
+    FFTS2.forward_transform(myf_S2);
 
     // Eigen::FFT<double> fft;
 // 

@@ -500,7 +500,7 @@ Its Fourier transform is given by
 \begin{align*}
     \tilde s^l_m & = 4\pi \pair{  Y^l_m(x), s(x) } = \int_{\Sph^2} \overline{Y}^l_m(x) \sum_{j,k=0}^{2B-1} w_k \delta_{x,x(\theta_k,\phi_j)} dx\\
                  & = \sum_{j,k=0}^{2B-1} w_k \overline{Y}^l_m(\theta_k,\phi_j)\\
-                 & = \sum_{j=0}^{2B-1} e^{-im\phi_j} \sum_{k=0}^{2B-1} w_k \sqrt{\frac{2l+1}{4\pi}} P^m_l(\cos\theta).
+                 & = \sum_{j=0}^{2B-1} e^{-im\phi_j} \sum_{k=0}^{2B-1} w_k \sqrt{\frac{2l+1}{4\pi}\frac{(l-m)!}{(l+m)!}} P^m_l(\cos\theta).
 \end{align*}
 For the selected grid, $\sum_{j=0}^{2B-1} e^{-im\phi_j}= 2B \delta_{m,0}$. 
 Therefore, it reduces to
@@ -547,7 +547,23 @@ Therefore,
 \end{align}
 
 \subsection{Fast Fourier Transform}
-
+From above
+\begin{align}
+    \tilde f^l_m = \sum_{j,k=0}^{2B-1} w_k f(\theta_k,\phi_j) e^{-im\phi_j} \sqrt{\frac{2l+1}{4\pi}\frac{(l-m)!}{(l+m)!}}  P^m_l(\cos\theta_k),
+\end{align}
+which is rearranged into
+\begin{align}
+    \tilde f^l_m = \sqrt{\frac{2l+1}{4\pi}\frac{(l-m)!}{(l+m)!}} \sum_{k=0}^{2B-1} w_k    P^m_l(\cos\theta_k) \sum_{j=0}^{2B-1} f(\theta_k,\phi_j) e^{-im\phi_j},
+\end{align}
+Define
+\begin{align*}
+    F_{k,m} & = \sum_{j=0}^{2B-1} f(\theta_k,\phi_j) e^{-im\phi_j} = \sum_{j=0}^{2B-1} f(\theta_k,\phi_j) e^{-im \frac{2\pi j}{2B}},
+\end{align*}
+which has the same form as the discrete Fourier transform in $\mathbb{C}^1$, and it can be computed by FFT algorithms. 
+Then, the Fourier coefficient is given by
+\begin{align}
+    \tilde f^l_m = \sqrt{\frac{2l+1}{4\pi}\frac{(l-m)!}{(l+m)!}} \sum_{k=0}^{2B-1} w_k    P^m_l(\cos\theta_k) F_{k,m}.
+\end{align}
 
 
 \section{Real Harmonic Analysis}
