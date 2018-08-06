@@ -47,6 +47,15 @@ complex<double> myf_S2(double theta, double phi)
     // return FFTS2.Y(1,1);
     // return 1.0;
 }
+double myrf_S2(double theta, double phi)
+{
+    fdcl_FFTS2_complex FFTS2;
+    FFTS2.spherical_harmonics(theta,phi,3);
+
+    return cos(theta)*cos(phi)+cos(theta)*sin(phi);
+    // return FFTS2.Y(1,1);
+    // return 1.0;
+}
 
 int main()
 {
@@ -86,6 +95,11 @@ int main()
     fdcl_FFTS2_complex FFTS2(l_max);
     // FFTS2.check_weight();
     FFTS2.check_transform();
+    FFTS2.init(4);
+    cout << FFTS2.forward_transform(myf_S2)-FFTS2.forward_transform(myrf_S2) << endl;
+
+    fdcl_FFTS2_real RFFTS2(l_max);
+    cout << RFFTS2.spherical_harmonics(a,b,l_max);
 
 
 }

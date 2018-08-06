@@ -8,6 +8,7 @@
 #include <unsupported/Eigen/FFT>
 
 #include "fdcl_tictoc.hpp"
+#include "fdcl_FFTSO3_matrix.hpp"
 #include "fdcl_FFTS2_matrix.hpp"
 #include "misc_matrix_func.h"
 
@@ -31,6 +32,7 @@ class fdcl_FFTS2_complex
         fdcl_FFTS2_matrix_complex spherical_harmonics(double theta, double phi, int L);
 
         fdcl_FFTS2_matrix_complex forward_transform(std::function <complex<double>(double, double)>);
+        fdcl_FFTS2_matrix_complex forward_transform(std::function <double(double, double)>);
         complex<double> inverse_transform(fdcl_FFTS2_matrix_complex F, double theta, double phi);
 
         void check_weight();
@@ -47,6 +49,23 @@ class fdcl_FFTS2_complex
         int L_4_check;
 
         complex<double> f_4_check_transform(double theta, double phi);
+};
+
+class fdcl_FFTS2_real : public fdcl_FFTS2_complex
+{
+    public:
+        fdcl_FFTS2_matrix_real y;
+        fdcl_FFTS2_real(){};
+        fdcl_FFTS2_real(int l_max);
+        ~fdcl_FFTS2_real(){};
+        void init(int l_max);
+
+        fdcl_FFTS2_matrix_real spherical_harmonics(double theta, double phi, int L);
+        fdcl_FFTS2_matrix_real forward_transform(std::function <double(double, double)>);
+        double inverse_transform(fdcl_FFTS2_matrix_real F, double theta, double phi);
+
+        fdcl_FFTSO3_matrix_complex T;
+        fdcl_FFTSO3_matrix_complex matrix2rsph(int L);
 };
 
 #endif

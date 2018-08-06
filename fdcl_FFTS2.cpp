@@ -158,6 +158,50 @@ fdcl_FFTS2_matrix_complex fdcl_FFTS2_complex::forward_transform(std::function <c
     return F;
 }
 
+fdcl_FFTS2_matrix_complex fdcl_FFTS2_complex::forward_transform(std::function <double(double, double)> func)
+{
+    cout << " real" << endl;
+    fdcl_FFTS2_matrix_complex F(l_max);
+    Eigen::Matrix<complex<double>, Dynamic, Dynamic> F_km, F_km_2;
+    Eigen::VectorXcd func_k(2*B), tmp_out(2*B);
+    Eigen::FFT<double> fft;
+    double theta;
+
+
+    F_km.resize(2*B,2*B);
+    for(int k=0;k<2*B;k++)
+    {
+        theta=theta_k(k);
+        for(int j=0; j<2*B; j++)
+            func_k(j)=func(theta,phi_j(j));
+        fft.fwd(tmp_out,func_k);
+
+        F_km.row(k)=tmp_out;
+    }
+
+    F.setZero();
+    compute_weight();
+    for(int k=0;k<2*B;k++)
+    {
+        nor_assoc_Legendre_poly(cos(theta_k(k)),l_max);
+        for(int l=0; l<=l_max; l++)
+        {    
+            for(int m=0; m<=l; m++)
+                F(l,m)+=weight[k]*nP(l,m)*F_km(k,m);
+
+            for(int m=-l;  m<0; m++)
+                F(l,m)+=weight[k]*nP(l,m)*(F_km(k,2*l_max+2+m));
+        }
+    }
+
+    for(int l=0; l<=l_max; l++)
+        for(int m=-l;  m<0; m++)
+            F(l,m)=pow(-1.,m)*std::conj(F(l,-m));
+
+
+    return F;
+}
+
 complex<double> fdcl_FFTS2_complex::inverse_transform(fdcl_FFTS2_matrix_complex F, double theta, double phi)
 {
     complex<double> y={0., 0.};
@@ -222,7 +266,7 @@ double fdcl_FFTS2_complex::phi_j(int j)
 
 void fdcl_FFTS2_complex::check_transform()
 {
-    L_4_check=100;
+    L_4_check=20;
     F_4_check.init(L_4_check);
     F_4_check.setRandom();
     init(L_4_check);
@@ -237,5 +281,53 @@ complex<double> fdcl_FFTS2_complex::f_4_check_transform(double theta, double phi
 {
     return inverse_transform(F_4_check, theta, phi);
 }
+
+
+fdcl_FFTSO3_matrix_complex fdcl_FFTS2_real::matrix2rsph(int L)
+{
+    int l,m;
+    T.init(L);
+
+    for(l=0;l<=L;l++)
+    {
+       for(m=-l;m<0;m++)
+        {
+            T(l,m,m)=I/sqrt(2.);
+            T(l,m,-m)=-I/sqrt(2.)*pow(-1.,m);
+        }
+        T(l,0,0)=1.;
+        for(m=1;m<=l;m++)
+        {
+            T(l,m,-m)=1./sqrt(2.);
+            T(l,m,m)=pow(-1.,m)/sqrt(2.);
+        }
+    }
+
+    return T;
+}
+
+fdcl_FFTS2_real::fdcl_FFTS2_real(int l_max)
+{
+    init(l_max);
+}
+
+void fdcl_FFTS2_real::init(int l_max)
+{
+    fdcl_FFTS2_complex::init(l_max);
+    y.init(l_max);
+}
+
+fdcl_FFTS2_matrix_real fdcl_FFTS2_real::spherical_harmonics(double theta, double phi, int L)
+{
+    y.init(L);
+    fdcl_FFTS2_complex::spherical_harmonics(theta,phi,L);
+    matrix2rsph(L);
+
+    for(int l=0; l<=L; l++)
+       y[l]= (T[l]*Y[l]).real();
+
+    return y;
+}
+
 
 

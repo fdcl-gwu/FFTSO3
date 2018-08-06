@@ -584,6 +584,43 @@ where
     q_m(\theta ) = \sum_{l=|m|}^{l_{\max}} \tilde f^l_m  \Theta^l_m(\theta)
 \end{align*}
 
+\subsection{Real Spherical Harmonics}
+
+When spherical harmonics are considered as a basis for real-valued square-integrable functions on $\Sph^2$, real spherical harmonics can be formulated. 
+In particular, real spherical harmonics $S_{l,m}$ is constructed by the following transform in~\cite{BlaFloJMS97}
+\begin{align}
+    S_l = T^l Y_l,\label{eqn:YtoS}
+\end{align}
+where $S_l$ is the $2l+1$-by-one column whose elements are composed of $S_{l,m}$ for $m\in\{-l,\ldots l\}$ in the ascending order. 
+The matrix $T^l\in\Cp^{(2l+1)\times(2l+1)}$ is defined as
+\begin{align*}
+    T^l=\frac{1}{\sqrt{2}}
+    \begin{bmatrix}
+        i & 0 & \cdots & 0 & \cdots & 0 & -i(-1)^l\\
+        0 & i & \cdots & 0 & \cdots & -i(-1)^{l-1} & 0 \\
+        \vdots & \vdots & \ddots &\vdots & \iddots & \vdots & \vdots\\
+        0 & 0 & \hdots & \sqrt{2} & \hdots & 0 & 0 \\
+        \vdots & \vdots & \iddots &\vdots & \ddots & \vdots & \vdots\\
+        0 & 1 & \cdots & 0 & \cdots & (-1)^{l-1} & 0 \\
+        1 & 0 & \cdots & 0 & \cdots & 0 & (-1)^l\\
+    \end{bmatrix}.
+\end{align*}
+Or equivalently, the elements of $T^l$ satisfy the following rules.
+\begin{itemize}
+    \item $T^l_{0,0}=1$
+    \item $T^l_{m,n}=0$ if $|m|\neq|n|$
+    \item $T^l_{-m,-m} = \frac{i}{\sqrt{2}}$ for $m>0$
+    \item $T^l_{-m,m}=\frac{-i(-1)^m}{\sqrt{2}}$ for $m>0$
+    \item $T^l_{m,-m}=\frac{1}{\sqrt{2}}$ for $m>0$
+    \item $T^l_{m,m}=\frac{(-1)^m}{\sqrt{2}} $ for $m>0$
+\end{itemize}
+It is straightforward to show that the columns of $T^l$ are mutually orthonormal. 
+Therefore,
+\[
+    (T^l)^{-1} = (T^l)^* = (\overline{T^l})^T,\quad T (\overline T)^T= \overline{T} T^T = I_{2l+1}.
+\]
+
+
 \section{Real Harmonic Analysis}
 
 Next, we consider harmonic analysis for real-valued functions on $\SO$. 
@@ -638,42 +675,6 @@ Let $Y_l$ be the $2l+1$-by-one column whose elements are composed of $Y_{l,m}$ f
 The above equation is rewritten in a matrix form as
 \[
     \pair{ Y_l(x), (Y_l(R^Tx))^T } = \frac{1}{4\pi} D^l(R).
-\]
-
-\paragraph{Real Spherical Harmonics}
-
-When spherical harmonics are considered as a basis for real-valued square-integrable functions on $\Sph^2$, real spherical harmonics can be formulated. 
-In particular, real spherical harmonics $S_{l,m}$ is constructed by the following transform in~\cite{BlaFloJMS97}
-\begin{align}
-    S_l = T^l Y_l,\label{eqn:YtoS}
-\end{align}
-where $S_l$ is the $2l+1$-by-one column whose elements are composed of $S_{l,m}$ for $m\in\{-l,\ldots l\}$ in the ascending order. 
-The matrix $T^l\in\Cp^{(2l+1)\times(2l+1)}$ is defined as
-\begin{align*}
-    T^l=\frac{1}{\sqrt{2}}
-    \begin{bmatrix}
-        i & 0 & \cdots & 0 & \cdots & 0 & -i(-1)^l\\
-        0 & i & \cdots & 0 & \cdots & -i(-1)^{l-1} & 0 \\
-        \vdots & \vdots & \ddots &\vdots & \iddots & \vdots & \vdots\\
-        0 & 0 & \hdots & \sqrt{2} & \hdots & 0 & 0 \\
-        \vdots & \vdots & \iddots &\vdots & \ddots & \vdots & \vdots\\
-        0 & 1 & \cdots & 0 & \cdots & (-1)^{l-1} & 0 \\
-        1 & 0 & \cdots & 0 & \cdots & 0 & (-1)^l\\
-    \end{bmatrix}.
-\end{align*}
-Or equivalently, the elements of $T^l$ satisfy the following rules.
-\begin{itemize}
-    \item $T^l_{0,0}=1$
-    \item $T^l_{m,n}=0$ if $|m|\neq|n|$
-    \item $T^l_{-m,-m} = \frac{i}{\sqrt{2}}$ for $m>0$
-    \item $T^l_{-m,m}=\frac{-i(-1)^m}{\sqrt{2}}$ for $m>0$
-    \item $T^l_{m,-m}=\frac{1}{\sqrt{2}}$ for $m>0$
-    \item $T^l_{m,m}=\frac{(-1)^m}{\sqrt{2}} $ for $m>0$
-\end{itemize}
-It is straightforward to show that the columns of $T^l$ are mutually orthonormal. 
-Therefore,
-\[
-    (T^l)^{-1} = (T^l)^* = (\overline{T^l})^T,\quad T (\overline T)^T= \overline{T} T^T = I_{2l+1}.
 \]
 
 \paragraph{Real Harmonic Analysis on $\SO$}
