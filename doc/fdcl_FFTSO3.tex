@@ -511,15 +511,15 @@ where $P^0_l$ is equal to the $l$-th Legendre polynomial.
 end{equation}
 Following~\cite{DriHeaAAM94}, choose the weight as
 \begin{equation}
-    w_k = \frac{\sqrt{\pi}}{B^2}\sin\theta_k \sum_{j=0}^{B-1} \frac{1}{2j+1}\sin((2j+1)\theta_k).
+    w_k = \frac{2\pi}{B^2}\sin\theta_k \sum_{j=0}^{B-1} \frac{1}{2j+1}\sin((2j+1)\theta_k).
 \end{equation}
 Then,
 \begin{equation}
-    \sum_{k=0}^{2B-1} w_k Y^l_m(\theta_k,0) = \sum_{k=0}^{2B-1} w_k \sqrt{\frac{2l+1}{4\pi}} P_l(\theta_k) =\sqrt{\frac{2l+1}{4\pi}} \frac{\sqrt{\pi}}{B} \delta_{l,0}=\frac{1}{2B} \delta_{l,0},\quad l=0,\ldots 2B-1.
+    \sum_{k=0}^{2B-1} w_k Y^l_m(\theta_k,0) = \sum_{k=0}^{2B-1} w_k \sqrt{\frac{2l+1}{4\pi}} P_l(\theta_k) =\sqrt{\frac{2l+1}{4\pi}} \frac{2\pi}{B} \delta_{l,0}=\frac{\sqrt{\pi}}{B} \delta_{l,0},\quad l=0,\ldots 2B-1.
 \end{equation}
 Substituting this,
 \begin{equation}
-    \bar s ^l_{m,n} = \delta_{m,0}\delta_{l,0}
+    \bar s ^l_{m,n} = 2\sqrt{\pi}\delta_{m,0}\delta_{l,0}
 \end{equation}
 for $0\leq l\leq 2B-1$. 
 
@@ -531,9 +531,9 @@ and its Fourier transform is given by
 \begin{align}
     (\tilde f_s)^l_m = 4\pi \pair{ Y^l_m(x), f_s(x) } =  \sum_{j,k=0}^{2B-1} w_k f(x(\theta_k,\phi_j)) \overline{Y}^l_m(\theta_k,\phi_j)
 \end{align}
-The sampling distribution is expanded into
+Since $Y^0_0(\theta,\phi)= \frac{1}{2\sqrt{\pi}}$, the sampling distribution is expanded into
 \begin{align*}
-    s(x) = 1 + \sum_{l=2B}^\infty \sum_{m=-l}^l \tilde s^l_m Y^l_m(x),
+    s(x) = \frac{2\sqrt{\pi}}{2\sqrt{\pi}} + \sum_{l=2B}^\infty \sum_{m=-l}^l \tilde s^l_m Y^l_m(x),
 \end{align*}
 and
 \begin{align*}
@@ -549,11 +549,19 @@ Therefore,
 \subsection{Fast Fourier Transform}
 From above
 \begin{align}
-    \tilde f^l_m = \sum_{j,k=0}^{2B-1} w_k f(\theta_k,\phi_j) e^{-im\phi_j} \sqrt{\frac{2l+1}{4\pi}\frac{(l-m)!}{(l+m)!}}  P^m_l(\cos\theta_k),
+    \tilde f^l_m = \sum_{j,k=0}^{2B-1} w_k f(\theta_k,\phi_j) e^{-im\phi_j} \Theta^l_m(\theta_k)
 \end{align}
 which is rearranged into
 \begin{align}
-    \tilde f^l_m = \sqrt{\frac{2l+1}{4\pi}\frac{(l-m)!}{(l+m)!}} \sum_{k=0}^{2B-1} w_k    P^m_l(\cos\theta_k) \sum_{j=0}^{2B-1} f(\theta_k,\phi_j) e^{-im\phi_j},
+    \tilde f^l_m = \sum_{j=0}^{2B-1}  e^{-im\phi_j} \sum_{k=0}^{2B-1} w_k f(\theta_k,\phi_j)\Theta^l_m(\theta_k)
+    = \sum_{j=0}^{2B-1} e^{-im\phi_j} F^l_m(j)
+\end{align}
+
+
+
+which is rearranged into
+\begin{align}
+    \tilde f^l_m =  \sum_{k=0}^{2B-1} w_k \Theta^l_m(\theta_k) \sum_{j=0}^{2B-1} f(\theta_k,\phi_j) e^{-im\phi_j},
 \end{align}
 Define
 \begin{align*}
@@ -562,7 +570,7 @@ Define
 which has the same form as the discrete Fourier transform in $\mathbb{C}^1$, and it can be computed by FFT algorithms. 
 Then, the Fourier coefficient is given by
 \begin{align}
-    \tilde f^l_m = \sqrt{\frac{2l+1}{4\pi}\frac{(l-m)!}{(l+m)!}} \sum_{k=0}^{2B-1} w_k    P^m_l(\cos\theta_k) F_{k,m}.
+    \tilde f^l_m =  \sum_{k=0}^{2B-1} w_k \Theta^l_m(\theta_k)   F_{k,m}.
 \end{align}
 
 
