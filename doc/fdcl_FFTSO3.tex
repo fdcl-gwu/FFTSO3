@@ -553,14 +553,6 @@ From above
 \end{align}
 which is rearranged into
 \begin{align}
-    \tilde f^l_m = \sum_{j=0}^{2B-1}  e^{-im\phi_j} \sum_{k=0}^{2B-1} w_k f(\theta_k,\phi_j)\Theta^l_m(\theta_k)
-    = \sum_{j=0}^{2B-1} e^{-im\phi_j} F^l_m(j)
-\end{align}
-
-
-
-which is rearranged into
-\begin{align}
     \tilde f^l_m =  \sum_{k=0}^{2B-1} w_k \Theta^l_m(\theta_k) \sum_{j=0}^{2B-1} f(\theta_k,\phi_j) e^{-im\phi_j},
 \end{align}
 Define
@@ -568,11 +560,29 @@ Define
     F_{k,m} & = \sum_{j=0}^{2B-1} f(\theta_k,\phi_j) e^{-im\phi_j} = \sum_{j=0}^{2B-1} f(\theta_k,\phi_j) e^{-im \frac{2\pi j}{2B}},
 \end{align*}
 which has the same form as the discrete Fourier transform in $\mathbb{C}^1$, and it can be computed by FFT algorithms. 
+In the above expression the index $m$ varies in $\{0,\ldots 2B-1\}$ instead of $m=\{-l_{\max},\ldots l_{\max}\}$. 
+For negative $m$, we can use the identify
+\begin{align*}
+    e^{-im \frac{2\pi j}{2B}} = e^{-i(m+2B) \frac{2\pi j}{2B}}
+\end{align*}
 Then, the Fourier coefficient is given by
 \begin{align}
-    \tilde f^l_m =  \sum_{k=0}^{2B-1} w_k \Theta^l_m(\theta_k)   F_{k,m}.
+    \tilde f^l_m = 
+    \begin{cases}
+        \sum_{k=0}^{2B-1} w_k \Theta^l_m(\theta_k)   F_{k,m} & m\geq 0,\\
+        \sum_{k=0}^{2B-1} w_k \Theta^l_m(\theta_k)   F_{k,m+2B} & m< 0.
+    \end{cases}
 \end{align}
 
+Next, for the inverse transform, the summation indices are rearranged into
+\begin{align*}
+    f(\theta,\phi) & = \sum_{m=-l_{\max}}^{l_{\max}} \sum_{l=|m|}^{l_{\max}} \tilde f^l_m e^{im\phi} \Theta^l_m(\theta)\\
+                   & = \sum_{m=-l_{\max}}^{l_{\max}} e^{im\phi} q_m(\theta),
+\end{align*}
+where
+\begin{align*}
+    q_m(\theta ) = \sum_{l=|m|}^{l_{\max}} \tilde f^l_m  \Theta^l_m(\theta)
+\end{align*}
 
 \section{Real Harmonic Analysis}
 
