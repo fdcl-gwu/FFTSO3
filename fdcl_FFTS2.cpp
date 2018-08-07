@@ -108,6 +108,11 @@ std::vector<double> fdcl_FFTS2_complex::compute_weight()
 
 fdcl_FFTS2_matrix_complex fdcl_FFTS2_complex::forward_transform(std::function <complex<double>(double, double)> func)
 {
+    return forward_transform(func,0);
+}
+
+fdcl_FFTS2_matrix_complex fdcl_FFTS2_complex::forward_transform(std::function <complex<double>(double, double)> func, bool is_real)
+{
     fdcl_FFTS2_matrix_complex F(l_max);
     Eigen::Matrix<complex<double>, Dynamic, Dynamic> F_km, F_km_2;
     Eigen::VectorXcd func_k(2*B), tmp_out(2*B);
@@ -142,62 +147,36 @@ fdcl_FFTS2_matrix_complex fdcl_FFTS2_complex::forward_transform(std::function <c
  
     F.setZero();
     compute_weight();
-    for(int k=0;k<2*B;k++)
-    {
-        nor_assoc_Legendre_poly(cos(theta_k(k)),l_max);
-        for(int l=0; l<=l_max; l++)
-        {    
-            for(int m=0; m<=l; m++)
-                F(l,m)+=weight[k]*nP(l,m)*F_km(k,m);
 
+    if(is_real)
+    {
+        for(int k=0;k<2*B;k++)
+        {
+            nor_assoc_Legendre_poly(cos(theta_k(k)),l_max);
+            for(int l=0; l<=l_max; l++)
+                for(int m=0; m<=l; m++)
+                    F(l,m)+=weight[k]*nP(l,m)*F_km(k,m);
+        }
+
+        for(int l=0; l<=l_max; l++)
             for(int m=-l;  m<0; m++)
-                F(l,m)+=weight[k]*nP(l,m)*(F_km(k,2*l_max+2+m));
+                F(l,m)=pow(-1.,m)*std::conj(F(l,-m));
+    }
+    else
+    {
+        for(int k=0;k<2*B;k++)
+        {
+            nor_assoc_Legendre_poly(cos(theta_k(k)),l_max);
+            for(int l=0; l<=l_max; l++)
+            {    
+                for(int m=0; m<=l; m++)
+                    F(l,m)+=weight[k]*nP(l,m)*F_km(k,m);
+
+                for(int m=-l;  m<0; m++)
+                    F(l,m)+=weight[k]*nP(l,m)*(F_km(k,2*l_max+2+m));
+            }
         }
     }
-
-    return F;
-}
-
-fdcl_FFTS2_matrix_complex fdcl_FFTS2_complex::forward_transform(std::function <double(double, double)> func)
-{
-    cout << " real" << endl;
-    fdcl_FFTS2_matrix_complex F(l_max);
-    Eigen::Matrix<complex<double>, Dynamic, Dynamic> F_km, F_km_2;
-    Eigen::VectorXcd func_k(2*B), tmp_out(2*B);
-    Eigen::FFT<double> fft;
-    double theta;
-
-
-    F_km.resize(2*B,2*B);
-    for(int k=0;k<2*B;k++)
-    {
-        theta=theta_k(k);
-        for(int j=0; j<2*B; j++)
-            func_k(j)=func(theta,phi_j(j));
-        fft.fwd(tmp_out,func_k);
-
-        F_km.row(k)=tmp_out;
-    }
-
-    F.setZero();
-    compute_weight();
-    for(int k=0;k<2*B;k++)
-    {
-        nor_assoc_Legendre_poly(cos(theta_k(k)),l_max);
-        for(int l=0; l<=l_max; l++)
-        {    
-            for(int m=0; m<=l; m++)
-                F(l,m)+=weight[k]*nP(l,m)*F_km(k,m);
-
-            for(int m=-l;  m<0; m++)
-                F(l,m)+=weight[k]*nP(l,m)*(F_km(k,2*l_max+2+m));
-        }
-    }
-
-    for(int l=0; l<=l_max; l++)
-        for(int m=-l;  m<0; m++)
-            F(l,m)=pow(-1.,m)*std::conj(F(l,-m));
-
 
     return F;
 }
@@ -320,14 +299,78 @@ void fdcl_FFTS2_real::init(int l_max)
 fdcl_FFTS2_matrix_real fdcl_FFTS2_real::spherical_harmonics(double theta, double phi, int L)
 {
     y.init(L);
-    fdcl_FFTS2_complex::spherical_harmonics(theta,phi,L);
-    matrix2rsph(L);
+    double tmp;
 
+    nor_assoc_Legendre_poly(cos(theta),L);
     for(int l=0; l<=L; l++)
-       y[l]= (T[l]*Y[l]).real();
+    {
+        y(l,0)=nP(l,0);
+        for(int m=1; m<=l; m++)
+        {
+            tmp=sqrt(2.)*pow(-1.,m)*nP(l,m);
+            y(l,m)=tmp*cos((double)m*phi);
+            y(l,-m)=tmp*sin((double)m*phi);
+        }
+    }
+
+    // alternative method: conversion from complex harmonics: slower
+    // y.init(L);
+    // fdcl_FFTS2_complex::spherical_harmonics(theta,phi,L);
+    // matrix2rsph(L);
+    // for(int l=0; l<=L; l++)
+       // y[l]= (T[l]*Y[l]).real();
 
     return y;
 }
 
+fdcl_FFTS2_matrix_real fdcl_FFTS2_real::forward_transform(std::function <double(double, double)> func)
+{
+    fdcl_tictoc tt;
+    tt.tic();
+    fdcl_FFTS2_matrix_real F(l_max);
+    Eigen::Matrix<double, Dynamic, Dynamic> F_km;
+    double tmp;
+    int m;
 
+    F_km.resize(2*B,2*l_max+1);
+    F_km.setZero();
+    for(int k=0; k<2*B; k++)
+        for(int j=0; j<2*B; j++)
+        {
+            tmp=func(theta_k(k),phi_j(j));
+            m=0;
+            F_km(k,m+l_max)+=tmp;
+
+            for(m=1; m<=l_max; m++)
+            {
+                F_km(k,m+l_max)+=tmp*sqrt(2.)*pow(-1.,m)*cos((double)m*phi_j(j));
+                F_km(k,-m+l_max)+=tmp*sqrt(2.)*pow(-1.,m)*sin((double)m*phi_j(j));
+            }
+        }
+
+    F.setZero();
+    compute_weight();
+
+    for(int k=0;k<2*B;k++)
+    {
+        nor_assoc_Legendre_poly(cos(theta_k(k)),l_max);
+        for(int l=0; l<=l_max; l++)
+            for(int m=-l; m<=l; m++)
+                F(l,m)+=weight[k]*nP(l,abs(m))*F_km(k,m+l_max);
+    }
+    tt.toc("RSH");
+
+    tt.tic();
+    fdcl_FFTS2_matrix_complex F_new(l_max);
+    fdcl_FFTSO3_matrix_complex T(l_max);
+    F_new=fdcl_FFTS2_complex::forward_transform(func,1);
+    T=matrix2rsph(l_max);
+    for(int l=0; l<=l_max;l++)
+    {
+        F_new[l]=(T[l].conjugate()*F_new[l]).real();
+    }
+    tt.toc("SH converted");
+    cout << "error:forward transform " << (F-F_new).norm() << endl;
+    return F;
+}
 

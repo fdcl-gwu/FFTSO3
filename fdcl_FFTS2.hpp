@@ -32,19 +32,21 @@ class fdcl_FFTS2_complex
         fdcl_FFTS2_matrix_complex spherical_harmonics(double theta, double phi, int L);
 
         fdcl_FFTS2_matrix_complex forward_transform(std::function <complex<double>(double, double)>);
-        fdcl_FFTS2_matrix_complex forward_transform(std::function <double(double, double)>);
+        fdcl_FFTS2_matrix_complex forward_transform(std::function <complex<double>(double, double)>, bool );
         complex<double> inverse_transform(fdcl_FFTS2_matrix_complex F, double theta, double phi);
 
         void check_weight();
         void check_transform();
 
-    private:
+    protected:
         fdcl_FFTS2_matrix_real nor_assoc_Legendre_poly(double cos_beta, int L);
         std::vector<double> compute_weight();
         double theta_k(int k);
         double phi_j(int j);
 
         fdcl_FFTS2_matrix_real nP;
+
+    private:
         fdcl_FFTS2_matrix_complex F_4_check;
         int L_4_check;
 
