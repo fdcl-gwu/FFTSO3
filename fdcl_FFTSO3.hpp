@@ -8,7 +8,7 @@
 
 #include "fdcl_tictoc.hpp"
 #include "fdcl_FFTSO3_matrix.hpp"
-#include "fdcl_Clebsch_Gordon_matrix.hpp"
+#include "fdcl_Clebsch_Gordon.hpp"
 #include "misc_matrix_func.h"
 
 using namespace std;
@@ -21,7 +21,7 @@ class fdcl_FFTSO3_complex
         fdcl_FFTSO3_matrix_complex D, F, F0, u;
         int B, l_max;
         std::vector<double> weight;
-        fdcl_Clebsch_Gordon_matrix C;
+        fdcl_Clebsch_Gordon_complex C;
 
         fdcl_FFTSO3_complex(){};
         fdcl_FFTSO3_complex(int l_max);
