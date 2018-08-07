@@ -495,7 +495,7 @@ complex<double> fdcl_FFTSO3_complex::f_4_check_transform(double alpha, double be
 
 void fdcl_FFTSO3_complex::check_transform()
 {
-    L_4_check=5;
+    L_4_check=20;
     F_4_check.init(L_4_check);
     F_4_check.setRandom();
     init(L_4_check);
@@ -503,7 +503,10 @@ void fdcl_FFTSO3_complex::check_transform()
     auto func= std::bind(&fdcl_FFTSO3_complex::f_4_check_transform, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
 
     cout << "fdcl_FFTSO3_complex::check_transform: l_max=" << L_4_check << endl;
-    cout << "error = " << (F_4_check-forward_transform(func)).norm() << endl;
+	cout << "error = " << (F_4_check-forward_transform(func)).norm() << endl;
+	// cout << F_4_check << endl;
+    // cout << forward_transform(func)<< endl;
+
 }
 
 fdcl_FFTSO3_matrix_complex fdcl_FFTSO3_complex::forward_transform_0(std::function <complex<double>(double, double, double)> func)
@@ -549,6 +552,67 @@ fdcl_FFTSO3_matrix_complex fdcl_FFTSO3_complex::forward_transform_0(std::functio
 }
 
 fdcl_FFTSO3_matrix_complex fdcl_FFTSO3_complex::forward_transform(std::function <complex<double>(double, double, double)> func)
+{
+    fdcl_FFTSO3_matrix_real d_beta_k(l_max);
+    fdcl_FFTSO3_matrix_complex F(l_max);
+	Eigen::MatrixXcd func_k(2*B,2*B), F_k(2*B,2*B), F_k_new(2*B,2*B);
+    Eigen::VectorXcd tmp_out(2*B);
+	int j1, j2, k, l, m, n;
+    double alpha, beta;
+    Eigen::FFT<double> fft;
+
+	F.setZero();
+	compute_weight();
+
+	for(k=0;k<2*B;k++)
+	{
+		beta=beta_k(k);     
+		F_k.setZero();
+
+		for(j1=0;j1<2*B;j1++)
+		{
+			alpha=alpha_j(j1);              
+			for(j2=0;j2<2*B;j2++)
+				func_k(j1,j2)=func(alpha,beta,gamma_j(j2));
+		}	
+
+		for(j1=0;j1<2*B;j1++)
+		{
+			fft.fwd(tmp_out, func_k.row(j1));
+			F_k.row(j1)=tmp_out;
+		}
+		for(j2=0;j2<2*B;j2++)
+		{
+			fft.fwd(tmp_out, F_k.col(j2));
+			F_k.col(j2)=tmp_out.transpose();
+		}
+
+		d_beta_k=wigner_d(beta,l_max);
+
+		for(l=0; l<=l_max; l++)
+		{
+			for(m=1; m<=l; m++)
+			{
+				for(n=1; n<=l; n++)	
+					F(l,m,n)+=weight[k]*d_beta_k(l,m,n)*F_k(2*B-m,2*B-n);
+				for(n=-l; n<=0; n++)	
+					F(l,m,n)+=weight[k]*d_beta_k(l,m,n)*F_k(2*B-m,-n);
+			}
+			for(m=-l; m<=0; m++)
+			{
+				for(n=1; n<=l; n++)	
+					F(l,m,n)+=weight[k]*d_beta_k(l,m,n)*F_k(-m,2*B-n);
+				for(n=-l; n<=0; n++)	
+					F(l,m,n)+=weight[k]*d_beta_k(l,m,n)*F_k(-m,-n);
+			}
+		}
+	}
+
+	return F;
+}
+
+
+fdcl_FFTSO3_matrix_complex fdcl_FFTSO3_complex::forward_transform_1(std::function <complex<double>(double, double, double)> func)
 {
     fdcl_FFTSO3_matrix_complex F_beta[2*B][2*B];
     int j1, j2, k, l, m, n;

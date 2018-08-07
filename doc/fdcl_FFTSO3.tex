@@ -370,6 +370,14 @@ f^l_{m,n} & = \sum_{j_1=0}^{2B-1} e^{\frac{i 2 m\pi j_1}{2B}}F^{\gamma}_{l,m,n}(
 \end{align*}
 where the last two operations are Fourier transforms in a linear space, which can be computed by various FFT algorithms. 
 
+Alternatively, 
+\begin{align*}
+    f^l_{m,n} & = \sum_{j_1,j_2,k=0}^{2B-1} w_k f(\alpha_{j_1},\beta_k,\gamma_{j_2})
+    e^{im\alpha_{j_1}} d^l_{m,n}(\beta_k) e^{in\gamma_{j_2}}\\
+    & =\sum_{k}^{2B-1}w_k d^l_{m,n}(\beta_k) \sum_{j_1=0}^{2B-1} 
+    e^{im\alpha_{j_1}}\sum_{j_2=0}^{2B-1} e^{in\gamma_{j_2}}  f(\alpha_{j_1},\beta_k,\gamma_{j_2}) 
+\end{align*}
+
 %\paragraph*{Cooley-Tukey FFT}
 %
 %Here, we consider the following variation of the Cooley-Tukey algorithm~\cite{CooTukMC65}, referred to as radix-2 DIT that is applied when $2B=2^{b}\triangleq N$ for an integer $b$.

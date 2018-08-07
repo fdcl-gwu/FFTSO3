@@ -5,6 +5,7 @@
 #include <vector>
 #include <math.h> // pow
 #include <Eigen/Dense>
+#include <unsupported/Eigen/FFT>
 
 #include "fdcl_tictoc.hpp"
 #include "fdcl_FFTSO3_matrix.hpp"
@@ -54,6 +55,8 @@ class fdcl_FFTSO3_complex
         void check_deriv_D();
         void check_transform();
         void check_Clebsch_Gordon();
+        fdcl_FFTSO3_matrix_complex forward_transform_0(std::function <complex<double>(double, double, double)>);
+        fdcl_FFTSO3_matrix_complex forward_transform_1(std::function <complex<double>(double, double, double)>);
 
     protected:
         double beta_k(int k);
@@ -66,7 +69,6 @@ class fdcl_FFTSO3_complex
         fdcl_FFTSO3_matrix_complex F_4_check;
         complex<double> f_4_check_transform(double alpha, double beta, double gamma);
 
-        fdcl_FFTSO3_matrix_complex forward_transform_0(std::function <complex<double>(double, double, double)>);
 };
 
 class fdcl_FFTSO3_real : public fdcl_FFTSO3_complex
