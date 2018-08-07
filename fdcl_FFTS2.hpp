@@ -45,11 +45,10 @@ class fdcl_FFTS2_complex
         double phi_j(int j);
 
         fdcl_FFTS2_matrix_real nP;
+        int L_4_check;
 
     private:
         fdcl_FFTS2_matrix_complex F_4_check;
-        int L_4_check;
-
         complex<double> f_4_check_transform(double theta, double phi);
 };
 
@@ -68,6 +67,12 @@ class fdcl_FFTS2_real : public fdcl_FFTS2_complex
 
         fdcl_FFTSO3_matrix_complex T;
         fdcl_FFTSO3_matrix_complex matrix2rsph(int L);
+        
+        void check_transform();
+    private:
+        fdcl_FFTS2_matrix_real F_4_check;
+        double f_4_check_transform(double theta, double phi);
+
 };
 
 #endif

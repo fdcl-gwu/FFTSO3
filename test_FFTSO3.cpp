@@ -59,7 +59,7 @@ double myrf_S2(double theta, double phi)
 
 int main()
 {
-    int l_max=50;
+    int l_max=5;
     fdcl_FFTSO3_matrix_real d(l_max), d1(l_max), F_real(l_max);
     fdcl_FFTSO3_matrix_complex D(l_max), F0(l_max), F1(l_max), F(l_max);
     fdcl_FFTSO3_complex FFTSO3(l_max);
@@ -97,6 +97,6 @@ int main()
     FFTS2.check_transform();
 
     fdcl_FFTS2_real RFFTS2(l_max);
-    RFFTS2.forward_transform(myrf_S2);
+    RFFTS2.check_transform();
 
 }
