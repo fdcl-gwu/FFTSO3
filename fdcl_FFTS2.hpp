@@ -15,8 +15,6 @@
 using namespace std;
 using namespace Eigen;
 
-typedef Eigen::Matrix<double, 3, 3> Matrix3;
-
 class fdcl_FFTS2_complex
 {
     public:

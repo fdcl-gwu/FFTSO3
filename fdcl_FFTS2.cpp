@@ -254,6 +254,8 @@ void fdcl_FFTS2_complex::check_transform()
 
     cout << "fdcl_FFTS2_complex::check_transform: l_max=" << L_4_check << endl;
     cout << "error = " << (F_4_check-forward_transform(func)).norm() << endl;
+
+    init(l_max);
 }
 
 complex<double> fdcl_FFTS2_complex::f_4_check_transform(double theta, double phi)
@@ -383,6 +385,8 @@ void fdcl_FFTS2_real::check_transform()
 
     cout << "fdcl_FFTS2_real::check_transform: l_max=" << L_4_check << endl;
     cout << "error = " << (F_4_check-forward_transform(func)).norm() << endl;
+
+    init(l_max);
 }
 
 double fdcl_FFTS2_real::f_4_check_transform(double theta, double phi)
