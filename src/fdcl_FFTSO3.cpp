@@ -247,8 +247,9 @@ std::vector<double> fdcl_FFTSO3_complex::compute_weight()
     return weight;
 }
 
-void fdcl_FFTSO3_complex::check_weight()
+double fdcl_FFTSO3_complex::check_weight()
 {
+    double error=1.;
     fdcl_FFTSO3_matrix<double> d(2*B-1);
     std::vector<double> sum;
     sum.resize(2*B);
@@ -256,7 +257,7 @@ void fdcl_FFTSO3_complex::check_weight()
         sum[l]=0.;
 
     this->compute_weight();
-    
+
     for (int k=0;k<2*B; k++)
     {
         d=wigner_d(beta_k(k),2*B-1);
@@ -266,11 +267,17 @@ void fdcl_FFTSO3_complex::check_weight()
         }
     }
     
-    cout << "fdcl_FFTSO3_complex::check_weight" << endl;
-    cout << "\\sum_k w_k d^l_00(beta_k) * 4B^2 = \\delta_{0,l}" << endl; 
-    for (int l=0;l<2*B;l++)
-        cout << "l=" << l << ": " << sum[l]*((double)4*B*B) << endl;
-    
+    if(check_verbose)
+    {
+        cout << "fdcl_FFTSO3_complex::check_weight" << endl;
+        cout << "\\sum_k w_k d^l_00(beta_k) * 4B^2 = \\delta_{0,l}" << endl; 
+        for (int l=0;l<2*B;l++)
+            cout << "l=" << l << ": " << sum[l]*((double)4*B*B) << endl;
+    }
+
+    error = abs(sum[0]*((double)4*B*B)-1.);
+    for (int l=1; l<2*B; l++)
+        error += abs(sum[l]); 
     
     int j1, j2, k, l;
     fdcl_FFTSO3_matrix_complex Delta(2*B-1);
@@ -281,72 +288,109 @@ void fdcl_FFTSO3_complex::check_weight()
                 for(l=0;l<2*B;l++)
                     Delta[l]+=weight[k]*wigner_D(alpha_j(j1),beta_k(k),gamma_j(j2),2*B-1)[l];
     
+    if(check_verbose)
+    {
+        cout << "\\sum_{j1,k,j2} w_k D(alpha_j1, beta_k, gamma_j2) = \\delta_{l,0}\\delta_{m,0}\\delta_{n,0}" << endl;
+        for (int l=0;l<2*B;l++)
+            cout << "l=" << l << ": " << Delta[l].norm() << endl;
+    }
+
+    error += abs(Delta(0,0,0)-1.0);
+    for (int l=1; l<2*B; l++)
+        error += Delta[l].norm();
     
-    cout << "\\sum_{j1,k,j2} w_k D(alpha_j1, beta_k, gamma_j2) = \\delta_{l,0}\\delta_{m,0}\\delta_{n,0}" << endl;
-    for (int l=0;l<2*B;l++)
-        cout << "l=" << l << ": " << Delta[l].norm() << endl;
+    cout << "fdcl_FFTSO3_complex::check_weight: error = " << error << endl;
+    return error;
 
 }
 
-void fdcl_FFTSO3_complex::check_wigner_d()
+double fdcl_FFTSO3_complex::check_wigner_d()
 {
-    int l=3, N=1000;
+    int L=3, N=2000;
     double beta;
     MatrixXd I, d_i_0, d_i_1;
-    fdcl_FFTSO3_matrix_real d_beta(l), d_beta_explicit(l);
+    fdcl_FFTSO3_matrix_real d_beta(L), d_beta_explicit(L);
+    Eigen::VectorXd error(4);
     
-    I.resize(2*l+1,2*l+1);
+    error.setZero();
+    I.resize(2*L+1,2*L+1);
     I.setIdentity();
-    d_i_1.resize(2*l+1,2*l+1);
+    d_i_1.resize(2*L+1,2*L+1);
     d_i_1.setZero();
-    d_i_0.resize(2*l-1,2*l-1);
+    d_i_0.resize(2*L-1,2*L-1);
     d_i_0.setZero();
 
     beta=(double)rand()/RAND_MAX;
     
-    d_beta=wigner_d(beta,l);
+    d_beta=wigner_d(beta,L);
 
-    cout << "fdcl_FFTSO3_complex::check_wigner_d" << endl;
-    cout << "matrix orthogonality error: " << (d_beta[l].transpose()*d_beta[l]-I).norm() << endl;
-    
+    error(0) = (d_beta[L].transpose()*d_beta[L]-I).norm();
+    if(check_verbose)
+    {
+        cout << "fdcl_FFTSO3_complex::check_wigner_d" << endl;
+        cout << "matrix orthogonality error: " << error << endl;
+    }
+   
+
+    if(check_verbose)
+        cout << "functional orthogonality error: " << endl;
+
     for(int i=0;i<N;i++)
     {
         beta=M_PI/((double)N)*((double)i);
-        d_beta=wigner_d(beta,l);
-        d_i_1+=d_beta[l].cwiseProduct(d_beta[l])*sin(beta)*M_PI/((double)N);
-        d_i_0+=d_beta[l-1].cwiseProduct(d_beta[l].block(1,1,2*l-1,2*l-1))*sin(beta)*M_PI/((double)N);
+        d_beta=wigner_d(beta,L);
+        d_i_1+=d_beta[L].cwiseProduct(d_beta[L])*sin(beta)*M_PI/((double)N);
+        d_i_0+=d_beta[L-1].cwiseProduct(d_beta[L].block(1,1,2*L-1,2*L-1))*sin(beta)*M_PI/((double)N);
     }
-    d_i_1*=((double)(2*l+1))/2.;
+    d_i_1*=((double)(2*L+1))/2.;
 
-    cout << "functional orthogonality error: " << endl;
-    cout << d_i_0 << endl;
-    cout << d_i_1 << endl;
+    if(check_verbose)
+    {
+        cout << d_i_0 << endl;
+        cout << d_i_1 << endl;
+    }
+    error(1) = d_i_0.norm();
+    d_i_1.array() -=1.0;
+    error(1) += d_i_1.norm();
 
-    cout << "difference from the explicit expression" << endl;
+
+    if(check_verbose)
+        cout << "difference from the explicit expression" << endl;
+
     beta=(double)rand()/RAND_MAX*M_PI;
     
-    d_beta=wigner_d(beta,l);
+    d_beta=wigner_d(beta,L);
     d_beta_explicit=wigner_d_explicit(beta);
+     
+    if(check_verbose)
+    {
+        cout << "beta =" << beta << endl;
+        for (int l=0; l<=3; l++)
+            cout << "l=" << l << ": " << (d_beta[l]-d_beta_explicit[l]).norm() << endl;
+    }
     
-    cout << "beta =" << beta << endl;
-    cout << "l=0: " << (d_beta[0]-d_beta_explicit[0]).norm() << endl;
-    cout << "l=1: " << (d_beta[1]-d_beta_explicit[1]).norm() << endl;
-    cout << "l=2: " << (d_beta[2]-d_beta_explicit[2]).norm() << endl;
-    cout << "l=3: " << (d_beta[3]-d_beta_explicit[3]).norm() << endl;
+    for (int l=0; l<=3; l++)
+        error(2) += (d_beta[l]-d_beta_explicit[l]).norm();
+    
 
     beta=-(double)rand()/RAND_MAX*M_PI;
     
-    d_beta=wigner_d(beta,l);
+    d_beta=wigner_d(beta,L);
     d_beta_explicit=wigner_d_explicit(beta);
     
-    cout << "beta =" << beta << endl;
-    cout << "l=0: " << (d_beta[0]-d_beta_explicit[0]).norm() << endl;
-    cout << "l=1: " << (d_beta[1]-d_beta_explicit[1]).norm() << endl;
-    cout << "l=2: " << (d_beta[2]-d_beta_explicit[2]).norm() << endl;
-    cout << "l=3: " << (d_beta[3]-d_beta_explicit[3]).norm() << endl;
+    if(check_verbose)
+    {
+        cout << "beta =" << beta << endl;
+        for (int l=0; l<=3; l++)
+            cout << "l=" << l << ": " << (d_beta[l]-d_beta_explicit[l]).norm() << endl;
+    }
+    for (int l=0; l<=3; l++)
+        error(3) += (d_beta[l]-d_beta_explicit[l]).norm();
 
-    cout << endl;
+    cout << "fdcl_FFTSO3_complex::check_wigner_d: error = " << error.transpose() << endl;
     
+    return error.maxCoeff();
+   
 }
 
 std::vector<double> fdcl_FFTSO3_complex::character(double theta)
@@ -400,22 +444,27 @@ std::vector<fdcl_FFTSO3_matrix_complex> fdcl_FFTSO3_complex::deriv_wigner_D()
     return u;
 }
 
-void fdcl_FFTSO3_complex::check_deriv_wigner_D()
+double fdcl_FFTSO3_complex::check_deriv_wigner_D()
 {
     std::vector<fdcl_FFTSO3_matrix_complex> u;
     fdcl_FFTSO3_matrix_complex D, D_new;
     std::vector<double>abg;
     Eigen::Matrix<double, 3, 1> ei;
     double eps=1.e-6;
+    Eigen::VectorXd error(l_max);
+    error.setZero();
     
     u=deriv_wigner_D();
     D=wigner_D(0,0,0);
 
-    cout << "fdcl_FFTSO3_complex::check_deriv_wigner_D" << endl;
+    if(check_verbose)
+        cout << "fdcl_FFTSO3_complex::check_deriv_wigner_D";
 
     for(int i=1;i<=3;i++)
     {
-        cout << endl << "u_" << i << endl;
+        if(check_verbose)
+            cout << endl << "u_" << i << endl;
+
         ei.setZero();
         ei(i-1)=1.;
         abg=R2Euler323(expm_SO3(ei*eps));
@@ -423,11 +472,18 @@ void fdcl_FFTSO3_complex::check_deriv_wigner_D()
 
         for(int l=1;l<=l_max;l++)
         {
-            cout << "l=" << l << ", error= " << ((D_new[l]-D[l])/eps-u[i][l]).norm()/u[i][l].norm() << endl;
+            if(check_verbose)
+                cout << "l=" << l << ", error= " << ((D_new[l]-D[l])/eps-u[i][l]).norm()/u[i][l].norm() <<  endl;
+
+            error(l-1)+=((D_new[l]-D[l])/eps-u[i][l]).norm()/u[i][l].norm();
 //          cout << u[i][l] << endl << endl; // analytic derivative
 //          cout << (D_new[l]-D[l])/eps << endl; // numerical derivative
         }
     }
+
+    cout << "fdcl_FFTSO3_complex::check_deriv_wigner_D: error = " << error.maxCoeff() << endl;
+
+    return error.maxCoeff();
 
 }
 
@@ -522,18 +578,18 @@ complex<double> fdcl_FFTSO3_complex::f_4_check_transform(double alpha, double be
     return inverse_transform(F_4_check,alpha,beta,gamma);
 }
 
-void fdcl_FFTSO3_complex::check_transform()
+double fdcl_FFTSO3_complex::check_transform()
 {
+    double error=1.;
     F_4_check.init(l_max);
     F_4_check.setRandom();
 
     auto func= std::bind(&fdcl_FFTSO3_complex::f_4_check_transform, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
 
-    cout << "fdcl_FFTSO3_complex::check_transform: l_max=" << l_max << endl;
-	cout << "error = " << (F_4_check-forward_transform(func)).norm() << endl;
-	// cout << F_4_check << endl;
-    // cout << forward_transform(func)<< endl;
+    error = (F_4_check-forward_transform(func)).norm();
+    cout << "fdcl_FFTSO3_complex::check_transform: l_max=" << l_max << " : error = " << error << endl;
 
+    return error;
 }
 
 fdcl_FFTSO3_matrix_complex fdcl_FFTSO3_complex::forward_transform_0(std::function <complex<double>(double, double, double)> func)
@@ -728,7 +784,7 @@ fdcl_FFTSO3_matrix_complex fdcl_FFTSO3_complex::forward_transform(std::function 
             });
 }
 
-void fdcl_FFTSO3_complex::check_Clebsch_Gordon()
+double fdcl_FFTSO3_complex::check_Clebsch_Gordon()
 {
     int l1=2, l2=5, l, m1, m2, n1, n2;
     double alpha, beta, gamma;
@@ -744,9 +800,12 @@ void fdcl_FFTSO3_complex::check_Clebsch_Gordon()
 
     C.compute(l1,l2);
 
-    cout << "fdcl_FFTSO3_complex:check_Clebsch_Gordon" << endl;
-    cout << "l1 = " << l1 << ", l2 = " << l2 << endl;
-    cout << "alpha = " << alpha << ", beta = " << beta << ", gamma = " << gamma << endl;
+    if(check_verbose)
+    {
+        cout << "fdcl_FFTSO3_complex:check_Clebsch_Gordon" << endl;
+        cout << "l1 = " << l1 << ", l2 = " << l2 << endl;
+        cout << "alpha = " << alpha << ", beta = " << beta << ", gamma = " << gamma << endl;
+    }
 
     for(m1=-l1;m1<=l1;m1++)
         for(n1=-l1;n1<=l1;n1++)
@@ -766,10 +825,23 @@ void fdcl_FFTSO3_complex::check_Clebsch_Gordon()
                         error = abs(y-y_CB);
                 }
 
-    cout << "error = " << error << endl;
-    cout << "fdcl_FFTSO3_complex:check_Clebsch_Gordon:completed" << endl << endl;
+    cout << "fdcl_FFTSO3_complex:check_Clebsch_Gordon: error = " << error << endl;
 
+    return error;
+}
 
+void fdcl_FFTSO3_complex::check_all()
+{
+    check_weight();
+    cout << endl;
+    check_wigner_d();
+    cout << endl;
+    check_deriv_wigner_D();
+    cout << endl;
+    check_transform();
+    cout << endl;
+    check_Clebsch_Gordon();
+    cout << endl;
 }
 
 fdcl_FFTSO3_real::fdcl_FFTSO3_real(int l_max)
@@ -1301,50 +1373,61 @@ fdcl_FFTSO3_matrix_real fdcl_FFTSO3_real::wigner_D_real_0(double alpha, double b
     return U;
 }
 
-void fdcl_FFTSO3_real::check_wigner_D_real()
+double fdcl_FFTSO3_real::check_wigner_D_real()
 {
     int L=10;
     double alpha, beta, gamma;
     fdcl_FFTSO3_matrix_complex U_2(L);
     fdcl_FFTSO3_matrix_real U(L), U_0(L), U_1(L);
     fdcl_tictoc tictoc;
+    double error=1.0;
 
     alpha=(double)rand()/RAND_MAX*M_PI*2.;
     beta=(double)rand()/RAND_MAX*M_PI;
     gamma=(double)rand()/RAND_MAX*M_PI*2.;
 
-    cout << "fdcl_FFTSO3_real::check_wigner_D_real" << endl;
-    cout << "alpha=" << alpha << ", beta=" << beta << ", gamma=" << gamma << endl;
     U=wigner_D_real(alpha,beta,gamma,L);
     U_0=wigner_D_real_0(alpha,beta,gamma,L);
     U_1=wigner_D_real_1(alpha,beta,gamma,L);
     U_2=wigner_D_real_2(alpha,beta,gamma,L);
 
-    cout << "error from wigner_D_real_0: " << (U-U_0).norm() << endl;
-    cout << "error from wigner_D_real_1: " << (U-U_1).norm() << endl;
-    cout << "error from wigner_D_real_2: " << (U-U_2.real()).norm() << endl;
+    if(check_verbose)
+    {
+        cout << "fdcl_FFTSO3_real::check_wigner_D_real" << endl;
+        cout << "alpha=" << alpha << ", beta=" << beta << ", gamma=" << gamma << endl;
 
-    tictoc.tic();
-    for(int i=0;i<=500;i++)
-        wigner_D_real(alpha,beta,gamma,L);
-    tictoc.toc("wigner_D_real");
-    
-    tictoc.tic();
-    for(int i=0;i<=500;i++)
-        wigner_D_real_0(alpha,beta,gamma,L);
-    tictoc.toc("wigner_D_real_0");
-    
-    tictoc.tic();
-    for(int i=0;i<=500;i++)
-        wigner_D_real_1(alpha,beta,gamma,L);
-    tictoc.toc("wigner_D_real_1");
-    
-    tictoc.tic();
-    for(int i=0;i<=500;i++)
-        wigner_D_real_2(alpha,beta,gamma,L);
-    tictoc.toc("wigner_D_real_2");
-    
-    cout << "fdcl_FFTSO3_real::check_wigner_D_real completed" << endl << endl;
+        cout << "error from wigner_D_real_0: " << (U-U_0).norm() << endl;
+        cout << "error from wigner_D_real_1: " << (U-U_1).norm() << endl;
+        cout << "error from wigner_D_real_2: " << (U-U_2.real()).norm() << endl;
+    }
+
+    error = (U-U_0).norm() + (U-U_1).norm() + (U-U_2.real()).norm();
+
+    if(check_verbose)
+    {
+        tictoc.tic();
+        for(int i=0;i<=500;i++)
+            wigner_D_real(alpha,beta,gamma,L);
+        tictoc.toc("wigner_D_real");
+
+        tictoc.tic();
+        for(int i=0;i<=500;i++)
+            wigner_D_real_0(alpha,beta,gamma,L);
+        tictoc.toc("wigner_D_real_0");
+
+        tictoc.tic();
+        for(int i=0;i<=500;i++)
+            wigner_D_real_1(alpha,beta,gamma,L);
+        tictoc.toc("wigner_D_real_1");
+
+        tictoc.tic();
+        for(int i=0;i<=500;i++)
+            wigner_D_real_2(alpha,beta,gamma,L);
+        tictoc.toc("wigner_D_real_2");
+    } 
+
+    cout << "fdcl_FFTSO3_real::check_wigner_D_real: error = " << error << endl;
+    return 0.;
 }
 
 std::vector<fdcl_FFTSO3_matrix_real> fdcl_FFTSO3_real::deriv_wigner_D_real()
@@ -1417,38 +1500,45 @@ std::vector<fdcl_FFTSO3_matrix_real> fdcl_FFTSO3_real::deriv_wigner_D_real()
     return u;
 }
 
-void fdcl_FFTSO3_real::check_deriv_wigner_D_real()
+double fdcl_FFTSO3_real::check_deriv_wigner_D_real()
 {
     std::vector<fdcl_FFTSO3_matrix_real> u;
     fdcl_FFTSO3_matrix_real U, U_new;
     std::vector<double>abg;
     Eigen::Matrix<double, 3, 1> ei;
     double eps=1.e-6;
+    double error =0.;
     
     u=deriv_wigner_D_real();
     U=wigner_D_real(0,0,0);
 
-    cout << "fdcl_FFTSO3_real::check_deriv_wigner_D_real" << endl;
+    if(check_verbose)
+        cout << "fdcl_FFTSO3_real::check_deriv_wigner_D_real" << endl;
 
     for(int i=1;i<=3;i++)
     {
-        cout << endl << "u_" << i << endl;
+        if(check_verbose)
+            cout << endl << "u_" << i << endl;
         ei.setZero();
         ei(i-1)=1.;
         abg=R2Euler323(expm_SO3(ei*eps));
         U_new=wigner_D_real(abg[0],abg[1],abg[2]);
-
         for(int l=1;l<=l_max;l++)
         {
-            cout << "l=" << l << ", error= " << ((U_new[l]-U[l])/eps-u[i][l]).norm()/u[i][l].norm() << endl;
+            if(check_verbose)
+                cout << "l=" << l << ", error= " << ((U_new[l]-U[l])/eps-u[i][l]).norm()/u[i][l].norm() << endl;
+            
+            error += ((U_new[l]-U[l])/eps-u[i][l]).norm()/u[i][l].norm();
             // cout << u[i][l] << endl << endl; // analytic derivative
             // cout << (U_new[l]-U[l])/eps << endl << endl; // numerical derivative
         }
     }
-
+   
+    cout << "fdcl_FFTSO3_real::check_deriv_wigner_D_real: error = " << error << endl;
+    return error;
 }
 
-void fdcl_FFTSO3_real::check_Clebsch_Gordon()
+double fdcl_FFTSO3_real::check_Clebsch_Gordon()
 {
 	int l1=3, l2=5, l, m1, m2, n1, n2;
 	double alpha, beta, gamma;
@@ -1485,10 +1575,12 @@ void fdcl_FFTSO3_real::check_Clebsch_Gordon()
 	// c.print();
 
 	// cout << c.c << endl;
-
-	cout << "fdcl_FFTSO3_real:check_Clebsch_Gordon" << endl;
-	cout << "l1 = " << l1 << ", l2 = " << l2 << endl;
-	cout << "alpha = " << alpha << ", beta = " << beta << ", gamma = " << gamma << endl;
+    if(check_verbose)
+    {
+        cout << "fdcl_FFTSO3_real:check_Clebsch_Gordon" << endl;
+        cout << "l1 = " << l1 << ", l2 = " << l2 << endl;
+        cout << "alpha = " << alpha << ", beta = " << beta << ", gamma = " << gamma << endl;
+    }
 
 	for(m1=-l1;m1<=l1;m1++)
 		for(n1=-l1;n1<=l1;n1++)
@@ -1526,9 +1618,12 @@ void fdcl_FFTSO3_real::check_Clebsch_Gordon()
 						error = abs(y-y_CB);
 				}
 
-	cout << "error = " << error << endl;
-	cout << "fdcl_FFTSO3_real:check_Clebsch_Gordon:completed" << endl << endl;
+    
+    cout << "fdcl_FFTSO3_real:check_Clebsch_Gordon: error = " << error << endl;
+
+    return error;
 }
+
 
 int fdcl_FFTSO3_real::signum(int x)
 {
@@ -1548,14 +1643,27 @@ double fdcl_FFTSO3_real::f_4_check_transform(double alpha, double beta, double g
     return inverse_transform(F_4_check,alpha,beta,gamma);
 }
 
-void fdcl_FFTSO3_real::check_transform()
+double fdcl_FFTSO3_real::check_transform()
 {
+    double error = 0.;
     F_4_check.init(l_max);
     F_4_check.setRandom();
 
     auto func= std::bind(&fdcl_FFTSO3_real::f_4_check_transform, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
 
-    cout << "fdcl_FFTSO3_real::check_transform: l_max=" << l_max << endl;
-    cout << "error = " << (F_4_check-forward_transform(func)).norm() << endl;
+    error = (F_4_check-forward_transform(func)).norm();
+    cout << "fdcl_FFTSO3_real::check_transform: l_max=" << l_max << " : error = " << error << endl;
+    return error;
 }
 
+void fdcl_FFTSO3_real::check_all()
+{
+    check_wigner_D_real();
+    cout << endl;
+    check_Clebsch_Gordon();
+    cout << endl;
+    check_deriv_wigner_D_real();
+    cout << endl;
+    check_transform();
+    cout << endl;
+}

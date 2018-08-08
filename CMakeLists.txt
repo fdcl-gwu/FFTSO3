@@ -1,10 +1,11 @@
 cmake_minimum_required(VERSION 3.9.2)
 project( fdcl_FFTSO3 C CXX )
 
+set(CMAKE_CXX_FLAGS "-O3")
 # set(CMAKE_CXX_FLAGS_DEBUG "-g -Wall -Wextra -pedantic")
-set(CMAKE_CXX_FLAGS_DEBUG "-g")
+# set(CMAKE_CXX_FLAGS_DEBUG "-g")
 # Add -Weffc++ for all sorts of good errors to fix
-set(CMAKE_CXX_FLAGS_RELEASE "-DNDEBUG -O3")
+# set(CMAKE_CXX_FLAGS_RELEASE "-DNDEBUG -O3")
 ################################################################################
 # GLOBAL SETUP
 ################################################################################
@@ -36,19 +37,11 @@ endif()
 include(${EIGEN3_USE_FILE})
 
 ################################################################################
-# GOOGLE TESTING
-################################################################################
-#add_subdirectory(${PROJECT_SOURCE_DIR}/extern/googletest/googletest)
-#ENABLE_TESTING()
-#include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
-
-################################################################################
 # BUILD TARGETS
 ################################################################################
 include_directories(${PROJECT_SOURCE_DIR}/include)
 
 set(FFTSO3_src 
-    src/test_FFTSO3.cpp
     src/fdcl_FFTSO3.cpp
     src/fdcl_FFTS2.cpp
     src/fdcl_Clebsch_Gordon.cpp
@@ -56,15 +49,45 @@ set(FFTSO3_src
     src/fdcl_FFTSO3_matrix.cpp
     src/fdcl_FFTS2_matrix.cpp
     src/misc_matrix_func.cpp)
-add_executable(test_FFTSO3 ${FFTSO3_src})
+add_executable(test_FFTSO3 src/test_FFTSO3.cpp ${FFTSO3_src})
 
+###############################################################################
+# GOOGLE TESTING
 ################################################################################
-# Testing example
-################################################################################
-#ENABLE_TESTING()
+#
+configure_file(CMakeLists.txt.in googletest-download/CMakeLists.txt)
+execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
+    RESULT_VARIABLE result
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/googletest-download )
+if(result)
+    message(FATAL_ERROR "CMake step for googletest failed: ${result}")
+endif()
+execute_process(COMMAND ${CMAKE_COMMAND} --build .
+    RESULT_VARIABLE result
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/googletest-download )
+if(result)
+    message(FATAL_ERROR "Build step for googletest failed: ${result}")
+endif()
 
-# add_executable(test_libigl tests/cpp/test_libigl.cpp tests/cpp/test_all.cpp)
-# target_link_libraries(test_libigl gtest igl::core igl::cgal)
-# add_test(NAME test_libigl COMMAND test_libigl
-# WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
+# Prevent overriding the parent project's compiler/linker
+# settings on Windows
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+
+# Add googletest directly to our build. This defines
+# the gtest and gtest_main targets.
+add_subdirectory(${CMAKE_BINARY_DIR}/googletest-src
+    ${CMAKE_BINARY_DIR}/googletest-build
+    EXCLUDE_FROM_ALL)
+
+# The gtest/gtest_main targets carry header search path
+# dependencies automatically when using CMake 2.8.11 or
+# later. Otherwise we have to add them here ourselves.
+# if (CMAKE_VERSION VERSION_LESS 2.8.11)
+    include_directories("${gtest_SOURCE_DIR}/include")
+# endif()
+
+# Now simply link against gtest or gtest_main as needed. Eg
+add_executable(test test/test.cpp ${FFTSO3_src})
+target_link_libraries(test gtest_main)
+add_test(NAME example_test COMMAND test)
 

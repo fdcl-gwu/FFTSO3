@@ -55,7 +55,7 @@ double myrf_S2(double theta, double phi)
 
 int main()
 {
-    int l_max=10;
+    int l_max=3;
     fdcl_FFTSO3_matrix_real d(l_max), d1(l_max), F_real(l_max);
     fdcl_FFTSO3_matrix_complex D(l_max), F0(l_max), F1(l_max), F(l_max);
     fdcl_FFTSO3_complex FFTSO3(l_max);
@@ -74,14 +74,19 @@ int main()
     
     R1=expm_SO3(eta1);
     R2=expm_SO3(eta2);
-    
+
+    // FFTSO3.check_verbose=true;
+    FFTSO3.check_all();    
     // FFTSO3.check_weight();
     // FFTSO3.check_wigner_d();
-    FFTSO3.check_transform();
+    // FFTSO3.check_transform();
+    // FFTSO3.check_deriv_wigner_D();
     // FFTSO3.check_Clebsch_Gordon();
-
+// 
+    // RFFTSO3.check_verbose=true;
+    RFFTSO3.check_all();
     // RFFTSO3.check_wigner_D_real();
-	RFFTSO3.check_transform();
+	// RFFTSO3.check_transform();
     // RFFTSO3.check_Clebsch_Gordon();
     // RFFTSO3.check_deriv_U();
  

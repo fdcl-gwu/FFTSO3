@@ -48,11 +48,13 @@ class fdcl_FFTSO3_complex
         std::vector<double> character(double beta);
 
         // test
-        void check_weight();
-        void check_wigner_d();
-        void check_deriv_wigner_D();
-        void check_transform();
-        void check_Clebsch_Gordon();
+        bool check_verbose=false;
+        void check_all();
+        double check_weight();
+        double check_wigner_d();
+        double check_deriv_wigner_D();
+        double check_transform();
+        double check_Clebsch_Gordon();
 
 	protected:
         double beta_k(int k);
@@ -91,10 +93,11 @@ class fdcl_FFTSO3_real : public fdcl_FFTSO3_complex
         double fast_inverse_transform(fdcl_FFTSO3_matrix_real, double alpha, double beta, double gamma);
         double inverse_transform(fdcl_FFTSO3_matrix_real, Matrix3);
 
-        void check_wigner_D_real();
-        void check_Clebsch_Gordon();
-        void check_deriv_wigner_D_real();
-        void check_transform();
+        void check_all();
+        double check_wigner_D_real();
+        double check_Clebsch_Gordon();
+        double check_deriv_wigner_D_real();
+        double check_transform();
 
     private:
 		int signum(int );
