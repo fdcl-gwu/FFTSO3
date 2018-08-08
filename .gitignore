@@ -1,6 +1,9 @@
 # Created by https://www.gitignore.io/api/c,vim,c++,osx,latex,fortran
 
 bin/
+scratch/
+build/
+doc/
 
 ### C ###
 # Prerequisites
