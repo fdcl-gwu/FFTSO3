@@ -431,20 +431,41 @@ void fdcl_FFTSO3_complex::check_deriv_D()
 
 }
 
+// complex<double> fdcl_FFTSO3_complex::inverse_transform(fdcl_FFTSO3_matrix_complex F, double alpha, double beta, double gamma)
+// {
+    // complex<double> f=0.;
+    // int l,m,n;
+    // init(F.l_max);
+    // fdcl_FFTSO3_matrix_complex D;
+    // 
+    // D=wigner_D(alpha,beta,gamma);   
+    // 
+    // for(l=0;l<=l_max;l++)
+        // for(m=-l;m<=l;m++)
+            // for(n=-l;n<=l;n++)
+                // f+=((double) 2*l+1 )* F(l,m,n)*D(l,m,n);
+    // 
+    // return f;
+// }
+
 complex<double> fdcl_FFTSO3_complex::inverse_transform(fdcl_FFTSO3_matrix_complex F, double alpha, double beta, double gamma)
 {
-    complex<double> f=0.;
-    int l,m,n;
-    init(F.l_max);
-    fdcl_FFTSO3_matrix_complex D;
-    
-    D=wigner_D(alpha,beta,gamma);   
-    
-    for(l=0;l<=l_max;l++)
-        for(m=-l;m<=l;m++)
-            for(n=-l;n<=l;n++)
-                f+=((double) 2*l+1 )* F(l,m,n)*D(l,m,n);
-    
+	complex<double> f=0.;
+	int l,m,n;
+	init(F.l_max);
+	fdcl_FFTSO3_matrix_real d(l_max);
+	complex<double> tmp={0.,0.};
+
+	d=wigner_d(beta);
+    for(m=-l_max; m<=l_max; m++)
+		for(n=-l_max; n<=l_max; n++)
+		{
+			tmp=0.;
+   			for(l=max(abs(m),abs(n)); l<=l_max; l++)
+				tmp+=(double)(2*l+1)*F(l,m,n)*d(l,m,n);
+			f+=exp(-I*((double)m*alpha+(double)n*gamma))*tmp;
+		}
+
     return f;
 }
 
@@ -744,7 +765,6 @@ void fdcl_FFTSO3_complex::check_Clebsch_Gordon()
 
 
 }
-
 
 fdcl_FFTSO3_real::fdcl_FFTSO3_real(int l_max)
 {

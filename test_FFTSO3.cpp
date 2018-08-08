@@ -80,17 +80,7 @@ int main()
     FFTSO3.check_transform();
     // FFTSO3.check_Clebsch_Gordon();
 
-	tt.tic();
-	FFTSO3.forward_transform_1(myf);
-	tt.toc("ft1");
 
-	tt.tic();
-	FFTSO3.forward_transform(myf);
-	tt.toc("fft");
-
-	cout << "error = " << (FFTSO3.forward_transform(myf)-FFTSO3.forward_transform_1(myf)).norm() << endl;
-
-	
     
     // RFFTSO3.check_wigner_D_real();
     // RFFTSO3.check_transform();
