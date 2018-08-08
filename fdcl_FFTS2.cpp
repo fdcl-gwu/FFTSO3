@@ -245,14 +245,12 @@ double fdcl_FFTS2_complex::phi_j(int j)
 
 void fdcl_FFTS2_complex::check_transform()
 {
-    L_4_check=20;
-    F_4_check.init(L_4_check);
+    F_4_check.init(l_max);
     F_4_check.setRandom();
-    init(L_4_check);
 
     auto func= std::bind(&fdcl_FFTS2_complex::f_4_check_transform, this, std::placeholders::_1, std::placeholders::_2);
 
-    cout << "fdcl_FFTS2_complex::check_transform: l_max=" << L_4_check << endl;
+    cout << "fdcl_FFTS2_complex::check_transform: l_max=" << l_max << endl;
     cout << "error = " << (F_4_check-forward_transform(func)).norm() << endl;
 
     init(l_max);
@@ -376,14 +374,12 @@ fdcl_FFTS2_matrix_real fdcl_FFTS2_real::forward_transform(std::function <double(
 
 void fdcl_FFTS2_real::check_transform()
 {
-    L_4_check=20;
-    F_4_check.init(L_4_check);
+    F_4_check.init(l_max);
     F_4_check.setRandom();
-    init(L_4_check);
 
     auto func= std::bind(&fdcl_FFTS2_real::f_4_check_transform, this, std::placeholders::_1, std::placeholders::_2);
 
-    cout << "fdcl_FFTS2_real::check_transform: l_max=" << L_4_check << endl;
+    cout << "fdcl_FFTS2_real::check_transform: l_max=" << l_max << endl;
     cout << "error = " << (F_4_check-forward_transform(func)).norm() << endl;
 
     init(l_max);

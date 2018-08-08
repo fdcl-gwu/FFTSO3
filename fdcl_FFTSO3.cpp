@@ -362,7 +362,7 @@ std::vector<double> fdcl_FFTSO3_complex::character(double theta)
     return chi;
 } 
     
-std::vector<fdcl_FFTSO3_matrix_complex> fdcl_FFTSO3_complex::deriv_D()
+std::vector<fdcl_FFTSO3_matrix_complex> fdcl_FFTSO3_complex::deriv_wigner_D()
 {
     std::vector<fdcl_FFTSO3_matrix_complex> u;
     double c_n, cn;
@@ -400,7 +400,7 @@ std::vector<fdcl_FFTSO3_matrix_complex> fdcl_FFTSO3_complex::deriv_D()
     return u;
 }
 
-void fdcl_FFTSO3_complex::check_deriv_D()
+void fdcl_FFTSO3_complex::check_deriv_wigner_D()
 {
     std::vector<fdcl_FFTSO3_matrix_complex> u;
     fdcl_FFTSO3_matrix_complex D, D_new;
@@ -408,10 +408,10 @@ void fdcl_FFTSO3_complex::check_deriv_D()
     Eigen::Matrix<double, 3, 1> ei;
     double eps=1.e-6;
     
-    u=deriv_D();
+    u=deriv_wigner_D();
     D=wigner_D(0,0,0);
 
-    cout << "fdcl_FFTSO3_complex::check_deriv_D" << endl;
+    cout << "fdcl_FFTSO3_complex::check_deriv_wigner_D" << endl;
 
     for(int i=1;i<=3;i++)
     {
@@ -431,8 +431,32 @@ void fdcl_FFTSO3_complex::check_deriv_D()
 
 }
 
-// complex<double> fdcl_FFTSO3_complex::inverse_transform(fdcl_FFTSO3_matrix_complex F, double alpha, double beta, double gamma)
-// {
+complex<double> fdcl_FFTSO3_complex::inverse_transform(fdcl_FFTSO3_matrix_complex F, double alpha, double beta, double gamma)
+{
+	int l,m,n;
+	init(F.l_max);
+	fdcl_FFTSO3_matrix_real d(l_max);
+	Eigen::MatrixXcd Fmn(2*B,2*B);
+	Eigen::VectorXcd expIMA(2*B), expING(2*B);
+
+	for(m=-l_max; m<=l_max; m++)
+		expIMA(m+l_max)=exp(-I*(double)m*alpha);
+
+	for(n=-l_max; n<=l_max; n++)
+		expING(n+l_max)=exp(-I*(double)n*gamma);
+
+	Fmn.setZero();
+	d=wigner_d(beta);
+    for(m=-l_max; m<=l_max; m++)
+		for(n=-l_max; n<=l_max; n++)
+		{
+   			for(l=max(abs(m),abs(n)); l<=l_max; l++)
+				Fmn(m+l_max,n+l_max)+=(double)(2*l+1)*F(l,m,n)*d(l,m,n);
+		}
+
+    return expIMA.transpose()*Fmn*expING;
+
+	// alternative method: direct sum: slow
     // complex<double> f=0.;
     // int l,m,n;
     // init(F.l_max);
@@ -446,32 +470,26 @@ void fdcl_FFTSO3_complex::check_deriv_D()
                 // f+=((double) 2*l+1 )* F(l,m,n)*D(l,m,n);
     // 
     // return f;
-// }
 
-complex<double> fdcl_FFTSO3_complex::inverse_transform(fdcl_FFTSO3_matrix_complex F, double alpha, double beta, double gamma)
-{
-	complex<double> f=0.;
-	int l,m,n;
-	init(F.l_max);
-	fdcl_FFTSO3_matrix_real d(l_max);
-	complex<double> tmp={0.,0.};
+	// alternative method: smaller memory requirement, but little slower
+	// complex<double> f=0.;
 
-	d=wigner_d(beta);
-    for(m=-l_max; m<=l_max; m++)
-		for(n=-l_max; n<=l_max; n++)
-		{
-			tmp=0.;
-   			for(l=max(abs(m),abs(n)); l<=l_max; l++)
-				tmp+=(double)(2*l+1)*F(l,m,n)*d(l,m,n);
-			f+=exp(-I*((double)m*alpha+(double)n*gamma))*tmp;
-		}
-
-    return f;
-}
-
-complex<double> fdcl_FFTSO3_complex::inverse_transform(double alpha, double beta, double gamma)
-{
-    return inverse_transform(this->F, alpha, beta, gamma);
+	// int l,m,n;
+	// init(F.l_max);
+	// fdcl_FFTSO3_matrix_real d(l_max);
+	// complex<double> tmp={0.,0.};
+// 
+	// d=wigner_d(beta);
+    // for(m=-l_max; m<=l_max; m++)
+		// for(n=-l_max; n<=l_max; n++)
+		// {
+			// tmp=0.;
+   			// for(l=max(abs(m),abs(n)); l<=l_max; l++)
+				// tmp+=(double)(2*l+1)*F(l,m,n)*d(l,m,n);
+			// f+=exp(-I*((double)m*alpha+(double)n*gamma))*tmp;
+		// }
+// 
+    // return f;
 }
 
 complex<double> fdcl_FFTSO3_complex::inverse_transform(fdcl_FFTSO3_matrix_complex F, Matrix3 R)
@@ -482,16 +500,6 @@ complex<double> fdcl_FFTSO3_complex::inverse_transform(fdcl_FFTSO3_matrix_comple
     abg=R2Euler323(R);
     
     return inverse_transform(F,abg[0],abg[1],abg[2]);
-}
-
-complex<double> fdcl_FFTSO3_complex::inverse_transform(Matrix3 R)
-{
-    std::vector<double> abg;
-    
-    abg.resize(3);
-    abg=R2Euler323(R);
-    
-    return inverse_transform(abg[0],abg[1],abg[2]); 
 }
 
 double fdcl_FFTSO3_complex::beta_k(int k)
@@ -516,14 +524,12 @@ complex<double> fdcl_FFTSO3_complex::f_4_check_transform(double alpha, double be
 
 void fdcl_FFTSO3_complex::check_transform()
 {
-    L_4_check=20;
-    F_4_check.init(L_4_check);
+    F_4_check.init(l_max);
     F_4_check.setRandom();
-    init(L_4_check);
 
     auto func= std::bind(&fdcl_FFTSO3_complex::f_4_check_transform, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
 
-    cout << "fdcl_FFTSO3_complex::check_transform: l_max=" << L_4_check << endl;
+    cout << "fdcl_FFTSO3_complex::check_transform: l_max=" << l_max << endl;
 	cout << "error = " << (F_4_check-forward_transform(func)).norm() << endl;
 	// cout << F_4_check << endl;
     // cout << forward_transform(func)<< endl;
@@ -873,7 +879,7 @@ fdcl_FFTSO3_matrix_real fdcl_FFTSO3_real::wigner_D_real(double alpha, double bet
 
 fdcl_FFTSO3_matrix_complex fdcl_FFTSO3_real::matrix2rsph(int L)
 {
-    fdcl_FFTSO3_matrix_complex C(L);
+	T.init(L);
     int l,m;
 
     for(l=0;l<=L;l++)
@@ -891,18 +897,18 @@ fdcl_FFTSO3_matrix_complex fdcl_FFTSO3_real::matrix2rsph(int L)
         // } 
         for(m=-l;m<0;m++)
         {
-            C(l,m,m)=I/sqrt(2.);
-            C(l,m,-m)=-I/sqrt(2.)*pow(-1.,m);
+            T(l,m,m)=I/sqrt(2.);
+            T(l,m,-m)=-I/sqrt(2.)*pow(-1.,m);
         }
-        C(l,0,0)=1.;
+        T(l,0,0)=1.;
         for(m=1;m<=l;m++)
         {
-            C(l,m,-m)=1./sqrt(2.);
-            C(l,m,m)=pow(-1.,m)/sqrt(2.);
+            T(l,m,-m)=1./sqrt(2.);
+            T(l,m,m)=pow(-1.,m)/sqrt(2.);
         }
     }
 
-    return C;
+    return T;
 }
 
 double fdcl_FFTSO3_real::inverse_transform(fdcl_FFTSO3_matrix_real F, double alpha, double beta, double gamma)
@@ -932,6 +938,19 @@ double fdcl_FFTSO3_real::inverse_transform(fdcl_FFTSO3_matrix_real F, Matrix3 R)
 }
 
 fdcl_FFTSO3_matrix_real fdcl_FFTSO3_real::forward_transform(std::function <double(double, double, double)> func)
+{
+	fdcl_FFTSO3_matrix_complex F_complex(l_max);
+
+	F_complex=fdcl_FFTSO3_complex::forward_transform(func);
+	matrix2rsph(l_max);
+
+	for(int l=0; l<=l_max; l++)
+		F_complex[l]=T[l]*F_complex[l]*T[l].adjoint();
+
+	return F_complex.real();
+}
+
+fdcl_FFTSO3_matrix_real fdcl_FFTSO3_real::forward_transform_1(std::function <double(double, double, double)> func)
 {
     fdcl_FFTSO3_matrix_real F_beta_1[2*B][2*B], F_beta_2[2*B][2*B], d_beta_k(l_max);
     fdcl_FFTSO3_matrix_real F(l_max);
@@ -1328,7 +1347,7 @@ void fdcl_FFTSO3_real::check_wigner_D_real()
     cout << "fdcl_FFTSO3_real::check_wigner_D_real completed" << endl << endl;
 }
 
-std::vector<fdcl_FFTSO3_matrix_real> fdcl_FFTSO3_real::deriv_U()
+std::vector<fdcl_FFTSO3_matrix_real> fdcl_FFTSO3_real::deriv_wigner_D_real()
 {
     std::vector<fdcl_FFTSO3_matrix_real> u;
     double tmp;
@@ -1398,7 +1417,7 @@ std::vector<fdcl_FFTSO3_matrix_real> fdcl_FFTSO3_real::deriv_U()
     return u;
 }
 
-void fdcl_FFTSO3_real::check_deriv_U()
+void fdcl_FFTSO3_real::check_deriv_wigner_D_real()
 {
     std::vector<fdcl_FFTSO3_matrix_real> u;
     fdcl_FFTSO3_matrix_real U, U_new;
@@ -1406,10 +1425,10 @@ void fdcl_FFTSO3_real::check_deriv_U()
     Eigen::Matrix<double, 3, 1> ei;
     double eps=1.e-6;
     
-    u=deriv_U();
+    u=deriv_wigner_D_real();
     U=wigner_D_real(0,0,0);
 
-    cout << "fdcl_FFTSO3_real::check_deriv_U" << endl;
+    cout << "fdcl_FFTSO3_real::check_deriv_wigner_D_real" << endl;
 
     for(int i=1;i<=3;i++)
     {
@@ -1531,14 +1550,12 @@ double fdcl_FFTSO3_real::f_4_check_transform(double alpha, double beta, double g
 
 void fdcl_FFTSO3_real::check_transform()
 {
-    L_4_check=10;
-    F_4_check.init(L_4_check);
+    F_4_check.init(l_max);
     F_4_check.setRandom();
-    init(L_4_check);
 
     auto func= std::bind(&fdcl_FFTSO3_real::f_4_check_transform, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
 
-    cout << "fdcl_FFTSO3_real::check_transform: l_max=" << L_4_check << endl;
+    cout << "fdcl_FFTSO3_real::check_transform: l_max=" << l_max << endl;
     cout << "error = " << (F_4_check-forward_transform(func)).norm() << endl;
 }
 

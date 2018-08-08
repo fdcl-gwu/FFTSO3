@@ -19,7 +19,7 @@ class fdcl_FFTSO3_complex
 {
     public:
         std::vector<fdcl_FFTSO3_matrix_real> d_beta;
-        fdcl_FFTSO3_matrix_complex D, F, F0, u;
+        fdcl_FFTSO3_matrix_complex D, F, u;
         int B, l_max;
         std::vector<double> weight;
         fdcl_Clebsch_Gordon_complex C;
@@ -43,38 +43,33 @@ class fdcl_FFTSO3_complex
 
         complex<double> inverse_transform(fdcl_FFTSO3_matrix_complex, double alpha, double beta, double gamma);
         complex<double> inverse_transform(fdcl_FFTSO3_matrix_complex, Matrix3);
-        complex<double> inverse_transform(double alpha, double beta, double gamma);
-        complex<double> inverse_transform(Matrix3);
 
-        std::vector<fdcl_FFTSO3_matrix_complex> deriv_D();
+        std::vector<fdcl_FFTSO3_matrix_complex> deriv_wigner_D();
         std::vector<double> character(double beta);
 
         // test
         void check_weight();
         void check_wigner_d();
-        void check_deriv_D();
+        void check_deriv_wigner_D();
         void check_transform();
         void check_Clebsch_Gordon();
-        fdcl_FFTSO3_matrix_complex forward_transform_0(std::function <complex<double>(double, double, double)>);
-        fdcl_FFTSO3_matrix_complex forward_transform_1(std::function <complex<double>(double, double, double)>);
 
-    protected:
+	protected:
         double beta_k(int k);
         double alpha_j(int j);
         double gamma_j(int j);
         std::vector<double> compute_weight();
-        int L_4_check;
 
     private:
         fdcl_FFTSO3_matrix_complex F_4_check;
         complex<double> f_4_check_transform(double alpha, double beta, double gamma);
-
+		fdcl_FFTSO3_matrix_complex forward_transform_0(std::function <complex<double>(double, double, double)>);
+        fdcl_FFTSO3_matrix_complex forward_transform_1(std::function <complex<double>(double, double, double)>);
 };
 
 class fdcl_FFTSO3_real : public fdcl_FFTSO3_complex
 {
     public:
-
         fdcl_Clebsch_Gordon_real c;
         fdcl_FFTSO3_matrix_real U;
 
@@ -88,21 +83,17 @@ class fdcl_FFTSO3_real : public fdcl_FFTSO3_complex
         fdcl_FFTSO3_matrix_real wigner_D_real(double alpha, double beta, double gamma);
         fdcl_FFTSO3_matrix_real wigner_D_real(Matrix3);
 
-        std::vector<fdcl_FFTSO3_matrix_real> deriv_U();
+        std::vector<fdcl_FFTSO3_matrix_real> deriv_wigner_D_real();
         fdcl_FFTSO3_matrix_real forward_transform(std::function <double(double, double, double)>);
         fdcl_FFTSO3_matrix_real forward_transform(std::function <double(Matrix3)>);
 
         double inverse_transform(fdcl_FFTSO3_matrix_real, double alpha, double beta, double gamma);
+        double fast_inverse_transform(fdcl_FFTSO3_matrix_real, double alpha, double beta, double gamma);
         double inverse_transform(fdcl_FFTSO3_matrix_real, Matrix3);
-        double inverse_transform(double alpha, double beta, double gamma);
-        double inverse_transform(Matrix3);
-
-        fdcl_FFTSO3_matrix_complex T;
-        fdcl_FFTSO3_matrix_complex matrix2rsph(int L);
 
         void check_wigner_D_real();
         void check_Clebsch_Gordon();
-        void check_deriv_U();
+        void check_deriv_wigner_D_real();
         void check_transform();
 
     private:
@@ -115,11 +106,13 @@ class fdcl_FFTSO3_real : public fdcl_FFTSO3_complex
         fdcl_FFTSO3_matrix_real wigner_D_real_0(double alpha, double beta, double gamma, int L);// alternative formulation based on Theta/Psi
 
         fdcl_FFTSO3_matrix_real forward_transform_0(std::function <double(double, double, double)>);
+        fdcl_FFTSO3_matrix_real forward_transform_1(std::function <double(double, double, double)>);
 
         std::vector<double> compute_Phi(int m, int n, double alpha, double gamma);	
         std::vector<fdcl_FFTSO3_matrix_real> compute_Theta_Psi(double beta, int L);
 
+        fdcl_FFTSO3_matrix_complex T;
+        fdcl_FFTSO3_matrix_complex matrix2rsph(int L);
 };
-
 
 #endif
