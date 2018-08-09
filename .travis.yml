@@ -1,9 +1,7 @@
 language: cpp
 compiler:
   - gcc
-  - clang
 before_script:
   - sudo apt-get install libeigen3-dev
-  - mkdir build
   - cd build
   - cmake ..
