@@ -1,1 +1,3 @@
 language: cpp
+install:
+    - cd build && cmake ..
