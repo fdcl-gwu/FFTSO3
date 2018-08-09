@@ -1,3 +1,9 @@
 language: cpp
-install:
-    - cd build && cmake ..
+compiler:
+  - gcc
+  - clang
+before_script:
+  - sudo apt-get install libeigen3-dev
+  - mkdir build
+  - cd build
+  - cmake ..
