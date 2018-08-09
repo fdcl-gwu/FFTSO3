@@ -194,10 +194,11 @@ complex<double> fdcl_FFTS2_complex::inverse_transform(fdcl_FFTS2_matrix_complex 
     return y;
 }
 
-void fdcl_FFTS2_complex::check_weight()
+double fdcl_FFTS2_complex::check_weight()
 {
     fdcl_FFTS2_matrix_complex Y(2*B-1);
     std::vector<complex<double>> sum;
+    double error=1.0;
     sum.resize(2*B);
     for (int l=0;l<2*B;l++)
         sum[l]=0.;
@@ -213,10 +214,16 @@ void fdcl_FFTS2_complex::check_weight()
         }
     }
     
-    cout << "fdcl_FFTS2_complex::check_weight" << endl;
-    cout << "\\sum_k w_k Y^l_m(\\theta_k,0) * B / \\sqrt{\\pi} = \\delta_{0,l}" << endl; 
-    for (int l=0;l<2*B;l++)
-        cout << "l=" << l << ": " << sum[l]*(double)B/sqrt(M_PI) << endl;
+    if(check_verbose)
+    {
+        cout << "fdcl_FFTS2_complex::check_weight" << endl;
+        cout << "\\sum_k w_k Y^l_m(\\theta_k,0) * B / \\sqrt{\\pi} = \\delta_{0,l}" << endl; 
+        for (int l=0;l<2*B;l++)
+            cout << "l=" << l << ": " << sum[l]*(double)B/sqrt(M_PI) << endl;
+    }
+    error = abs(sum[0]*(double)B/sqrt(M_PI)-1.0);
+    for (int l=1;l<2*B;l++)
+        error+= abs(sum[l]*(double)B/sqrt(M_PI));
 
     int j, k, l;
     fdcl_FFTS2_matrix_complex Delta(2*B-1);
@@ -226,11 +233,25 @@ void fdcl_FFTS2_complex::check_weight()
             for(l=0;l<2*B;l++)
                 Delta[l]+=weight[k]*spherical_harmonics(theta_k(k),phi_j(j),2*B-1)[l];
     
-    cout << "\\sum_{j,k} w_k Y(theta_k, phi_j) / (2\\sqrt{\\pi}) = \\delta_{l,0}\\delta_{m,0}" << endl;
-    for (int l=0;l<2*B;l++)
-        cout << "l=" << l << ": " << Delta[l].norm()/(2.*sqrt(M_PI)) << endl;
+    if(check_verbose)
+    {
+        cout << "\\sum_{j,k} w_k Y(theta_k, phi_j) / (2\\sqrt{\\pi}) = \\delta_{l,0}\\delta_{m,0}" << endl;
+        for (int l=0;l<2*B;l++)
+            cout << "l=" << l << ": " << Delta[l].norm()/(2.*sqrt(M_PI)) << endl;
+    }
+    error += abs(Delta(0,0)/(2.*sqrt(M_PI))-1.0);
+    for (int l=1;l<2*B;l++)
+        error+=abs(Delta[l].norm()/(2.*sqrt(M_PI)));
 
-    
+    cout << "fdcl_FFTS2_complex::check_weight: error = " << error << endl;
+    return error;
+}
+
+void fdcl_FFTS2_complex::check_all()
+{
+    check_weight();
+    check_transform();
+    cout << endl;
 }
 
 double fdcl_FFTS2_complex::theta_k(int k)
@@ -243,17 +264,20 @@ double fdcl_FFTS2_complex::phi_j(int j)
     return ((double)j)*M_PI/((double)B);
 }
 
-void fdcl_FFTS2_complex::check_transform()
+double fdcl_FFTS2_complex::check_transform()
 {
+    double error=1.0;
+
     F_4_check.init(l_max);
     F_4_check.setRandom();
 
     auto func= std::bind(&fdcl_FFTS2_complex::f_4_check_transform, this, std::placeholders::_1, std::placeholders::_2);
 
-    cout << "fdcl_FFTS2_complex::check_transform: l_max=" << l_max << endl;
-    cout << "error = " << (F_4_check-forward_transform(func)).norm() << endl;
+    error = (F_4_check-forward_transform(func)).norm();
 
-    init(l_max);
+    cout << "fdcl_FFTS2_complex::check_transform: l_max=" << l_max << " : error = " << error << endl;
+
+    return error;
 }
 
 complex<double> fdcl_FFTS2_complex::f_4_check_transform(double theta, double phi)
@@ -372,17 +396,24 @@ fdcl_FFTS2_matrix_real fdcl_FFTS2_real::forward_transform(std::function <double(
     // return F;
 }
 
-void fdcl_FFTS2_real::check_transform()
+void fdcl_FFTS2_real::check_all()
 {
+    check_transform();
+    cout << endl;
+}
+
+double fdcl_FFTS2_real::check_transform()
+{
+    double error=1.0;
     F_4_check.init(l_max);
     F_4_check.setRandom();
 
     auto func= std::bind(&fdcl_FFTS2_real::f_4_check_transform, this, std::placeholders::_1, std::placeholders::_2);
 
-    cout << "fdcl_FFTS2_real::check_transform: l_max=" << l_max << endl;
-    cout << "error = " << (F_4_check-forward_transform(func)).norm() << endl;
+    error = (F_4_check-forward_transform(func)).norm();
+    cout << "fdcl_FFTS2_real::check_transform: l_max=" << l_max  << " : error = " << error << endl;
 
-    init(l_max);
+    return error;
 }
 
 double fdcl_FFTS2_real::f_4_check_transform(double theta, double phi)

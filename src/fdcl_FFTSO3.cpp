@@ -387,9 +387,9 @@ double fdcl_FFTSO3_complex::check_wigner_d()
     for (int l=0; l<=3; l++)
         error(3) += (d_beta[l]-d_beta_explicit[l]).norm();
 
-    cout << "fdcl_FFTSO3_complex::check_wigner_d: error = " << error.maxCoeff() << endl;
+    cout << "fdcl_FFTSO3_complex::check_wigner_d: error = " << error.maxCoeff()*1.e-9 << endl;
     
-    return error.maxCoeff();
+    return error.maxCoeff()*1.e-9;
    
 }
 
@@ -481,9 +481,9 @@ double fdcl_FFTSO3_complex::check_deriv_wigner_D()
         }
     }
 
-    cout << "fdcl_FFTSO3_complex::check_deriv_wigner_D: error = " << error.maxCoeff() << endl;
+    cout << "fdcl_FFTSO3_complex::check_deriv_wigner_D: error = " << error.maxCoeff()*1.e-9 << endl;
 
-    return error.maxCoeff();
+    return error.maxCoeff()*1.e-9;
 
 }
 
@@ -802,7 +802,7 @@ double fdcl_FFTSO3_complex::check_Clebsch_Gordon()
 
     if(check_verbose)
     {
-        cout << "fdcl_FFTSO3_complex:check_Clebsch_Gordon" << endl;
+        cout << "fdcl_FFTSO3_complex::check_Clebsch_Gordon" << endl;
         cout << "l1 = " << l1 << ", l2 = " << l2 << endl;
         cout << "alpha = " << alpha << ", beta = " << beta << ", gamma = " << gamma << endl;
     }
@@ -825,7 +825,7 @@ double fdcl_FFTSO3_complex::check_Clebsch_Gordon()
                         error = abs(y-y_CB);
                 }
 
-    cout << "fdcl_FFTSO3_complex:check_Clebsch_Gordon: error = " << error << endl;
+    cout << "fdcl_FFTSO3_complex::check_Clebsch_Gordon: error = " << error << endl;
 
     return error;
 }
@@ -1423,7 +1423,7 @@ double fdcl_FFTSO3_real::check_wigner_D_real()
     } 
 
     cout << "fdcl_FFTSO3_real::check_wigner_D_real: error = " << error << endl;
-    return 0.;
+    return error;
 }
 
 std::vector<fdcl_FFTSO3_matrix_real> fdcl_FFTSO3_real::deriv_wigner_D_real()
@@ -1530,8 +1530,8 @@ double fdcl_FFTSO3_real::check_deriv_wigner_D_real()
         }
     }
    
-    cout << "fdcl_FFTSO3_real::check_deriv_wigner_D_real: error = " << error << endl;
-    return error;
+    cout << "fdcl_FFTSO3_real::check_deriv_wigner_D_real: error = " << error*1.e-9 << endl;
+    return error*1.e-9;
 }
 
 double fdcl_FFTSO3_real::check_Clebsch_Gordon()
@@ -1573,7 +1573,7 @@ double fdcl_FFTSO3_real::check_Clebsch_Gordon()
 	// cout << c.c << endl;
     if(check_verbose)
     {
-        cout << "fdcl_FFTSO3_real:check_Clebsch_Gordon" << endl;
+        cout << "fdcl_FFTSO3_real::check_Clebsch_Gordon" << endl;
         cout << "l1 = " << l1 << ", l2 = " << l2 << endl;
         cout << "alpha = " << alpha << ", beta = " << beta << ", gamma = " << gamma << endl;
     }
@@ -1615,7 +1615,7 @@ double fdcl_FFTSO3_real::check_Clebsch_Gordon()
 				}
 
     
-    cout << "fdcl_FFTSO3_real:check_Clebsch_Gordon: error = " << error << endl;
+    cout << "fdcl_FFTSO3_real::check_Clebsch_Gordon: error = " << error << endl;
 
     return error;
 }

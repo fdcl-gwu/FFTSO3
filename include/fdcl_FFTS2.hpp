@@ -33,8 +33,10 @@ class fdcl_FFTS2_complex
         fdcl_FFTS2_matrix_complex forward_transform(std::function <complex<double>(double, double)>, bool );
         complex<double> inverse_transform(fdcl_FFTS2_matrix_complex F, double theta, double phi);
 
-        void check_weight();
-        void check_transform();
+        bool check_verbose=false;
+        void check_all();
+        double check_weight();
+        double check_transform();
 
     protected:
         fdcl_FFTS2_matrix_real nor_assoc_Legendre_poly(double cos_beta, int L);
@@ -65,7 +67,8 @@ class fdcl_FFTS2_real : public fdcl_FFTS2_complex
         fdcl_FFTSO3_matrix_complex T;
         fdcl_FFTSO3_matrix_complex matrix2rsph(int L);
         
-        void check_transform();
+        void check_all();
+        double check_transform();
     private:
         fdcl_FFTS2_matrix_real F_4_check;
         double f_4_check_transform(double theta, double phi);
