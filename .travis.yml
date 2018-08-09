@@ -5,3 +5,10 @@ before_script:
   - sudo apt-get install libeigen3-dev
   - cd build
   - cmake ..
+addons:
+  apt:
+    sources:
+      - george-edison55-precise-backports
+    packages:
+      - cmake-data
+      - cmake

@@ -14,8 +14,7 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
-#set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
-set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR})
+set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 # Find OpenMP
 # set(ENV{OMP_NUM_THREADS} 4)
@@ -30,7 +29,7 @@ set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR})
 #find_package(Threads REQUIRED)
 
 # Eigen setup
-find_package(Eigen3 3.3.4 REQUIRED)
+find_package(Eigen3 3.3 REQUIRED)
 if (NOT Eigen3_FOUND)
     message(STATUS "This project requires Eigen3 and will not be compiled. See http://eigen.tuxfamily.org")
     return()
