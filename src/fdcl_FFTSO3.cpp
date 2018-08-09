@@ -387,7 +387,7 @@ double fdcl_FFTSO3_complex::check_wigner_d()
     for (int l=0; l<=3; l++)
         error(3) += (d_beta[l]-d_beta_explicit[l]).norm();
 
-    cout << "fdcl_FFTSO3_complex::check_wigner_d: error = " << error.transpose() << endl;
+    cout << "fdcl_FFTSO3_complex::check_wigner_d: error = " << error.maxCoeff() << endl;
     
     return error.maxCoeff();
    
@@ -833,13 +833,9 @@ double fdcl_FFTSO3_complex::check_Clebsch_Gordon()
 void fdcl_FFTSO3_complex::check_all()
 {
     check_weight();
-    cout << endl;
     check_wigner_d();
-    cout << endl;
     check_deriv_wigner_D();
-    cout << endl;
     check_transform();
-    cout << endl;
     check_Clebsch_Gordon();
     cout << endl;
 }
@@ -1659,11 +1655,8 @@ double fdcl_FFTSO3_real::check_transform()
 void fdcl_FFTSO3_real::check_all()
 {
     check_wigner_D_real();
-    cout << endl;
     check_Clebsch_Gordon();
-    cout << endl;
     check_deriv_wigner_D_real();
-    cout << endl;
     check_transform();
     cout << endl;
 }

@@ -49,7 +49,11 @@ set(FFTSO3_src
     src/fdcl_FFTSO3_matrix.cpp
     src/fdcl_FFTS2_matrix.cpp
     src/misc_matrix_func.cpp)
-add_executable(test_FFTSO3 src/test_FFTSO3.cpp ${FFTSO3_src})
+
+add_library(fftso3 SHARED ${FFTSO3_src})
+
+add_executable(test_FFTSO3 src/test_FFTSO3.cpp)
+target_link_libraries(test_FFTSO3 fftso3)
 
 ###############################################################################
 # GOOGLE TESTING
@@ -87,7 +91,7 @@ add_subdirectory(${CMAKE_BINARY_DIR}/googletest-src
 # endif()
 
 # Now simply link against gtest or gtest_main as needed. Eg
-add_executable(test test/test.cpp ${FFTSO3_src})
-target_link_libraries(test gtest_main)
+add_executable(test test/test.cpp)
+target_link_libraries(test gtest_main fftso3)
 add_test(NAME example_test COMMAND test)
 
