@@ -1,0 +1,3 @@
+[submodule "extern/eigen3"]
+	path = extern/eigen3
+	url = https://github.com/eigenteam/eigen-git-mirror.git
