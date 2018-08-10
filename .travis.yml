@@ -4,3 +4,6 @@ compiler:
 before_script:
   - cd build
   - cmake ..
+script:
+    - make
+    - ../bin/fftso3_unit_test
