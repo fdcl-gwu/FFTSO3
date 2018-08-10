@@ -94,5 +94,6 @@ add_subdirectory(${CMAKE_BINARY_DIR}/googletest-src
 # Now simply link against gtest or gtest_main as needed. Eg
 add_executable(fftso3_unit_test test/test.cpp)
 target_link_libraries(fftso3_unit_test gtest_main fftso3)
-add_test(NAME example_test COMMAND fftso3_unit_test)
+enable_testing()
+add_test(unit_test ../bin/fftso3_unit_test)
 
