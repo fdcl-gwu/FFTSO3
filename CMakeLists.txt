@@ -29,13 +29,13 @@ set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 #find_package(Threads REQUIRED)
 
 # Eigen setup
-find_package(Eigen3 3.3 REQUIRED)
-if (NOT Eigen3_FOUND)
-     message(STATUS "This project requires Eigen3 and will not be compiled. See http://eigen.tuxfamily.org")
-     return()
- endif()
-include(${EIGEN3_USE_FILE})
-# include_directories(${EIGEN3_ROOT_DIR})
+# find_package(Eigen3 3.3 REQUIRED)
+# if (NOT Eigen3_FOUND)
+#      message(STATUS "This project requires Eigen3 and will not be compiled. See http://eigen.tuxfamily.org")
+#     return()
+# endif()
+# include(${EIGEN3_USE_FILE})
+include_directories(${PROJECT_SOURCE_DIR}/extern/eigen3)
 
 ################################################################################
 # BUILD TARGETS
