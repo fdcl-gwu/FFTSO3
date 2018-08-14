@@ -1336,6 +1336,29 @@ where
 Interestingly, the Clebsch-Gordon coefficients for the real harmonics are complex in general. 
 But, it appears that the term $ c^{l,m}_{l_1,m_1,l_2,m_2} \overline{c}^{l,n}_{l_1,n_1,l_2,n_2}$ is real always.
 
+\section{Application}
+
+Consider $f:\Sph^2\rightarrow \Re$. 
+For $R\in\SO$, define $g:\Sph^2\rightarrow \Re$ such that
+\[
+    g(x) = f(R x).
+\]
+Then, we have
+\[
+    \tilde f^l_m (R x) = \sum_{n=-l}^l (U^l_{m,n}(R))^T \tilde f^l_n(x).
+\]
+
+We formulate a spherical shape matching problem as to find $R$ for given $f(x)$ and $g(x)$. 
+The measure of discrepancy is formulated as
+\[
+    \mathcal{J}(R) = \pair{ f(R x), g(x)} =  
+    \frac{1}{4\pi} \sum_{l=0}^\infty \pair{ (U^l(R))^T\tilde f^l,  \tilde g^l}= \frac{1}{4\pi} \sum_{l=0}^\infty \trs{ (\tilde f^l)^T U^l(R) \tilde g^l} =  \frac{1}{4\pi} \sum_{l=0}^\infty \trs{\tilde g^l (\tilde f^l)^T U^l(R) } 
+\]
+Its derivative is given by
+\[
+    \delta \mathcal{J}(R) =  \frac{1}{4\pi} \sum_{l=0}^\infty \sum_{i=1}^3\trs{\tilde g^l (\tilde f^l)^T U^l(R) u^l(e_i) } \eta_i 
+\]
+
 \bibliography{/Users/tylee/Documents/BibMaster17}
 \bibliographystyle{IEEEtran}
 

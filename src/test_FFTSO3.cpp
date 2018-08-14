@@ -58,6 +58,7 @@ double myrf_S2(double theta, double phi)
 namespace fdcl
 {
     class ETOPO5;
+    class spherical_shape_matching;
 }
 
 class fdcl::ETOPO5
@@ -145,9 +146,118 @@ double fdcl::ETOPO5::operator()(double lat, double lon)
     return elev(lat,lon);
 }
 
+class fdcl::spherical_shape_matching
+{
+    public:
+        fdcl_FFTS2_matrix_real F, G;
+        fdcl_FFTSO3_real RFFTSO3;
+        fdcl_FFTSO3_matrix_real U;
+        std::vector<fdcl_FFTSO3_matrix_real> u;
+        int l_max;
+        void init(int l_max);
+        double scale_factor=1.e-6, eps=1.e-6;
+
+        spherical_shape_matching(){};
+        ~spherical_shape_matching(){};
+        spherical_shape_matching(int l_max);
+
+        double J(Eigen::Matrix3d R);
+        Eigen::Vector3d gradient(Eigen::Matrix3d R);
+        Eigen::Matrix3d opt(Eigen::Matrix3d R0);
+        void check_gradient();
+};
+
+fdcl::spherical_shape_matching::spherical_shape_matching(int l_max)
+{
+    init(l_max);
+}
+void fdcl::spherical_shape_matching::init(int l_max)
+{
+    this->l_max = l_max;
+    F.init(l_max);
+    G.init(l_max);
+    RFFTSO3.init(l_max);
+    U.init(l_max);
+    u.resize(4);
+    u[1].init(l_max);
+    u[2].init(l_max);
+    u[3].init(l_max);   
+    u = RFFTSO3.deriv_wigner_D_real();
+ }
+double fdcl::spherical_shape_matching::J(Eigen::Matrix3d R)
+{
+    double y=0.;
+    U = RFFTSO3.wigner_D_real(R);
+    for(int l=0; l<=l_max; l++)
+        y+=(G[l]*F[l].transpose()*U[l]).trace();
+
+    return y*scale_factor;
+}
+Eigen::Vector3d fdcl::spherical_shape_matching::gradient(Eigen::Matrix3d R)
+{
+    Eigen::Vector3d dJ;
+    dJ.setZero();
+    U = RFFTSO3.wigner_D_real(R);
+
+    for(int l=0; l<=l_max; l++)
+        for(int i=1; i<=3; i++)
+            dJ(i-1)+=(G[l]*F[l].transpose()*U[l]*u[i][l]).trace();
+
+    return dJ*scale_factor;
+}
+Eigen::Matrix3d fdcl::spherical_shape_matching::opt(Eigen::Matrix3d R0)
+{
+    Eigen::Matrix3d R;
+    Eigen::Vector3d eta;
+    double norm_gradient=1.;
+    int i_iter=0;
+    R=R0;
+    std::vector<double> abg;
+
+    while(norm_gradient > eps)
+    {
+
+        eta=gradient(R);
+        R=R*expm_SO3(0.0001*eta);
+        norm_gradient=eta.norm();
+        i_iter+=1;
+
+        abg=R2Euler323(R);
+
+        cout << "iter = " << i_iter << " : J = " << J(R) << " : n_grad = " << norm_gradient << " : Euler = " << abg[0] << " " << abg[1] << " " << abg[2] << endl;
+    }
+
+    return R;
+}
+void fdcl::spherical_shape_matching::check_gradient()
+{
+    Eigen::Matrix3d R, R_new;
+    Eigen::Vector3d eta;
+    double a,b,g;
+
+	a=(double)rand()/RAND_MAX*2.*M_PI;
+	b=(double)rand()/RAND_MAX*M_PI;
+	g=(double)rand()/RAND_MAX*2.*M_PI;
+
+    R=Euler3232R(a,b,g);
+    eta.setRandom();
+    eta*=1.e-6;
+
+    R_new=R*expm_SO3(eta);
+
+    gradient(R);
+    cout << J(R_new)-J(R) << endl;
+    cout << gradient(R).transpose()*eta << endl;
+}
+
+
+    
+    
+
+    
 int main()
 {
-    int l_max=127;
+    int l_max=16;
     fdcl_FFTSO3_complex FFTSO3(l_max);
     fdcl_FFTSO3_real RFFTSO3(l_max);
     fdcl_FFTS2_complex FFTS2(l_max);
@@ -179,37 +289,48 @@ int main()
     fdcl::ETOPO5 ETOPO5;
     ETOPO5.read("../scratch/ETOPO5.asc",180,360);
 
+    fdcl::spherical_shape_matching SSM(l_max);
+
     auto func= std::bind(&fdcl::ETOPO5::elev, &ETOPO5, std::placeholders::_1, std::placeholders::_2);
-    RFFTS2.forward_transform([=] (double theta, double phi) {return func(-theta*180./M_PI+90.,phi*180./M_PI);} );
-    fd.open("FFTS2.dat");
-    for(int i=0; i<180; i++)
-    {
-        for(int j=0; j<360; j++)
-            fd << RFFTS2.inverse_transform((double)i*M_PI/180., (double)j*M_PI/180.) << " ";
-
-        fd << endl;
-        cout << i << endl;
-
-    }
-    fd.close();
-
+    SSM.F=RFFTS2.forward_transform([=] (double theta, double phi) {return func(-theta*180./M_PI+90.,phi*180./M_PI);} );
+    // fd.open("FFTS2.dat");
+    // for(int i=0; i<180; i++)
+    // {
+        // for(int j=0; j<360; j++)
+            // fd << RFFTS2.inverse_transform((double)i*M_PI/180., (double)j*M_PI/180.) << " ";
+// 
+        // fd << endl;
+        // cout << i << endl;
+// 
+    // }
+    // fd.close();
+// 
     fdcl_FFTSO3_matrix_real U(l_max);
-    U=RFFTSO3.wigner_D_real(0.,-M_PI/6.,0.,l_max);
+    Eigen::Matrix3d R;
+
+    R=Euler3232R(M_PI/6., -M_PI/3., M_PI/2.);
+    U=RFFTSO3.wigner_D_real(R);
     for(int l=0; l<=l_max; l++)
-        RFFTS2.F[l]=U[l].transpose()*RFFTS2.F[l];
+        SSM.G[l]=U[l].transpose()*SSM.F[l];
 
-    fd.open("FFTS2_rot.dat");
-    for(int i=0; i<180; i++)
-    {
-        for(int j=0; j<360; j++)
-            fd << RFFTS2.inverse_transform((double)i*M_PI/180., (double)j*M_PI/180.) << " ";
+    cout << SSM.J(R) << endl;
+    cout << SSM.J(Euler3232R(0.,0.,0.)) << endl;
+    SSM.check_gradient();
+    cout << SSM.opt(Euler3232R(M_PI/2.,0.,0.)) << endl;
+    cout << R << endl;
 
-        fd << endl;
-        cout << i << endl;
-
-    }
-    fd.close();
-
+    // fd.open("FFTS2_rot.dat");
+    // for(int i=0; i<180; i++)
+    // {
+        // for(int j=0; j<360; j++)
+            // fd << RFFTS2.inverse_transform((double)i*M_PI/180., (double)j*M_PI/180.) << " ";
+// 
+        // fd << endl;
+        // cout << i << endl;
+// 
+    // }
+    // fd.close();
+// 
 
 
 
