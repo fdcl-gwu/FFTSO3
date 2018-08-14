@@ -10,6 +10,7 @@ void fdcl_FFTS2_complex::init(int l_max)
     this->l_max=l_max;
     this->B=l_max+1;
     Y.init(l_max);
+    F.init(l_max);
     weight.resize(2*B);
 }
 
@@ -113,7 +114,6 @@ fdcl_FFTS2_matrix_complex fdcl_FFTS2_complex::forward_transform(std::function <c
 
 fdcl_FFTS2_matrix_complex fdcl_FFTS2_complex::forward_transform(std::function <complex<double>(double, double)> func, bool is_real)
 {
-    fdcl_FFTS2_matrix_complex F(l_max);
     Eigen::Matrix<complex<double>, Dynamic, Dynamic> F_km, F_km_2;
     Eigen::VectorXcd func_k(2*B), tmp_out(2*B);
     Eigen::FFT<double> fft;
@@ -184,7 +184,6 @@ fdcl_FFTS2_matrix_complex fdcl_FFTS2_complex::forward_transform(std::function <c
 complex<double> fdcl_FFTS2_complex::inverse_transform(fdcl_FFTS2_matrix_complex F, double theta, double phi)
 {
     complex<double> y={0., 0.};
-    init(F.l_max);
     spherical_harmonics(theta,phi,F.l_max);
     
     for(int l=0; l<=F.l_max; l++)
@@ -192,6 +191,11 @@ complex<double> fdcl_FFTS2_complex::inverse_transform(fdcl_FFTS2_matrix_complex 
             y+=F(l,m)*Y(l,m);
 
     return y;
+}
+
+complex<double> fdcl_FFTS2_complex::inverse_transform(double theta, double phi)
+{
+    return inverse_transform(this->F,theta,phi);
 }
 
 double fdcl_FFTS2_complex::check_weight()
@@ -318,6 +322,7 @@ void fdcl_FFTS2_real::init(int l_max)
 {
     fdcl_FFTS2_complex::init(l_max);
     y.init(l_max);
+    F.init(l_max);
 }
 
 fdcl_FFTS2_matrix_real fdcl_FFTS2_real::spherical_harmonics(double theta, double phi, int L)
@@ -349,16 +354,15 @@ fdcl_FFTS2_matrix_real fdcl_FFTS2_real::spherical_harmonics(double theta, double
 
 fdcl_FFTS2_matrix_real fdcl_FFTS2_real::forward_transform(std::function <double(double, double)> func)
 {
-    fdcl_FFTS2_matrix_complex F(l_max);
-    fdcl_FFTS2_matrix_real F_out(l_max);
+    fdcl_FFTS2_matrix_complex F_complex(l_max);
 
     fdcl_FFTSO3_matrix_complex T(l_max);
-    F=fdcl_FFTS2_complex::forward_transform(func,1);
+    F_complex=fdcl_FFTS2_complex::forward_transform(func,1);
     T=matrix2rsph(l_max);
     for(int l=0; l<=l_max;l++)
-        F_out[l]=(T[l].conjugate()*F[l]).real();
+        F[l]=(T[l].conjugate()*F_complex[l]).real();
 
-    return F_out;
+    return F;
 
     // alternative method: forward transform with RSH: slower
     // fdcl_FFTS2_matrix_real F(l_max);
@@ -396,6 +400,7 @@ fdcl_FFTS2_matrix_real fdcl_FFTS2_real::forward_transform(std::function <double(
     // return F;
 }
 
+
 void fdcl_FFTS2_real::check_all()
 {
     check_transform();
@@ -424,7 +429,6 @@ double fdcl_FFTS2_real::f_4_check_transform(double theta, double phi)
 double fdcl_FFTS2_real::inverse_transform(fdcl_FFTS2_matrix_real F, double theta, double phi)
 {
     double z=0.;
-    init(F.l_max);
     spherical_harmonics(theta,phi,F.l_max);
     
     for(int l=0; l<=F.l_max; l++)
@@ -432,5 +436,10 @@ double fdcl_FFTS2_real::inverse_transform(fdcl_FFTS2_matrix_real F, double theta
             z+=F(l,m)*y(l,m);
 
     return z;
+}
+
+double fdcl_FFTS2_real::inverse_transform(double theta, double phi)
+{
+    return inverse_transform(this->F, theta, phi);
 }
 

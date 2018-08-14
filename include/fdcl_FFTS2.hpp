@@ -19,7 +19,7 @@ class fdcl_FFTS2_complex
 {
     public:
         int l_max, B;
-        fdcl_FFTS2_matrix_complex Y;
+        fdcl_FFTS2_matrix_complex Y, F;
         std::vector<double> weight;
 
         fdcl_FFTS2_complex(){};
@@ -32,6 +32,7 @@ class fdcl_FFTS2_complex
         fdcl_FFTS2_matrix_complex forward_transform(std::function <complex<double>(double, double)>);
         fdcl_FFTS2_matrix_complex forward_transform(std::function <complex<double>(double, double)>, bool );
         complex<double> inverse_transform(fdcl_FFTS2_matrix_complex F, double theta, double phi);
+        complex<double> inverse_transform(double theta, double phi);
 
         bool check_verbose=false;
         void check_all();
@@ -54,7 +55,7 @@ class fdcl_FFTS2_complex
 class fdcl_FFTS2_real : public fdcl_FFTS2_complex
 {
     public:
-        fdcl_FFTS2_matrix_real y;
+        fdcl_FFTS2_matrix_real y, F;
         fdcl_FFTS2_real(){};
         fdcl_FFTS2_real(int l_max);
         ~fdcl_FFTS2_real(){};
@@ -63,6 +64,7 @@ class fdcl_FFTS2_real : public fdcl_FFTS2_complex
         fdcl_FFTS2_matrix_real spherical_harmonics(double theta, double phi, int L);
         fdcl_FFTS2_matrix_real forward_transform(std::function <double(double, double)>);
         double inverse_transform(fdcl_FFTS2_matrix_real F, double theta, double phi);
+        double inverse_transform(double theta, double phi);
 
         fdcl_FFTSO3_matrix_complex T;
         fdcl_FFTSO3_matrix_complex matrix2rsph(int L);
