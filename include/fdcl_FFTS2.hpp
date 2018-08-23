@@ -6,6 +6,7 @@
 #include <math.h> // pow
 #include <Eigen/Dense>
 #include <unsupported/Eigen/FFT>
+#include <omp.h>
 
 #include "fdcl_tictoc.hpp"
 #include "fdcl_FFTSO3_matrix.hpp"
@@ -39,7 +40,8 @@ class fdcl_FFTS2_complex
         double check_weight();
         double check_transform();
 
-    protected:
+    // protected:
+
         fdcl_FFTS2_matrix_real nor_assoc_Legendre_poly(double cos_beta, int L);
         std::vector<double> compute_weight();
         double theta_k(int k);

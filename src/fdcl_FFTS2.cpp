@@ -19,6 +19,7 @@ fdcl_FFTS2_matrix_complex fdcl_FFTS2_complex::spherical_harmonics(double theta, 
     nor_assoc_Legendre_poly(cos(theta),L);
     Y.init(L);
 
+// #pragma omp parallel for private (phi)
     for(int l=0;l<=L; l++)
     {
         for(int m=0; m<=l; m++)
@@ -38,55 +39,63 @@ fdcl_FFTS2_matrix_real fdcl_FFTS2_complex::nor_assoc_Legendre_poly(double x, int
     int i, m, l;
     double fact, oldfact, pmm, omx2;
 
-    nP.init(L);
-
     assert(abs(x) <= 1.0);
 
+    nP.init(L);
     nP(0,0)=sqrt(1./(4.0*M_PI));
 
-    for(l=1; l<=L; l++)
+#pragma omp parallel
     {
-        pmm=1.0; 
-
-        omx2=(1.0-x)*(1.0+x);
-        fact=1.0;
-        for (i=1;i<=l;i++) 
+#pragma omp for private (pmm,omx2,fact)
+        for(l=1; l<=L; l++)
         {
-            pmm *= omx2*fact/(fact+1.0);
-            fact += 2.0;
+            pmm=1.0; 
+
+            omx2=(1.0-x)*(1.0+x);
+            fact=1.0;
+            for (i=1;i<=l;i++) 
+            {
+                pmm *= omx2*fact/(fact+1.0);
+                fact += 2.0;
+            }
+            pmm=sqrt((2*l+1)*pmm/(4.0*M_PI));
+
+            if (l & 1) // change sign if abs(m) is odd: equivalent multiplying (-1)^m
+                pmm=-pmm;
+
+            nP(l,l)=pmm; // eqn (6.7.10)
         }
-        pmm=sqrt((2*l+1)*pmm/(4.0*M_PI));
 
-        if (l & 1) // change sign if abs(m) is odd: equivalent multiplying (-1)^m
-            pmm=-pmm;
+#pragma omp for
+        for(l=0; l<L; l++)
+            nP(l+1,l)=x*sqrt(2.0*l+3.0)*nP(l,l);
 
-        nP(l,l)=pmm; // eqn (6.7.10)
-    }
-
-    for(l=0; l<L; l++)
-        nP(l+1,l)=x*sqrt(2.0*l+3.0)*nP(l,l);
-
-    for(m=0; m<=L; m++)
-    {
-        oldfact=sqrt(2.0*m+3.0);
-        for(l=m+2; l<=L; l++)
-        { 
-            fact=sqrt((4.0*l*l-1.0)/(l*l-m*m));
-            nP(l,m)=(x*nP(l-1,m)-nP(l-2,m)/oldfact)*fact;
-            oldfact=fact;
+#pragma omp for private (oldfact, fact, l, m)
+        for(m=0; m<=L; m++)
+        {
+            oldfact=sqrt(2.0*m+3.0);
+            for(l=m+2; l<=L; l++)
+            { 
+                fact=sqrt((4.0*l*l-1.0)/(l*l-m*m));
+                nP(l,m)=(x*nP(l-1,m)-nP(l-2,m)/oldfact)*fact;
+                oldfact=fact;
+            }
         }
-    }
 
-    // copy for strictly negative m
-    for(l=1; l<=L; l++)
-        for(m=1; m<=l; m++)
-            nP(l,-m)=pow(-1.,m)*nP(l,m);
+#pragma omp for private(m)
+        // copy for strictly negative m
+        for(l=1; l<=L; l++)
+            for(m=1; m<=l; m++)
+                nP(l,-m)=pow(-1.,m)*nP(l,m);
+
+    }
 
     return nP;
 }
 
 std::vector<double> fdcl_FFTS2_complex::compute_weight()
 {   
+
     int j, k;
     double factor;
     double sum;
@@ -98,14 +107,44 @@ std::vector<double> fdcl_FFTS2_complex::compute_weight()
         sum=0.0;
         for(k=0;k<B;k++)
             sum+=1./((double)(2*k+1))*sin((double)((2*j+1)*(2*k+1))*factor);
-        
+
         sum*=2.*M_PI/((double)B*B)*sin((double)(2*j+1)*factor);
-      
+
         weight[j]=sum;
     }
 
     return weight;
 }
+
+// #pragma omp parallel
+    // {
+        // int id_thrd = omp_get_thread_num();
+        // int N_thrds = omp_get_num_threads();
+        // int I_0 = id_thrd * 2*B/N_thrds;
+        // int I_f = (id_thrd+1) *2*B/N_thrds;
+        // if (id_thrd == N_thrds-1)
+            // I_f = 2*B;
+// 
+        // double weight_thread[I_f-I_0];
+        // double sum=0.;
+        // double factor = M_PI/((double)(4*B)) ;
+// 
+        // for(int j=I_0;j<I_f;j++)
+        // {
+            // sum=0.0;
+            // for(int k=0;k<B;k++)
+                // sum+=1./((double)(2*k+1))*sin((double)((2*j+1)*(2*k+1))*factor);
+// 
+            // sum*=2.*M_PI/((double)B*B)*sin((double)(2*j+1)*factor);
+// 
+            // weight_thread[j-I_0]=sum;
+        // }
+// 
+        // std::copy(&weight_thread[0],&weight_thread[I_f-I_0],weight.begin()+I_0);
+// 
+    // }    
+// 
+
 
 fdcl_FFTS2_matrix_complex fdcl_FFTS2_complex::forward_transform(std::function <complex<double>(double, double)> func)
 {

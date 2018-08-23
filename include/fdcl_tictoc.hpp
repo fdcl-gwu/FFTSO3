@@ -13,8 +13,8 @@ public:
     std::chrono::steady_clock::time_point t0, t1;
     fdcl_tictoc(){};
     void tic();
-    void toc();
-    void toc(string message);
+    double toc();
+    double toc(string message);
 };
 
 #endif

@@ -20,6 +20,16 @@ set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 # OpenMP
 ################################################################################
 include(PatchOpenMPApple.cmake)
+find_package(OpenMP REQUIRED)
+if(NOT TARGET OpenMP::OpenMP_CXX)
+   add_library(OpenMP_TARGET INTERFACE)
+   add_library(OpenMP::OpenMP_CXX ALIAS OpenMP_TARGET)
+   target_compile_options(OpenMP_TARGET INTERFACE ${OpenMP_CXX_FLAGS})
+   find_package(Threads REQUIRED)
+   target_link_libraries(OpenMP_TARGET INTERFACE Threads::Threads)
+   target_link_libraries(OpenMP_TARGET INTERFACE ${OpenMP_CXX_FLAGS})
+endif()
+
 
 ################################################################################
 # EIGEN
@@ -48,23 +58,16 @@ set(FFTSO3_src
     src/misc_matrix_func.cpp)
 
 add_library(fftso3 SHARED ${FFTSO3_src})
+target_link_libraries(fftso3 OpenMP::OpenMP_CXX)
+target_link_libraries(fftso3 ${OpenMP_CXX_FLAGS})
 
 add_executable(test_FFTSO3 src/test_FFTSO3.cpp)
 target_link_libraries(test_FFTSO3 fftso3)
 
-find_package(OpenMP REQUIRED)
-if(NOT TARGET OpenMP::OpenMP_CXX)
-   add_library(OpenMP_TARGET INTERFACE)
-   add_library(OpenMP::OpenMP_CXX ALIAS OpenMP_TARGET)
-   target_compile_options(OpenMP_TARGET INTERFACE ${OpenMP_CXX_FLAGS})
-   find_package(Threads REQUIRED)
-   target_link_libraries(OpenMP_TARGET INTERFACE Threads::Threads)
-   target_link_libraries(OpenMP_TARGET INTERFACE ${OpenMP_CXX_FLAGS})
-endif()
-
-add_executable(test_openmp scratch/test_openmp.cpp)   
-target_link_libraries(test_openmp PUBLIC OpenMP::OpenMP_CXX)
-target_link_libraries(test_openmp PRIVATE ${OpenMP_CXX_FLAGS})
+add_executable(test_openmp scratch/test_openmp.cpp src/fdcl_tictoc.cpp)   
+#target_link_libraries(test_openmp OpenMP::OpenMP_CXX)
+#target_link_libraries(test_openmp ${OpenMP_CXX_FLAGS})
+target_link_libraries(test_openmp fftso3)
 
 ###############################################################################
 # GOOGLE TESTING
