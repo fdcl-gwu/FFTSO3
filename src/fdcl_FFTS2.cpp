@@ -46,6 +46,12 @@ fdcl_FFTS2_matrix_real fdcl_FFTS2_complex::nor_assoc_Legendre_poly(double x, int
 
 #pragma omp parallel
     {
+        fdcl::omp_thread thr(omp_get_thread_num(),omp_get_num_threads());
+
+        thr.range_closed(1,L);
+#pragma omp critical
+        std::cout << thr << endl;
+
 #pragma omp for private (pmm,omx2,fact)
         for(l=1; l<=L; l++)
         {
@@ -65,12 +71,12 @@ fdcl_FFTS2_matrix_real fdcl_FFTS2_complex::nor_assoc_Legendre_poly(double x, int
 
             nP(l,l)=pmm; // eqn (6.7.10)
         }
-
-#pragma omp for
+}
+//#pragma omp for
         for(l=0; l<L; l++)
             nP(l+1,l)=x*sqrt(2.0*l+3.0)*nP(l,l);
 
-#pragma omp for private (oldfact, fact, l, m)
+//#pragma omp for private (oldfact, fact, l, m)
         for(m=0; m<=L; m++)
         {
             oldfact=sqrt(2.0*m+3.0);
@@ -82,13 +88,12 @@ fdcl_FFTS2_matrix_real fdcl_FFTS2_complex::nor_assoc_Legendre_poly(double x, int
             }
         }
 
-#pragma omp for private(m)
+//#pragma omp for private(m)
         // copy for strictly negative m
         for(l=1; l<=L; l++)
             for(m=1; m<=l; m++)
                 nP(l,-m)=pow(-1.,m)*nP(l,m);
 
-    }
 
     return nP;
 }

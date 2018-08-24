@@ -12,6 +12,7 @@
 #include "fdcl_FFTSO3_matrix.hpp"
 #include "fdcl_FFTS2_matrix.hpp"
 #include "misc_matrix_func.h"
+#include "fdcl_omp_thread.hpp"
 
 using namespace std;
 using namespace Eigen;
