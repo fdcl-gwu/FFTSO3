@@ -46,9 +46,10 @@ fdcl_FFTS2_matrix_real fdcl_FFTS2_complex::nor_assoc_Legendre_poly(double x, int
 
 #pragma omp parallel
     {
+        // fdcl::omp_thread thr(omp_get_thread_num(),omp_get_num_threads());
         fdcl::omp_thread thr(omp_get_thread_num(),omp_get_num_threads());
 
-        thr.range_closed(1,L);
+        thr.range_open(2,5);
 #pragma omp critical
         std::cout << thr << endl;
 
