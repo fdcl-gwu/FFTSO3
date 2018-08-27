@@ -5,12 +5,16 @@
 #include "fdcl_tictoc.hpp"
 #include "fdcl_FFTS2.hpp"
 
-
 using namespace std;
+
+complex<double> myfunc(double theta, double phi)
+{
+    return cos(theta)*sin(phi);
+}
 
 int main()
 {
-    int l_max=1000;
+    int l_max=200;
     double dt1, dt2;
     fdcl_tictoc tt;
     fdcl_FFTS2_complex FFTS2(l_max);
@@ -23,9 +27,10 @@ int main()
     {
         omp_set_num_threads(std::pow(2,r)); // 
         tt.tic();
-        FFTS2.nor_assoc_Legendre_poly(0.1,l_max);
+        // FFTS2.nor_assoc_Legendre_poly(0.1,l_max);
         // FFTS2.spherical_harmonics(0.1,0.2,l_max);
         // FFTS2.compute_weight();
+        FFTS2.forward_transform(myfunc, 0);
         dt[r]=tt.toc();
     }
     cout << "speed up factor " << dt[0]/dt[1] << " " << dt[0]/dt[2] << " " << dt[0]/dt[3] << endl;
