@@ -116,37 +116,31 @@ fdcl_FFTS2_matrix_complex fdcl_FFTS2_complex::forward_transform(std::function <c
 
 fdcl_FFTS2_matrix_complex fdcl_FFTS2_complex::forward_transform(std::function <complex<double>(double, double)> func, bool is_real)
 {
-    Eigen::Matrix<complex<double>, Dynamic, Dynamic> F_km, F_km_2;
+    Eigen::Matrix<complex<double>, Dynamic, Dynamic> F_km, F_km_2, func_kj;
     Eigen::VectorXcd func_k(2*B), tmp_out(2*B);
+
     Eigen::FFT<double> fft;
     double theta;
 
-
     F_km.resize(2*B,2*B);
+    func_kj.resize(2*B,2*B);
+
+#pragma omp parallel for private(theta)
     for(int k=0;k<2*B;k++)
     {
         theta=theta_k(k);
         for(int j=0; j<2*B; j++)
-            func_k(j)=func(theta,phi_j(j));
-        fft.fwd(tmp_out,func_k);
-
-        F_km.row(k)=tmp_out;
+        {
+            func_kj(k,j)=func(theta,phi_j(j));
+        }
     }
 
-    // alternative method without fft: much slower
-    // F_km_2.resize(2*B,2*l_max+1);
-    // F_km_2.setZero();
-    // for(int k=0; k<2*B; k++)
-    // {
-        // for(int j=0; j<2*B; j++)
-        // {
-            // for(int m=-l_max; m<=l_max; m++)
-            // {
-                // F_km_2(k,m+l_max)+=func(theta_k(k),phi_j(j))*exp(-I*(double)m*phi_j(j));
-            // }
-        // }
-    // }
- 
+    for(int k=0; k<2*B; k++)
+    {
+        fft.fwd(tmp_out,func_kj.row(k));
+        F_km.row(k)=tmp_out;
+    }
+// 
     F.setZero();
     compute_weight();
 
@@ -219,12 +213,12 @@ fdcl_FFTS2_matrix_complex fdcl_FFTS2_complex::forward_transform(std::function <c
 complex<double> fdcl_FFTS2_complex::inverse_transform(fdcl_FFTS2_matrix_complex F, double theta, double phi)
 {
     complex<double> y={0., 0.};
-    fdcl_FFTS2_matrix_complex Y(l_max);
-    Y=spherical_harmonics(theta,phi,F.l_max);
+    fdcl_FFTS2_matrix_complex Y0(l_max);
+    Y0=spherical_harmonics(theta,phi,F.l_max);
     
     for(int l=0; l<=l_max; l++)
         for(int m=-l; m<=l; m++)
-            y+=F(l,m)*Y(l,m);
+            y+=F(l,m)*Y0(l,m);
 
 // #pragma omp parallel
     // {
@@ -403,9 +397,8 @@ void fdcl_FFTS2_real::init(int l_max)
 
 fdcl_FFTS2_matrix_real fdcl_FFTS2_real::spherical_harmonics(double theta, double phi, int L)
 {
-    y.init(L);
     double tmp;
-    fdcl_FFTS2_matrix_real nP(L);
+    fdcl_FFTS2_matrix_real nP(L), y(L);
 
     nP=nor_assoc_Legendre_poly(cos(theta),L);
     for(int l=0; l<=L; l++)
@@ -506,7 +499,8 @@ double fdcl_FFTS2_real::f_4_check_transform(double theta, double phi)
 double fdcl_FFTS2_real::inverse_transform(fdcl_FFTS2_matrix_real F, double theta, double phi)
 {
     double z=0.;
-    spherical_harmonics(theta,phi,F.l_max);
+    fdcl_FFTS2_matrix_real y(F.l_max);
+    y=spherical_harmonics(theta,phi,F.l_max);
     
     for(int l=0; l<=F.l_max; l++)
         for(int m=-l; m<=l; m++)

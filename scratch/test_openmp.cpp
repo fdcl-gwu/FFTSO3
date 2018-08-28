@@ -14,6 +14,8 @@ complex<double> myfunc(double theta, double phi)
 
 int main()
 {
+    Eigen::initParallel();
+
     int l_max=100;
     double dt1, dt2;
     fdcl_tictoc tt;
@@ -27,18 +29,18 @@ int main()
 
     std::vector<double> dt;
     dt.resize(4);
-    for(int r=0; r<=3; r++)
+    for(int r=0; r<=2; r++)
     {
         omp_set_num_threads(std::pow(2,r)); // 
         tt.tic();
-        for(int i=0; i<=100; i++)
+        for(int i=0; i<=10; i++)
         {
         // FFTS2.nor_assoc_Legendre_poly(0.1,l_max);
         // FFTS2.spherical_harmonics(0.1,0.2,l_max);
         // FFTS2.compute_weight();
-        // FFTS2.forward_transform(myfunc, 0);
+        FFTS2.forward_transform(myfunc, 0);
         // FFTS2.inverse_transform(Y,0.1,0.2);
-        RFFTS2.matrix2rsph(l_max);
+        // RFFTS2.matrix2rsph(l_max);
         }
 
         dt[r]=tt.toc();

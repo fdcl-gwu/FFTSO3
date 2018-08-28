@@ -30,7 +30,6 @@ if(NOT TARGET OpenMP::OpenMP_CXX)
    target_link_libraries(OpenMP_TARGET INTERFACE ${OpenMP_CXX_FLAGS})
 endif()
 
-
 ################################################################################
 # EIGEN
 ################################################################################
@@ -58,8 +57,10 @@ set(FFTSO3_src
     src/misc_matrix_func.cpp)
 
 add_library(fftso3 SHARED ${FFTSO3_src})
+target_compile_definitions(fftso3 PUBLIC EIGEN_FFTW_DEFAULT)
 target_link_libraries(fftso3 OpenMP::OpenMP_CXX)
 target_link_libraries(fftso3 ${OpenMP_CXX_FLAGS})
+target_link_libraries(fftso3 fftw3 fftw3_threads)
 
 add_executable(test_FFTSO3 src/test_FFTSO3.cpp)
 target_link_libraries(test_FFTSO3 fftso3)
