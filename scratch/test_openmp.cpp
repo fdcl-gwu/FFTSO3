@@ -14,10 +14,14 @@ complex<double> myfunc(double theta, double phi)
 
 int main()
 {
-    int l_max=200;
+    int l_max=100;
     double dt1, dt2;
     fdcl_tictoc tt;
     fdcl_FFTS2_complex FFTS2(l_max);
+    fdcl_FFTS2_real RFFTS2(l_max);
+    fdcl_FFTS2_matrix_complex Y(l_max);
+
+    Y.setRandom();
 
     // omp_set_dynamic(0);     // Explicitly disable dynamic teams
 
@@ -27,10 +31,16 @@ int main()
     {
         omp_set_num_threads(std::pow(2,r)); // 
         tt.tic();
+        for(int i=0; i<=100; i++)
+        {
         // FFTS2.nor_assoc_Legendre_poly(0.1,l_max);
         // FFTS2.spherical_harmonics(0.1,0.2,l_max);
         // FFTS2.compute_weight();
-        FFTS2.forward_transform(myfunc, 0);
+        // FFTS2.forward_transform(myfunc, 0);
+        // FFTS2.inverse_transform(Y,0.1,0.2);
+        RFFTS2.matrix2rsph(l_max);
+        }
+
         dt[r]=tt.toc();
     }
     cout << "speed up factor " << dt[0]/dt[1] << " " << dt[0]/dt[2] << " " << dt[0]/dt[3] << endl;

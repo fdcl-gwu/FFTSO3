@@ -17,8 +17,8 @@ void fdcl_FFTS2_complex::init(int l_max)
 fdcl_FFTS2_matrix_complex fdcl_FFTS2_complex::spherical_harmonics(double theta, double phi, int L)
 {
     fdcl_FFTS2_matrix_real nP(L);
+    fdcl_FFTS2_matrix_complex Y(L);
     nP=nor_assoc_Legendre_poly(cos(theta),L);
-    Y.init(L);
 
     for(int l=0;l<=L; l++)
     {
@@ -219,12 +219,31 @@ fdcl_FFTS2_matrix_complex fdcl_FFTS2_complex::forward_transform(std::function <c
 complex<double> fdcl_FFTS2_complex::inverse_transform(fdcl_FFTS2_matrix_complex F, double theta, double phi)
 {
     complex<double> y={0., 0.};
-    spherical_harmonics(theta,phi,F.l_max);
+    fdcl_FFTS2_matrix_complex Y(l_max);
+    Y=spherical_harmonics(theta,phi,F.l_max);
     
-    for(int l=0; l<=F.l_max; l++)
+    for(int l=0; l<=l_max; l++)
         for(int m=-l; m<=l; m++)
             y+=F(l,m)*Y(l,m);
 
+// #pragma omp parallel
+    // {
+        // fdcl::omp_thread thr(omp_get_thread_num(),omp_get_num_threads());
+        // thr.range_closed(0,F.l_max);
+        // std::complex<double> y_local={0.,0.};
+// 
+        // for(int l=thr.i_init; l<=thr.i_term; l++)
+        // {
+            // for(int m=0; m<=l; m++)
+                // y_local+=F(l,m)*Y(l,m);
+            // for(int m=-(l_max-l); m<0; m++)
+                // y_local+=F(l_max-l,m)*Y(l_max-l,m);
+        // }
+// #pragma omp critical
+        // y+=y_local;
+// 
+    // }
+// 
     return y;
 }
 
@@ -327,24 +346,46 @@ complex<double> fdcl_FFTS2_complex::f_4_check_transform(double theta, double phi
 
 fdcl_FFTSO3_matrix_complex fdcl_FFTS2_real::matrix2rsph(int L)
 {
-    int l,m;
     T.init(L);
 
-    for(l=0;l<=L;l++)
+#pragma omp parallel
     {
-       for(m=-l;m<0;m++)
+        fdcl::omp_thread thr(omp_get_thread_num(),omp_get_num_threads());
+        thr.range_closed(0,L);
+        int l,m;
+
+        for(l=thr.i_init;l<=thr.i_term;l++)
         {
-            T(l,m,m)=I/sqrt(2.);
-            T(l,m,-m)=-I/sqrt(2.)*pow(-1.,m);
-        }
-        T(l,0,0)=1.;
-        for(m=1;m<=l;m++)
-        {
-            T(l,m,-m)=1./sqrt(2.);
-            T(l,m,m)=pow(-1.,m)/sqrt(2.);
+            T(l,0,0)=1.;
+            for(m=1;m<=l;m++)
+            {
+                T(l,m,-m)=1./sqrt(2.);
+                T(l,m,m)=pow(-1.,m)/sqrt(2.);
+            }
+            int l_end=l_max-l;
+            for(m=-l_end;m<0;m++)
+            {
+                T(l_end,m,m)=I/sqrt(2.);
+                T(l_end,m,-m)=-I/sqrt(2.)*pow(-1.,m);
+            }
         }
     }
 
+    // for(l=0;l<=L;l++)
+    // {
+       // for(m=-l;m<0;m++)
+        // {
+            // T(l,m,m)=I/sqrt(2.);
+            // T(l,m,-m)=-I/sqrt(2.)*pow(-1.,m);
+        // }
+        // T(l,0,0)=1.;
+        // for(m=1;m<=l;m++)
+        // {
+            // T(l,m,-m)=1./sqrt(2.);
+            // T(l,m,m)=pow(-1.,m)/sqrt(2.);
+        // }
+    // }
+// 
     return T;
 }
 
