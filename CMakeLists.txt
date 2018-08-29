@@ -20,7 +20,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 # OpenMP
 ################################################################################
 include(PatchOpenMPApple.cmake)
-find_package(OpenMP 4.0 REQUIRED)
+find_package(OpenMP REQUIRED)
 if(NOT TARGET OpenMP::OpenMP_CXX)
    add_library(OpenMP_TARGET INTERFACE)
    add_library(OpenMP::OpenMP_CXX ALIAS OpenMP_TARGET)
