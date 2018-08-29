@@ -7,6 +7,10 @@
 
 using namespace std;
 
+double myfunc_real(double theta, double phi)
+{
+    return cos(theta)*sin(phi);
+}
 complex<double> myfunc(double theta, double phi)
 {
     return cos(theta)*sin(phi);
@@ -14,9 +18,7 @@ complex<double> myfunc(double theta, double phi)
 
 int main()
 {
-    Eigen::initParallel();
-
-    int l_max=100;
+    int l_max=200;
     double dt1, dt2;
     fdcl_tictoc tt;
     fdcl_FFTS2_complex FFTS2(l_max);
@@ -38,9 +40,12 @@ int main()
         // FFTS2.nor_assoc_Legendre_poly(0.1,l_max);
         // FFTS2.spherical_harmonics(0.1,0.2,l_max);
         // FFTS2.compute_weight();
-        FFTS2.forward_transform(myfunc, 0);
+        // FFTS2.forward_transform(myfunc, 0);
         // FFTS2.inverse_transform(Y,0.1,0.2);
         // RFFTS2.matrix2rsph(l_max);
+        // RFFTS2.spherical_harmonics(0.1,0.2,l_max);
+        // RFFTS2.forward_transform(myfunc_real);
+        RFFTS2.inverse_transform(Y.real(),0.1,0.2);
         }
 
         dt[r]=tt.toc();
