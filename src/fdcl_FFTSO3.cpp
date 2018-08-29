@@ -131,14 +131,15 @@ fdcl_FFTSO3_matrix_real fdcl_FFTSO3_complex::wigner_d(double beta, int L)
 {
     // M. Blanco and M. Florez and M Bermejo, "Evaluation of the rotation matrices in the basis of real spherical harmonics," Journal of Molecular Structure, 419, pp 19-27, 1997
     fdcl_FFTSO3_matrix<double> d(L);
-    double cb, sb, sb2, cb2, tb2;
-    int l, m, n;
+    double cb, sb;
+    double sb2, cb2, tb2;
+
     cb=cos(beta);
     sb=sin(beta);
     sb2=sin(beta/2.);
     cb2=cos(beta/2.);
     tb2=tan(beta/2.);
-    
+   
     d(0,0,0)=1.;
    
 	if(L>=1)
@@ -149,47 +150,101 @@ fdcl_FFTSO3_matrix_real fdcl_FFTSO3_complex::wigner_d(double beta, int L)
 		d(1,1,1)=pow(cb2,2.);
 	}
     
+    // single thread version
     // fill the lower triangular region
-    for(l=2;l<=L;l++)
-    {
-        for(m=0;m<=l-2;m++)
-        {
-            for(n=-m;n<=m;n++)
-            {
-                d(l,m,n)=1./sqrt((pow(l,2.)-pow(m,2.))*(pow(l,2.)-pow(n,2.)))*
-                    ( (l*(2.*l-1.)*d(1,0,0)-(2.*l-1.)*m*n/(l-1.))*d(l-1,m,n)
-                    -sqrt((pow(l-1.,2.)-pow(m,2.))*(pow(l-1.,2)-pow(n,2.)))*l/(l-1.)*d(l-2,m,n) ); // (64)
-            }
-        }
-        d(l,l,l)=d(1,1,1)*d(l-1,l-1,l-1); // (65)
-        d(l,l-1,l-1)=(l*d(1,0,0)-l+1.)*d(l-1,l-1,l-1); //(66)
-        
-        for(n=l-1;n>=-l;n--)
-            d(l,l,n)=-sqrt((l+n+1.)/(l-n))*tb2*d(l,l,n+1); // (67)
-        
-        for(n=l-2;n>=1-l;n--)
-            d(l,l-1,n)=-(l*cb-n)/(l*cb-n-1.)*sqrt((l+n+1.)/(l-n))*tb2*d(l,l-1,n+1); // (68)
-    }
-    
+    // for(l=2;l<=L;l++)
+    // {
+        // for(m=0;m<=l-2;m++)
+        // {
+            // for(n=-m;n<=m;n++)
+            // {
+                // d(l,m,n)=1./sqrt((pow(l,2.)-pow(m,2.))*(pow(l,2.)-pow(n,2.)))*
+                    // ( (l*(2.*l-1.)*d(1,0,0)-(2.*l-1.)*m*n/(l-1.))*d(l-1,m,n)
+                    // -sqrt((pow(l-1.,2.)-pow(m,2.))*(pow(l-1.,2)-pow(n,2.)))*l/(l-1.)*d(l-2,m,n) ); // (64)
+            // }
+        // }
+        // d(l,l,l)=d(1,1,1)*d(l-1,l-1,l-1); // (65)
+        // d(l,l-1,l-1)=(l*d(1,0,0)-l+1.)*d(l-1,l-1,l-1); //(66)
+        // 
+        // for(n=l-1;n>=-l;n--)
+            // d(l,l,n)=-sqrt((l+n+1.)/(l-n))*tb2*d(l,l,n+1); // (67)
+        // 
+        // for(n=l-2;n>=1-l;n--)
+            // d(l,l-1,n)=-(l*cb-n)/(l*cb-n-1.)*sqrt((l+n+1.)/(l-n))*tb2*d(l,l-1,n+1); // (68)
+    // }
+    // 
     // fill remaining triangular regions with symmetry
-    for(l=1;l<=L;l++)
-    {   
+    // for(l=1;l<=L;l++)
+    // {   
         // upper triangle
-        for(m=-l;m<0;m++)
-            for(n=m;n<=-m;n++)
-                d(l,m,n)=pow(-1.,m+n)*d(l,-m,-n);
-
+        // for(m=-l;m<0;m++)
+            // for(n=m;n<=-m;n++)
+                // d(l,m,n)=pow(-1.,m+n)*d(l,-m,-n);
+// 
         // left triangle
-        for(n=-l;n<0;n++)
-            for(m=n+1;m<-n;m++)
-                d(l,m,n)=d(l,-n,-m);
-        
+        // for(n=-l;n<0;n++)
+            // for(m=n+1;m<-n;m++)
+                // d(l,m,n)=d(l,-n,-m);
+        // 
         // right triangle
-        for(n=1;n<=l;n++)
-            for(m=-n+1;m<=n-1;m++)
-                d(l,m,n)=pow(-1.,m+n)*d(l,n,m);
+        // for(n=1;n<=l;n++)
+            // for(m=-n+1;m<=n-1;m++)
+                // d(l,m,n)=pow(-1.,m+n)*d(l,n,m);
+    // }
+     
+    // fill the lower triangular region
+#pragma omp parallel
+    {
+        int l, m, n;
+        for(l=2;l<=L;l++)
+        {
+#pragma omp for
+            for(m=0;m<=l-2;m++)
+            {
+                for(n=-m;n<=m;n++)
+                {
+                    d(l,m,n)=1./sqrt((pow(l,2.)-pow(m,2.))*(pow(l,2.)-pow(n,2.)))*
+                        ( (l*(2.*l-1.)*d(1,0,0)-(2.*l-1.)*m*n/(l-1.))*d(l-1,m,n)
+                          -sqrt((pow(l-1.,2.)-pow(m,2.))*(pow(l-1.,2)-pow(n,2.)))*l/(l-1.)*d(l-2,m,n) ); // (64)
+                }
+            }
+#pragma omp single
+            {
+                d(l,l,l)=d(1,1,1)*d(l-1,l-1,l-1); // (65)
+                d(l,l-1,l-1)=(l*d(1,0,0)-l+1.)*d(l-1,l-1,l-1); //(66)
+            }
+#pragma omp barrier
+
+#pragma omp for
+            for(n=l-1;n>=-l;n--)
+                d(l,l,n)=-sqrt((l+n+1.)/(l-n))*tb2*d(l,l,n+1); // (67)
+
+#pragma omp for
+            for(n=l-2;n>=1-l;n--)
+                d(l,l-1,n)=-(l*cb-n)/(l*cb-n-1.)*sqrt((l+n+1.)/(l-n))*tb2*d(l,l-1,n+1); // (68)
+        }
+
+#pragma omp barrier
+        // fill remaining triangular regions with symmetry
+        for(l=1;l<=L;l++)
+        {   
+            // upper triangle
+            for(m=-l;m<0;m++)
+                for(n=m;n<=-m;n++)
+                    d(l,m,n)=pow(-1.,m+n)*d(l,-m,-n);
+
+            // left triangle
+            for(n=-l;n<0;n++)
+                for(m=n+1;m<-n;m++)
+                    d(l,m,n)=d(l,-n,-m);
+
+            // right triangle
+            for(n=1;n<=l;n++)
+                for(m=-n+1;m<=n-1;m++)
+                    d(l,m,n)=pow(-1.,m+n)*d(l,n,m);
+        }
+
     }
-    
     return d;
     
 }

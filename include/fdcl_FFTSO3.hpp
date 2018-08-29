@@ -10,6 +10,7 @@
 #include "fdcl_tictoc.hpp"
 #include "fdcl_FFTSO3_matrix.hpp"
 #include "fdcl_Clebsch_Gordon.hpp"
+#include "fdcl_omp_thread.hpp"
 #include "misc_matrix_func.h"
 
 using namespace std;

@@ -20,7 +20,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 # OpenMP
 ################################################################################
 include(PatchOpenMPApple.cmake)
-find_package(OpenMP REQUIRED)
+find_package(OpenMP 4.0 REQUIRED)
 if(NOT TARGET OpenMP::OpenMP_CXX)
    add_library(OpenMP_TARGET INTERFACE)
    add_library(OpenMP::OpenMP_CXX ALIAS OpenMP_TARGET)
@@ -54,7 +54,8 @@ set(FFTSO3_src
     src/fdcl_tictoc.cpp
     src/fdcl_FFTSO3_matrix.cpp
     src/fdcl_FFTS2_matrix.cpp
-    src/misc_matrix_func.cpp)
+    src/misc_matrix_func.cpp
+    src/fdcl_omp_thread.cpp)
 
 add_library(fftso3 SHARED ${FFTSO3_src})
 #target_compile_definitions(fftso3 PUBLIC EIGEN_FFTW_DEFAULT)

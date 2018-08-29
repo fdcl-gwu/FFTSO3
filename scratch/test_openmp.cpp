@@ -4,6 +4,7 @@
 
 #include "fdcl_tictoc.hpp"
 #include "fdcl_FFTS2.hpp"
+#include "fdcl_FFTSO3.hpp"
 
 using namespace std;
 
@@ -24,10 +25,11 @@ int main()
     fdcl_FFTS2_complex FFTS2(l_max);
     fdcl_FFTS2_real RFFTS2(l_max);
     fdcl_FFTS2_matrix_complex Y(l_max);
+    fdcl_FFTSO3_complex FFTSO3(l_max);
 
     Y.setRandom();
 
-    // omp_set_dynamic(0);     // Explicitly disable dynamic teams
+    omp_set_dynamic(0);     // Explicitly disable dynamic teams
 
     std::vector<double> dt;
     dt.resize(4);
@@ -45,11 +47,14 @@ int main()
         // RFFTS2.matrix2rsph(l_max);
         // RFFTS2.spherical_harmonics(0.1,0.2,l_max);
         // RFFTS2.forward_transform(myfunc_real);
-        RFFTS2.inverse_transform(Y.real(),0.1,0.2);
+        // RFFTS2.inverse_transform(Y.real(),0.1,0.2);
+        FFTSO3.wigner_d(0.1,l_max);
         }
 
         dt[r]=tt.toc();
     }
     cout << "speed up factor " << dt[0]/dt[1] << " " << dt[0]/dt[2] << " " << dt[0]/dt[3] << endl;
+
+    FFTSO3.check_wigner_d();
 
 }
