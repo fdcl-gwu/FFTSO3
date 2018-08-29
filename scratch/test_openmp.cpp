@@ -65,5 +65,11 @@ int main()
     FFTSO3.init(5);
     FFTSO3.check_transform();
 
+    FFTS2.init(4);
+    FFTS2.check_transform();
+
+    FFTS2.init(3);
+    FFTS2.check_transform();
+
 
 }

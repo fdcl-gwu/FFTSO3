@@ -497,26 +497,35 @@ double fdcl_FFTSO3_complex::check_deriv_wigner_D()
 
 complex<double> fdcl_FFTSO3_complex::inverse_transform(fdcl_FFTSO3_matrix_complex F, double alpha, double beta, double gamma)
 {
-	int l,m,n;
 	init(F.l_max);
 	fdcl_FFTSO3_matrix_real d(l_max);
 	Eigen::MatrixXcd Fmn(2*B,2*B);
 	Eigen::VectorXcd expIMA(2*B), expING(2*B);
 
-	for(m=-l_max; m<=l_max; m++)
-		expIMA(m+l_max)=exp(-I*(double)m*alpha);
+    d=wigner_d(beta);
+    Fmn.setZero();
 
-	for(n=-l_max; n<=l_max; n++)
-		expING(n+l_max)=exp(-I*(double)n*gamma);
+#pragma omp parallel
+    {
+#pragma omp for
+        for(int m=-l_max; m<=l_max; m++)
+        {
+            expIMA(m+l_max)=exp(-I*(double)m*alpha);
+            expING(m+l_max)=exp(-I*(double)m*gamma);
+        }
 
-	Fmn.setZero();
-	d=wigner_d(beta);
-    for(m=-l_max; m<=l_max; m++)
-		for(n=-l_max; n<=l_max; n++)
-		{
-   			for(l=max(abs(m),abs(n)); l<=l_max; l++)
-				Fmn(m+l_max,n+l_max)+=(double)(2*l+1)*F(l,m,n)*d(l,m,n);
-		}
+        Eigen::MatrixXcd Fmn_local(2*B,2*B);
+        Fmn_local.setZero();
+#pragma omp for
+        for(int m=-l_max; m<=l_max; m++)
+            for(int n=-l_max; n<=l_max; n++)
+            {
+                for(int l=max(abs(m),abs(n)); l<=l_max; l++)
+                    Fmn_local(m+l_max,n+l_max)+=(double)(2*l+1)*F(l,m,n)*d(l,m,n);
+            }
+#pragma omp critical
+        Fmn=Fmn+Fmn_local;
+    }
 
     return expIMA.transpose()*Fmn*expING;
 

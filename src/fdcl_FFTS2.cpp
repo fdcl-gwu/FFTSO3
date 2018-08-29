@@ -219,37 +219,38 @@ fdcl_FFTS2_matrix_complex fdcl_FFTS2_complex::forward_transform(std::function <c
 complex<double> fdcl_FFTS2_complex::inverse_transform(fdcl_FFTS2_matrix_complex F, double theta, double phi)
 {
     complex<double> y={0., 0.};
-    fdcl_FFTS2_matrix_complex Y(l_max);
+    fdcl_FFTS2_matrix_complex Y(F.l_max);
     Y=spherical_harmonics(theta,phi,F.l_max);
-    
-#pragma omp declare reduction \
-    (complex_sum : std::complex<double> : omp_out+=omp_in) \
-    initializer(omp_priv={0.,0.})
 
-#pragma omp parallel for reduction(complex_sum:y)
-    for(int l=0; l<=l_max; l++)
-        for(int m=-l; m<=l; m++)
-            y+=F(l,m)*Y(l,m);
+// required OpenMp > 4.0
+// #pragma omp declare reduction \
+    // (complex_sum : std::complex<double> : omp_out+=omp_in) \
+    // initializer(omp_priv={0.,0.})
 // 
-// #pragma omp parallel
-    // {
-        // fdcl::omp_thread thr(omp_get_thread_num(),omp_get_num_threads());
-        // thr.range_closed(0,F.l_max);
-        // std::complex<double> y_local={0.,0.};
-// 
-        // for(int l=thr.i_init; l<=thr.i_term; l++)
-        // {
-            // for(int m=0; m<=l; m++)
-                // y_local+=F(l,m)*Y(l,m);
-            // int l_end = l_max-l;
-            // for(int m=-l_end; m<0; m++)
-                // y_local+=F(l_end,m)*Y(l_end,m);
-        // }
-// #pragma omp critical
-        // y+=y_local;
-// 
-    // }
-// 
+// #pragma omp parallel for reduction(complex_sum:y)
+    // for(int l=0; l<=l_max; l++)
+        // for(int m=-l; m<=l; m++)
+            // y+=F(l,m)*Y(l,m);
+
+#pragma omp parallel
+    {
+        fdcl::omp_thread thr(omp_get_thread_num(),omp_get_num_threads());
+        thr.range_closed(0,F.l_max);
+        std::complex<double> y_local={0.,0.};
+
+        for(int l=thr.i_init; l<=thr.i_term; l++)
+        {
+            for(int m=0; m<=l; m++)
+                y_local+=F(l,m)*Y(l,m);
+            int l_end = F.l_max-l;
+            for(int m=-l_end; m<0; m++)
+                y_local+=F(l_end,m)*Y(l_end,m);
+        }
+#pragma omp critical
+        y+=y_local;
+
+    }
+
     return y;
 }
 
