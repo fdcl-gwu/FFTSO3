@@ -6,50 +6,61 @@
 #include <math.h> // pow
 #include <Eigen/Dense>
 
-using namespace std;
-using namespace Eigen;
-
 #ifndef _IMAGINARY_UNIT
 #define _IMAGINARY_UNIT
-const complex<double> I(0.0,1.0);    
+const std::complex<double> I(0.0,1.0);    
 #endif
 
-template <class ScalarType>
-class fdcl_FFTS2_matrix
+using std::cout;
+using std::endl;
+using std::ostream;
+using std::complex;
+
+namespace fdcl
 {
-public:
-	int l_max;
-	std::vector<Eigen::Matrix<ScalarType,Dynamic,1>> M;
-	fdcl_FFTS2_matrix(){l_max=0;};
-	~fdcl_FFTS2_matrix(){};
-	fdcl_FFTS2_matrix(int l_max); 
+    template <class ScalarType> class FFTS2_matrix;
+}
 
-	void init(int l_max);
-	Eigen::Matrix<ScalarType,Dynamic,1>& operator[](int l); // return l-th matrix 
-	ScalarType& operator()(int l, int m); // access (l,m)-th element of the l-th matrix
-	void setRandom();
-	void setZero();
-    double norm();
-	
-	fdcl_FFTS2_matrix<double> real();  	
+template <class ScalarType>
+class fdcl::FFTS2_matrix
+{
+    public:
+        int l_max;
+        std::vector<Eigen::Matrix<ScalarType,Eigen::Dynamic,1> > M;
+        FFTS2_matrix(){l_max=0;};
+        ~FFTS2_matrix(){};
+        FFTS2_matrix(int l_max); 
 
-	template<typename _ScalarType>
-    friend ostream& operator<<(ostream& os, const fdcl_FFTS2_matrix<_ScalarType>& M);  	
+        void init(int l_max);
+        Eigen::Matrix<ScalarType,Eigen::Dynamic,1>& operator[](int l); // return l-th matrix 
+        ScalarType& operator()(int l, int m); // access (l,m)-th element of the l-th matrix
+        void setRandom();
+        void setZero();
+        double norm();
 
-	fdcl_FFTS2_matrix<complex<double>> operator+(fdcl_FFTS2_matrix<complex<double>> const& M1);  	
-	fdcl_FFTS2_matrix<ScalarType> operator+(fdcl_FFTS2_matrix<double> const& M2);  		
-	fdcl_FFTS2_matrix<complex<double>> operator-(fdcl_FFTS2_matrix<complex<double>> const& M1);  	
-	fdcl_FFTS2_matrix<ScalarType> operator-(fdcl_FFTS2_matrix<double> const& M2);  		
-    
-    fdcl_FFTS2_matrix<complex<double>> operator*(const complex<double>& c);  	
-    fdcl_FFTS2_matrix<ScalarType> operator*(const double& c);  	
+        fdcl::FFTS2_matrix<double> real();  	
 
-private:
-	void assert_index(int l);
-	void assert_index(int l, int m);
+        template<typename _ScalarType>
+            friend ostream& operator<<(ostream& os, const fdcl::FFTS2_matrix<_ScalarType>& M);  	
+
+        fdcl::FFTS2_matrix<std::complex<double>> operator+(fdcl::FFTS2_matrix<std::complex<double>> const& M1);  	
+        fdcl::FFTS2_matrix<ScalarType> operator+(fdcl::FFTS2_matrix<double> const& M2);  		
+        fdcl::FFTS2_matrix<std::complex<double>> operator-(fdcl::FFTS2_matrix<std::complex<double>> const& M1);  	
+        fdcl::FFTS2_matrix<ScalarType> operator-(fdcl::FFTS2_matrix<double> const& M2);  		
+
+        fdcl::FFTS2_matrix<std::complex<double>> operator*(const std::complex<double>& c);  	
+        fdcl::FFTS2_matrix<ScalarType> operator*(const double& c);  	
+
+    private:
+        void assert_index(int l);
+        void assert_index(int l, int m);
 };
 
-typedef fdcl_FFTS2_matrix<double> fdcl_FFTS2_matrix_real;
-typedef fdcl_FFTS2_matrix<complex<double>> fdcl_FFTS2_matrix_complex;
+
+namespace fdcl
+{
+    typedef fdcl::FFTS2_matrix<double> FFTS2_matrix_real;
+    typedef fdcl::FFTS2_matrix<std::complex<double>> FFTS2_matrix_complex;
+}
 
 #endif

@@ -1,13 +1,13 @@
 #include "fdcl_FFTSO3_matrix.hpp"
 
 template <class ScalarType>
-fdcl_FFTSO3_matrix<ScalarType>::fdcl_FFTSO3_matrix(int l_max)
+fdcl::FFTSO3_matrix<ScalarType>::FFTSO3_matrix(int l_max)
 {
 	init(l_max);
 }
 
 template <class ScalarType>
-void fdcl_FFTSO3_matrix<ScalarType>::init(int l_max)
+void fdcl::FFTSO3_matrix<ScalarType>::init(int l_max)
 {
 	this->l_max=l_max;
 	
@@ -20,34 +20,34 @@ void fdcl_FFTSO3_matrix<ScalarType>::init(int l_max)
 }
 
 template <class ScalarType>
-void fdcl_FFTSO3_matrix<ScalarType>::assert_index(int l)
+void fdcl::FFTSO3_matrix<ScalarType>::assert_index(int l)
 {
 	assert(l>=0 && l<=l_max);
 }
 
 template <class ScalarType>
-void fdcl_FFTSO3_matrix<ScalarType>::assert_index(int l, int m, int n)
+void fdcl::FFTSO3_matrix<ScalarType>::assert_index(int l, int m, int n)
 {
 	assert_index(l);
-	assert(min(m,n) >= -l && max(m,n) <= l);
+	assert(std::min(m,n) >= -l && std::max(m,n) <= l);
 }
 
 template <class ScalarType>
-Matrix<ScalarType,Dynamic,Dynamic> & fdcl_FFTSO3_matrix<ScalarType>::operator[](int l)
+Eigen::Matrix<ScalarType,Eigen::Dynamic,Eigen::Dynamic> & fdcl::FFTSO3_matrix<ScalarType>::operator[](int l)
 {
 	assert_index(l);
 	return M[l];
 }
 
 template <class ScalarType>
-ScalarType& fdcl_FFTSO3_matrix<ScalarType>::operator()(int l, int m, int n)
+ScalarType& fdcl::FFTSO3_matrix<ScalarType>::operator()(int l, int m, int n)
 {
 	assert_index(l,m,n);
 	return M[l](m+l,n+l);
 }
 
 template <class ScalarType>
-ostream& operator<< (ostream& os, const fdcl_FFTSO3_matrix<ScalarType>& M)
+ostream& operator<< (ostream& os, const fdcl::FFTSO3_matrix<ScalarType>& M)
 {
 	for(int l=0;l<=M.l_max;l++)
 	{
@@ -58,9 +58,9 @@ ostream& operator<< (ostream& os, const fdcl_FFTSO3_matrix<ScalarType>& M)
 }
 
 /*template<class ScalarType> template<typename U>
-fdcl_FFTSO3_matrix<ScalarType> fdcl_FFTSO3_matrix<ScalarType>::operator+(const fdcl_FFTSO3_matrix<U>& M) 
+fdcl::FFTSO3_matrix<ScalarType> fdcl::FFTSO3_matrix<ScalarType>::operator+(const fdcl::FFTSO3_matrix<U>& M) 
 {
-	fdcl_FFTSO3_matrix<ScalarType> Z;
+	fdcl::FFTSO3_matrix<ScalarType> Z;
 	
 	Z.init(l_max);
 	for(int l=0;l<l_max;l++)
@@ -70,9 +70,9 @@ fdcl_FFTSO3_matrix<ScalarType> fdcl_FFTSO3_matrix<ScalarType>::operator+(const f
 }*/
 
 template<class ScalarType>
-fdcl_FFTSO3_matrix<double> fdcl_FFTSO3_matrix<ScalarType>::real()  	
+fdcl::FFTSO3_matrix<double> fdcl::FFTSO3_matrix<ScalarType>::real()  	
 {
-    fdcl_FFTSO3_matrix<double> Z(l_max);
+    fdcl::FFTSO3_matrix<double> Z(l_max);
 
     for(int l=0;l<=l_max;l++)
         Z[l]=this->M[l].real();
@@ -81,9 +81,9 @@ fdcl_FFTSO3_matrix<double> fdcl_FFTSO3_matrix<ScalarType>::real()
 }
 
 template<class ScalarType>
-fdcl_FFTSO3_matrix<complex<double>> fdcl_FFTSO3_matrix<ScalarType>::operator+(fdcl_FFTSO3_matrix<complex<double>> const& M)
+fdcl::FFTSO3_matrix<complex<double>> fdcl::FFTSO3_matrix<ScalarType>::operator+(fdcl::FFTSO3_matrix<complex<double>> const& M)
 {
-	fdcl_FFTSO3_matrix<complex<double>> Z(l_max);
+	fdcl::FFTSO3_matrix<complex<double>> Z(l_max);
 	
 	for(int l=0;l<=l_max;l++)
 		Z[l]=this->M[l]+M.M[l];
@@ -92,9 +92,9 @@ fdcl_FFTSO3_matrix<complex<double>> fdcl_FFTSO3_matrix<ScalarType>::operator+(fd
 }
 
 template<class ScalarType>
-fdcl_FFTSO3_matrix<ScalarType> fdcl_FFTSO3_matrix<ScalarType>::operator+(fdcl_FFTSO3_matrix<double> const& M)
+fdcl::FFTSO3_matrix<ScalarType> fdcl::FFTSO3_matrix<ScalarType>::operator+(fdcl::FFTSO3_matrix<double> const& M)
 {
-	fdcl_FFTSO3_matrix<ScalarType> Z(l_max);
+	fdcl::FFTSO3_matrix<ScalarType> Z(l_max);
 	
 	for(int l=0;l<=l_max;l++)
 		Z[l]=this->M[l]+M.M[l];
@@ -103,9 +103,9 @@ fdcl_FFTSO3_matrix<ScalarType> fdcl_FFTSO3_matrix<ScalarType>::operator+(fdcl_FF
 }
 
 template<class ScalarType>
-fdcl_FFTSO3_matrix<complex<double>> fdcl_FFTSO3_matrix<ScalarType>::operator-(fdcl_FFTSO3_matrix<complex<double>> const& M)
+fdcl::FFTSO3_matrix<complex<double>> fdcl::FFTSO3_matrix<ScalarType>::operator-(fdcl::FFTSO3_matrix<complex<double>> const& M)
 {
-	fdcl_FFTSO3_matrix<complex<double>> Z(l_max);
+	fdcl::FFTSO3_matrix<complex<double>> Z(l_max);
 	
 	for(int l=0;l<=l_max;l++)
 		Z[l]=this->M[l]-M.M[l];
@@ -114,9 +114,9 @@ fdcl_FFTSO3_matrix<complex<double>> fdcl_FFTSO3_matrix<ScalarType>::operator-(fd
 }
 
 template<class ScalarType>
-fdcl_FFTSO3_matrix<ScalarType> fdcl_FFTSO3_matrix<ScalarType>::operator-(fdcl_FFTSO3_matrix<double> const& M)
+fdcl::FFTSO3_matrix<ScalarType> fdcl::FFTSO3_matrix<ScalarType>::operator-(fdcl::FFTSO3_matrix<double> const& M)
 {
-	fdcl_FFTSO3_matrix<ScalarType> Z(l_max);
+	fdcl::FFTSO3_matrix<ScalarType> Z(l_max);
 	
 	for(int l=0;l<=l_max;l++)
 		Z[l]=this->M[l]-M.M[l];
@@ -125,9 +125,9 @@ fdcl_FFTSO3_matrix<ScalarType> fdcl_FFTSO3_matrix<ScalarType>::operator-(fdcl_FF
 }
 
 template<class ScalarType>
-fdcl_FFTSO3_matrix<complex<double>> fdcl_FFTSO3_matrix<ScalarType>::operator*(const complex<double>& c)
+fdcl::FFTSO3_matrix<complex<double>> fdcl::FFTSO3_matrix<ScalarType>::operator*(const complex<double>& c)
 {
-	fdcl_FFTSO3_matrix<complex<double>> Z;
+	fdcl::FFTSO3_matrix<complex<double>> Z;
 	
 	Z.init(l_max);
 	for(int l=0;l<=l_max;l++)
@@ -137,9 +137,9 @@ fdcl_FFTSO3_matrix<complex<double>> fdcl_FFTSO3_matrix<ScalarType>::operator*(co
 }
 
 template<class ScalarType>
-fdcl_FFTSO3_matrix<ScalarType> fdcl_FFTSO3_matrix<ScalarType>::operator*(const double& c)  	
+fdcl::FFTSO3_matrix<ScalarType> fdcl::FFTSO3_matrix<ScalarType>::operator*(const double& c)  	
 {
-	fdcl_FFTSO3_matrix<ScalarType> Z;
+	fdcl::FFTSO3_matrix<ScalarType> Z;
 	
 	Z.init(l_max);
 	for(int l=0;l<=l_max;l++)
@@ -150,7 +150,7 @@ fdcl_FFTSO3_matrix<ScalarType> fdcl_FFTSO3_matrix<ScalarType>::operator*(const d
 
 
 template <class ScalarType>
-void fdcl_FFTSO3_matrix<ScalarType>::setRandom()
+void fdcl::FFTSO3_matrix<ScalarType>::setRandom()
 {
 	for(int i=0;i<=l_max;i++)
 	{
@@ -159,7 +159,7 @@ void fdcl_FFTSO3_matrix<ScalarType>::setRandom()
 }
 
 template <class ScalarType>
-void fdcl_FFTSO3_matrix<ScalarType>::setZero()
+void fdcl::FFTSO3_matrix<ScalarType>::setZero()
 {
 	for(int i=0;i<=l_max;i++)
 	{
@@ -169,7 +169,7 @@ void fdcl_FFTSO3_matrix<ScalarType>::setZero()
 
 
 template <class ScalarType>
-double fdcl_FFTSO3_matrix<ScalarType>::norm()
+double fdcl::FFTSO3_matrix<ScalarType>::norm()
 {
     double y=0.;
 
@@ -179,10 +179,14 @@ double fdcl_FFTSO3_matrix<ScalarType>::norm()
     return y;
 }
 
-template class fdcl_FFTSO3_matrix<double>;
-template class fdcl_FFTSO3_matrix<complex<double>>;
-template ostream& operator<< (ostream& os, const fdcl_FFTSO3_matrix<double>& M);
-template ostream& operator<< (ostream& os, const fdcl_FFTSO3_matrix<complex<double>>& M);
+namespace fdcl
+{
+    template class FFTSO3_matrix<double>;
+    template class FFTSO3_matrix<complex<double>>;
+}
+
+template ostream& operator<< (ostream& os, const fdcl::FFTSO3_matrix<double>& M);
+template ostream& operator<< (ostream& os, const fdcl::FFTSO3_matrix<complex<double>>& M);
 //template fdcl_FFTSO3_matrix<double> fdcl_FFTSO3_matrix<double>::operator+ (const fdcl_FFTSO3_matrix<double>& M);
 //template fdcl_FFTSO3_matrix<complex<double>> fdcl_FFTSO3_matrix<complex<double>>::operator+ (const fdcl_FFTSO3_matrix<complex<double>>& M);
 

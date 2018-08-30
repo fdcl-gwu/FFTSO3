@@ -12,50 +12,62 @@
 #include <math.h> // pow
 #include <Eigen/Dense>
 
-using namespace std;
-using namespace Eigen;
+using std::cout;
+using std::endl;
+using std::ostream;
+using std::complex;
+using std::max;
+using std::min;
 
 #ifndef _IMAGINARY_UNIT
 #define _IMAGINARY_UNIT
 const complex<double> I(0.0,1.0);    
 #endif
 
+namespace fdcl
+{
+    template <class ScalarType> class FFTSO3_matrix;
+}
+
 template <class ScalarType>
-class fdcl_FFTSO3_matrix
+class fdcl::FFTSO3_matrix
 {
 public:
 	int l_max;
-	std::vector<Eigen::Matrix<ScalarType,Dynamic,Dynamic>> M;
-	fdcl_FFTSO3_matrix(){};
-	~fdcl_FFTSO3_matrix(){};
-	fdcl_FFTSO3_matrix(int l_max); 
+	std::vector<Eigen::Matrix<ScalarType,Eigen::Dynamic,Eigen::Dynamic>> M;
+	FFTSO3_matrix(){};
+	~FFTSO3_matrix(){};
+	FFTSO3_matrix(int l_max); 
 
 	void init(int l_max);
-	Eigen::Matrix<ScalarType,Dynamic,Dynamic>& operator[](int l); // return l-th matrix 
+	Eigen::Matrix<ScalarType,Eigen::Dynamic,Eigen::Dynamic>& operator[](int l); // return l-th matrix 
 	ScalarType& operator()(int l, int m, int n); // access (m,n)-th element of the l-th matrix
 	void setRandom();
 	void setZero();
     double norm();
 	
-	fdcl_FFTSO3_matrix<double> real();  	
+	fdcl::FFTSO3_matrix<double> real();  	
 
 	template<typename _ScalarType>
-    friend ostream& operator<<(ostream& os, const fdcl_FFTSO3_matrix<_ScalarType>& M);  	
+    friend ostream& operator<<(ostream& os, const fdcl::FFTSO3_matrix<_ScalarType>& M);  	
 
-	fdcl_FFTSO3_matrix<complex<double>> operator+(fdcl_FFTSO3_matrix<complex<double>> const& M1);  	
-	fdcl_FFTSO3_matrix<ScalarType> operator+(fdcl_FFTSO3_matrix<double> const& M2);  		
-	fdcl_FFTSO3_matrix<complex<double>> operator-(fdcl_FFTSO3_matrix<complex<double>> const& M1);  	
-	fdcl_FFTSO3_matrix<ScalarType> operator-(fdcl_FFTSO3_matrix<double> const& M2);  		
+	fdcl::FFTSO3_matrix<complex<double>> operator+(fdcl::FFTSO3_matrix<complex<double>> const& M1);  	
+	fdcl::FFTSO3_matrix<ScalarType> operator+(fdcl::FFTSO3_matrix<double> const& M2);  		
+	fdcl::FFTSO3_matrix<complex<double>> operator-(fdcl::FFTSO3_matrix<complex<double>> const& M1);  	
+	fdcl::FFTSO3_matrix<ScalarType> operator-(fdcl::FFTSO3_matrix<double> const& M2);  		
     
-    fdcl_FFTSO3_matrix<complex<double>> operator*(const complex<double>& c);  	
-    fdcl_FFTSO3_matrix<ScalarType> operator*(const double& c);  	
+    fdcl::FFTSO3_matrix<complex<double>> operator*(const complex<double>& c);  	
+    fdcl::FFTSO3_matrix<ScalarType> operator*(const double& c);  	
 
 private:
 	void assert_index(int l);
 	void assert_index(int l, int m, int n);
 };
 
-typedef fdcl_FFTSO3_matrix<double> fdcl_FFTSO3_matrix_real;
-typedef fdcl_FFTSO3_matrix<complex<double>> fdcl_FFTSO3_matrix_complex;
+namespace fdcl
+{
+    typedef fdcl::FFTSO3_matrix<double> FFTSO3_matrix_real;
+    typedef fdcl::FFTSO3_matrix<complex<double>> FFTSO3_matrix_complex;
+}
 
 #endif

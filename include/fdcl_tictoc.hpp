@@ -5,16 +5,18 @@
 #include <string>
 #include <chrono>
 
-using namespace std;
-
-class fdcl_tictoc
+namespace fdcl
+{
+    class tictoc;
+}
+class fdcl::tictoc
 {
 public:
     std::chrono::steady_clock::time_point t0, t1;
-    fdcl_tictoc(){};
+    tictoc(){};
     void tic();
     double toc();
-    double toc(string message);
+    double toc(std::string message);
 };
 
 #endif

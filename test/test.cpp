@@ -7,8 +7,8 @@ namespace
     class FFTSO3Test : public ::testing::Test 
     {
         protected:
-            fdcl_FFTSO3_complex FFTSO3;
-            fdcl_FFTSO3_real RFFTSO3;
+            fdcl::FFTSO3_complex FFTSO3;
+            fdcl::FFTSO3_real RFFTSO3;
 
             FFTSO3Test()
             {
@@ -22,8 +22,8 @@ namespace
     class FFTS2Test : public ::testing::Test 
     {
         protected:
-            fdcl_FFTS2_complex FFTS2;
-            fdcl_FFTS2_real RFFTS2;
+            fdcl::FFTS2_complex FFTS2;
+            fdcl::FFTS2_real RFFTS2;
 
             FFTS2Test()
             {

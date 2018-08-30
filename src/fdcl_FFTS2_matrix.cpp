@@ -1,13 +1,13 @@
 #include "fdcl_FFTS2_matrix.hpp"
 
 template <class ScalarType>
-fdcl_FFTS2_matrix<ScalarType>::fdcl_FFTS2_matrix(int l_max)
+fdcl::FFTS2_matrix<ScalarType>::FFTS2_matrix(int l_max)
 {
 	init(l_max);
 }
 
 template <class ScalarType>
-void fdcl_FFTS2_matrix<ScalarType>::init(int l_max)
+void fdcl::FFTS2_matrix<ScalarType>::init(int l_max)
 {
 	this->l_max=l_max;
 	
@@ -20,34 +20,34 @@ void fdcl_FFTS2_matrix<ScalarType>::init(int l_max)
 }
 
 template <class ScalarType>
-void fdcl_FFTS2_matrix<ScalarType>::assert_index(int l)
+void fdcl::FFTS2_matrix<ScalarType>::assert_index(int l)
 {
 	assert(l>=0 && l<=l_max);
 }
 
 template <class ScalarType>
-void fdcl_FFTS2_matrix<ScalarType>::assert_index(int l, int m)
+void fdcl::FFTS2_matrix<ScalarType>::assert_index(int l, int m)
 {
 	assert_index(l);
 	assert(m >= -l && m <= l);
 }
 
 template <class ScalarType>
-Matrix<ScalarType,Dynamic,1> & fdcl_FFTS2_matrix<ScalarType>::operator[](int l)
+Eigen::Matrix<ScalarType,Eigen::Dynamic,1> & fdcl::FFTS2_matrix<ScalarType>::operator[](int l)
 {
 	assert_index(l);
 	return M[l];
 }
 
 template <class ScalarType>
-ScalarType& fdcl_FFTS2_matrix<ScalarType>::operator()(int l, int m)
+ScalarType& fdcl::FFTS2_matrix<ScalarType>::operator()(int l, int m)
 {
 	assert_index(l,m);
 	return M[l](m+l);
 }
 
 template <class ScalarType>
-ostream& operator<< (ostream& os, const fdcl_FFTS2_matrix<ScalarType>& M)
+ostream& operator<< (ostream& os, const fdcl::FFTS2_matrix<ScalarType>& M)
 {
 	for(int l=0;l<=M.l_max;l++)
 	{
@@ -59,9 +59,9 @@ ostream& operator<< (ostream& os, const fdcl_FFTS2_matrix<ScalarType>& M)
 
 
 template<class ScalarType>
-fdcl_FFTS2_matrix<double> fdcl_FFTS2_matrix<ScalarType>::real()  	
+fdcl::FFTS2_matrix<double> fdcl::FFTS2_matrix<ScalarType>::real()  	
 {
-    fdcl_FFTS2_matrix<double> Z(l_max);
+    fdcl::FFTS2_matrix<double> Z(l_max);
 
     for(int l=0;l<=l_max;l++)
         Z[l]=this->M[l].real();
@@ -70,9 +70,9 @@ fdcl_FFTS2_matrix<double> fdcl_FFTS2_matrix<ScalarType>::real()
 }
 
 template<class ScalarType>
-fdcl_FFTS2_matrix<complex<double>> fdcl_FFTS2_matrix<ScalarType>::operator+(fdcl_FFTS2_matrix<complex<double>> const& M)
+fdcl::FFTS2_matrix<complex<double>> fdcl::FFTS2_matrix<ScalarType>::operator+(fdcl::FFTS2_matrix<complex<double>> const& M)
 {
-	fdcl_FFTS2_matrix<complex<double>> Z(l_max);
+	fdcl::FFTS2_matrix<complex<double>> Z(l_max);
 	
 	for(int l=0;l<=l_max;l++)
 		Z[l]=this->M[l]+M.M[l];
@@ -81,9 +81,9 @@ fdcl_FFTS2_matrix<complex<double>> fdcl_FFTS2_matrix<ScalarType>::operator+(fdcl
 }
 
 template<class ScalarType>
-fdcl_FFTS2_matrix<ScalarType> fdcl_FFTS2_matrix<ScalarType>::operator+(fdcl_FFTS2_matrix<double> const& M)
+fdcl::FFTS2_matrix<ScalarType> fdcl::FFTS2_matrix<ScalarType>::operator+(fdcl::FFTS2_matrix<double> const& M)
 {
-	fdcl_FFTS2_matrix<ScalarType> Z(l_max);
+	fdcl::FFTS2_matrix<ScalarType> Z(l_max);
 	
 	for(int l=0;l<=l_max;l++)
 		Z[l]=this->M[l]+M.M[l];
@@ -92,9 +92,9 @@ fdcl_FFTS2_matrix<ScalarType> fdcl_FFTS2_matrix<ScalarType>::operator+(fdcl_FFTS
 }
 
 template<class ScalarType>
-fdcl_FFTS2_matrix<complex<double>> fdcl_FFTS2_matrix<ScalarType>::operator-(fdcl_FFTS2_matrix<complex<double>> const& M)
+fdcl::FFTS2_matrix<complex<double>> fdcl::FFTS2_matrix<ScalarType>::operator-(fdcl::FFTS2_matrix<complex<double>> const& M)
 {
-	fdcl_FFTS2_matrix<complex<double>> Z(l_max);
+	fdcl::FFTS2_matrix<complex<double>> Z(l_max);
 	
 	for(int l=0;l<=l_max;l++)
 		Z[l]=this->M[l]-M.M[l];
@@ -103,9 +103,9 @@ fdcl_FFTS2_matrix<complex<double>> fdcl_FFTS2_matrix<ScalarType>::operator-(fdcl
 }
 
 template<class ScalarType>
-fdcl_FFTS2_matrix<ScalarType> fdcl_FFTS2_matrix<ScalarType>::operator-(fdcl_FFTS2_matrix<double> const& M)
+fdcl::FFTS2_matrix<ScalarType> fdcl::FFTS2_matrix<ScalarType>::operator-(fdcl::FFTS2_matrix<double> const& M)
 {
-	fdcl_FFTS2_matrix<ScalarType> Z(l_max);
+	fdcl::FFTS2_matrix<ScalarType> Z(l_max);
 	
 	for(int l=0;l<=l_max;l++)
 		Z[l]=this->M[l]-M.M[l];
@@ -114,9 +114,9 @@ fdcl_FFTS2_matrix<ScalarType> fdcl_FFTS2_matrix<ScalarType>::operator-(fdcl_FFTS
 }
 
 template<class ScalarType>
-fdcl_FFTS2_matrix<complex<double>> fdcl_FFTS2_matrix<ScalarType>::operator*(const complex<double>& c)
+fdcl::FFTS2_matrix<complex<double>> fdcl::FFTS2_matrix<ScalarType>::operator*(const complex<double>& c)
 {
-	fdcl_FFTS2_matrix<complex<double>> Z;
+	fdcl::FFTS2_matrix<complex<double>> Z;
 	
 	Z.init(l_max);
 	for(int l=0;l<=l_max;l++)
@@ -126,9 +126,9 @@ fdcl_FFTS2_matrix<complex<double>> fdcl_FFTS2_matrix<ScalarType>::operator*(cons
 }
 
 template<class ScalarType>
-fdcl_FFTS2_matrix<ScalarType> fdcl_FFTS2_matrix<ScalarType>::operator*(const double& c)  	
+fdcl::FFTS2_matrix<ScalarType> fdcl::FFTS2_matrix<ScalarType>::operator*(const double& c)  	
 {
-	fdcl_FFTS2_matrix<ScalarType> Z;
+	fdcl::FFTS2_matrix<ScalarType> Z;
 	
 	Z.init(l_max);
 	for(int l=0;l<=l_max;l++)
@@ -139,7 +139,7 @@ fdcl_FFTS2_matrix<ScalarType> fdcl_FFTS2_matrix<ScalarType>::operator*(const dou
 
 
 template <class ScalarType>
-void fdcl_FFTS2_matrix<ScalarType>::setRandom()
+void fdcl::FFTS2_matrix<ScalarType>::setRandom()
 {
 	for(int i=0;i<=l_max;i++)
 	{
@@ -148,7 +148,7 @@ void fdcl_FFTS2_matrix<ScalarType>::setRandom()
 }
 
 template <class ScalarType>
-void fdcl_FFTS2_matrix<ScalarType>::setZero()
+void fdcl::FFTS2_matrix<ScalarType>::setZero()
 {
 	for(int i=0;i<=l_max;i++)
 	{
@@ -158,7 +158,7 @@ void fdcl_FFTS2_matrix<ScalarType>::setZero()
 
 
 template <class ScalarType>
-double fdcl_FFTS2_matrix<ScalarType>::norm()
+double fdcl::FFTS2_matrix<ScalarType>::norm()
 {
     double y=0.;
 
@@ -168,10 +168,11 @@ double fdcl_FFTS2_matrix<ScalarType>::norm()
     return y;
 }
 
-template class fdcl_FFTS2_matrix<double>;
-template class fdcl_FFTS2_matrix<complex<double>>;
-template ostream& operator<< (ostream& os, const fdcl_FFTS2_matrix<double>& M);
-template ostream& operator<< (ostream& os, const fdcl_FFTS2_matrix<complex<double>>& M);
-//template fdcl_FFTS2_matrix<double> fdcl_FFTS2_matrix<double>::operator+ (const fdcl_FFTS2_matrix<double>& M);
-//template fdcl_FFTS2_matrix<complex<double>> fdcl_FFTS2_matrix<complex<double>>::operator+ (const fdcl_FFTS2_matrix<complex<double>>& M);
+namespace fdcl
+{
+    template class FFTS2_matrix<double>;
+    template class FFTS2_matrix<complex<double>>;
+}
+template ostream& operator<< (ostream& os, const fdcl::FFTS2_matrix<double>& M);
+template ostream& operator<< (ostream& os, const fdcl::FFTS2_matrix<complex<double>>& M);
 

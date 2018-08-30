@@ -1,11 +1,11 @@
 #include "fdcl_Clebsch_Gordon.hpp"
 
-fdcl_Clebsch_Gordon_complex::fdcl_Clebsch_Gordon_complex(int l1, int l2)
+fdcl::Clebsch_Gordon_complex::Clebsch_Gordon_complex(int l1, int l2)
 {
     init(l1,l2);
 }
 
-void fdcl_Clebsch_Gordon_complex::init(int l1, int l2)
+void fdcl::Clebsch_Gordon_complex::init(int l1, int l2)
 {
     int n;
     this->l1=l1;
@@ -15,35 +15,35 @@ void fdcl_Clebsch_Gordon_complex::init(int l1, int l2)
     C.setZero();
 }
 
-int fdcl_Clebsch_Gordon_complex::row(int l, int m, int l1, int m1, int l2, int m2)
+int fdcl::Clebsch_Gordon_complex::row(int l, int m, int l1, int m1, int l2, int m2)
 {
     return (l1+m1)*(2*l2+1)+l2+m2;
 }
 
-int fdcl_Clebsch_Gordon_complex::col(int l, int m, int l1, int m1, int l2, int m2)
+int fdcl::Clebsch_Gordon_complex::col(int l, int m, int l1, int m1, int l2, int m2)
 {
     return l*l-(l2-l1)*(l2-l1)+l+m;
 }
 
-void fdcl_Clebsch_Gordon_complex::assert_index(int l, int m, int l1, int m1, int l2, int m2)
+void fdcl::Clebsch_Gordon_complex::assert_index(int l, int m, int l1, int m1, int l2, int m2)
 {
     assert( l >= abs(l1-l2) && l <= l1+l2);
     assert( m >= -l && m <=l );
     assert( m1 >= -l1 && m1 <= l1 && m2 >= -l2 && m2 <= l2);
 }
 
-double& fdcl_Clebsch_Gordon_complex::operator() (int l, int m, int l1, int m1, int l2, int m2)
+double& fdcl::Clebsch_Gordon_complex::operator() (int l, int m, int l1, int m1, int l2, int m2)
 {
     assert_index(l,m,l1,m1,l2,m2);
     return C(row(l,m,l1,m1,l2,m2),col(l,m,l1,m1,l2,m2));
 }
 
-void fdcl_Clebsch_Gordon_complex::compute_sub(int l, int m, int l1, int l2)
+void fdcl::Clebsch_Gordon_complex::compute_sub(int l, int m, int l1, int l2)
 {
     // implementation of Straub (2014) Efficient computation of Clebsch-Gordon coefficients http://vixra.org/abs/1403.0263
     int mm, n, x, m1, i;
     double count;
-    Eigen::Matrix<double, Dynamic, 1> BB, CC;
+    Eigen::Matrix<double, Eigen::Dynamic, 1> BB, CC;
 
     mm = (m-l1-l2+abs(l1-l2+m))/2;
     n = (m+l1+l2-abs(l1-l2-m))/2-mm+1;
@@ -83,12 +83,12 @@ void fdcl_Clebsch_Gordon_complex::compute_sub(int l, int m, int l1, int l2)
     // cout << CC << endl;
 }
 
-fdcl_Clebsch_Gordon_real::fdcl_Clebsch_Gordon_real(int l1, int l2)
+fdcl::Clebsch_Gordon_real::Clebsch_Gordon_real(int l1, int l2)
 {
     init(l1,l2);
 }
 
-void fdcl_Clebsch_Gordon_complex::compute(int l1, int l2)
+void fdcl::Clebsch_Gordon_complex::compute(int l1, int l2)
 {
     init(l1,l2);
 	for (int l=abs(l1-l2);l<=l1+l2;l++)
@@ -96,9 +96,9 @@ void fdcl_Clebsch_Gordon_complex::compute(int l1, int l2)
 			compute_sub(l,m,l1,l2);
 }
 
-fdcl_FFTSO3_matrix_complex fdcl_Clebsch_Gordon_complex::matrix2rsph(int L)
+fdcl::FFTSO3_matrix_complex fdcl::Clebsch_Gordon_complex::matrix2rsph(int L)
 {
-    fdcl_FFTSO3_matrix_complex T(L);
+    fdcl::FFTSO3_matrix_complex T(L);
     int l,m;
 
     for(l=0;l<=L;l++)
@@ -119,16 +119,16 @@ fdcl_FFTSO3_matrix_complex fdcl_Clebsch_Gordon_complex::matrix2rsph(int L)
     return T;
 }
 
-void fdcl_Clebsch_Gordon_real::init(int l1, int l2)
+void fdcl::Clebsch_Gordon_real::init(int l1, int l2)
 {
-    fdcl_Clebsch_Gordon_complex::init(l1,l2);
+    fdcl::Clebsch_Gordon_complex::init(l1,l2);
     int n = (2*l1+1)*(2*l2+1);
     c.resize(n,n);
     c.setZero();
 }
 
 
-void fdcl_Clebsch_Gordon_real::print()
+void fdcl::Clebsch_Gordon_real::print()
 {
     for(int m1=-l1; m1<=l1; m1++)
         for(int m2=-l2; m2<=l2; m2++)
@@ -143,16 +143,16 @@ void fdcl_Clebsch_Gordon_real::print()
                 }
 }
 
-void fdcl_Clebsch_Gordon_real::compute_0(int l1, int l2)
+void fdcl::Clebsch_Gordon_real::compute_0(int l1, int l2)
 {
     // matrix form: slower
     init(l1,l2);
-    fdcl_FFTSO3_matrix_complex T;
+    fdcl::FFTSO3_matrix_complex T;
     T.init(l1+l2);
     T = matrix2rsph(l1+l2);
     std::vector<int> P1, P2;
 
-    fdcl_Clebsch_Gordon_complex::compute(l1,l2);
+    fdcl::Clebsch_Gordon_complex::compute(l1,l2);
 
     for(int m1=-l1; m1<=l1; m1++)
         for(int m2=-l2; m2<=l2; m2++)
@@ -181,7 +181,7 @@ void fdcl_Clebsch_Gordon_real::compute_0(int l1, int l2)
     // alternative method: matrix computation using Kronecker product : slower
     // int N, N1, N2;
     // int il;
-    // Eigen::Matrix<complex<double>,Dynamic,Dynamic> T12, OTl, c_new;
+    // Eigen::Matrix<complex<double>,Eigen::Dynamic,Eigen::Dynamic> T12, OTl, c_new;
     // N1 = (2*l1+1);
     // N2 = (2*l2+1);
     // N = N1*N2;
@@ -221,13 +221,13 @@ void fdcl_Clebsch_Gordon_real::compute_0(int l1, int l2)
 }
 
 
-void fdcl_Clebsch_Gordon_real::compute(int l1, int l2)
+void fdcl::Clebsch_Gordon_real::compute(int l1, int l2)
 {
     int m1, m2, p1, p2;
     double one_over_sqrt8=1./sqrt(8.);
 
     init(l1,l2);
-    fdcl_Clebsch_Gordon_complex::compute(l1,l2);
+    fdcl::Clebsch_Gordon_complex::compute(l1,l2);
 
 
     // case 0
@@ -253,7 +253,7 @@ void fdcl_Clebsch_Gordon_real::compute(int l1, int l2)
     }
 
     // case 3, 7, 11, 15
-    for (p1=1; p1<=min(l1,l2); p1++)
+    for (p1=1; p1<=std::min(l1,l2); p1++)
     {
         // case 3
         m1=p1; m2=m1;
@@ -278,7 +278,7 @@ void fdcl_Clebsch_Gordon_real::compute(int l1, int l2)
 
     // case 2, 8, 10, 16
     for (p1=2; p1<=l1; p1++)
-        for (p2=1; p2 <= min(p1-1, l2); p2++)
+        for (p2=1; p2 <= std::min(p1-1, l2); p2++)
         {    
             // case 2
             m1=p1; m2=p2;
@@ -302,7 +302,7 @@ void fdcl_Clebsch_Gordon_real::compute(int l1, int l2)
         }
 
     // case 4, 6, 12, 14
-    for (p1=1; p1<=min(l1, l2-1); p1++)
+    for (p1=1; p1<=std::min(l1, l2-1); p1++)
         for (p2=p1+1; p2<=l2; p2++)
         {    
             // case 4
@@ -328,18 +328,18 @@ void fdcl_Clebsch_Gordon_real::compute(int l1, int l2)
 
 }
 
-complex<double>& fdcl_Clebsch_Gordon_real::operator() (int l, int m, int l1, int m1, int l2, int m2)
+complex<double>& fdcl::Clebsch_Gordon_real::operator() (int l, int m, int l1, int m1, int l2, int m2)
 {
     assert_index(l,m,l1,m1,l2,m2);
     return c(row(l,m,l1,m1,l2,m2),col(l,m,l1,m1,l2,m2));
 }
 
-void fdcl_Clebsch_Gordon_real::compute_sub_01(int l1, int m1, int l2, int m2, complex<double> ratio0, complex<double> ratio1)
+void fdcl::Clebsch_Gordon_real::compute_sub_01(int l1, int m1, int l2, int m2, complex<double> ratio0, complex<double> ratio1)
 {
     double eta, zeta, C_complex;
     int l,m;
 
-    for(l=max(abs(l1-l2),abs(m1+m2)); l<=l1+l2; l++)
+    for(l=std::max(abs(l1-l2),abs(m1+m2)); l<=l1+l2; l++)
     {
         eta=pow(-1.,l1+l2-l)+1.;
         zeta=pow(-1.,l1+l2-l)-1.;
@@ -353,12 +353,12 @@ void fdcl_Clebsch_Gordon_real::compute_sub_01(int l1, int m1, int l2, int m2, co
     }
 }
 
-void fdcl_Clebsch_Gordon_real::compute_sub_23(int l1, int m1, int l2, int m2, complex<double>ratio2, complex<double>ratio3)
+void fdcl::Clebsch_Gordon_real::compute_sub_23(int l1, int m1, int l2, int m2, complex<double>ratio2, complex<double>ratio3)
 {
     double eta, zeta, C_complex;
     int l,m;
 
-    for(l=max(abs(l1-l2),abs(m1-m2)); l<=l1+l2; l++)
+    for(l=std::max(abs(l1-l2),abs(m1-m2)); l<=l1+l2; l++)
     {
         eta=pow(-1.,l1+l2-l)+1.;
         zeta=pow(-1.,l1+l2-l)-1.;

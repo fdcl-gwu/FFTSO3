@@ -4,16 +4,11 @@
 #include <Eigen/Eigenvalues>
 #include "misc_matrix_func.h"
 
-using Eigen::MatrixXd;
 using namespace std;
 
-typedef Eigen::Matrix<double, 3, 3> Matrix3;
-typedef Eigen::Matrix<double, 3, 1> Vector3;
-
-
-Matrix3 hat(const Vector3 v)
+Eigen::Matrix3d hat(const Eigen::Vector3d v)
 {
-	Matrix3 V;
+	Eigen::Matrix3d V;
 	V.setZero();
 	V(2,1)=v(0);V(1,2)=-V(2,1);
 	V(0,2)=v(1);V(2,0)=-V(0,2);
@@ -22,10 +17,10 @@ Matrix3 hat(const Vector3 v)
 	return V;
 }
 
-Vector3 vee(const Matrix3 V)
+Eigen::Vector3d vee(const Eigen::Matrix3d V)
 {
-	Vector3 v;
-	Matrix3 E;
+	Eigen::Vector3d v;
+	Eigen::Matrix3d E;
 	v.setZero();
 	E=V+V.transpose();
 	if(E.norm() > 1.e-6)
@@ -53,9 +48,9 @@ double sinx_over_x(const double x)
 	return y;
 }
 
-Matrix3 expm_SO3(const Vector3 r)
+Eigen::Matrix3d expm_SO3(const Eigen::Vector3d r)
 {
-	Matrix3 R;
+	Eigen::Matrix3d R;
 	double theta,y,y2;
 
 	theta=r.norm();
@@ -69,10 +64,10 @@ Matrix3 expm_SO3(const Vector3 r)
 
 }
 
-Vector3 logm_SO3(const Matrix3 R)
+Eigen::Vector3d logm_SO3(const Eigen::Matrix3d R)
 {
-	Vector3 r;
-	Matrix3 I;
+	Eigen::Vector3d r;
+	Eigen::Matrix3d I;
 	double eps=1.e-6;
 
 	r.setZero();
@@ -83,11 +78,11 @@ Vector3 logm_SO3(const Matrix3 R)
 	}
 	else
 	{
-		Eigen::EigenSolver<MatrixXd> eig(R);
+		Eigen::EigenSolver<Eigen::MatrixXd> eig(R);
 		double min_del_lam_1=1.0, cos_theta, theta;
 		int i,i_min=-1;
-		Vector3 v;
-		Matrix3 R_new;
+		Eigen::Vector3d v;
+		Eigen::Matrix3d R_new;
 		for(i=0;i<3;i++)
 		{
 			if(eig.eigenvectors().col(i).imag().norm() < eps)
@@ -122,11 +117,11 @@ Vector3 logm_SO3(const Matrix3 R)
 	return r;
 }
 
-bool assert_SO3(Matrix3 R,const char *R_name)
+bool assert_SO3(Eigen::Matrix3d R,const char *R_name)
 {
 	bool isSO3;
 	double errO, errD;
-	Matrix3 eye3;
+	Eigen::Matrix3d eye3;
 	double eps=1e-5;
 
 	eye3.setIdentity();
@@ -149,7 +144,7 @@ bool assert_SO3(Matrix3 R,const char *R_name)
 
 }
 
-void sat(Vector3 &x, double x_min, double x_max)
+void sat(Eigen::Vector3d &x, double x_min, double x_max)
 {
 	int i;
 	for (i=0; i<3; i++)
@@ -173,7 +168,7 @@ void sat(Eigen::Matrix<double,4,1> &x, double x_min, double x_max)
 	}
 }
 
-std::vector<double> R2Euler323(const Matrix3 R)
+std::vector<double> R2Euler323(const Eigen::Matrix3d R)
 {
 	double a, b, g;
 	std::vector<double> abg;
@@ -198,9 +193,9 @@ std::vector<double> R2Euler323(const Matrix3 R)
 	
 	return abg;
 }
-Matrix3 Euler3232R(double a, double b, double g)
+Eigen::Matrix3d Euler3232R(double a, double b, double g)
 {
-	Matrix3 R;
+	Eigen::Matrix3d R;
 	
 	R << cos(a)*cos(b)*cos(g) - sin(a)*sin(g), - cos(g)*sin(a) - cos(a)*cos(b)*sin(g), cos(a)*sin(b),
 		cos(a)*sin(g) + cos(b)*cos(g)*sin(a),   cos(a)*cos(g) - cos(b)*sin(a)*sin(g), sin(a)*sin(b),

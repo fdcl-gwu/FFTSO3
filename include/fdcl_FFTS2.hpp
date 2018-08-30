@@ -14,26 +14,29 @@
 #include "misc_matrix_func.h"
 #include "fdcl_omp_thread.hpp"
 
-using namespace std;
-using namespace Eigen;
+namespace fdcl
+{
+    class FFTS2_complex;
+    class FFTS2_real;
+}
 
-class fdcl_FFTS2_complex
+class fdcl::FFTS2_complex
 {
     public:
         int l_max, B;
-        fdcl_FFTS2_matrix_complex Y, F;
+        fdcl::FFTS2_matrix_complex Y, F;
         std::vector<double> weight;
 
-        fdcl_FFTS2_complex(){};
-        fdcl_FFTS2_complex(int l_max);
-        ~fdcl_FFTS2_complex(){};
+        FFTS2_complex(){};
+        FFTS2_complex(int l_max);
+        ~FFTS2_complex(){};
         void init(int l_max);
 
-        fdcl_FFTS2_matrix_complex spherical_harmonics(double theta, double phi, int L);
+        fdcl::FFTS2_matrix_complex spherical_harmonics(double theta, double phi, int L);
 
-        fdcl_FFTS2_matrix_complex forward_transform(std::function <complex<double>(double, double)>);
-        fdcl_FFTS2_matrix_complex forward_transform(std::function <complex<double>(double, double)>, bool );
-        complex<double> inverse_transform(fdcl_FFTS2_matrix_complex F, double theta, double phi);
+        fdcl::FFTS2_matrix_complex forward_transform(std::function <complex<double>(double, double)>);
+        fdcl::FFTS2_matrix_complex forward_transform(std::function <complex<double>(double, double)>, bool );
+        complex<double> inverse_transform(fdcl::FFTS2_matrix_complex F, double theta, double phi);
         complex<double> inverse_transform(double theta, double phi);
 
         bool check_verbose=false;
@@ -43,39 +46,39 @@ class fdcl_FFTS2_complex
 
     // protected:
 
-        fdcl_FFTS2_matrix_real nor_assoc_Legendre_poly(double cos_beta, int L);
+        fdcl::FFTS2_matrix_real nor_assoc_Legendre_poly(double cos_beta, int L);
         std::vector<double> compute_weight();
         double theta_k(int k);
         double phi_j(int j);
 
-        fdcl_FFTS2_matrix_real nP;
+        fdcl::FFTS2_matrix_real nP;
 
     private:
-        fdcl_FFTS2_matrix_complex F_4_check;
+        fdcl::FFTS2_matrix_complex F_4_check;
         complex<double> f_4_check_transform(double theta, double phi);
 };
 
-class fdcl_FFTS2_real : public fdcl_FFTS2_complex
+class fdcl::FFTS2_real : public fdcl::FFTS2_complex
 {
     public:
-        fdcl_FFTS2_matrix_real y, F;
-        fdcl_FFTS2_real(){};
-        fdcl_FFTS2_real(int l_max);
-        ~fdcl_FFTS2_real(){};
+        fdcl::FFTS2_matrix_real y, F;
+        FFTS2_real(){};
+        FFTS2_real(int l_max);
+        ~FFTS2_real(){};
         void init(int l_max);
 
-        fdcl_FFTS2_matrix_real spherical_harmonics(double theta, double phi, int L);
-        fdcl_FFTS2_matrix_real forward_transform(std::function <double(double, double)>);
-        double inverse_transform(fdcl_FFTS2_matrix_real F, double theta, double phi);
+        fdcl::FFTS2_matrix_real spherical_harmonics(double theta, double phi, int L);
+        fdcl::FFTS2_matrix_real forward_transform(std::function <double(double, double)>);
+        double inverse_transform(fdcl::FFTS2_matrix_real F, double theta, double phi);
         double inverse_transform(double theta, double phi);
 
-        fdcl_FFTSO3_matrix_complex T;
-        fdcl_FFTSO3_matrix_complex matrix2rsph(int L);
+        fdcl::FFTSO3_matrix_complex T;
+        fdcl::FFTSO3_matrix_complex matrix2rsph(int L);
         
         void check_all();
         double check_transform();
     private:
-        fdcl_FFTS2_matrix_real F_4_check;
+        fdcl::FFTS2_matrix_real F_4_check;
         double f_4_check_transform(double theta, double phi);
 };
 

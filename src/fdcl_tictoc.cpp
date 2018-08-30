@@ -1,20 +1,20 @@
 #include "fdcl_tictoc.hpp"
 
 
-void fdcl_tictoc::tic()
+void fdcl::tictoc::tic()
 {
     t0 = std::chrono::steady_clock::now();  
 }
-double fdcl_tictoc::toc()
+double fdcl::tictoc::toc()
 {
     double dt;
     t1 = std::chrono::steady_clock::now();  
     dt = std::chrono::duration_cast<std::chrono::microseconds>(t1 - t0).count()/1e6;
-    cout << "fdcl_tictoc = " << dt << " sec" << endl;
+    std::cout << "fdcl::tictoc = " << dt << " sec" << std::endl;
     return dt;
 }
-double fdcl_tictoc::toc(string message)
+double fdcl::tictoc::toc(std::string message)
 {
-    cout << message << ": ";
+    std::cout << message << ": ";
     return toc();
 }

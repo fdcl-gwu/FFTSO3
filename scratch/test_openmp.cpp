@@ -28,15 +28,14 @@ complex<double> myfuncR(double alpha, double beta, double gamma)
 int main()
 {
     int l_max=50;
-    double dt1, dt2;
-    fdcl_tictoc tt;
-    fdcl_FFTS2_complex FFTS2(l_max);
-    fdcl_FFTS2_real RFFTS2(l_max);
-    fdcl_FFTS2_matrix_complex Y(l_max);
-    fdcl_FFTSO3_complex FFTSO3(l_max);
-    fdcl_FFTSO3_real RFFTSO3(l_max);
-    fdcl_FFTSO3_matrix_complex F(l_max);
-    fdcl_FFTSO3_matrix_real F_real(l_max);
+    fdcl::tictoc tt;
+    fdcl::FFTS2_complex FFTS2(l_max);
+    fdcl::FFTS2_real RFFTS2(l_max);
+    fdcl::FFTS2_matrix_complex Y(l_max);
+    fdcl::FFTSO3_complex FFTSO3(l_max);
+    fdcl::FFTSO3_real RFFTSO3(l_max);
+    fdcl::FFTSO3_matrix_complex F(l_max);
+    fdcl::FFTSO3_matrix_real F_real(l_max);
 
     Y.setRandom();
     F.setRandom();

@@ -6,22 +6,15 @@
 #include <Eigen/Dense>
 #include <Eigen/Eigenvalues>
 
-using Eigen::MatrixXd;
-using namespace std;
-
-typedef Eigen::Matrix<double, 3, 3> Matrix3;
-typedef Eigen::Matrix<double, 3, 1> Vector3;
-typedef Eigen::Matrix<double, 4, 1> Vector4;
-
-Matrix3 hat(const Vector3 v);
-Vector3 vee(const Matrix3 V);
+Eigen::Matrix3d hat(const Eigen::Vector3d v);
+Eigen::Vector3d vee(const Eigen::Matrix3d V);
 double sinx_over_x(const double x);
-Matrix3 expm_SO3(const Vector3 r);
-Vector3 logm_SO3(const Matrix3 R);
-bool assert_SO3(Matrix3 R,const char *R_name);
-void sat(Vector3&, double, double );
-void sat(Vector4&, double, double );
-std::vector<double> R2Euler323(const Matrix3 R);
-Matrix3 Euler3232R(double, double, double);
+Eigen::Matrix3d expm_SO3(const Eigen::Vector3d r);
+Eigen::Vector3d logm_SO3(const Eigen::Matrix3d R);
+bool assert_SO3(Eigen::Matrix3d R,const char *R_name);
+void sat(Eigen::Vector3d&, double, double );
+void sat(Eigen::Vector4d&, double, double );
+std::vector<double> R2Euler323(const Eigen::Matrix3d R);
+Eigen::Matrix3d Euler3232R(double, double, double);
 
 #endif

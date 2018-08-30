@@ -11,50 +11,6 @@
 #include "fdcl_tictoc.hpp"
 #include "misc_matrix_func.h"
 
-using namespace std;
-using namespace Eigen;
-
-typedef Eigen::Matrix<double, 3, 3> Matrix3;
-
-double myrf(double a, double b, double g)
-{
-    return Euler3232R(a,b,g).trace();
-}
-
-double myrfR(Matrix3 R)
-{
-    return R.trace();
-}
-
-complex<double> myf(double a, double b, double g)
-{
-    return Euler3232R(a,b,g).trace();
-}
-
-complex<double> myfR(Matrix3 R)
-{
-    return R.trace();
-}
-
-complex<double> myf_S2(double theta, double phi)
-{
-    fdcl_FFTS2_complex FFTS2;
-    FFTS2.spherical_harmonics(theta,phi,3);
-
-    return cos(theta)*cos(phi)+cos(theta)*sin(phi);
-    // return FFTS2.Y(1,1);
-    // return 1.0;
-}
-double myrf_S2(double theta, double phi)
-{
-    fdcl_FFTS2_complex FFTS2;
-    FFTS2.spherical_harmonics(theta,phi,3);
-
-    return cos(theta)*cos(phi)+cos(theta)*sin(phi);
-    // return FFTS2.Y(1,1);
-    // return 1.0;
-}
-
 namespace fdcl
 {
     class ETOPO5;
@@ -69,17 +25,17 @@ class fdcl::ETOPO5
     
         std::ifstream fd;
         int N_lat, N_lon;
-        MatrixXi elev_data;
-        VectorXd lat, lon;
-        void init(string filename, int N_lat, int N_lon);
-        void read(string filename, int N_lat, int N_lon);
+        Eigen::MatrixXi elev_data;
+        Eigen::VectorXd lat, lon;
+        void init(std::string filename, int N_lat, int N_lon);
+        void read(std::string filename, int N_lat, int N_lon);
         double elev(double lat, double lon);
         double operator()(double lat, double lon); 
     private: 
         void unit_quorem(double num, double den, int& quo, double& rem); 
 };
 
-void fdcl::ETOPO5::init(string filename, int N_lat, int N_lon)
+void fdcl::ETOPO5::init(std::string filename, int N_lat, int N_lon)
 {
     this->N_lat=N_lat;
     this->N_lon=N_lon;
@@ -96,7 +52,7 @@ void fdcl::ETOPO5::init(string filename, int N_lat, int N_lon)
 
 }
 
-void fdcl::ETOPO5::read(string filename, int N_lat, int N_lon)
+void fdcl::ETOPO5::read(std::string filename, int N_lat, int N_lon)
 {
     init(filename,N_lat,N_lon);
     for(int i_lat=0; i_lat<N_lat; i_lat++)
@@ -122,7 +78,7 @@ double fdcl::ETOPO5::elev(double lat, double lon)
     assert(lat >= -90. && lat <=90.);
     assert(lon >= 0. && lon <= 360.);
 
-    double x, y, ratio;
+    double x, y;
     int i0, i1, j0, j1;
 
     unit_quorem(-lat+90., (((double)2160/N_lat)*((double)5/60)), i0, x);
@@ -149,10 +105,10 @@ double fdcl::ETOPO5::operator()(double lat, double lon)
 class fdcl::spherical_shape_matching
 {
     public:
-        fdcl_FFTS2_matrix_real F, G;
-        fdcl_FFTSO3_real RFFTSO3;
-        fdcl_FFTSO3_matrix_real U;
-        std::vector<fdcl_FFTSO3_matrix_real> u;
+        fdcl::FFTS2_matrix_real F, G;
+        fdcl::FFTSO3_real RFFTSO3;
+        fdcl::FFTSO3_matrix_real U;
+        std::vector<fdcl::FFTSO3_matrix_real> u;
         int l_max;
         void init(int l_max);
         double scale_factor=1.e-6, eps=1.e-6;
@@ -258,13 +214,13 @@ void fdcl::spherical_shape_matching::check_gradient()
 int main()
 {
     int l_max=16;
-    fdcl_FFTSO3_complex FFTSO3(l_max);
-    fdcl_FFTSO3_real RFFTSO3(l_max);
-    fdcl_FFTS2_complex FFTS2(l_max);
-    fdcl_FFTS2_real RFFTS2(l_max);
+    fdcl::FFTSO3_complex FFTSO3(l_max);
+    fdcl::FFTSO3_real RFFTSO3(l_max);
+    fdcl::FFTS2_complex FFTS2(l_max);
+    fdcl::FFTS2_real RFFTS2(l_max);
     std::ofstream fd;
 
-    fdcl_tictoc tt;
+    fdcl::tictoc tt;
     double a, b, g;
     a=.12345;
     b=-0.234235;
@@ -305,7 +261,7 @@ int main()
     // }
     // fd.close();
 // 
-    fdcl_FFTSO3_matrix_real U(l_max);
+    fdcl::FFTSO3_matrix_real U(l_max);
     Eigen::Matrix3d R;
 
     R=Euler3232R(M_PI/6., -M_PI/3., M_PI/2.);

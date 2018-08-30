@@ -10,18 +10,21 @@
 #include "fdcl_FFTSO3_matrix.hpp"
 #include "fdcl_tictoc.hpp"
 
-using namespace std;
-using namespace Eigen;
+namespace fdcl
+{
+    class Clebsch_Gordon_complex;
+    class Clebsch_Gordon_real;
+}
 
-class fdcl_Clebsch_Gordon_complex
+class fdcl::Clebsch_Gordon_complex
 {
     public:
-        fdcl_Clebsch_Gordon_complex(){};
-        fdcl_Clebsch_Gordon_complex(int l1, int l2);
+        Clebsch_Gordon_complex(){};
+        Clebsch_Gordon_complex(int l1, int l2);
         void init(int l1, int l2);
-        ~fdcl_Clebsch_Gordon_complex(){};
+        ~Clebsch_Gordon_complex(){};
         int l1, l2;
-        Eigen::Matrix<double,Dynamic,Dynamic> C;
+        Eigen::Matrix<double,Eigen::Dynamic,Eigen::Dynamic> C;
 
         double& operator()(int l, int m, int l1, int m1, int l2, int m2); 
 
@@ -31,19 +34,19 @@ class fdcl_Clebsch_Gordon_complex
         void compute_sub(int l, int m, int l1, int l2);
         void compute(int l1, int l2);
     protected:
-        fdcl_FFTSO3_matrix_complex matrix2rsph(int );
+        fdcl::FFTSO3_matrix_complex matrix2rsph(int );
 };
 
-class fdcl_Clebsch_Gordon_real : public fdcl_Clebsch_Gordon_complex
+class fdcl::Clebsch_Gordon_real : public fdcl::Clebsch_Gordon_complex
 {
     public:
-        fdcl_Clebsch_Gordon_real(){};
-        fdcl_Clebsch_Gordon_real(int l1, int l2);
+        Clebsch_Gordon_real(){};
+        Clebsch_Gordon_real(int l1, int l2);
         void init(int l1, int l2);
-        ~fdcl_Clebsch_Gordon_real(){};
+        ~Clebsch_Gordon_real(){};
 
-        Eigen::Matrix<std::complex<double>,Dynamic,Dynamic> c;
-        Eigen::Matrix<std::complex<double>,Dynamic,Dynamic> X;
+        Eigen::Matrix<std::complex<double>,Eigen::Dynamic,Eigen::Dynamic> c;
+        Eigen::Matrix<std::complex<double>,Eigen::Dynamic,Eigen::Dynamic> X;
         complex<double>& operator()(int l, int m, int l1, int m1, int l2, int m2); 
         void compute(int l1, int l2);
         void print();

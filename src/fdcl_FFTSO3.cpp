@@ -1,11 +1,11 @@
 #include "fdcl_FFTSO3.hpp"
 
-fdcl_FFTSO3_complex::fdcl_FFTSO3_complex(int l_max)
+fdcl::FFTSO3_complex::FFTSO3_complex(int l_max)
 {
     init(l_max);
 }
 
-void fdcl_FFTSO3_complex::init(int l_max)
+void fdcl::FFTSO3_complex::init(int l_max)
 {
     this->l_max=l_max;  
     this->B=l_max+1;
@@ -13,11 +13,11 @@ void fdcl_FFTSO3_complex::init(int l_max)
     weight.resize(2*B);
 }
 
-fdcl_FFTSO3_matrix_real fdcl_FFTSO3_complex::wigner_d_explicit(double beta)
+fdcl::FFTSO3_matrix_real fdcl::FFTSO3_complex::wigner_d_explicit(double beta)
 {
     // D. Varshalovich, A. Moskalev, and V. Khersonskii, Quantum Theory of Angular Momentum, World Scientific, 1988, Chapter 4
     
-    fdcl_FFTSO3_matrix<double> d(3);
+    fdcl::FFTSO3_matrix<double> d(3);
     double cb, sb;
     cb=cos(beta);
     sb=sin(beta);
@@ -119,15 +119,15 @@ fdcl_FFTSO3_matrix_real fdcl_FFTSO3_complex::wigner_d_explicit(double beta)
     return d;
 }
 
-fdcl_FFTSO3_matrix_real fdcl_FFTSO3_complex::wigner_d(double beta)
+fdcl::FFTSO3_matrix_real fdcl::FFTSO3_complex::wigner_d(double beta)
 {
     return wigner_d(beta,l_max);
 }
 
-fdcl_FFTSO3_matrix_real fdcl_FFTSO3_complex::wigner_d(double beta, int L)
+fdcl::FFTSO3_matrix_real fdcl::FFTSO3_complex::wigner_d(double beta, int L)
 {
     // M. Blanco and M. Florez and M Bermejo, "Evaluation of the rotation matrices in the basis of real spherical harmonics," Journal of Molecular Structure, 419, pp 19-27, 1997
-    fdcl_FFTSO3_matrix<double> d(L);
+    fdcl::FFTSO3_matrix<double> d(L);
     double cb, sb;
     double sb2, cb2, tb2;
     int l,m,n;
@@ -193,15 +193,15 @@ fdcl_FFTSO3_matrix_real fdcl_FFTSO3_complex::wigner_d(double beta, int L)
     
 }
 
-fdcl_FFTSO3_matrix_complex fdcl_FFTSO3_complex::wigner_D(double alpha, double beta, double gamma)
+fdcl::FFTSO3_matrix_complex fdcl::FFTSO3_complex::wigner_D(double alpha, double beta, double gamma)
 {
     return wigner_D(alpha,beta,gamma,l_max);
 }
 
-fdcl_FFTSO3_matrix_complex fdcl_FFTSO3_complex::wigner_D(double alpha, double beta, double gamma, int L)
+fdcl::FFTSO3_matrix_complex fdcl::FFTSO3_complex::wigner_D(double alpha, double beta, double gamma, int L)
 {
-    fdcl_FFTSO3_matrix_real d(L);
-    fdcl_FFTSO3_matrix_complex D(L);
+    fdcl::FFTSO3_matrix_real d(L);
+    fdcl::FFTSO3_matrix_complex D(L);
     std::complex<double> expIMA;
     int l,m,n;
     
@@ -223,7 +223,7 @@ fdcl_FFTSO3_matrix_complex fdcl_FFTSO3_complex::wigner_D(double alpha, double be
     return D;
 }
 
-fdcl_FFTSO3_matrix_complex fdcl_FFTSO3_complex::wigner_D(Matrix3 R)
+fdcl::FFTSO3_matrix_complex fdcl::FFTSO3_complex::wigner_D(Eigen::Matrix3d R)
 {
     std::vector<double> abg;
     
@@ -233,7 +233,7 @@ fdcl_FFTSO3_matrix_complex fdcl_FFTSO3_complex::wigner_D(Matrix3 R)
     return wigner_D(abg[0],abg[1],abg[2]);      
 }
 
-std::vector<double> fdcl_FFTSO3_complex::compute_weight()
+std::vector<double> fdcl::FFTSO3_complex::compute_weight()
 {   
     int j, k;
     double factor;
@@ -255,10 +255,10 @@ std::vector<double> fdcl_FFTSO3_complex::compute_weight()
     return weight;
 }
 
-double fdcl_FFTSO3_complex::check_weight()
+double fdcl::FFTSO3_complex::check_weight()
 {
     double error=1.;
-    fdcl_FFTSO3_matrix<double> d(2*B-1);
+    fdcl::FFTSO3_matrix<double> d(2*B-1);
     std::vector<double> sum;
     sum.resize(2*B);
     for (int l=0;l<2*B;l++)
@@ -277,7 +277,7 @@ double fdcl_FFTSO3_complex::check_weight()
     
     if(check_verbose)
     {
-        cout << "fdcl_FFTSO3_complex::check_weight" << endl;
+        cout << "fdcl::FFTSO3_complex::check_weight" << endl;
         cout << "\\sum_k w_k d^l_00(beta_k) * 4B^2 = \\delta_{0,l}" << endl; 
         for (int l=0;l<2*B;l++)
             cout << "l=" << l << ": " << sum[l]*((double)4*B*B) << endl;
@@ -288,7 +288,7 @@ double fdcl_FFTSO3_complex::check_weight()
         error += abs(sum[l]); 
     
     int j1, j2, k, l;
-    fdcl_FFTSO3_matrix_complex Delta(2*B-1);
+    fdcl::FFTSO3_matrix_complex Delta(2*B-1);
     Delta.setZero();
     for(k=0;k<2*B;k++)
         for(j1=0;j1<2*B;j1++)
@@ -307,17 +307,17 @@ double fdcl_FFTSO3_complex::check_weight()
     for (int l=1; l<2*B; l++)
         error += Delta[l].norm();
     
-    cout << "fdcl_FFTSO3_complex::check_weight: error = " << error << endl;
+    cout << "fdcl::FFTSO3_complex::check_weight: error = " << error << endl;
     return error;
 
 }
 
-double fdcl_FFTSO3_complex::check_wigner_d()
+double fdcl::FFTSO3_complex::check_wigner_d()
 {
     int L=3, N=2000;
     double beta;
-    MatrixXd I, d_i_0, d_i_1;
-    fdcl_FFTSO3_matrix_real d_beta(L), d_beta_explicit(L);
+    Eigen::MatrixXd I, d_i_0, d_i_1;
+    fdcl::FFTSO3_matrix_real d_beta(L), d_beta_explicit(L);
     Eigen::VectorXd error(4);
     
     error.setZero();
@@ -335,7 +335,7 @@ double fdcl_FFTSO3_complex::check_wigner_d()
     error(0) = (d_beta[L].transpose()*d_beta[L]-I).norm();
     if(check_verbose)
     {
-        cout << "fdcl_FFTSO3_complex::check_wigner_d" << endl;
+        cout << "fdcl::FFTSO3_complex::check_wigner_d" << endl;
         cout << "matrix orthogonality error: " << error << endl;
     }
    
@@ -395,16 +395,16 @@ double fdcl_FFTSO3_complex::check_wigner_d()
     for (int l=0; l<=3; l++)
         error(3) += (d_beta[l]-d_beta_explicit[l]).norm();
 
-    cout << "fdcl_FFTSO3_complex::check_wigner_d: error = " << error.maxCoeff()*1.e-9 << endl;
+    cout << "fdcl::FFTSO3_complex::check_wigner_d: error = " << error.maxCoeff()*1.e-9 << endl;
     
     return error.maxCoeff()*1.e-9;
    
 }
 
-std::vector<double> fdcl_FFTSO3_complex::character(double theta)
+std::vector<double> fdcl::FFTSO3_complex::character(double theta)
 {
     std::vector<double> chi;
-    fdcl_FFTSO3_matrix_real d(l_max);
+    fdcl::FFTSO3_matrix_real d(l_max);
         
     chi.resize(l_max+1);
     
@@ -414,9 +414,9 @@ std::vector<double> fdcl_FFTSO3_complex::character(double theta)
     return chi;
 } 
     
-std::vector<fdcl_FFTSO3_matrix_complex> fdcl_FFTSO3_complex::deriv_wigner_D()
+std::vector<fdcl::FFTSO3_matrix_complex> fdcl::FFTSO3_complex::deriv_wigner_D()
 {
-    std::vector<fdcl_FFTSO3_matrix_complex> u;
+    std::vector<fdcl::FFTSO3_matrix_complex> u;
     double c_n, cn;
     u.resize(4);
     u[1].init(l_max);
@@ -452,10 +452,10 @@ std::vector<fdcl_FFTSO3_matrix_complex> fdcl_FFTSO3_complex::deriv_wigner_D()
     return u;
 }
 
-double fdcl_FFTSO3_complex::check_deriv_wigner_D()
+double fdcl::FFTSO3_complex::check_deriv_wigner_D()
 {
-    std::vector<fdcl_FFTSO3_matrix_complex> u;
-    fdcl_FFTSO3_matrix_complex D, D_new;
+    std::vector<fdcl::FFTSO3_matrix_complex> u;
+    fdcl::FFTSO3_matrix_complex D, D_new;
     std::vector<double>abg;
     Eigen::Matrix<double, 3, 1> ei;
     double eps=1.e-6;
@@ -466,7 +466,7 @@ double fdcl_FFTSO3_complex::check_deriv_wigner_D()
     D=wigner_D(0,0,0);
 
     if(check_verbose)
-        cout << "fdcl_FFTSO3_complex::check_deriv_wigner_D";
+        cout << "fdcl::FFTSO3_complex::check_deriv_wigner_D";
 
     for(int i=1;i<=3;i++)
     {
@@ -489,16 +489,16 @@ double fdcl_FFTSO3_complex::check_deriv_wigner_D()
         }
     }
 
-    cout << "fdcl_FFTSO3_complex::check_deriv_wigner_D: error = " << error.maxCoeff()*1.e-9 << endl;
+    cout << "fdcl::FFTSO3_complex::check_deriv_wigner_D: error = " << error.maxCoeff()*1.e-9 << endl;
 
     return error.maxCoeff()*1.e-9;
 
 }
 
-complex<double> fdcl_FFTSO3_complex::inverse_transform(fdcl_FFTSO3_matrix_complex F, double alpha, double beta, double gamma)
+complex<double> fdcl::FFTSO3_complex::inverse_transform(fdcl::FFTSO3_matrix_complex F, double alpha, double beta, double gamma)
 {
 	init(F.l_max);
-	fdcl_FFTSO3_matrix_real d(l_max);
+	fdcl::FFTSO3_matrix_real d(l_max);
 	Eigen::MatrixXcd Fmn(2*B,2*B);
 	Eigen::VectorXcd expIMA(2*B), expING(2*B);
 
@@ -533,7 +533,7 @@ complex<double> fdcl_FFTSO3_complex::inverse_transform(fdcl_FFTSO3_matrix_comple
     // complex<double> f=0.;
     // int l,m,n;
     // init(F.l_max);
-    // fdcl_FFTSO3_matrix_complex D;
+    // fdcl::FFTSO3_matrix_complex D;
     // 
     // D=wigner_D(alpha,beta,gamma);   
     // 
@@ -549,7 +549,7 @@ complex<double> fdcl_FFTSO3_complex::inverse_transform(fdcl_FFTSO3_matrix_comple
 
 	// int l,m,n;
 	// init(F.l_max);
-	// fdcl_FFTSO3_matrix_real d(l_max);
+	// fdcl::FFTSO3_matrix_real d(l_max);
 	// complex<double> tmp={0.,0.};
 // 
 	// d=wigner_d(beta);
@@ -565,7 +565,7 @@ complex<double> fdcl_FFTSO3_complex::inverse_transform(fdcl_FFTSO3_matrix_comple
     // return f;
 }
 
-complex<double> fdcl_FFTSO3_complex::inverse_transform(fdcl_FFTSO3_matrix_complex F, Matrix3 R)
+complex<double> fdcl::FFTSO3_complex::inverse_transform(fdcl::FFTSO3_matrix_complex F, Eigen::Matrix3d R)
 {
     std::vector<double> abg;
     
@@ -575,45 +575,45 @@ complex<double> fdcl_FFTSO3_complex::inverse_transform(fdcl_FFTSO3_matrix_comple
     return inverse_transform(F,abg[0],abg[1],abg[2]);
 }
 
-double fdcl_FFTSO3_complex::beta_k(int k)
+double fdcl::FFTSO3_complex::beta_k(int k)
 {
     return ((double)(2*k+1))*M_PI/4./((double)B);
 }
 
-double fdcl_FFTSO3_complex::alpha_j(int j)
+double fdcl::FFTSO3_complex::alpha_j(int j)
 {
     return ((double)j)*M_PI/((double)B);
 }
 
-double fdcl_FFTSO3_complex::gamma_j(int j)
+double fdcl::FFTSO3_complex::gamma_j(int j)
 {
     return alpha_j(j);
 }
 
-complex<double> fdcl_FFTSO3_complex::f_4_check_transform(double alpha, double beta, double gamma)
+complex<double> fdcl::FFTSO3_complex::f_4_check_transform(double alpha, double beta, double gamma)
 {
     return inverse_transform(F_4_check,alpha,beta,gamma);
 }
 
-double fdcl_FFTSO3_complex::check_transform()
+double fdcl::FFTSO3_complex::check_transform()
 {
     double error=1.;
     F_4_check.init(l_max);
     F_4_check.setRandom();
 
-    auto func= std::bind(&fdcl_FFTSO3_complex::f_4_check_transform, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
+    auto func= std::bind(&fdcl::FFTSO3_complex::f_4_check_transform, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
 
     error = (F_4_check-forward_transform(func)).norm();
-    cout << "fdcl_FFTSO3_complex::check_transform: l_max=" << l_max << " : error = " << error << endl;
+    cout << "fdcl::FFTSO3_complex::check_transform: l_max=" << l_max << " : error = " << error << endl;
 
     return error;
 }
 
-fdcl_FFTSO3_matrix_complex fdcl_FFTSO3_complex::forward_transform_0(std::function <complex<double>(double, double, double)> func)
+fdcl::FFTSO3_matrix_complex fdcl::FFTSO3_complex::forward_transform_0(std::function <complex<double>(double, double, double)> func)
 {
     int j1, j2, k, l, m, n;
-    fdcl_FFTSO3_matrix_real d_beta_k(l_max);
-    fdcl_FFTSO3_matrix_complex F(l_max);
+    fdcl::FFTSO3_matrix_real d_beta_k(l_max);
+    fdcl::FFTSO3_matrix_complex F(l_max);
     
     complex<double> exp_imalpha, exp_ingamma, f_j1kj2;
     double alpha, beta, gamma;
@@ -651,21 +651,21 @@ fdcl_FFTSO3_matrix_complex fdcl_FFTSO3_complex::forward_transform_0(std::functio
     return F;
 }
 
-fdcl_FFTSO3_matrix_complex fdcl_FFTSO3_complex::forward_transform(std::function <complex<double>(double, double, double)> func)
+fdcl::FFTSO3_matrix_complex fdcl::FFTSO3_complex::forward_transform(std::function <complex<double>(double, double, double)> func)
 {
     return this->forward_transform(func,0);
 }
 
-fdcl_FFTSO3_matrix_complex fdcl_FFTSO3_complex::forward_transform(std::function <complex<double>(double, double, double)> func, bool is_real)
+fdcl::FFTSO3_matrix_complex fdcl::FFTSO3_complex::forward_transform(std::function <complex<double>(double, double, double)> func, bool is_real)
 {
-    fdcl_FFTSO3_matrix_complex F(l_max);
+    fdcl::FFTSO3_matrix_complex F(l_max);
 	F.setZero();
 	compute_weight();
 
 #pragma omp parallel 
     {
-        fdcl_FFTSO3_matrix_complex F_local(l_max);
-        fdcl_FFTSO3_matrix_real d_beta_k(l_max);
+        fdcl::FFTSO3_matrix_complex F_local(l_max);
+        fdcl::FFTSO3_matrix_real d_beta_k(l_max);
         Eigen::MatrixXcd func_k(2*B,2*B), F_k(2*B,2*B), F_k_new(2*B,2*B);
         Eigen::VectorXcd tmp_out(2*B);
         int j1, j2, k, l, m, n;
@@ -762,13 +762,13 @@ fdcl_FFTSO3_matrix_complex fdcl_FFTSO3_complex::forward_transform(std::function 
 	return F;
 }
 
-fdcl_FFTSO3_matrix_complex fdcl_FFTSO3_complex::forward_transform_1(std::function <complex<double>(double, double, double)> func)
+fdcl::FFTSO3_matrix_complex fdcl::FFTSO3_complex::forward_transform_1(std::function <complex<double>(double, double, double)> func)
 {
-    fdcl_FFTSO3_matrix_complex F_beta[2*B][2*B];
+    fdcl::FFTSO3_matrix_complex F_beta[2*B][2*B];
     int j1, j2, k, l, m, n;
-    fdcl_FFTSO3_matrix_real d_beta_k(l_max);
-    fdcl_FFTSO3_matrix_complex F_gamma[2*B];
-    fdcl_FFTSO3_matrix_complex F(l_max);
+    fdcl::FFTSO3_matrix_real d_beta_k(l_max);
+    fdcl::FFTSO3_matrix_complex F_gamma[2*B];
+    fdcl::FFTSO3_matrix_complex F(l_max);
     
     complex<double> exp_imalpha, exp_ingamma, f_j1kj2;
     double alpha, beta, gamma;
@@ -842,7 +842,7 @@ fdcl_FFTSO3_matrix_complex fdcl_FFTSO3_complex::forward_transform_1(std::functio
     return F;
 }
 
-fdcl_FFTSO3_matrix_complex fdcl_FFTSO3_complex::forward_transform(std::function <complex<double>(Matrix3)> func) 
+fdcl::FFTSO3_matrix_complex fdcl::FFTSO3_complex::forward_transform(std::function <complex<double>(Eigen::Matrix3d)> func) 
 {
     // See lambda expression : https://www.geeksforgeeks.org/lambda-expression-in-c/
     return forward_transform([=] (double a, double b, double g)
@@ -851,11 +851,11 @@ fdcl_FFTSO3_matrix_complex fdcl_FFTSO3_complex::forward_transform(std::function 
             });
 }
 
-double fdcl_FFTSO3_complex::check_Clebsch_Gordon()
+double fdcl::FFTSO3_complex::check_Clebsch_Gordon()
 {
     int l1=2, l2=5, l, m1, m2, n1, n2;
     double alpha, beta, gamma;
-    fdcl_FFTSO3_matrix_complex D(l1+l2);
+    fdcl::FFTSO3_matrix_complex D(l1+l2);
     complex<double> y, y_CB={0., 0.};
     double error=0.;
 
@@ -869,7 +869,7 @@ double fdcl_FFTSO3_complex::check_Clebsch_Gordon()
 
     if(check_verbose)
     {
-        cout << "fdcl_FFTSO3_complex::check_Clebsch_Gordon" << endl;
+        cout << "fdcl::FFTSO3_complex::check_Clebsch_Gordon" << endl;
         cout << "l1 = " << l1 << ", l2 = " << l2 << endl;
         cout << "alpha = " << alpha << ", beta = " << beta << ", gamma = " << gamma << endl;
     }
@@ -892,12 +892,12 @@ double fdcl_FFTSO3_complex::check_Clebsch_Gordon()
                         error = abs(y-y_CB);
                 }
 
-    cout << "fdcl_FFTSO3_complex::check_Clebsch_Gordon: error = " << error << endl;
+    cout << "fdcl::FFTSO3_complex::check_Clebsch_Gordon: error = " << error << endl;
 
     return error;
 }
 
-void fdcl_FFTSO3_complex::check_all()
+void fdcl::FFTSO3_complex::check_all()
 {
     check_weight();
     check_wigner_d();
@@ -907,20 +907,20 @@ void fdcl_FFTSO3_complex::check_all()
     cout << endl;
 }
 
-fdcl_FFTSO3_real::fdcl_FFTSO3_real(int l_max)
+fdcl::FFTSO3_real::FFTSO3_real(int l_max)
 {
     init(l_max);
 }
 
-void fdcl_FFTSO3_real::init(int l_max)
+void fdcl::FFTSO3_real::init(int l_max)
 {
-    fdcl_FFTSO3_complex::init(l_max);
+    fdcl::FFTSO3_complex::init(l_max);
     U.init(l_max);
 }
 
-fdcl_FFTSO3_matrix_complex fdcl_FFTSO3_real::real_harmonics_2(double alpha, double beta, double gamma, int L)
+fdcl::FFTSO3_matrix_complex fdcl::FFTSO3_real::real_harmonics_2(double alpha, double beta, double gamma, int L)
 {
-    fdcl_FFTSO3_matrix_complex D(L), C(L), D_real(L) ;
+    fdcl::FFTSO3_matrix_complex D(L), C(L), D_real(L) ;
     int l;
     
     D=wigner_D(alpha,beta,gamma,L);
@@ -932,12 +932,12 @@ fdcl_FFTSO3_matrix_complex fdcl_FFTSO3_real::real_harmonics_2(double alpha, doub
     return D_real;
 }
 
-fdcl_FFTSO3_matrix_real fdcl_FFTSO3_real::real_harmonics(double alpha, double beta, double gamma)
+fdcl::FFTSO3_matrix_real fdcl::FFTSO3_real::real_harmonics(double alpha, double beta, double gamma)
 {
     return real_harmonics(alpha,beta,gamma,l_max);
 }
 
-fdcl_FFTSO3_matrix_real fdcl_FFTSO3_real::real_harmonics(Matrix3 R)
+fdcl::FFTSO3_matrix_real fdcl::FFTSO3_real::real_harmonics(Eigen::Matrix3d R)
 {
     std::vector<double> abg;
     
@@ -946,9 +946,9 @@ fdcl_FFTSO3_matrix_real fdcl_FFTSO3_real::real_harmonics(Matrix3 R)
     return real_harmonics(abg[0],abg[1],abg[2]);
 }
 
-fdcl_FFTSO3_matrix_real fdcl_FFTSO3_real::real_harmonics_1(double alpha, double beta, double gamma, int L)
+fdcl::FFTSO3_matrix_real fdcl::FFTSO3_real::real_harmonics_1(double alpha, double beta, double gamma, int L)
 {
-    fdcl_FFTSO3_matrix_real U(L), d(L);
+    fdcl::FFTSO3_matrix_real U(L), d(L);
     int l,m,n;
     std::vector<double> Phi;
     d=wigner_d(beta,L);
@@ -970,9 +970,9 @@ fdcl_FFTSO3_matrix_real fdcl_FFTSO3_real::real_harmonics_1(double alpha, double 
     return U;
 }
 
-fdcl_FFTSO3_matrix_real fdcl_FFTSO3_real::real_harmonics(double alpha, double beta, double gamma, int L)
+fdcl::FFTSO3_matrix_real fdcl::FFTSO3_real::real_harmonics(double alpha, double beta, double gamma, int L)
 {
-    fdcl_FFTSO3_matrix_real U(L), d(L);
+    fdcl::FFTSO3_matrix_real U(L), d(L);
     d=wigner_d(beta,L);
 
     for(int l=0;l<=L;l++)
@@ -1015,9 +1015,9 @@ fdcl_FFTSO3_matrix_real fdcl_FFTSO3_real::real_harmonics(double alpha, double be
     return U;
 }
 
-fdcl_FFTSO3_matrix_complex fdcl_FFTSO3_real::matrix2rsph(int L)
+fdcl::FFTSO3_matrix_complex fdcl::FFTSO3_real::matrix2rsph(int L)
 {
-    fdcl_FFTSO3_matrix_complex T(L);
+    fdcl::FFTSO3_matrix_complex T(L);
     int l,m;
 
     for(l=0;l<=L;l++)
@@ -1049,10 +1049,10 @@ fdcl_FFTSO3_matrix_complex fdcl_FFTSO3_real::matrix2rsph(int L)
     return T;
 }
 
-double fdcl_FFTSO3_real::inverse_transform(fdcl_FFTSO3_matrix_real F, double alpha, double beta, double gamma)
+double fdcl::FFTSO3_real::inverse_transform(fdcl::FFTSO3_matrix_real F, double alpha, double beta, double gamma)
 {
     double f=0.;
-    fdcl_FFTSO3_matrix_real U;
+    fdcl::FFTSO3_matrix_real U;
     
     U=real_harmonics(alpha,beta,gamma);   
     
@@ -1067,7 +1067,7 @@ double fdcl_FFTSO3_real::inverse_transform(fdcl_FFTSO3_matrix_real F, double alp
     return f;
 }
 
-double fdcl_FFTSO3_real::inverse_transform(fdcl_FFTSO3_matrix_real F, Matrix3 R)
+double fdcl::FFTSO3_real::inverse_transform(fdcl::FFTSO3_matrix_real F, Eigen::Matrix3d R)
 {
     std::vector<double> abg;
     
@@ -1077,11 +1077,11 @@ double fdcl_FFTSO3_real::inverse_transform(fdcl_FFTSO3_matrix_real F, Matrix3 R)
     return inverse_transform(F,abg[0],abg[1],abg[2]); 
 }
 
-fdcl_FFTSO3_matrix_real fdcl_FFTSO3_real::forward_transform(std::function <double(double, double, double)> func)
+fdcl::FFTSO3_matrix_real fdcl::FFTSO3_real::forward_transform(std::function <double(double, double, double)> func)
 {
-	fdcl_FFTSO3_matrix_complex F_complex(l_max), T(l_max);
+	fdcl::FFTSO3_matrix_complex F_complex(l_max), T(l_max);
 
-	F_complex=fdcl_FFTSO3_complex::forward_transform(func,1);
+	F_complex=fdcl::FFTSO3_complex::forward_transform(func,1);
 	T=matrix2rsph(l_max);
 
 #pragma omp parallel for
@@ -1091,10 +1091,10 @@ fdcl_FFTSO3_matrix_real fdcl_FFTSO3_real::forward_transform(std::function <doubl
 	return F_complex.real();
 }
 
-fdcl_FFTSO3_matrix_real fdcl_FFTSO3_real::forward_transform_1(std::function <double(double, double, double)> func)
+fdcl::FFTSO3_matrix_real fdcl::FFTSO3_real::forward_transform_1(std::function <double(double, double, double)> func)
 {
-    fdcl_FFTSO3_matrix_real F_beta_1[2*B][2*B], F_beta_2[2*B][2*B], d_beta_k(l_max);
-    fdcl_FFTSO3_matrix_real F(l_max);
+    fdcl::FFTSO3_matrix_real F_beta_1[2*B][2*B], F_beta_2[2*B][2*B], d_beta_k(l_max);
+    fdcl::FFTSO3_matrix_real F(l_max);
     int j1, j2, k, l, m, n;
     std::vector<double> Phi;
     double f_j1kj2, alpha, beta, gamma;
@@ -1154,7 +1154,7 @@ fdcl_FFTSO3_matrix_real fdcl_FFTSO3_real::forward_transform_1(std::function <dou
     return F;
 }
 
-fdcl_FFTSO3_matrix_real fdcl_FFTSO3_real::forward_transform(std::function <double(Matrix3)> func) 
+fdcl::FFTSO3_matrix_real fdcl::FFTSO3_real::forward_transform(std::function <double(Eigen::Matrix3d)> func) 
 {
     // See lambda expression : https://www.geeksforgeeks.org/lambda-expression-in-c/
     return forward_transform([=] (double a, double b, double g)
@@ -1163,13 +1163,13 @@ fdcl_FFTSO3_matrix_real fdcl_FFTSO3_real::forward_transform(std::function <doubl
             });
 }
 
-fdcl_FFTSO3_matrix_real fdcl_FFTSO3_real::forward_transform_0(std::function <double(double, double, double)> func)
+fdcl::FFTSO3_matrix_real fdcl::FFTSO3_real::forward_transform_0(std::function <double(double, double, double)> func)
 {
-    fdcl_FFTSO3_matrix_real F_beta_theta[2*B][2*B], F_beta_psi[2*B][2*B];
-    fdcl_FFTSO3_matrix_real F_gamma_theta[2*B], F_gamma_psi[2*B];
-    fdcl_FFTSO3_matrix_real F(l_max);
+    fdcl::FFTSO3_matrix_real F_beta_theta[2*B][2*B], F_beta_psi[2*B][2*B];
+    fdcl::FFTSO3_matrix_real F_gamma_theta[2*B], F_gamma_psi[2*B];
+    fdcl::FFTSO3_matrix_real F(l_max);
     int j1, j2, k, l, m, n;
-    std::vector<fdcl_FFTSO3_matrix_real> TP;
+    std::vector<fdcl::FFTSO3_matrix_real> TP;
     double f_j1kj2, alpha, beta, gamma;
     double cos_ng, sin_ng, sin_ma, cos_ma;
 
@@ -1309,7 +1309,7 @@ fdcl_FFTSO3_matrix_real fdcl_FFTSO3_real::forward_transform_0(std::function <dou
     return F;
 }
 
-std::vector<double> fdcl_FFTSO3_real::compute_Phi(int m, int n, double alpha, double gamma)
+std::vector<double> fdcl::FFTSO3_real::compute_Phi(int m, int n, double alpha, double gamma)
 {
     std::vector<double> Phi;
     Phi.resize(2);
@@ -1343,10 +1343,10 @@ std::vector<double> fdcl_FFTSO3_real::compute_Phi(int m, int n, double alpha, do
     return Phi;
 }
 
-std::vector<fdcl_FFTSO3_matrix_real> fdcl_FFTSO3_real::compute_Theta_Psi(double beta, int L)
+std::vector<fdcl::FFTSO3_matrix_real> fdcl::FFTSO3_real::compute_Theta_Psi(double beta, int L)
 {
-    std::vector<fdcl_FFTSO3_matrix_real> TP;
-    fdcl_FFTSO3_matrix_real d(L);
+    std::vector<fdcl::FFTSO3_matrix_real> TP;
+    fdcl::FFTSO3_matrix_real d(L);
     int l,m,n;
     double A, B, C;
 
@@ -1399,10 +1399,10 @@ std::vector<fdcl_FFTSO3_matrix_real> fdcl_FFTSO3_real::compute_Theta_Psi(double 
     return TP;
 }
 
-fdcl_FFTSO3_matrix_real fdcl_FFTSO3_real::real_harmonics_0(double alpha, double beta, double gamma, int L)
+fdcl::FFTSO3_matrix_real fdcl::FFTSO3_real::real_harmonics_0(double alpha, double beta, double gamma, int L)
 {
-    fdcl_FFTSO3_matrix_real U(L);
-    std::vector<fdcl_FFTSO3_matrix_real> TP(L);
+    fdcl::FFTSO3_matrix_real U(L);
+    std::vector<fdcl::FFTSO3_matrix_real> TP(L);
     int l,m,n;
     double cos_ma, sin_ma, cos_ng, sin_ng;
     TP.resize(2);
@@ -1442,13 +1442,13 @@ fdcl_FFTSO3_matrix_real fdcl_FFTSO3_real::real_harmonics_0(double alpha, double 
     return U;
 }
 
-double fdcl_FFTSO3_real::check_real_harmonics()
+double fdcl::FFTSO3_real::check_real_harmonics()
 {
     int L=10;
     double alpha, beta, gamma;
-    fdcl_FFTSO3_matrix_complex U_2(L);
-    fdcl_FFTSO3_matrix_real U(L), U_0(L), U_1(L);
-    fdcl_tictoc tictoc;
+    fdcl::FFTSO3_matrix_complex U_2(L);
+    fdcl::FFTSO3_matrix_real U(L), U_0(L), U_1(L);
+    fdcl::tictoc tictoc;
     double error=1.0;
 
     alpha=(double)rand()/RAND_MAX*M_PI*2.;
@@ -1462,7 +1462,7 @@ double fdcl_FFTSO3_real::check_real_harmonics()
 
     if(check_verbose)
     {
-        cout << "fdcl_FFTSO3_real::check_real_harmonics" << endl;
+        cout << "fdcl::FFTSO3_real::check_real_harmonics" << endl;
         cout << "alpha=" << alpha << ", beta=" << beta << ", gamma=" << gamma << endl;
 
         cout << "error from real_harmonics_0: " << (U-U_0).norm() << endl;
@@ -1495,13 +1495,13 @@ double fdcl_FFTSO3_real::check_real_harmonics()
         tictoc.toc("real_harmonics_2");
     } 
 
-    cout << "fdcl_FFTSO3_real::check_real_harmonics: error = " << error << endl;
+    cout << "fdcl::FFTSO3_real::check_real_harmonics: error = " << error << endl;
     return error;
 }
 
-std::vector<fdcl_FFTSO3_matrix_real> fdcl_FFTSO3_real::deriv_real_harmonics()
+std::vector<fdcl::FFTSO3_matrix_real> fdcl::FFTSO3_real::deriv_real_harmonics()
 {
-    std::vector<fdcl_FFTSO3_matrix_real> u;
+    std::vector<fdcl::FFTSO3_matrix_real> u;
     double tmp;
     u.resize(4);
     u[1].init(l_max);
@@ -1569,10 +1569,10 @@ std::vector<fdcl_FFTSO3_matrix_real> fdcl_FFTSO3_real::deriv_real_harmonics()
     return u;
 }
 
-double fdcl_FFTSO3_real::check_deriv_real_harmonics()
+double fdcl::FFTSO3_real::check_deriv_real_harmonics()
 {
-    std::vector<fdcl_FFTSO3_matrix_real> u;
-    fdcl_FFTSO3_matrix_real U, U_new;
+    std::vector<fdcl::FFTSO3_matrix_real> u;
+    fdcl::FFTSO3_matrix_real U, U_new;
     std::vector<double>abg;
     Eigen::Matrix<double, 3, 1> ei;
     double eps=1.e-6;
@@ -1582,7 +1582,7 @@ double fdcl_FFTSO3_real::check_deriv_real_harmonics()
     U=real_harmonics(0,0,0);
 
     if(check_verbose)
-        cout << "fdcl_FFTSO3_real::check_deriv_real_harmonics" << endl;
+        cout << "fdcl::FFTSO3_real::check_deriv_real_harmonics" << endl;
 
     for(int i=1;i<=3;i++)
     {
@@ -1603,15 +1603,15 @@ double fdcl_FFTSO3_real::check_deriv_real_harmonics()
         }
     }
    
-    cout << "fdcl_FFTSO3_real::check_deriv_real_harmonics: error = " << error*1.e-9 << endl;
+    cout << "fdcl::FFTSO3_real::check_deriv_real_harmonics: error = " << error*1.e-9 << endl;
     return error*1.e-9;
 }
 
-double fdcl_FFTSO3_real::check_Clebsch_Gordon()
+double fdcl::FFTSO3_real::check_Clebsch_Gordon()
 {
 	int l1=3, l2=5, l, m1, m2, n1, n2;
 	double alpha, beta, gamma;
-	fdcl_FFTSO3_matrix_real U(l1+l2);
+	fdcl::FFTSO3_matrix_real U(l1+l2);
 	double y, y_CB=0.;
 	double error=0.;
 	std::vector<int> M, N;
@@ -1646,7 +1646,7 @@ double fdcl_FFTSO3_real::check_Clebsch_Gordon()
 	// cout << c.c << endl;
     if(check_verbose)
     {
-        cout << "fdcl_FFTSO3_real::check_Clebsch_Gordon" << endl;
+        cout << "fdcl::FFTSO3_real::check_Clebsch_Gordon" << endl;
         cout << "l1 = " << l1 << ", l2 = " << l2 << endl;
         cout << "alpha = " << alpha << ", beta = " << beta << ", gamma = " << gamma << endl;
     }
@@ -1688,13 +1688,13 @@ double fdcl_FFTSO3_real::check_Clebsch_Gordon()
 				}
 
     
-    cout << "fdcl_FFTSO3_real::check_Clebsch_Gordon: error = " << error << endl;
+    cout << "fdcl::FFTSO3_real::check_Clebsch_Gordon: error = " << error << endl;
 
     return error;
 }
 
 
-int fdcl_FFTSO3_real::signum(int x)
+int fdcl::FFTSO3_real::signum(int x)
 {
 	int y;
 	if (x > 0)
@@ -1707,25 +1707,25 @@ int fdcl_FFTSO3_real::signum(int x)
 	return y;
 }
 
-double fdcl_FFTSO3_real::f_4_check_transform(double alpha, double beta, double gamma)
+double fdcl::FFTSO3_real::f_4_check_transform(double alpha, double beta, double gamma)
 {
     return inverse_transform(F_4_check,alpha,beta,gamma);
 }
 
-double fdcl_FFTSO3_real::check_transform()
+double fdcl::FFTSO3_real::check_transform()
 {
     double error = 0.;
     F_4_check.init(l_max);
     F_4_check.setRandom();
 
-    auto func= std::bind(&fdcl_FFTSO3_real::f_4_check_transform, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
+    auto func= std::bind(&fdcl::FFTSO3_real::f_4_check_transform, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
 
     error = (F_4_check-forward_transform(func)).norm();
-    cout << "fdcl_FFTSO3_real::check_transform: l_max=" << l_max << " : error = " << error << endl;
+    cout << "fdcl::FFTSO3_real::check_transform: l_max=" << l_max << " : error = " << error << endl;
     return error;
 }
 
-void fdcl_FFTSO3_real::check_all()
+void fdcl::FFTSO3_real::check_all()
 {
     check_real_harmonics();
     check_Clebsch_Gordon();
