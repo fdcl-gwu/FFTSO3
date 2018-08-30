@@ -182,12 +182,12 @@ void fdcl::spherical_shape_matching::init(int l_max)
     u[1].init(l_max);
     u[2].init(l_max);
     u[3].init(l_max);   
-    u = RFFTSO3.deriv_wigner_D_real();
+    u = RFFTSO3.deriv_real_harmonics();
  }
 double fdcl::spherical_shape_matching::J(Eigen::Matrix3d R)
 {
     double y=0.;
-    U = RFFTSO3.wigner_D_real(R);
+    U = RFFTSO3.real_harmonics(R);
     for(int l=0; l<=l_max; l++)
         y+=(G[l]*F[l].transpose()*U[l]).trace();
 
@@ -197,7 +197,7 @@ Eigen::Vector3d fdcl::spherical_shape_matching::gradient(Eigen::Matrix3d R)
 {
     Eigen::Vector3d dJ;
     dJ.setZero();
-    U = RFFTSO3.wigner_D_real(R);
+    U = RFFTSO3.real_harmonics(R);
 
     for(int l=0; l<=l_max; l++)
         for(int i=1; i<=3; i++)
@@ -309,7 +309,7 @@ int main()
     Eigen::Matrix3d R;
 
     R=Euler3232R(M_PI/6., -M_PI/3., M_PI/2.);
-    U=RFFTSO3.wigner_D_real(R);
+    U=RFFTSO3.real_harmonics(R);
     for(int l=0; l<=l_max; l++)
         SSM.G[l]=U[l].transpose()*SSM.F[l];
 

@@ -918,7 +918,7 @@ void fdcl_FFTSO3_real::init(int l_max)
     U.init(l_max);
 }
 
-fdcl_FFTSO3_matrix_complex fdcl_FFTSO3_real::wigner_D_real_2(double alpha, double beta, double gamma, int L)
+fdcl_FFTSO3_matrix_complex fdcl_FFTSO3_real::real_harmonics_2(double alpha, double beta, double gamma, int L)
 {
     fdcl_FFTSO3_matrix_complex D(L), C(L), D_real(L) ;
     int l;
@@ -932,21 +932,21 @@ fdcl_FFTSO3_matrix_complex fdcl_FFTSO3_real::wigner_D_real_2(double alpha, doubl
     return D_real;
 }
 
-fdcl_FFTSO3_matrix_real fdcl_FFTSO3_real::wigner_D_real(double alpha, double beta, double gamma)
+fdcl_FFTSO3_matrix_real fdcl_FFTSO3_real::real_harmonics(double alpha, double beta, double gamma)
 {
-    return wigner_D_real(alpha,beta,gamma,l_max);
+    return real_harmonics(alpha,beta,gamma,l_max);
 }
 
-fdcl_FFTSO3_matrix_real fdcl_FFTSO3_real::wigner_D_real(Matrix3 R)
+fdcl_FFTSO3_matrix_real fdcl_FFTSO3_real::real_harmonics(Matrix3 R)
 {
     std::vector<double> abg;
     
     abg.resize(3);
     abg=R2Euler323(R);
-    return wigner_D_real(abg[0],abg[1],abg[2]);
+    return real_harmonics(abg[0],abg[1],abg[2]);
 }
 
-fdcl_FFTSO3_matrix_real fdcl_FFTSO3_real::wigner_D_real_1(double alpha, double beta, double gamma, int L)
+fdcl_FFTSO3_matrix_real fdcl_FFTSO3_real::real_harmonics_1(double alpha, double beta, double gamma, int L)
 {
     fdcl_FFTSO3_matrix_real U(L), d(L);
     int l,m,n;
@@ -970,7 +970,7 @@ fdcl_FFTSO3_matrix_real fdcl_FFTSO3_real::wigner_D_real_1(double alpha, double b
     return U;
 }
 
-fdcl_FFTSO3_matrix_real fdcl_FFTSO3_real::wigner_D_real(double alpha, double beta, double gamma, int L)
+fdcl_FFTSO3_matrix_real fdcl_FFTSO3_real::real_harmonics(double alpha, double beta, double gamma, int L)
 {
     fdcl_FFTSO3_matrix_real U(L), d(L);
     int l,m,n;
@@ -1052,7 +1052,7 @@ double fdcl_FFTSO3_real::inverse_transform(fdcl_FFTSO3_matrix_real F, double alp
     int l,m,n;
     fdcl_FFTSO3_matrix_real U;
     
-    U=wigner_D_real(alpha,beta,gamma);   
+    U=real_harmonics(alpha,beta,gamma);   
     
     for(l=0;l<=l_max;l++)
         for(m=-l;m<=l;m++)
@@ -1079,6 +1079,7 @@ fdcl_FFTSO3_matrix_real fdcl_FFTSO3_real::forward_transform(std::function <doubl
 	F_complex=fdcl_FFTSO3_complex::forward_transform(func,1);
 	T=matrix2rsph(l_max);
 
+#pragma omp parallel for
 	for(int l=0; l<=l_max; l++)
 		F_complex[l]=T[l]*F_complex[l]*T[l].adjoint();
 
@@ -1393,7 +1394,7 @@ std::vector<fdcl_FFTSO3_matrix_real> fdcl_FFTSO3_real::compute_Theta_Psi(double 
     return TP;
 }
 
-fdcl_FFTSO3_matrix_real fdcl_FFTSO3_real::wigner_D_real_0(double alpha, double beta, double gamma, int L)
+fdcl_FFTSO3_matrix_real fdcl_FFTSO3_real::real_harmonics_0(double alpha, double beta, double gamma, int L)
 {
     fdcl_FFTSO3_matrix_real U(L);
     std::vector<fdcl_FFTSO3_matrix_real> TP(L);
@@ -1436,7 +1437,7 @@ fdcl_FFTSO3_matrix_real fdcl_FFTSO3_real::wigner_D_real_0(double alpha, double b
     return U;
 }
 
-double fdcl_FFTSO3_real::check_wigner_D_real()
+double fdcl_FFTSO3_real::check_real_harmonics()
 {
     int L=10;
     double alpha, beta, gamma;
@@ -1449,19 +1450,19 @@ double fdcl_FFTSO3_real::check_wigner_D_real()
     beta=(double)rand()/RAND_MAX*M_PI;
     gamma=(double)rand()/RAND_MAX*M_PI*2.;
 
-    U=wigner_D_real(alpha,beta,gamma,L);
-    U_0=wigner_D_real_0(alpha,beta,gamma,L);
-    U_1=wigner_D_real_1(alpha,beta,gamma,L);
-    U_2=wigner_D_real_2(alpha,beta,gamma,L);
+    U=real_harmonics(alpha,beta,gamma,L);
+    U_0=real_harmonics_0(alpha,beta,gamma,L);
+    U_1=real_harmonics_1(alpha,beta,gamma,L);
+    U_2=real_harmonics_2(alpha,beta,gamma,L);
 
     if(check_verbose)
     {
-        cout << "fdcl_FFTSO3_real::check_wigner_D_real" << endl;
+        cout << "fdcl_FFTSO3_real::check_real_harmonics" << endl;
         cout << "alpha=" << alpha << ", beta=" << beta << ", gamma=" << gamma << endl;
 
-        cout << "error from wigner_D_real_0: " << (U-U_0).norm() << endl;
-        cout << "error from wigner_D_real_1: " << (U-U_1).norm() << endl;
-        cout << "error from wigner_D_real_2: " << (U-U_2.real()).norm() << endl;
+        cout << "error from real_harmonics_0: " << (U-U_0).norm() << endl;
+        cout << "error from real_harmonics_1: " << (U-U_1).norm() << endl;
+        cout << "error from real_harmonics_2: " << (U-U_2.real()).norm() << endl;
     }
 
     error = (U-U_0).norm() + (U-U_1).norm() + (U-U_2.real()).norm();
@@ -1470,30 +1471,30 @@ double fdcl_FFTSO3_real::check_wigner_D_real()
     {
         tictoc.tic();
         for(int i=0;i<=500;i++)
-            wigner_D_real(alpha,beta,gamma,L);
-        tictoc.toc("wigner_D_real");
+            real_harmonics(alpha,beta,gamma,L);
+        tictoc.toc("real_harmonics");
 
         tictoc.tic();
         for(int i=0;i<=500;i++)
-            wigner_D_real_0(alpha,beta,gamma,L);
-        tictoc.toc("wigner_D_real_0");
+            real_harmonics_0(alpha,beta,gamma,L);
+        tictoc.toc("real_harmonics_0");
 
         tictoc.tic();
         for(int i=0;i<=500;i++)
-            wigner_D_real_1(alpha,beta,gamma,L);
-        tictoc.toc("wigner_D_real_1");
+            real_harmonics_1(alpha,beta,gamma,L);
+        tictoc.toc("real_harmonics_1");
 
         tictoc.tic();
         for(int i=0;i<=500;i++)
-            wigner_D_real_2(alpha,beta,gamma,L);
-        tictoc.toc("wigner_D_real_2");
+            real_harmonics_2(alpha,beta,gamma,L);
+        tictoc.toc("real_harmonics_2");
     } 
 
-    cout << "fdcl_FFTSO3_real::check_wigner_D_real: error = " << error << endl;
+    cout << "fdcl_FFTSO3_real::check_real_harmonics: error = " << error << endl;
     return error;
 }
 
-std::vector<fdcl_FFTSO3_matrix_real> fdcl_FFTSO3_real::deriv_wigner_D_real()
+std::vector<fdcl_FFTSO3_matrix_real> fdcl_FFTSO3_real::deriv_real_harmonics()
 {
     std::vector<fdcl_FFTSO3_matrix_real> u;
     double tmp;
@@ -1563,7 +1564,7 @@ std::vector<fdcl_FFTSO3_matrix_real> fdcl_FFTSO3_real::deriv_wigner_D_real()
     return u;
 }
 
-double fdcl_FFTSO3_real::check_deriv_wigner_D_real()
+double fdcl_FFTSO3_real::check_deriv_real_harmonics()
 {
     std::vector<fdcl_FFTSO3_matrix_real> u;
     fdcl_FFTSO3_matrix_real U, U_new;
@@ -1572,11 +1573,11 @@ double fdcl_FFTSO3_real::check_deriv_wigner_D_real()
     double eps=1.e-6;
     double error =0.;
     
-    u=deriv_wigner_D_real();
-    U=wigner_D_real(0,0,0);
+    u=deriv_real_harmonics();
+    U=real_harmonics(0,0,0);
 
     if(check_verbose)
-        cout << "fdcl_FFTSO3_real::check_deriv_wigner_D_real" << endl;
+        cout << "fdcl_FFTSO3_real::check_deriv_real_harmonics" << endl;
 
     for(int i=1;i<=3;i++)
     {
@@ -1585,7 +1586,7 @@ double fdcl_FFTSO3_real::check_deriv_wigner_D_real()
         ei.setZero();
         ei(i-1)=1.;
         abg=R2Euler323(expm_SO3(ei*eps));
-        U_new=wigner_D_real(abg[0],abg[1],abg[2]);
+        U_new=real_harmonics(abg[0],abg[1],abg[2]);
         for(int l=1;l<=l_max;l++)
         {
             if(check_verbose)
@@ -1597,7 +1598,7 @@ double fdcl_FFTSO3_real::check_deriv_wigner_D_real()
         }
     }
    
-    cout << "fdcl_FFTSO3_real::check_deriv_wigner_D_real: error = " << error*1.e-9 << endl;
+    cout << "fdcl_FFTSO3_real::check_deriv_real_harmonics: error = " << error*1.e-9 << endl;
     return error*1.e-9;
 }
 
@@ -1614,7 +1615,7 @@ double fdcl_FFTSO3_real::check_Clebsch_Gordon()
 	beta=(double)rand()/RAND_MAX*M_PI;
 	gamma=(double)rand()/RAND_MAX*2.*M_PI;
 
-	U=wigner_D_real(alpha,beta,gamma,l1+l2);
+	U=real_harmonics(alpha,beta,gamma,l1+l2);
 
 	c.compute(l1,l2);
 	double cr,ci;
@@ -1721,9 +1722,9 @@ double fdcl_FFTSO3_real::check_transform()
 
 void fdcl_FFTSO3_real::check_all()
 {
-    check_wigner_D_real();
+    check_real_harmonics();
     check_Clebsch_Gordon();
-    check_deriv_wigner_D_real();
+    check_deriv_real_harmonics();
     check_transform();
     cout << endl;
 }

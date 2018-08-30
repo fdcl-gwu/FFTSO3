@@ -36,6 +36,7 @@ int main()
     fdcl_FFTSO3_complex FFTSO3(l_max);
     fdcl_FFTSO3_real RFFTSO3(l_max);
     fdcl_FFTSO3_matrix_complex F(l_max);
+    fdcl_FFTSO3_matrix_real F_real(l_max);
 
     Y.setRandom();
     F.setRandom();
@@ -59,7 +60,8 @@ int main()
         {
             // FFTSO3.forward_transform(myfuncR);
             // FFTSO3.inverse_transform(F,0.1,0.2,0.3);
-            RFFTSO3.forward_transform(myfuncR_real);
+            // RFFTSO3.forward_transform(myfuncR_real);
+            RFFTSO3.inverse_transform(F_real,0.1,0.2,0.3);
 
         }
 

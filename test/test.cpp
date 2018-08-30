@@ -59,7 +59,7 @@ namespace
 
     TEST_F(FFTSO3Test, WignerDReal) 
     {
-        ASSERT_NEAR(RFFTSO3.check_wigner_D_real(), 0., 1.e-10);
+        ASSERT_NEAR(RFFTSO3.check_real_harmonics(), 0., 1.e-10);
     }
     TEST_F(FFTSO3Test, RealClebschGordon) 
     {
@@ -67,7 +67,7 @@ namespace
     }
     TEST_F(FFTSO3Test, DerivWignerDReal) 
     {
-        ASSERT_NEAR(RFFTSO3.check_deriv_wigner_D_real(), 0., 1.e-10);
+        ASSERT_NEAR(RFFTSO3.check_deriv_real_harmonics(), 0., 1.e-10);
     }
     TEST_F(FFTSO3Test, RealTransform) 
     {
