@@ -27,9 +27,9 @@ int fdcl_Clebsch_Gordon_complex::col(int l, int m, int l1, int m1, int l2, int m
 
 void fdcl_Clebsch_Gordon_complex::assert_index(int l, int m, int l1, int m1, int l2, int m2)
 {
-    assert( l >= abs(l1-l2) & l <= l1+l2);
-    assert( m >= -l & m <=l );
-    assert( m1 >= -l1 & m1 <= l1 & m2 >= -l2 & m2 <= l2);
+    assert( l >= abs(l1-l2) && l <= l1+l2);
+    assert( m >= -l && m <=l );
+    assert( m1 >= -l1 && m1 <= l1 && m2 >= -l2 && m2 <= l2);
 }
 
 double& fdcl_Clebsch_Gordon_complex::operator() (int l, int m, int l1, int m1, int l2, int m2)
@@ -278,7 +278,7 @@ void fdcl_Clebsch_Gordon_real::compute(int l1, int l2)
 
     // case 2, 8, 10, 16
     for (p1=2; p1<=l1; p1++)
-        for (p2=1; p2 <= min(m1-1, l2); p2++)
+        for (p2=1; p2 <= min(p1-1, l2); p2++)
         {    
             // case 2
             m1=p1; m2=p2;
