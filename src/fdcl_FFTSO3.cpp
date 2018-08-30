@@ -653,6 +653,11 @@ fdcl_FFTSO3_matrix_complex fdcl_FFTSO3_complex::forward_transform_0(std::functio
 
 fdcl_FFTSO3_matrix_complex fdcl_FFTSO3_complex::forward_transform(std::function <complex<double>(double, double, double)> func)
 {
+    return this->forward_transform(func,0);
+}
+
+fdcl_FFTSO3_matrix_complex fdcl_FFTSO3_complex::forward_transform(std::function <complex<double>(double, double, double)> func, bool is_real)
+{
     fdcl_FFTSO3_matrix_complex F(l_max);
 	F.setZero();
 	compute_weight();

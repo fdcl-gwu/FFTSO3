@@ -39,6 +39,7 @@ class fdcl_FFTSO3_complex
         fdcl_FFTSO3_matrix_complex wigner_D(double alpha, double beta, double gamma);
         fdcl_FFTSO3_matrix_complex wigner_D(double alpha, double beta, double gamma, int L);
 
+        fdcl_FFTSO3_matrix_complex forward_transform(std::function <complex<double>(double, double, double)>, bool is_real);
         fdcl_FFTSO3_matrix_complex forward_transform(std::function <complex<double>(double, double, double)>);
         fdcl_FFTSO3_matrix_complex forward_transform(std::function <complex<double>(Matrix3)>);
 

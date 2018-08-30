@@ -17,6 +17,10 @@ complex<double> myfunc(double theta, double phi)
     return cos(theta)*sin(phi);
 }
 
+double myfuncR_real(double alpha, double beta, double gamma)
+{
+    return cos(alpha)*sin(beta)*sin(gamma);
+}
 complex<double> myfuncR(double alpha, double beta, double gamma)
 {
     return cos(alpha)*sin(beta)*sin(gamma);
@@ -30,6 +34,7 @@ int main()
     fdcl_FFTS2_real RFFTS2(l_max);
     fdcl_FFTS2_matrix_complex Y(l_max);
     fdcl_FFTSO3_complex FFTSO3(l_max);
+    fdcl_FFTSO3_real RFFTSO3(l_max);
     fdcl_FFTSO3_matrix_complex F(l_max);
 
     Y.setRandom();
@@ -53,7 +58,8 @@ int main()
         for(int i=0; i<=0; i++)
         {
             // FFTSO3.forward_transform(myfuncR);
-            FFTSO3.inverse_transform(F,0.1,0.2,0.3);
+            // FFTSO3.inverse_transform(F,0.1,0.2,0.3);
+            RFFTSO3.forward_transform(myfuncR_real);
 
         }
 
@@ -61,15 +67,13 @@ int main()
     }
     cout << "speed up factor " << dt[0]/dt[1] << " " << dt[0]/dt[2] << " " << dt[0]/dt[3] << endl;
 
-    FFTSO3.check_wigner_d();
+    FFTSO3.init(4);
+    FFTSO3.check_transform();
     FFTSO3.init(5);
     FFTSO3.check_transform();
 
-    FFTS2.init(4);
-    FFTS2.check_transform();
-
-    FFTS2.init(3);
-    FFTS2.check_transform();
-
-
+    RFFTSO3.init(4);
+    RFFTSO3.check_transform();
+    RFFTSO3.init(5);
+    RFFTSO3.check_transform();
 }
