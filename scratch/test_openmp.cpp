@@ -61,6 +61,7 @@ int main()
             // FFTSO3.forward_transform(myfuncR);
             // FFTSO3.inverse_transform(F,0.1,0.2,0.3);
             // RFFTSO3.forward_transform(myfuncR_real);
+            // RFFTSO3.real_harmonics(0.1,0.2,0.3,l_max);
             RFFTSO3.inverse_transform(F_real,0.1,0.2,0.3);
 
         }

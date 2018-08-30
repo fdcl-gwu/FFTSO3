@@ -973,39 +973,42 @@ fdcl_FFTSO3_matrix_real fdcl_FFTSO3_real::real_harmonics_1(double alpha, double 
 fdcl_FFTSO3_matrix_real fdcl_FFTSO3_real::real_harmonics(double alpha, double beta, double gamma, int L)
 {
     fdcl_FFTSO3_matrix_real U(L), d(L);
-    int l,m,n;
-    double cos_mamg, cos_ma_mg, sin_mamg, sin_ma_mg;    
     d=wigner_d(beta,L);
 
-    for(l=0;l<=L;l++)
+    for(int l=0;l<=L;l++)
     {
         U(l,0,0)=d(l,0,0);
-        for(m=1;m<=l;m++)
+#pragma omp parallel firstprivate(alpha,beta,gamma,l)
         {
-            // U(l,-m,0)=pow(-1.,m)*sqrt(2.)*d(l,m,0)*sin(((double) m)*alpha);
-            U(l,-m,0)=sqrt(2.)*d(l,-m,0)*sin(((double) m)*alpha);
-            U(l,m,0)=pow(-1.,m)*sqrt(2.)*d(l,m,0)*cos(((double) m)*alpha);
-            for(n=1;n<=l;n++)
-            {
-                cos_mamg = cos( ((double)m)*alpha + ((double)n)*gamma);
-                cos_ma_mg = cos( ((double)m)*alpha - ((double)n)*gamma);
-                sin_mamg = sin( ((double)m)*alpha + ((double)n)*gamma);
-                sin_ma_mg = sin( ((double)m)*alpha - ((double)n)*gamma);
+            fdcl::omp_thread thr(omp_get_thread_num(),omp_get_num_threads());
+            thr.range_closed(1,l);
+            double cos_mamg, cos_ma_mg, sin_mamg, sin_ma_mg;    
 
-                U(l,m,n)=pow(-1.,m+n)*d(l,m,n)*cos_mamg + pow(-1.,m)*d(l,m,-n)*cos_ma_mg;
-                U(l,m,-n)=pow(-1.,m)*d(l,m,-n)*sin_ma_mg
-                    - pow(-1.,m+n)*d(l,m,n)*sin_mamg;
-                U(l,-m,n)=-pow(-1.,n)*d(l,-m,n)*-sin_ma_mg
-                    + d(l,-m,-n)*sin_mamg;
-                U(l,-m,-n)=d(l,-m,-n)*cos_mamg
-                    - pow(-1.,n)*d(l,-m,n)*cos_ma_mg;
+            for(int m=thr.i_init;m<=thr.i_term;m++)
+            {
+                U(l,-m,0)=sqrt(2.)*d(l,-m,0)*sin(((double) m)*alpha);
+                U(l,m,0)=pow(-1.,m)*sqrt(2.)*d(l,m,0)*cos(((double) m)*alpha);
+                for(int n=1;n<=l;n++)
+                {
+                    cos_mamg = cos( ((double)m)*alpha + ((double)n)*gamma);
+                    cos_ma_mg = cos( ((double)m)*alpha - ((double)n)*gamma);
+                    sin_mamg = sin( ((double)m)*alpha + ((double)n)*gamma);
+                    sin_ma_mg = sin( ((double)m)*alpha - ((double)n)*gamma);
+
+                    U(l,m,n)=pow(-1.,m+n)*d(l,m,n)*cos_mamg + pow(-1.,m)*d(l,m,-n)*cos_ma_mg;
+                    U(l,m,-n)=pow(-1.,m)*d(l,m,-n)*sin_ma_mg
+                        - pow(-1.,m+n)*d(l,m,n)*sin_mamg;
+                    U(l,-m,n)=-pow(-1.,n)*d(l,-m,n)*-sin_ma_mg
+                        + d(l,-m,-n)*sin_mamg;
+                    U(l,-m,-n)=d(l,-m,-n)*cos_mamg
+                        - pow(-1.,n)*d(l,-m,n)*cos_ma_mg;
+                }
             }
-        }
-        for(n=1;n<=l;n++)
-        {
-            // U(l,0,-n)=pow(-1.,n+1)*sqrt(2.)*d(l,0,n)*sin(((double) n)*gamma);
-            U(l,0,-n)=-sqrt(2.)*d(l,0,-n)*sin(((double) n)*gamma);
-            U(l,0,n)=pow(-1.,n)*sqrt(2.)*d(l,0,n)*cos(((double) n)*gamma);
+            for(int n=thr.i_init;n<=thr.i_term;n++) // when m=0
+            {
+                U(l,0,-n)=-sqrt(2.)*d(l,0,-n)*sin(((double) n)*gamma);
+                U(l,0,n)=pow(-1.,n)*sqrt(2.)*d(l,0,n)*cos(((double) n)*gamma);
+            }
         }
     }
         
@@ -1049,15 +1052,17 @@ fdcl_FFTSO3_matrix_complex fdcl_FFTSO3_real::matrix2rsph(int L)
 double fdcl_FFTSO3_real::inverse_transform(fdcl_FFTSO3_matrix_real F, double alpha, double beta, double gamma)
 {
     double f=0.;
-    int l,m,n;
     fdcl_FFTSO3_matrix_real U;
     
     U=real_harmonics(alpha,beta,gamma);   
     
-    for(l=0;l<=l_max;l++)
-        for(m=-l;m<=l;m++)
-            for(n=-l;n<=l;n++)
+#pragma omp parallel for reduction(+:f)
+    for(int l=0;l<=l_max;l++)
+    {
+        for(int m=-l;m<=l;m++)
+            for(int n=-l;n<=l;n++)
                 f+=((double) 2*l+1 )* F(l,m,n)*U(l,m,n);
+    }
     
     return f;
 }
