@@ -701,21 +701,24 @@ fdcl_FFTSO3_matrix_complex fdcl_FFTSO3_complex::forward_transform(std::function 
             
             F_local.setZero();
 
-            for(l=0; l<=l_max; l++)
+            if(!is_real)
             {
-                for(m=1; m<=l; m++)
+                for(l=0; l<=l_max; l++)
                 {
-                    for(n=1; n<=l; n++)	
-                        F_local(l,m,n)+=weight[k]*d_beta_k(l,m,n)*F_k(2*B-m,2*B-n);
-                    for(n=-l; n<=0; n++)	
-                        F_local(l,m,n)+=weight[k]*d_beta_k(l,m,n)*F_k(2*B-m,-n);
-                }
-                for(m=-l; m<=0; m++)
-                {
-                    for(n=1; n<=l; n++)	
-                        F_local(l,m,n)+=weight[k]*d_beta_k(l,m,n)*F_k(-m,2*B-n);
-                    for(n=-l; n<=0; n++)	
-                        F_local(l,m,n)+=weight[k]*d_beta_k(l,m,n)*F_k(-m,-n);
+                    for(m=1; m<=l; m++)
+                    {
+                        for(n=1; n<=l; n++)	
+                            F_local(l,m,n)+=weight[k]*d_beta_k(l,m,n)*F_k(2*B-m,2*B-n);
+                        for(n=-l; n<=0; n++)	
+                            F_local(l,m,n)+=weight[k]*d_beta_k(l,m,n)*F_k(2*B-m,-n);
+                    }
+                    for(m=-l; m<=0; m++)
+                    {
+                        for(n=1; n<=l; n++)	
+                            F_local(l,m,n)+=weight[k]*d_beta_k(l,m,n)*F_k(-m,2*B-n);
+                        for(n=-l; n<=0; n++)	
+                            F_local(l,m,n)+=weight[k]*d_beta_k(l,m,n)*F_k(-m,-n);
+                    }
                 }
             }
 #pragma omp critical
