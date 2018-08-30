@@ -1014,7 +1014,7 @@ fdcl_FFTSO3_matrix_real fdcl_FFTSO3_real::wigner_D_real(double alpha, double bet
 
 fdcl_FFTSO3_matrix_complex fdcl_FFTSO3_real::matrix2rsph(int L)
 {
-	T.init(L);
+    fdcl_FFTSO3_matrix_complex T(L);
     int l,m;
 
     for(l=0;l<=L;l++)
@@ -1074,10 +1074,10 @@ double fdcl_FFTSO3_real::inverse_transform(fdcl_FFTSO3_matrix_real F, Matrix3 R)
 
 fdcl_FFTSO3_matrix_real fdcl_FFTSO3_real::forward_transform(std::function <double(double, double, double)> func)
 {
-	fdcl_FFTSO3_matrix_complex F_complex(l_max);
+	fdcl_FFTSO3_matrix_complex F_complex(l_max), T(l_max);
 
 	F_complex=fdcl_FFTSO3_complex::forward_transform(func,1);
-	matrix2rsph(l_max);
+	T=matrix2rsph(l_max);
 
 	for(int l=0; l<=l_max; l++)
 		F_complex[l]=T[l]*F_complex[l]*T[l].adjoint();
