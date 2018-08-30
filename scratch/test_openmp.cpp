@@ -62,13 +62,24 @@ int main()
             // FFTSO3.inverse_transform(F,0.1,0.2,0.3);
             // RFFTSO3.forward_transform(myfuncR_real);
             // RFFTSO3.real_harmonics(0.1,0.2,0.3,l_max);
-            RFFTSO3.inverse_transform(F_real,0.1,0.2,0.3);
+            // RFFTSO3.inverse_transform(F_real,0.1,0.2,0.3);
+            FFTS2.forward_transform(myfunc);
 
         }
 
         dt[r]=tt.toc();
     }
     cout << "speed up factor " << dt[0]/dt[1] << " " << dt[0]/dt[2] << " " << dt[0]/dt[3] << endl;
+
+    RFFTS2.init(4);
+    RFFTS2.check_transform();
+    RFFTS2.init(5);
+    RFFTS2.check_transform();
+
+    FFTS2.init(4);
+    FFTS2.check_transform();
+    FFTS2.init(5);
+    FFTS2.check_transform();
 
     FFTSO3.init(4);
     FFTSO3.check_transform();
