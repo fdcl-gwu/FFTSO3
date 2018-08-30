@@ -264,15 +264,15 @@ int main()
     fdcl::FFTSO3_matrix_real U(l_max);
     Eigen::Matrix3d R;
 
-    R=Euler3232R(M_PI/6., -M_PI/3., M_PI/2.);
+    R=fdcl::Euler3232R(M_PI/6., -M_PI/3., M_PI/2.);
     U=RFFTSO3.real_harmonics(R);
     for(int l=0; l<=l_max; l++)
         SSM.G[l]=U[l].transpose()*SSM.F[l];
 
     cout << SSM.J(R) << endl;
-    cout << SSM.J(Euler3232R(0.,0.,0.)) << endl;
+    cout << SSM.J(fdcl::Euler3232R(0.,0.,0.)) << endl;
     SSM.check_gradient();
-    cout << SSM.opt(Euler3232R(M_PI/2.,0.,0.)) << endl;
+    cout << SSM.opt(fdcl::Euler3232R(M_PI/2.,0.,0.)) << endl;
     cout << R << endl;
 
     // fd.open("FFTS2_rot.dat");

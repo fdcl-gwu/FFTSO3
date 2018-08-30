@@ -6,7 +6,7 @@
 
 using namespace std;
 
-Eigen::Matrix3d hat(const Eigen::Vector3d v)
+Eigen::Matrix3d fdcl::hat(const Eigen::Vector3d v)
 {
 	Eigen::Matrix3d V;
 	V.setZero();
@@ -17,7 +17,7 @@ Eigen::Matrix3d hat(const Eigen::Vector3d v)
 	return V;
 }
 
-Eigen::Vector3d vee(const Eigen::Matrix3d V)
+Eigen::Vector3d fdcl::vee(const Eigen::Matrix3d V)
 {
 	Eigen::Vector3d v;
 	Eigen::Matrix3d E;
@@ -36,7 +36,7 @@ Eigen::Vector3d vee(const Eigen::Matrix3d V)
 	return  v;
 }
 
-double sinx_over_x(const double x)
+double fdcl::sinx_over_x(const double x)
 {
 	double y;
 	double eps=1.e-6;
@@ -48,7 +48,7 @@ double sinx_over_x(const double x)
 	return y;
 }
 
-Eigen::Matrix3d expm_SO3(const Eigen::Vector3d r)
+Eigen::Matrix3d fdcl::expm_SO3(const Eigen::Vector3d r)
 {
 	Eigen::Matrix3d R;
 	double theta,y,y2;
@@ -64,7 +64,7 @@ Eigen::Matrix3d expm_SO3(const Eigen::Vector3d r)
 
 }
 
-Eigen::Vector3d logm_SO3(const Eigen::Matrix3d R)
+Eigen::Vector3d fdcl::logm_SO3(const Eigen::Matrix3d R)
 {
 	Eigen::Vector3d r;
 	Eigen::Matrix3d I;
@@ -117,7 +117,7 @@ Eigen::Vector3d logm_SO3(const Eigen::Matrix3d R)
 	return r;
 }
 
-bool assert_SO3(Eigen::Matrix3d R,const char *R_name)
+bool fdcl::assert_SO3(Eigen::Matrix3d R,const char *R_name)
 {
 	bool isSO3;
 	double errO, errD;
@@ -144,7 +144,7 @@ bool assert_SO3(Eigen::Matrix3d R,const char *R_name)
 
 }
 
-void sat(Eigen::Vector3d &x, double x_min, double x_max)
+void fdcl::sat(Eigen::Vector3d &x, double x_min, double x_max)
 {
 	int i;
 	for (i=0; i<3; i++)
@@ -156,7 +156,7 @@ void sat(Eigen::Vector3d &x, double x_min, double x_max)
 	}
 }
 
-void sat(Eigen::Matrix<double,4,1> &x, double x_min, double x_max)
+void fdcl::sat(Eigen::Matrix<double,4,1> &x, double x_min, double x_max)
 {
 	int i;
 	for (i=0; i<4; i++)
@@ -168,7 +168,7 @@ void sat(Eigen::Matrix<double,4,1> &x, double x_min, double x_max)
 	}
 }
 
-std::vector<double> R2Euler323(const Eigen::Matrix3d R)
+std::vector<double> fdcl::R2Euler323(const Eigen::Matrix3d R)
 {
 	double a, b, g;
 	std::vector<double> abg;
@@ -193,7 +193,7 @@ std::vector<double> R2Euler323(const Eigen::Matrix3d R)
 	
 	return abg;
 }
-Eigen::Matrix3d Euler3232R(double a, double b, double g)
+Eigen::Matrix3d fdcl::Euler3232R(double a, double b, double g)
 {
 	Eigen::Matrix3d R;
 	
