@@ -701,7 +701,7 @@ fdcl_FFTSO3_matrix_complex fdcl_FFTSO3_complex::forward_transform(std::function 
             
             F_local.setZero();
 
-            if(!is_real)
+            if(!is_real) // complex-valued function
             {
                 for(l=0; l<=l_max; l++)
                 {
@@ -721,9 +721,42 @@ fdcl_FFTSO3_matrix_complex fdcl_FFTSO3_complex::forward_transform(std::function 
                     }
                 }
             }
+            else // real-valued function
+            {
+                for(l=0; l<=l_max; l++)
+                {
+                    for(m=1; m<=l; m++)
+                    {
+                        for(n=1; n<=l; n++)	
+                            F_local(l,m,n)+=weight[k]*d_beta_k(l,m,n)*F_k(2*B-m,2*B-n);
+                        for(n=-l; n<=0; n++)	
+                            F_local(l,m,n)+=weight[k]*d_beta_k(l,m,n)*F_k(2*B-m,-n);
+                    }
+                    m=0;
+                    for(n=-l; n<=0; n++)	
+                        F_local(l,m,n)+=weight[k]*d_beta_k(l,m,n)*F_k(-m,-n);
+                    
+                }
+            }
 #pragma omp critical
             F=F+F_local;
         }
+#pragma omp barrier
+
+        if(is_real)
+        {
+#pragma omp for private(l,m,n)
+            for(l=0; l<=l_max; l++)
+            {
+                for(m=-l; m<0; m++)
+                    for(n=-l; n<=l; n++)
+                        F(l,m,n)=pow(-1.,m-n)*std::conj(F(l,-m,-n));
+                m=0;
+                for(n=1; n<=l; n++)
+                    F(l,m,n)=pow(-1.,m-n)*std::conj(F(l,-m,-n));
+            }
+        }
+
     }
 
 	return F;
@@ -1043,7 +1076,7 @@ fdcl_FFTSO3_matrix_real fdcl_FFTSO3_real::forward_transform(std::function <doubl
 {
 	fdcl_FFTSO3_matrix_complex F_complex(l_max);
 
-	F_complex=fdcl_FFTSO3_complex::forward_transform(func);
+	F_complex=fdcl_FFTSO3_complex::forward_transform(func,1);
 	matrix2rsph(l_max);
 
 	for(int l=0; l<=l_max; l++)
