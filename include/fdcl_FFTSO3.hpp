@@ -103,20 +103,22 @@ class fdcl::FFTSO3_real : public fdcl::FFTSO3_complex
         double check_deriv_real_harmonics();
         double check_transform();
 
-    private:
+    public:
 		int signum(int );
         fdcl::FFTSO3_matrix_real F_4_check;
         double f_4_check_transform(double alpha, double beta, double gamma);
 
+        fdcl::FFTSO3_matrix_real real_harmonics_3(double alpha, double beta, double gamma, int L); // alternative method with matrix formulation
         fdcl::FFTSO3_matrix_complex real_harmonics_2(double alpha, double beta, double gamma, int L); // alternative method with U = \bar C D C^T
         fdcl::FFTSO3_matrix_real real_harmonics_1(double alpha, double beta, double gamma, int L);// alternative formulation based on Phi_1 and Phi_2
-        fdcl::FFTSO3_matrix_real real_harmonics_0(double alpha, double beta, double gamma, int L);// alternative formulation based on Theta/Psi
+        fdcl::FFTSO3_matrix_real real_harmonics_0(double alpha, double beta, double gamma, int L);// alternative formulation based on Psi
 
         fdcl::FFTSO3_matrix_real forward_transform_0(std::function <double(double, double, double)>);
         fdcl::FFTSO3_matrix_real forward_transform_1(std::function <double(double, double, double)>);
 
         std::vector<double> compute_Phi(int m, int n, double alpha, double gamma);	
         fdcl::FFTSO3_matrix_real compute_Psi(double beta, int L);
+        void compute_X(double gamma, int L, Eigen::MatrixXd& X);
 
         fdcl::FFTSO3_matrix_complex T;
         fdcl::FFTSO3_matrix_complex matrix2rsph(int L);

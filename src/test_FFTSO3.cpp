@@ -241,14 +241,37 @@ int main()
     // RFFTSO3.check_all();g
     // FFTS2.check_all();
     // RFFTS2.check_all();
+    Eigen::MatrixXd X;
+    int L=3;
+    X.resize(2*L+1,2*L+1);
+    RFFTSO3.compute_X(0.1, L, X);
+    cout << X << endl;
 
-    fdcl::ETOPO5 ETOPO5;
-    ETOPO5.read("../scratch/ETOPO5.asc",180,360);
 
-    fdcl::spherical_shape_matching SSM(l_max);
+    cout << RFFTSO3.real_harmonics(a,b,g,L) << endl;
+    cout << RFFTSO3.real_harmonics_3(a,b,g,L) << endl;
 
-    auto func= std::bind(&fdcl::ETOPO5::elev, &ETOPO5, std::placeholders::_1, std::placeholders::_2);
-    SSM.F=RFFTS2.forward_transform([=] (double theta, double phi) {return func(-theta*180./M_PI+90.,phi*180./M_PI);} );
+    tt.tic();
+    for(int i=0; i<100; i++)
+       RFFTSO3.real_harmonics(a,b,g,100);
+    tt.toc();
+
+    tt.tic();
+    for(int i=0; i<100; i++)
+       RFFTSO3.real_harmonics_3(a,b,g,100);
+    tt.toc();
+
+
+
+}
+
+    // fdcl::ETOPO5 ETOPO5;
+    // ETOPO5.read("../scratch/ETOPO5.asc",180,360);
+// 
+    // fdcl::spherical_shape_matching SSM(l_max);
+// 
+    // auto func= std::bind(&fdcl::ETOPO5::elev, &ETOPO5, std::placeholders::_1, std::placeholders::_2);
+    // SSM.F=RFFTS2.forward_transform([=] (double theta, double phi) {return func(-theta*180./M_PI+90.,phi*180./M_PI);} );
     // fd.open("FFTS2.dat");
     // for(int i=0; i<180; i++)
     // {
@@ -261,19 +284,19 @@ int main()
     // }
     // fd.close();
 // 
-    fdcl::FFTSO3_matrix_real U(l_max);
-    Eigen::Matrix3d R;
-
-    R=fdcl::Euler3232R(M_PI/6., -M_PI/3., M_PI/2.);
-    U=RFFTSO3.real_harmonics(R);
-    for(int l=0; l<=l_max; l++)
-        SSM.G[l]=U[l].transpose()*SSM.F[l];
-
-    cout << SSM.J(R) << endl;
-    cout << SSM.J(fdcl::Euler3232R(0.,0.,0.)) << endl;
-    SSM.check_gradient();
-    cout << SSM.opt(fdcl::Euler3232R(M_PI/2.,0.,0.)) << endl;
-    cout << R << endl;
+    // fdcl::FFTSO3_matrix_real U(l_max);
+    // Eigen::Matrix3d R;
+// 
+    // R=fdcl::Euler3232R(M_PI/6., -M_PI/3., M_PI/2.);
+    // U=RFFTSO3.real_harmonics(R);
+    // for(int l=0; l<=l_max; l++)
+        // SSM.G[l]=U[l].transpose()*SSM.F[l];
+// 
+    // cout << SSM.J(R) << endl;
+    // cout << SSM.J(fdcl::Euler3232R(0.,0.,0.)) << endl;
+    // SSM.check_gradient();
+    // cout << SSM.opt(fdcl::Euler3232R(M_PI/2.,0.,0.)) << endl;
+    // cout << R << endl;
 
     // fd.open("FFTS2_rot.dat");
     // for(int i=0; i<180; i++)
@@ -293,4 +316,4 @@ int main()
 
  
 
-}
+// }

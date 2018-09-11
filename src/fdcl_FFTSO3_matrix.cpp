@@ -46,15 +46,17 @@ ScalarType& fdcl::FFTSO3_matrix<ScalarType>::operator()(int l, int m, int n)
 	return M[l](m+l,n+l);
 }
 
-template <class ScalarType>
-ostream& operator<< (ostream& os, const fdcl::FFTSO3_matrix<ScalarType>& M)
-{
-	for(int l=0;l<=M.l_max;l++)
-	{
-		os << "l=" << l << endl;
-		os << M.M[l] << endl << endl;
-	}
-	return os;
+namespace fdcl {
+    template <class ScalarType>
+        ostream& operator<< (ostream& os, const fdcl::FFTSO3_matrix<ScalarType>& M)
+        {
+            for(int l=0;l<=M.l_max;l++)
+            {
+                os << "l=" << l << endl;
+                os << M.M[l] << endl << endl;
+            }
+            return os;
+        }
 }
 
 /*template<class ScalarType> template<typename U>
@@ -148,7 +150,6 @@ fdcl::FFTSO3_matrix<ScalarType> fdcl::FFTSO3_matrix<ScalarType>::operator*(const
 	return Z;
 }
 
-
 template <class ScalarType>
 void fdcl::FFTSO3_matrix<ScalarType>::setRandom()
 {
@@ -183,10 +184,11 @@ namespace fdcl
 {
     template class FFTSO3_matrix<double>;
     template class FFTSO3_matrix<complex<double>>;
+    template ostream& operator<< (ostream& os, const fdcl::FFTSO3_matrix<double>& M);
+    template ostream& operator<< (ostream& os, const fdcl::FFTSO3_matrix<complex<double>>& M);
 }
 
-template ostream& operator<< (ostream& os, const fdcl::FFTSO3_matrix<double>& M);
-template ostream& operator<< (ostream& os, const fdcl::FFTSO3_matrix<complex<double>>& M);
+
 //template fdcl_FFTSO3_matrix<double> fdcl_FFTSO3_matrix<double>::operator+ (const fdcl_FFTSO3_matrix<double>& M);
 //template fdcl_FFTSO3_matrix<complex<double>> fdcl_FFTSO3_matrix<complex<double>>::operator+ (const fdcl_FFTSO3_matrix<complex<double>>& M);
 

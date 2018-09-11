@@ -1378,7 +1378,6 @@ fdcl::FFTSO3_matrix_real fdcl::FFTSO3_real::compute_Psi(double beta, int L)
         }
     }
 
-
     return Psi;
 }
 
@@ -1427,7 +1426,7 @@ double fdcl::FFTSO3_real::check_real_harmonics()
     int L=10;
     double alpha, beta, gamma;
     fdcl::FFTSO3_matrix_complex U_2(L);
-    fdcl::FFTSO3_matrix_real U(L), U_0(L), U_1(L);
+    fdcl::FFTSO3_matrix_real U(L), U_0(L), U_1(L), U_3(L);
     fdcl::tictoc tictoc;
     double error=1.0;
 
@@ -1439,6 +1438,7 @@ double fdcl::FFTSO3_real::check_real_harmonics()
     U_0=real_harmonics_0(alpha,beta,gamma,L);
     U_1=real_harmonics_1(alpha,beta,gamma,L);
     U_2=real_harmonics_2(alpha,beta,gamma,L);
+    U_3=real_harmonics_3(alpha,beta,gamma,L);
 
     if(check_verbose)
     {
@@ -1448,6 +1448,7 @@ double fdcl::FFTSO3_real::check_real_harmonics()
         cout << "error from real_harmonics_0: " << (U-U_0).norm() << endl;
         cout << "error from real_harmonics_1: " << (U-U_1).norm() << endl;
         cout << "error from real_harmonics_2: " << (U-U_2.real()).norm() << endl;
+        cout << "error from real_harmonics_3: " << (U-U_3).norm() << endl;
     }
 
     error = (U-U_0).norm() + (U-U_1).norm() + (U-U_2.real()).norm();
@@ -1473,6 +1474,11 @@ double fdcl::FFTSO3_real::check_real_harmonics()
         for(int i=0;i<=500;i++)
             real_harmonics_2(alpha,beta,gamma,L);
         tictoc.toc("real_harmonics_2");
+
+        tictoc.tic();
+        for(int i=0;i<=500;i++)
+            real_harmonics_3(alpha,beta,gamma,L);
+        tictoc.toc("real_harmonics_3");
     } 
 
     cout << "fdcl::FFTSO3_real::check_real_harmonics: error = " << error << endl;
@@ -1673,7 +1679,6 @@ double fdcl::FFTSO3_real::check_Clebsch_Gordon()
     return error;
 }
 
-
 int fdcl::FFTSO3_real::signum(int x)
 {
 	int y;
@@ -1713,3 +1718,44 @@ void fdcl::FFTSO3_real::check_all()
     check_transform();
     cout << endl;
 }
+
+void fdcl::FFTSO3_real::compute_X(double alpha, int L, Eigen::MatrixXd& X)
+{
+    X(L,L)=1.;
+    for(int m=1; m<=L; m++)
+    {
+        X(m+L,m+L)=cos(m*alpha);
+        X(-m+L,-m+L)=X(m+L,m+L);
+        X(m+L,-m+L)=-sin(m*alpha);
+        X(-m+L,m+L)=-X(m+L,-m+L);
+    }
+}
+
+fdcl::FFTSO3_matrix_real fdcl::FFTSO3_real::real_harmonics_3(double alpha, double beta, double gamma, int L)
+{
+    fdcl::FFTSO3_matrix_real U(L), Psi(L), Y(L);
+    Eigen::MatrixXd X_alpha(2*L+1,2*L+1), X_gamma(2*L+1,2*L+1);
+    int l,m,n;
+
+    compute_X(alpha,L,X_alpha);
+    compute_X(gamma,L,X_gamma);
+    Psi=compute_Psi(beta,L);
+
+    Y.setZero();
+    for(l=0; l<=L; l++)
+    {
+        for(m=-l; m<=-1; m++)
+            for(n=-l; n<=-1; n++)
+                Y(l,m,n)=Psi(l,m,n);
+
+        for(m=0; m<=l; m++)
+            for(n=0; n<=l; n++)
+                Y(l,m,n)=Psi(l,m,n);
+    }
+
+    for(l=0; l<=L; l++)
+        U[l]= X_alpha.block(L-l,L-l,2*l+1,2*l+1) * Y[l] * X_gamma.block(L-l,L-l,2*l+1,2*l+1);
+
+    return U;
+}
+
