@@ -1169,13 +1169,9 @@ fdcl::FFTSO3_matrix_real fdcl::FFTSO3_real::forward_transform_0(std::function <d
     fdcl::FFTSO3_matrix_real F_gamma_theta[2*B], F_gamma_psi[2*B];
     fdcl::FFTSO3_matrix_real F(l_max);
     int j1, j2, k, l, m, n;
-    std::vector<fdcl::FFTSO3_matrix_real> TP;
+    fdcl::FFTSO3_matrix_real Psi(l_max);
     double f_j1kj2, alpha, beta, gamma;
     double cos_ng, sin_ng, sin_ma, cos_ma;
-
-    TP.resize(2);
-    TP[0].init(l_max);
-    TP[1].init(l_max);
 
     compute_weight();
 
@@ -1193,7 +1189,7 @@ fdcl::FFTSO3_matrix_real fdcl::FFTSO3_real::forward_transform_0(std::function <d
     for(k=0;k<2*B;k++)
     {
         beta=beta_k(k);     
-        TP=compute_Theta_Psi(beta,l_max);
+        Psi=compute_Psi(beta,l_max);
         for(j1=0;j1<2*B;j1++)
         {
             alpha=alpha_j(j1);              
@@ -1205,8 +1201,8 @@ fdcl::FFTSO3_matrix_real fdcl::FFTSO3_real::forward_transform_0(std::function <d
                     for(m=-l;m<=l;m++)
                         for(n=-l;n<=l;n++)
                         {
-                            F_beta_theta[j1][j2](l,m,n)+=weight[k]*TP[0](l,m,n)*f_j1kj2; 
-                            F_beta_psi[j1][j2](l,m,n)+=weight[k]*TP[1](l,m,n)*f_j1kj2; 
+                            F_beta_theta[j1][j2](l,m,n)+=weight[k]*-Psi(l,-m,n)*f_j1kj2; 
+                            F_beta_psi[j1][j2](l,m,n)+=weight[k]*Psi(l,m,n)*f_j1kj2; 
                         }
             }
         }
@@ -1343,98 +1339,82 @@ std::vector<double> fdcl::FFTSO3_real::compute_Phi(int m, int n, double alpha, d
     return Phi;
 }
 
-std::vector<fdcl::FFTSO3_matrix_real> fdcl::FFTSO3_real::compute_Theta_Psi(double beta, int L)
+fdcl::FFTSO3_matrix_real fdcl::FFTSO3_real::compute_Psi(double beta, int L)
 {
-    std::vector<fdcl::FFTSO3_matrix_real> TP;
+    fdcl::FFTSO3_matrix_real Psi(L);
     fdcl::FFTSO3_matrix_real d(L);
     int l,m,n;
     double A, B, C;
-
-    TP.resize(2);
-    TP[0].init(L);
-    TP[1].init(L);
 
     d=wigner_d(beta,L);
 
     for(l=0;l<=L;l++)
     {
-        TP[0](l,0,0)=0.;
-        TP[1](l,0,0)=d(l,0,0);
+        Psi(l,0,0)=d(l,0,0);
 
         m=0;
         for(n=1;n<=l;n++)
         {
             C=sqrt(2.)*d(l,abs(m),abs(n));
-            TP[0](l,m,n)=-pow(-1.,m-n)*C;
-            TP[1](l,m,n)=pow(-1,m-n)*C;
-            TP[0](l,m,-n)=TP[0](l,m,n);
-            TP[1](l,m,-n)=TP[1](l,m,n);
+            Psi(l,m,n)=pow(-1,m-n)*C;
+            Psi(l,m,-n)=Psi(l,m,n);
         }
         for(m=1;m<=l;m++)
         {
             n=0;
             C=sqrt(2.)*d(l,abs(m),abs(n));
-            TP[0](l,m,n)=-pow(-1.,m-n)*C;
-            TP[1](l,m,n)=pow(-1.,m-n)*C;
-            TP[0](l,-m,n)=TP[0](l,m,n);
-            TP[1](l,-m,n)=TP[1](l,m,n);
+            Psi(l,m,n)=pow(-1.,m-n)*C;
+            Psi(l,-m,n)=Psi(l,m,n);
             for(n=1;n<=l;n++)
             {
                 A=pow(-1.,m-n)*d(l,abs(m),abs(n));
                 B=pow(-1.,m)*signum(m)*d(l,abs(m),-abs(n));
-                TP[0](l,m,n)=-A+B;
-                TP[1](l,m,n)=A+B;
-                TP[0](l,-m,n)=-A-B;
-                TP[1](l,-m,n)=A-B;
+                Psi(l,m,n)=A+B;
+                Psi(l,-m,n)=A-B;
 
-                TP[0](l,m,-n)=TP[0](l,m,n);
-                TP[1](l,m,-n)=TP[1](l,m,n);
-                TP[0](l,-m,-n)=TP[0](l,-m,n);
-                TP[1](l,-m,-n)=TP[1](l,-m,n);
+                Psi(l,m,-n)=Psi(l,m,n);
+                Psi(l,-m,-n)=Psi(l,-m,n);
             }
         }
     }
 
 
-    return TP;
+    return Psi;
 }
 
 fdcl::FFTSO3_matrix_real fdcl::FFTSO3_real::real_harmonics_0(double alpha, double beta, double gamma, int L)
 {
-    fdcl::FFTSO3_matrix_real U(L);
-    std::vector<fdcl::FFTSO3_matrix_real> TP(L);
+    fdcl::FFTSO3_matrix_real U(L), Psi(L);
     int l,m,n;
     double cos_ma, sin_ma, cos_ng, sin_ng;
-    TP.resize(2);
-    // TP[1]=Theta, TP[2]=Psi;
-    TP=compute_Theta_Psi(beta,L);
+    Psi=compute_Psi(beta,L);
     
     for(l=0;l<=L;l++)
     {
-        U(l,0,0)=TP[1](l,0,0);
+        U(l,0,0)=Psi(l,0,0);
         for(n=1;n<=l;n++)
         {
             // when m=0
             sin_ng=sin( ((double)n)*gamma);
             cos_ng=cos( ((double)n)*gamma);
-            U(l,0,n)=cos_ng*TP[1](l,0,n);
-            U(l,0,-n)=-sin_ng*TP[1](l,0,-n);
+            U(l,0,n)=cos_ng*Psi(l,0,n);
+            U(l,0,-n)=-sin_ng*Psi(l,0,-n);
         }
         for(m=1;m<=l;m++)
         {
             // when n=0
             cos_ma=cos( ((double)m)*alpha);
             sin_ma=sin( ((double)m)*alpha);
-            U(l,m,0)=cos_ma*TP[1](l,m,0);
-            U(l,-m,0)=-sin_ma*TP[0](l,-m,0);
+            U(l,m,0)=cos_ma*Psi(l,m,0);
+            U(l,-m,0)=sin_ma*Psi(l,m,0);
             for(n=1;n<=l;n++)
             {
                 sin_ng=sin( ((double)n)*gamma);
                 cos_ng=cos( ((double)n)*gamma);
-                U(l,m,n)=sin_ma*sin_ng*TP[0](l,m,n)+cos_ma*cos_ng*TP[1](l,m,n);
-                U(l,-m,-n)=sin_ma*sin_ng*TP[0](l,-m,-n)+cos_ma*cos_ng*TP[1](l,-m,-n);
-                U(l,m,-n)=sin_ma*cos_ng*TP[0](l,m,-n)-cos_ma*sin_ng*TP[1](l,m,-n);
-                U(l,-m,n)=-sin_ma*cos_ng*TP[0](l,-m,n)+cos_ma*sin_ng*TP[1](l,-m,n);
+                U(l,m,n)=-sin_ma*sin_ng*Psi(l,-m,n)+cos_ma*cos_ng*Psi(l,m,n);
+                U(l,-m,-n)=-sin_ma*sin_ng*Psi(l,m,-n)+cos_ma*cos_ng*Psi(l,-m,-n);
+                U(l,m,-n)=-sin_ma*cos_ng*Psi(l,-m,-n)-cos_ma*sin_ng*Psi(l,m,-n);
+                U(l,-m,n)=sin_ma*cos_ng*Psi(l,m,n)+cos_ma*sin_ng*Psi(l,-m,n);
             }   
         }
     }

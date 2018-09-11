@@ -116,7 +116,7 @@ class fdcl::FFTSO3_real : public fdcl::FFTSO3_complex
         fdcl::FFTSO3_matrix_real forward_transform_1(std::function <double(double, double, double)>);
 
         std::vector<double> compute_Phi(int m, int n, double alpha, double gamma);	
-        std::vector<fdcl::FFTSO3_matrix_real> compute_Theta_Psi(double beta, int L);
+        fdcl::FFTSO3_matrix_real compute_Psi(double beta, int L);
 
         fdcl::FFTSO3_matrix_complex T;
         fdcl::FFTSO3_matrix_complex matrix2rsph(int L);
