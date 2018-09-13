@@ -103,7 +103,8 @@ class fdcl::FFTSO3_real : public fdcl::FFTSO3_complex
         double check_deriv_real_harmonics();
         double check_transform();
 
-    public:
+    private:
+        int index_fft(int , int);
 		int signum(int );
         fdcl::FFTSO3_matrix_real F_4_check;
         double f_4_check_transform(double alpha, double beta, double gamma);
@@ -115,6 +116,7 @@ class fdcl::FFTSO3_real : public fdcl::FFTSO3_complex
 
         fdcl::FFTSO3_matrix_real forward_transform_0(std::function <double(double, double, double)>);
         fdcl::FFTSO3_matrix_real forward_transform_1(std::function <double(double, double, double)>);
+        fdcl::FFTSO3_matrix_real forward_transform_2(std::function <double(double, double, double)>);
 
         std::vector<double> compute_Phi(int m, int n, double alpha, double gamma);	
         fdcl::FFTSO3_matrix_real compute_Psi(double beta, int L);

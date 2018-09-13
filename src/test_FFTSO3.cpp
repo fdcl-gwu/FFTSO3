@@ -207,13 +207,25 @@ void fdcl::spherical_shape_matching::check_gradient()
 }
 
 
-    
-    
+double my_func(double a, double b, double g)
+{
+    fdcl::FFTSO3_real RFFTSO3(20);
+    fdcl::FFTSO3_matrix_real F(20);
+
+    F.setZero();
+    for (int l=0; l<=3; l++)
+        for(int m=-l; m<=l; m++)
+            for(int n=-l; n<=l; n++)
+                F(l,m,n)=1.;//cos(m)+sin(n)*exp(l);
+// 
+    return RFFTSO3.inverse_transform(F,a,b,g);
+}
+
 
     
 int main()
 {
-    int l_max=16;
+    int l_max=20;
     fdcl::FFTSO3_complex FFTSO3(l_max);
     fdcl::FFTSO3_real RFFTSO3(l_max);
     fdcl::FFTS2_complex FFTS2(l_max);
@@ -241,27 +253,14 @@ int main()
     // RFFTSO3.check_all();g
     // FFTS2.check_all();
     // RFFTS2.check_all();
-    Eigen::MatrixXd X;
-    int L=3;
-    X.resize(2*L+1,2*L+1);
-    RFFTSO3.compute_X(0.1, L, X);
-    cout << X << endl;
-
-
-    cout << RFFTSO3.real_harmonics(a,b,g,L) << endl;
-    cout << RFFTSO3.real_harmonics_3(a,b,g,L) << endl;
 
     tt.tic();
-    for(int i=0; i<100; i++)
-       RFFTSO3.real_harmonics(a,b,g,100);
+    FFTSO3.forward_transform(my_func);
     tt.toc();
 
     tt.tic();
-    for(int i=0; i<100; i++)
-       RFFTSO3.real_harmonics_3(a,b,g,100);
+    RFFTSO3.forward_transform(my_func);
     tt.toc();
-
-
 
 }
 

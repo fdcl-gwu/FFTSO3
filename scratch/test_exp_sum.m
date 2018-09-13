@@ -16,3 +16,10 @@ figure;
 plot(y,'b.');
 axis equal;
 sum(y)
+
+m=0;
+for j1=0:2*B-1
+    alpha_j1(j1+1)=j1*pi/B;
+    y(j1+1)=cos(m*alpha_j1(j1+1));
+end
+sum(y)

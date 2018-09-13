@@ -762,6 +762,95 @@ fdcl::FFTSO3_matrix_complex fdcl::FFTSO3_complex::forward_transform(std::functio
 	return F;
 }
 
+int fdcl::FFTSO3_real::index_fft(int i, int B)
+{
+    // convert the index of fft to (m,n) \in [-l,l]
+    if (i<=0)
+        return -i;
+    else
+        return 2*B-i;
+}
+
+fdcl::FFTSO3_matrix_real fdcl::FFTSO3_real::forward_transform(std::function <double(double, double, double)> func)
+{
+    fdcl::FFTSO3_matrix_real F(l_max);
+    F.setZero();
+    compute_weight();
+
+#pragma omp parallel 
+    {
+        fdcl::FFTSO3_matrix_real F_local(l_max), Psi(l_max);
+        Eigen::MatrixXd func_k(2*B,2*B);
+        Eigen::MatrixXcd F_k(2*B,2*B);
+        Eigen::VectorXcd tmp_out(2*B);
+
+        int j1, j2, k, l, m, n;
+        double alpha, beta;
+        Eigen::FFT<double> fft;
+
+#pragma omp for
+        for(k=0; k<2*B; k++)
+        {
+            beta=beta_k(k);     
+
+            for(j1=0;j1<2*B;j1++)
+            {
+                alpha=alpha_j(j1);              
+                for(j2=0;j2<2*B;j2++)
+                    func_k(j1,j2)=func(alpha,beta,gamma_j(j2));
+            }	
+
+            F_k.setZero();
+
+            for(j1=0;j1<2*B;j1++)
+            {
+                fft.fwd(tmp_out, func_k.row(j1));
+                F_k.row(j1)=tmp_out;
+            }
+            for(j2=0;j2<2*B;j2++)
+            {
+                fft.fwd(tmp_out, F_k.col(j2));
+                F_k.col(j2)=tmp_out.transpose();
+            }
+
+            Psi = compute_Psi(beta,l_max);
+
+            for(int l=0; l<=l_max; l++)
+                for(int m=-l; m<=l; m++)
+                {
+                    int im=index_fft(m,B);
+                    for(int n=-l; n<=l; n++)
+                    {
+                        int in=index_fft(n,B);
+                        int i_n=index_fft(-n,B);
+                        double cos_mang = F_k.real()(im,in);
+                        double cos_ma_ng = F_k.real()(im,i_n);
+                        double sin_mang = F_k.imag()(im,in);
+                        double sin_ma_ng = F_k.imag()(im,i_n);
+                        double sin_ma_sin_ng = 0.5*(cos_ma_ng - cos_mang);
+                        double cos_ma_cos_ng = 0.5*(cos_ma_ng + cos_mang);
+                        double sin_ma_cos_ng = 0.5*(sin_mang + sin_ma_ng);
+                        double cos_ma_sin_ng = 0.5*(sin_mang - sin_ma_ng);
+
+                        if ( (m>=0 && n>=0) || (m<0 && n<0) )
+                            F_local(l,m,n)+=weight[k]*(-sin_ma_sin_ng*Psi(l,-m,n)+cos_ma_cos_ng*Psi(l,m,n));
+                        else
+                            F_local(l,m,n)+=weight[k]*(-sin_ma_cos_ng*Psi(l,-m,n)+cos_ma_sin_ng*Psi(l,m,n));
+
+                    }
+                }
+        }
+
+#pragma omp critical
+        F=F+F_local;
+        
+    }
+
+    return F;
+}
+
+
+
 fdcl::FFTSO3_matrix_complex fdcl::FFTSO3_complex::forward_transform_1(std::function <complex<double>(double, double, double)> func)
 {
     fdcl::FFTSO3_matrix_complex F_beta[2*B][2*B];
@@ -1077,7 +1166,7 @@ double fdcl::FFTSO3_real::inverse_transform(fdcl::FFTSO3_matrix_real F, Eigen::M
     return inverse_transform(F,abg[0],abg[1],abg[2]); 
 }
 
-fdcl::FFTSO3_matrix_real fdcl::FFTSO3_real::forward_transform(std::function <double(double, double, double)> func)
+fdcl::FFTSO3_matrix_real fdcl::FFTSO3_real::forward_transform_2(std::function <double(double, double, double)> func)
 {
 	fdcl::FFTSO3_matrix_complex F_complex(l_max), T(l_max);
 
