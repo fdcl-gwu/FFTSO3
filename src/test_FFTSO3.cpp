@@ -209,16 +209,17 @@ void fdcl::spherical_shape_matching::check_gradient()
 
 double my_func(double a, double b, double g)
 {
-    fdcl::FFTSO3_real RFFTSO3(20);
-    fdcl::FFTSO3_matrix_real F(20);
-
-    F.setZero();
-    for (int l=0; l<=3; l++)
-        for(int m=-l; m<=l; m++)
-            for(int n=-l; n<=l; n++)
-                F(l,m,n)=1.;//cos(m)+sin(n)*exp(l);
+    // fdcl::FFTSO3_real RFFTSO3(20);
+    // fdcl::FFTSO3_matrix_real F(20);
 // 
-    return RFFTSO3.inverse_transform(F,a,b,g);
+    // F.setZero();
+    // for (int l=0; l<=3; l++)
+        // for(int m=-l; m<=l; m++)
+            // for(int n=-l; n<=l; n++)
+                // F(l,m,n)=1.;//cos(m)+sin(n)*exp(l);
+// 
+    // return RFFTSO3.inverse_transform(F,a,b,g);
+    return sin(a)+cos(b)+sin(2*g);
 }
 
 
