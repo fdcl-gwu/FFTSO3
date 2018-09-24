@@ -18,18 +18,24 @@ namespace fdcl
     class FFTSO3_complex;
     class FFTSO3_real;
 }
+
+/** \brief Complex Fast Fourier Transform on SO(3)
+ *
+ * This class provides tools for forward Fourier transform and inverse Fourier trasnform on the special orthogonal group SO(3)
+ *
+ */
 class fdcl::FFTSO3_complex
 {
     public:
-        std::vector<fdcl::FFTSO3_matrix_real> d_beta;
-        fdcl::FFTSO3_matrix_complex D, F, u;
-        int B, l_max;
-        std::vector<double> weight;
-        fdcl::Clebsch_Gordon_complex C;
+        int l_max; /**< the maximum order of Fourier transform */
+        int B;  /**< band limit: l_max +1 */
+        fdcl::Clebsch_Gordon_complex C; /**< Clebsh-Gordon class */
 
         FFTSO3_complex(){};
         FFTSO3_complex(int l_max);
         ~FFTSO3_complex(){};
+        /** Initialize the class with the maximum order.
+         */
         void init(int l_max);
 
         fdcl::FFTSO3_matrix_real wigner_d(double beta, int L);	
@@ -61,6 +67,9 @@ class fdcl::FFTSO3_complex
         double check_Clebsch_Gordon();
 
 	protected:
+        std::vector<double> weight;
+        std::vector<fdcl::FFTSO3_matrix_real> d_beta;
+        fdcl::FFTSO3_matrix_complex D, F, u;
         double beta_k(int k);
         double alpha_j(int j);
         double gamma_j(int j);
