@@ -10,6 +10,9 @@ namespace fdcl
     class omp_thread;
 }
 
+/** \brief Class to distribute tasks for OpenMP
+ *
+ * Set of functions to distribute repeated tasks to mutiple threads almost evenly */
 class fdcl::omp_thread
 {
     public:

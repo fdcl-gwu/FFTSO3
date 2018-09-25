@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['c',['C',['../classfdcl_1_1_f_f_t_s_o3__complex.html#a5cecaecebf0592878e20e482898d4988',1,'fdcl::FFTSO3_complex::C()'],['../classfdcl_1_1_f_f_t_s_o3__real.html#ab2f6cfd9f0fd78a2badb2e9ea9d5afc6',1,'fdcl::FFTSO3_real::c()']]],
+  ['c',['C',['../classfdcl_1_1_clebsch___gordon__complex.html#a64d4422119b139b7cb64916739c1814a',1,'fdcl::Clebsch_Gordon_complex::C()'],['../classfdcl_1_1_f_f_t_s_o3__complex.html#a5cecaecebf0592878e20e482898d4988',1,'fdcl::FFTSO3_complex::C()'],['../classfdcl_1_1_clebsch___gordon__real.html#a7b02d4a0f510d3ba4267ef423be265de',1,'fdcl::Clebsch_Gordon_real::c()'],['../classfdcl_1_1_f_f_t_s_o3__real.html#ab2f6cfd9f0fd78a2badb2e9ea9d5afc6',1,'fdcl::FFTSO3_real::c()']]],
   ['character',['character',['../classfdcl_1_1_f_f_t_s_o3__complex.html#a82be7fdc2e34d5f8bdd80e3c558d62c3',1,'fdcl::FFTSO3_complex']]],
   ['check_5fall',['check_all',['../classfdcl_1_1_f_f_t_s2__complex.html#a99656dd570373f487727470c6bbbd0bc',1,'fdcl::FFTS2_complex::check_all()'],['../classfdcl_1_1_f_f_t_s2__real.html#a39090f5f6f20a5930a4cbaf472de713d',1,'fdcl::FFTS2_real::check_all()'],['../classfdcl_1_1_f_f_t_s_o3__complex.html#a3c5bc397070ec7dc1c82f8c28473e292',1,'fdcl::FFTSO3_complex::check_all()'],['../classfdcl_1_1_f_f_t_s_o3__real.html#a4c706993486bfa447529a99c168d2a0f',1,'fdcl::FFTSO3_real::check_all()']]],
   ['check_5fclebsch_5fgordon',['check_Clebsch_Gordon',['../classfdcl_1_1_f_f_t_s_o3__complex.html#a07896edb6f4e455e2e33c1948b2cbca1',1,'fdcl::FFTSO3_complex::check_Clebsch_Gordon()'],['../classfdcl_1_1_f_f_t_s_o3__real.html#a5ac83b95415179df82e3beffe84546ef',1,'fdcl::FFTSO3_real::check_Clebsch_Gordon()']]],
@@ -11,7 +11,8 @@ var searchData=
   ['check_5fverbose',['check_verbose',['../classfdcl_1_1_f_f_t_s2__complex.html#adff67c99ec6b7db0eafba58a5e5313c7',1,'fdcl::FFTS2_complex::check_verbose()'],['../classfdcl_1_1_f_f_t_s_o3__complex.html#a86bb46cf9a6d7a6175951a64209dc243',1,'fdcl::FFTSO3_complex::check_verbose()']]],
   ['check_5fweight',['check_weight',['../classfdcl_1_1_f_f_t_s2__complex.html#a5bbbc9fa06f1d5071f6d97c9d2d66299',1,'fdcl::FFTS2_complex::check_weight()'],['../classfdcl_1_1_f_f_t_s_o3__complex.html#afc1e973fb4fe32b5ae9adfa9428e99d6',1,'fdcl::FFTSO3_complex::check_weight()']]],
   ['check_5fwigner_5fd',['check_wigner_d',['../classfdcl_1_1_f_f_t_s_o3__complex.html#ae62f3ddc4aeb64c3a289d1743d212ebd',1,'fdcl::FFTSO3_complex']]],
-  ['clebsch_5fgordon_5fcomplex',['Clebsch_Gordon_complex',['../classfdcl_1_1_clebsch___gordon__complex.html',1,'fdcl']]],
-  ['clebsch_5fgordon_5freal',['Clebsch_Gordon_real',['../classfdcl_1_1_clebsch___gordon__real.html',1,'fdcl']]],
+  ['clebsch_5fgordon_5fcomplex',['Clebsch_Gordon_complex',['../classfdcl_1_1_clebsch___gordon__complex.html',1,'fdcl::Clebsch_Gordon_complex'],['../classfdcl_1_1_clebsch___gordon__complex.html#a40d42cca5676d64fc65839aa4b4acc31',1,'fdcl::Clebsch_Gordon_complex::Clebsch_Gordon_complex()']]],
+  ['clebsch_5fgordon_5freal',['Clebsch_Gordon_real',['../classfdcl_1_1_clebsch___gordon__real.html',1,'fdcl::Clebsch_Gordon_real'],['../classfdcl_1_1_clebsch___gordon__real.html#ae496e205ce022fe29203d5778153bfc4',1,'fdcl::Clebsch_Gordon_real::Clebsch_Gordon_real()']]],
+  ['compute',['compute',['../classfdcl_1_1_clebsch___gordon__complex.html#adbe856248912be168471f925d1f544cb',1,'fdcl::Clebsch_Gordon_complex::compute()'],['../classfdcl_1_1_clebsch___gordon__real.html#ae60d8ab8eb25e285ac87c86d08b77528',1,'fdcl::Clebsch_Gordon_real::compute()']]],
   ['class_5fmanual',['class_manual',['../md_class_manual.html',1,'']]]
 ];

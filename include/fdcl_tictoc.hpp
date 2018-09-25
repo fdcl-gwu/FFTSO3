@@ -9,6 +9,8 @@ namespace fdcl
 {
     class tictoc;
 }
+
+/** \brief Class for stopwatch */
 class fdcl::tictoc
 {
 public:

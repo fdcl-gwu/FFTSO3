@@ -74,27 +74,45 @@ $(function() {
 <div class="title">fdcl::Clebsch_Gordon_complex Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Clebsh-Gordon Coefficient for Complex Harmonics on SO(3)  
+ <a href="classfdcl_1_1_clebsch___gordon__complex.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="fdcl___clebsch___gordon_8hpp_source.html">fdcl_Clebsch_Gordon.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for fdcl::Clebsch_Gordon_complex:</div>
 <div class="dyncontent">
  <div class="center">
   <img src="classfdcl_1_1_clebsch___gordon__complex.png" usemap="#fdcl::Clebsch_5FGordon_5Fcomplex_map" alt=""/>
   <map id="fdcl::Clebsch_5FGordon_5Fcomplex_map" name="fdcl::Clebsch_5FGordon_5Fcomplex_map">
-<area href="classfdcl_1_1_clebsch___gordon__real.html" alt="fdcl::Clebsch_Gordon_real" shape="rect" coords="0,56,187,80"/>
+<area href="classfdcl_1_1_clebsch___gordon__real.html" title="Clebsh-Gordon Coefficient for Real Harmonics on SO(3)" alt="fdcl::Clebsch_Gordon_real" shape="rect" coords="0,56,187,80"/>
 </map>
  </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a40d42cca5676d64fc65839aa4b4acc31"><td class="memItemLeft" align="right" valign="top"><a id="a40d42cca5676d64fc65839aa4b4acc31"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Clebsch_Gordon_complex</b> (int l1, int l2)</td></tr>
+<tr class="memitem:a40d42cca5676d64fc65839aa4b4acc31"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfdcl_1_1_clebsch___gordon__complex.html#a40d42cca5676d64fc65839aa4b4acc31">Clebsch_Gordon_complex</a> (int l1, int l2)</td></tr>
 <tr class="separator:a40d42cca5676d64fc65839aa4b4acc31"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acf2080d93836974498b8acb685c0e6f8"><td class="memItemLeft" align="right" valign="top"><a id="acf2080d93836974498b8acb685c0e6f8"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>init</b> (int l1, int l2)</td></tr>
+<tr class="memitem:acf2080d93836974498b8acb685c0e6f8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfdcl_1_1_clebsch___gordon__complex.html#acf2080d93836974498b8acb685c0e6f8">init</a> (int l1, int l2)</td></tr>
 <tr class="separator:acf2080d93836974498b8acb685c0e6f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac0bad08230972af2bf66d66e2570f059"><td class="memItemLeft" align="right" valign="top"><a id="ac0bad08230972af2bf66d66e2570f059"></a>
-double &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator()</b> (int l, int m, int l1, int m1, int l2, int m2)</td></tr>
+<tr class="memitem:ac0bad08230972af2bf66d66e2570f059"><td class="memItemLeft" align="right" valign="top">double &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfdcl_1_1_clebsch___gordon__complex.html#ac0bad08230972af2bf66d66e2570f059">operator()</a> (int l, int m, int l1, int m1, int l2, int m2)</td></tr>
 <tr class="separator:ac0bad08230972af2bf66d66e2570f059"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adbe856248912be168471f925d1f544cb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfdcl_1_1_clebsch___gordon__complex.html#adbe856248912be168471f925d1f544cb">compute</a> (int l1, int l2)</td></tr>
+<tr class="separator:adbe856248912be168471f925d1f544cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:a8306db0dcd4fa5fd67f4b8bd4f09e5d4"><td class="memItemLeft" align="right" valign="top"><a id="a8306db0dcd4fa5fd67f4b8bd4f09e5d4"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>l1</b></td></tr>
+<tr class="separator:a8306db0dcd4fa5fd67f4b8bd4f09e5d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7560191bfdd791d7a5234b109ccd167c"><td class="memItemLeft" align="right" valign="top"><a id="a7560191bfdd791d7a5234b109ccd167c"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>l2</b></td></tr>
+<tr class="separator:a7560191bfdd791d7a5234b109ccd167c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a64d4422119b139b7cb64916739c1814a"><td class="memItemLeft" align="right" valign="top">Eigen::Matrix&lt; double, Eigen::Dynamic, Eigen::Dynamic &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfdcl_1_1_clebsch___gordon__complex.html#a64d4422119b139b7cb64916739c1814a">C</a></td></tr>
+<tr class="separator:a64d4422119b139b7cb64916739c1814a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
 <tr class="memitem:ab571799205b966f5a7d9d679096106f7"><td class="memItemLeft" align="right" valign="top"><a id="ab571799205b966f5a7d9d679096106f7"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>row</b> (int l, int m, int l1, int m1, int l2, int m2)</td></tr>
 <tr class="separator:ab571799205b966f5a7d9d679096106f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -107,28 +125,176 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>assert_index</b> (int
 <tr class="memitem:a81d09fabad371bcbd56ea196de8b8c14"><td class="memItemLeft" align="right" valign="top"><a id="a81d09fabad371bcbd56ea196de8b8c14"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>compute_sub</b> (int l, int m, int l1, int l2)</td></tr>
 <tr class="separator:a81d09fabad371bcbd56ea196de8b8c14"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adbe856248912be168471f925d1f544cb"><td class="memItemLeft" align="right" valign="top"><a id="adbe856248912be168471f925d1f544cb"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>compute</b> (int l1, int l2)</td></tr>
-<tr class="separator:adbe856248912be168471f925d1f544cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr class="memitem:a8306db0dcd4fa5fd67f4b8bd4f09e5d4"><td class="memItemLeft" align="right" valign="top"><a id="a8306db0dcd4fa5fd67f4b8bd4f09e5d4"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>l1</b></td></tr>
-<tr class="separator:a8306db0dcd4fa5fd67f4b8bd4f09e5d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7560191bfdd791d7a5234b109ccd167c"><td class="memItemLeft" align="right" valign="top"><a id="a7560191bfdd791d7a5234b109ccd167c"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>l2</b></td></tr>
-<tr class="separator:a7560191bfdd791d7a5234b109ccd167c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a64d4422119b139b7cb64916739c1814a"><td class="memItemLeft" align="right" valign="top"><a id="a64d4422119b139b7cb64916739c1814a"></a>
-Eigen::Matrix&lt; double, Eigen::Dynamic, Eigen::Dynamic &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>C</b></td></tr>
-<tr class="separator:a64d4422119b139b7cb64916739c1814a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
-Protected Member Functions</h2></td></tr>
 <tr class="memitem:a2196682b449b11be2437b8069d278493"><td class="memItemLeft" align="right" valign="top"><a id="a2196682b449b11be2437b8069d278493"></a>
-<a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix_complex</a>&#160;</td><td class="memItemRight" valign="bottom"><b>matrix2rsph</b> (int)</td></tr>
+<a class="el" href="fdcl___f_f_t_s_o3__matrix_8hpp.html#a7a5f92b4bc2408af9cacc0d2ec9453e4">fdcl::FFTSO3_matrix_complex</a>&#160;</td><td class="memItemRight" valign="bottom"><b>matrix2rsph</b> (int)</td></tr>
 <tr class="separator:a2196682b449b11be2437b8069d278493"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p class="">Clebsh-Gordon Coefficient for Complex Harmonics on SO(3) </p>
+<p class="">This class formulates a matrix class for the Clebsh-Gordon coefficients for complex harmonics on SO(3) The Clebsh-Gordon coefficients are indexed by six integers, i.e., <img class="formulaInl" alt="$ C^{l,m}_{l_1,m_1,l_2,m_2}$" src="form_3.png"/>. This class overload the operator <code></code>() such that the above element can be accessed by <code>C(l,m,l1,m1,l2,n2)</code>.</p>
+<p class="">NOTE:</p><ul>
+<li>Prior to accessing the element, the member function <code>compute(l1,l2)</code> must be called with the specific value of <img class="formulaInl" alt="$ (l_1,l_2) $" src="form_61.png"/>.</li>
+<li>The elements for other values of <img class="formulaInl" alt="$ (l,m,m_1,m_2) $" src="form_62.png"/> with the same <img class="formulaInl" alt="$ (l_1,l_2)$" src="form_63.png"/> as above can be accessed without need for calling <code>compute(l1,l2)</code> </li>
+<li>However, to access the elements with another value of <img class="formulaInl" alt="$ (l'_1,l'_2) $" src="form_64.png"/>, the member function must be called again with <code>compute(l1_prime, l2_prime)</code> </li>
+</ul>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a40d42cca5676d64fc65839aa4b4acc31"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a40d42cca5676d64fc65839aa4b4acc31">&#9670;&nbsp;</a></span>Clebsch_Gordon_complex()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">fdcl::Clebsch_Gordon_complex::Clebsch_Gordon_complex </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>l1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>l2</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p class="">Constructor with <code>l1</code> and <code>l2</code> </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="adbe856248912be168471f925d1f544cb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adbe856248912be168471f925d1f544cb">&#9670;&nbsp;</a></span>compute()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void fdcl::Clebsch_Gordon_complex::compute </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>l1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>l2</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p class="">Compute all of the coefficients with the given <img class="formulaInl" alt="$l_1,l_2$" src="form_60.png"/>. Coefficients for other values of <img class="formulaInl" alt="$l_1,l_2$" src="form_60.png"/> are NOT computed. </p>
+
+</div>
+</div>
+<a id="acf2080d93836974498b8acb685c0e6f8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acf2080d93836974498b8acb685c0e6f8">&#9670;&nbsp;</a></span>init()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void fdcl::Clebsch_Gordon_complex::init </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>l1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>l2</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p class="">Initialize with <code>l1</code> and <code>l2</code> </p>
+
+</div>
+</div>
+<a id="ac0bad08230972af2bf66d66e2570f059"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac0bad08230972af2bf66d66e2570f059">&#9670;&nbsp;</a></span>operator()()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double&amp; fdcl::Clebsch_Gordon_complex::operator() </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>l</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>m</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>l1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>m1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>l2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>m2</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p class="">Operator overloading to access <img class="formulaInl" alt="$ C^{l,m}_{l_1,m_1,l_2,m_2}$" src="form_3.png"/>. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a64d4422119b139b7cb64916739c1814a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a64d4422119b139b7cb64916739c1814a">&#9670;&nbsp;</a></span>C</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Eigen::Matrix&lt;double,Eigen::Dynamic,Eigen::Dynamic&gt; fdcl::Clebsch_Gordon_complex::C</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p class="">Buffer </p>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>/Users/tylee/Documents/Research/Deep Learning/FFTSO3/include/<a class="el" href="fdcl___clebsch___gordon_8hpp_source.html">fdcl_Clebsch_Gordon.hpp</a></li>
 </ul>

@@ -74,68 +74,457 @@ $(function() {
 <div class="title">fdcl::FFTSO3_matrix&lt; ScalarType &gt; Class Template Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Matrix class for harmonic analysis on SO(3)  
+ <a href="classfdcl_1_1_f_f_t_s_o3__matrix.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="fdcl___f_f_t_s_o3__matrix_8hpp_source.html">fdcl_FFTSO3_matrix.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a84c86df74236f1e33fa8de71e098ed51"><td class="memItemLeft" align="right" valign="top"><a id="a84c86df74236f1e33fa8de71e098ed51"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>FFTSO3_matrix</b> (int l_max)</td></tr>
+<tr class="memitem:a84c86df74236f1e33fa8de71e098ed51"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html#a84c86df74236f1e33fa8de71e098ed51">FFTSO3_matrix</a> (int <a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html#a04cc6a4ca08c1823168057c9540378df">l_max</a>)</td></tr>
 <tr class="separator:a84c86df74236f1e33fa8de71e098ed51"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a217b96f981a097c69ab9d2a33815eadf"><td class="memItemLeft" align="right" valign="top"><a id="a217b96f981a097c69ab9d2a33815eadf"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>init</b> (int l_max)</td></tr>
+<tr class="memitem:a217b96f981a097c69ab9d2a33815eadf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html#a217b96f981a097c69ab9d2a33815eadf">init</a> (int <a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html#a04cc6a4ca08c1823168057c9540378df">l_max</a>)</td></tr>
 <tr class="separator:a217b96f981a097c69ab9d2a33815eadf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae0c07848031b137557f6114baee3382a"><td class="memItemLeft" align="right" valign="top"><a id="ae0c07848031b137557f6114baee3382a"></a>
-Eigen::Matrix&lt; ScalarType, Eigen::Dynamic, Eigen::Dynamic &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator[]</b> (int l)</td></tr>
+<tr class="memitem:ae0c07848031b137557f6114baee3382a"><td class="memItemLeft" align="right" valign="top">Eigen::Matrix&lt; ScalarType, Eigen::Dynamic, Eigen::Dynamic &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html#ae0c07848031b137557f6114baee3382a">operator[]</a> (int l)</td></tr>
 <tr class="separator:ae0c07848031b137557f6114baee3382a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5cc68b2ea3cfd089301f6661b5a407eb"><td class="memItemLeft" align="right" valign="top"><a id="a5cc68b2ea3cfd089301f6661b5a407eb"></a>
-ScalarType &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator()</b> (int l, int m, int n)</td></tr>
+<tr class="memitem:a5cc68b2ea3cfd089301f6661b5a407eb"><td class="memItemLeft" align="right" valign="top">ScalarType &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html#a5cc68b2ea3cfd089301f6661b5a407eb">operator()</a> (int l, int m, int n)</td></tr>
 <tr class="separator:a5cc68b2ea3cfd089301f6661b5a407eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a93def7743f7502048af77da5f9924c9a"><td class="memItemLeft" align="right" valign="top"><a id="a93def7743f7502048af77da5f9924c9a"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setRandom</b> ()</td></tr>
+<tr class="memitem:a93def7743f7502048af77da5f9924c9a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html#a93def7743f7502048af77da5f9924c9a">setRandom</a> ()</td></tr>
 <tr class="separator:a93def7743f7502048af77da5f9924c9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ade21978f93929db4e2bc137e5d20fa30"><td class="memItemLeft" align="right" valign="top"><a id="ade21978f93929db4e2bc137e5d20fa30"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setZero</b> ()</td></tr>
+<tr class="memitem:ade21978f93929db4e2bc137e5d20fa30"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html#ade21978f93929db4e2bc137e5d20fa30">setZero</a> ()</td></tr>
 <tr class="separator:ade21978f93929db4e2bc137e5d20fa30"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae2bff839ad5b8f2d3e9d3ed5a4046d32"><td class="memItemLeft" align="right" valign="top"><a id="ae2bff839ad5b8f2d3e9d3ed5a4046d32"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>norm</b> ()</td></tr>
+<tr class="memitem:ae2bff839ad5b8f2d3e9d3ed5a4046d32"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html#ae2bff839ad5b8f2d3e9d3ed5a4046d32">norm</a> ()</td></tr>
 <tr class="separator:ae2bff839ad5b8f2d3e9d3ed5a4046d32"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac0d5fbc107a36f18cc80b28d5d9e14a3"><td class="memItemLeft" align="right" valign="top"><a id="ac0d5fbc107a36f18cc80b28d5d9e14a3"></a>
-<a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>real</b> ()</td></tr>
+<tr class="memitem:ac0d5fbc107a36f18cc80b28d5d9e14a3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html#ac0d5fbc107a36f18cc80b28d5d9e14a3">real</a> ()</td></tr>
 <tr class="separator:ac0d5fbc107a36f18cc80b28d5d9e14a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3e2366b87fca17458ebe0d40d6c76549"><td class="memItemLeft" align="right" valign="top"><a id="a3e2366b87fca17458ebe0d40d6c76549"></a>
-<a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix</a>&lt; complex&lt; double &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>operator+</b> (<a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix</a>&lt; complex&lt; double &gt;&gt; const &amp;M1)</td></tr>
+<tr class="memitem:a3e2366b87fca17458ebe0d40d6c76549"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix</a>&lt; complex&lt; double &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html#a3e2366b87fca17458ebe0d40d6c76549">operator+</a> (<a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix</a>&lt; complex&lt; double &gt;&gt; const &amp;M1)</td></tr>
 <tr class="separator:a3e2366b87fca17458ebe0d40d6c76549"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5cab20762a0ba07e06a03d8bd78b7b11"><td class="memItemLeft" align="right" valign="top"><a id="a5cab20762a0ba07e06a03d8bd78b7b11"></a>
-<a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix</a>&lt; ScalarType &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>operator+</b> (<a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix</a>&lt; double &gt; const &amp;M2)</td></tr>
+<tr class="memitem:a5cab20762a0ba07e06a03d8bd78b7b11"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix</a>&lt; ScalarType &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html#a5cab20762a0ba07e06a03d8bd78b7b11">operator+</a> (<a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix</a>&lt; double &gt; const &amp;M2)</td></tr>
 <tr class="separator:a5cab20762a0ba07e06a03d8bd78b7b11"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afc8f9583f5a36ae613153f2a3585a091"><td class="memItemLeft" align="right" valign="top"><a id="afc8f9583f5a36ae613153f2a3585a091"></a>
-<a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix</a>&lt; complex&lt; double &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>operator-</b> (<a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix</a>&lt; complex&lt; double &gt;&gt; const &amp;M1)</td></tr>
+<tr class="memitem:afc8f9583f5a36ae613153f2a3585a091"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix</a>&lt; complex&lt; double &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html#afc8f9583f5a36ae613153f2a3585a091">operator-</a> (<a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix</a>&lt; complex&lt; double &gt;&gt; const &amp;M1)</td></tr>
 <tr class="separator:afc8f9583f5a36ae613153f2a3585a091"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a899b1a9adcc028de50bde582b85d172a"><td class="memItemLeft" align="right" valign="top"><a id="a899b1a9adcc028de50bde582b85d172a"></a>
-<a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix</a>&lt; ScalarType &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>operator-</b> (<a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix</a>&lt; double &gt; const &amp;M2)</td></tr>
+<tr class="memitem:a899b1a9adcc028de50bde582b85d172a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix</a>&lt; ScalarType &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html#a899b1a9adcc028de50bde582b85d172a">operator-</a> (<a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix</a>&lt; double &gt; const &amp;M2)</td></tr>
 <tr class="separator:a899b1a9adcc028de50bde582b85d172a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9d18562822020cb22f53fcb4b3e46d01"><td class="memItemLeft" align="right" valign="top"><a id="a9d18562822020cb22f53fcb4b3e46d01"></a>
-<a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix</a>&lt; complex&lt; double &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>operator*</b> (const complex&lt; double &gt; &amp;c)</td></tr>
+<tr class="memitem:a9d18562822020cb22f53fcb4b3e46d01"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix</a>&lt; complex&lt; double &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html#a9d18562822020cb22f53fcb4b3e46d01">operator*</a> (const complex&lt; double &gt; &amp;c)</td></tr>
 <tr class="separator:a9d18562822020cb22f53fcb4b3e46d01"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afb2fa7fa9e0885768888b6b17422488c"><td class="memItemLeft" align="right" valign="top"><a id="afb2fa7fa9e0885768888b6b17422488c"></a>
-<a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix</a>&lt; ScalarType &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>operator*</b> (const double &amp;c)</td></tr>
+<tr class="memitem:afb2fa7fa9e0885768888b6b17422488c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix</a>&lt; ScalarType &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html#afb2fa7fa9e0885768888b6b17422488c">operator*</a> (const double &amp;c)</td></tr>
 <tr class="separator:afb2fa7fa9e0885768888b6b17422488c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a04cc6a4ca08c1823168057c9540378df"><td class="memItemLeft" align="right" valign="top"><a id="a04cc6a4ca08c1823168057c9540378df"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>l_max</b></td></tr>
+<tr class="memitem:a04cc6a4ca08c1823168057c9540378df"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html#a04cc6a4ca08c1823168057c9540378df">l_max</a></td></tr>
 <tr class="separator:a04cc6a4ca08c1823168057c9540378df"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1c0262c634aafd38b8221d90734cff98"><td class="memItemLeft" align="right" valign="top"><a id="a1c0262c634aafd38b8221d90734cff98"></a>
-std::vector&lt; Eigen::Matrix&lt; ScalarType, Eigen::Dynamic, Eigen::Dynamic &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>M</b></td></tr>
+<tr class="memitem:a1c0262c634aafd38b8221d90734cff98"><td class="memItemLeft" align="right" valign="top">std::vector&lt; Eigen::Matrix&lt; ScalarType, Eigen::Dynamic, Eigen::Dynamic &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html#a1c0262c634aafd38b8221d90734cff98">M</a></td></tr>
 <tr class="separator:a1c0262c634aafd38b8221d90734cff98"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
-<tr class="memitem:a97bcd88e02e783e37711ccc17f169643"><td class="memTemplParams" colspan="2"><a id="a97bcd88e02e783e37711ccc17f169643"></a>
-template&lt;typename _ScalarType &gt; </td></tr>
-<tr class="memitem:a97bcd88e02e783e37711ccc17f169643"><td class="memTemplItemLeft" align="right" valign="top">ostream &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator&lt;&lt;</b> (ostream &amp;os, const <a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix</a>&lt; _ScalarType &gt; &amp;M)</td></tr>
+<tr class="memitem:a97bcd88e02e783e37711ccc17f169643"><td class="memTemplParams" colspan="2">template&lt;typename _ScalarType &gt; </td></tr>
+<tr class="memitem:a97bcd88e02e783e37711ccc17f169643"><td class="memTemplItemLeft" align="right" valign="top">ostream &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html#a97bcd88e02e783e37711ccc17f169643">operator&lt;&lt;</a> (ostream &amp;os, const <a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix</a>&lt; _ScalarType &gt; &amp;<a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html#a1c0262c634aafd38b8221d90734cff98">M</a>)</td></tr>
 <tr class="separator:a97bcd88e02e783e37711ccc17f169643"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><h3>template&lt;class ScalarType&gt;<br />
+class fdcl::FFTSO3_matrix&lt; ScalarType &gt;</h3>
+
+<p class="">Matrix class for harmonic analysis on SO(3) </p>
+<p class="">This class formulates a matrix class for harmonic analysis on SO(3). Harmonics on SO(3) is indexed by three integer variables, namely <img class="formulaInl" alt="$(l,m,n)$" src="form_48.png"/> for <img class="formulaInl" alt="$ 0\leq l$" src="form_49.png"/> and <img class="formulaInl" alt="$ -l\leq m,n \leq l$" src="form_50.png"/>. This class supports the following indexing:</p><ul>
+<li><img class="formulaInl" alt="$ F^l_{m,n} \in\mathbb{C} $" src="form_51.png"/> is accessed by <code>F(l,m,n)</code> </li>
+<li><img class="formulaInl" alt="$ F^l \in \mathbb{C}^{(2l+1)\times(2l+1)}$" src="form_52.png"/> is accessed by <code>F</code>[l]</li>
+</ul>
+<p class="">Furthermore, several common operations, such as <code><a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html#ac0d5fbc107a36f18cc80b28d5d9e14a3">real()</a></code>, <code><a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html#ade21978f93929db4e2bc137e5d20fa30">setZero()</a></code>, <code>+</code>, <code>-</code>, <code></code>* are provided for convenience.</p>
+<p class="">This is defined as a template class, and they are implemented depending on the type of the variable as follows.</p><ul>
+<li>fdcl::FFTSO3_matrix_complex</li>
+<li>fdcl::FFTSO3_matrix_real </li>
+</ul>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a84c86df74236f1e33fa8de71e098ed51"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a84c86df74236f1e33fa8de71e098ed51">&#9670;&nbsp;</a></span>FFTSO3_matrix()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class ScalarType&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix</a>&lt; ScalarType &gt;::<a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">FFTSO3_matrix</a> </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>l_max</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p class="">Constructor with <code>l_max</code> </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a217b96f981a097c69ab9d2a33815eadf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a217b96f981a097c69ab9d2a33815eadf">&#9670;&nbsp;</a></span>init()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class ScalarType&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix</a>&lt; ScalarType &gt;::init </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>l_max</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p class="">Initialize buffer with <code>l_max</code> </p>
+
+</div>
+</div>
+<a id="ae2bff839ad5b8f2d3e9d3ed5a4046d32"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae2bff839ad5b8f2d3e9d3ed5a4046d32">&#9670;&nbsp;</a></span>norm()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class ScalarType&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">double <a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix</a>&lt; ScalarType &gt;::norm </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p class="">Find the sum of the matrix norm: </p><p class="formulaDsp">
+<img class="formulaDsp" alt="\[ \sum_{l=0}^L \| F^l \|. \]" src="form_55.png"/>
+</p>
+ 
+</div>
+</div>
+<a id="a5cc68b2ea3cfd089301f6661b5a407eb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5cc68b2ea3cfd089301f6661b5a407eb">&#9670;&nbsp;</a></span>operator()()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class ScalarType&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">ScalarType&amp; <a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix</a>&lt; ScalarType &gt;::operator() </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>l</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>m</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>n</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p class="">Operator to access the <img class="formulaInl" alt="$(l,m,n)$" src="form_48.png"/>-th element </p>
+
+</div>
+</div>
+<a id="a9d18562822020cb22f53fcb4b3e46d01"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9d18562822020cb22f53fcb4b3e46d01">&#9670;&nbsp;</a></span>operator*() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class ScalarType&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix</a>&lt;complex&lt;double&gt; &gt; <a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix</a>&lt; ScalarType &gt;::operator* </td>
+          <td>(</td>
+          <td class="paramtype">const complex&lt; double &gt; &amp;&#160;</td>
+          <td class="paramname"><em>c</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p class="">Operator overloading for multiplying a complex number to each element </p>
+
+</div>
+</div>
+<a id="afb2fa7fa9e0885768888b6b17422488c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afb2fa7fa9e0885768888b6b17422488c">&#9670;&nbsp;</a></span>operator*() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class ScalarType&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix</a>&lt;ScalarType&gt; <a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix</a>&lt; ScalarType &gt;::operator* </td>
+          <td>(</td>
+          <td class="paramtype">const double &amp;&#160;</td>
+          <td class="paramname"><em>c</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p class="">Operator overloading for multiplying a real number to each element </p>
+
+</div>
+</div>
+<a id="a3e2366b87fca17458ebe0d40d6c76549"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3e2366b87fca17458ebe0d40d6c76549">&#9670;&nbsp;</a></span>operator+() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class ScalarType&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix</a>&lt;complex&lt;double&gt; &gt; <a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix</a>&lt; ScalarType &gt;::operator+ </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix</a>&lt; complex&lt; double &gt;&gt; const &amp;&#160;</td>
+          <td class="paramname"><em>M1</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p class="">Operator overloading for addition of two <a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html" title="Matrix class for harmonic analysis on SO(3)">fdcl::FFTSO3_matrix</a> objects </p>
+
+</div>
+</div>
+<a id="a5cab20762a0ba07e06a03d8bd78b7b11"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5cab20762a0ba07e06a03d8bd78b7b11">&#9670;&nbsp;</a></span>operator+() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class ScalarType&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix</a>&lt;ScalarType&gt; <a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix</a>&lt; ScalarType &gt;::operator+ </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix</a>&lt; double &gt; const &amp;&#160;</td>
+          <td class="paramname"><em>M2</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p class="">Operator overloading for addition of two <a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html" title="Matrix class for harmonic analysis on SO(3)">fdcl::FFTSO3_matrix</a> objects with real types </p>
+
+</div>
+</div>
+<a id="afc8f9583f5a36ae613153f2a3585a091"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afc8f9583f5a36ae613153f2a3585a091">&#9670;&nbsp;</a></span>operator-() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class ScalarType&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix</a>&lt;complex&lt;double&gt; &gt; <a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix</a>&lt; ScalarType &gt;::operator- </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix</a>&lt; complex&lt; double &gt;&gt; const &amp;&#160;</td>
+          <td class="paramname"><em>M1</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p class="">Operator overloading for subtraction </p>
+
+</div>
+</div>
+<a id="a899b1a9adcc028de50bde582b85d172a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a899b1a9adcc028de50bde582b85d172a">&#9670;&nbsp;</a></span>operator-() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class ScalarType&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix</a>&lt;ScalarType&gt; <a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix</a>&lt; ScalarType &gt;::operator- </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix</a>&lt; double &gt; const &amp;&#160;</td>
+          <td class="paramname"><em>M2</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p class="">Operator overloading for subtraction </p>
+
+</div>
+</div>
+<a id="ae0c07848031b137557f6114baee3382a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae0c07848031b137557f6114baee3382a">&#9670;&nbsp;</a></span>operator[]()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class ScalarType&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">Eigen::Matrix&lt;ScalarType,Eigen::Dynamic,Eigen::Dynamic&gt;&amp; <a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix</a>&lt; ScalarType &gt;::operator[] </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>l</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p class="">Operator to access the <img class="formulaInl" alt="$ (2l+1)\times(2l+1) $" src="form_54.png"/> matrix for the order <img class="formulaInl" alt="$l$" src="form_7.png"/> </p>
+
+</div>
+</div>
+<a id="ac0d5fbc107a36f18cc80b28d5d9e14a3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac0d5fbc107a36f18cc80b28d5d9e14a3">&#9670;&nbsp;</a></span>real()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class ScalarType&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix</a>&lt;double&gt; <a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix</a>&lt; ScalarType &gt;::real </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p class="">Return the real parts </p>
+
+</div>
+</div>
+<a id="a93def7743f7502048af77da5f9924c9a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a93def7743f7502048af77da5f9924c9a">&#9670;&nbsp;</a></span>setRandom()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class ScalarType&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix</a>&lt; ScalarType &gt;::setRandom </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p class="">Randomize every element </p>
+
+</div>
+</div>
+<a id="ade21978f93929db4e2bc137e5d20fa30"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ade21978f93929db4e2bc137e5d20fa30">&#9670;&nbsp;</a></span>setZero()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class ScalarType&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix</a>&lt; ScalarType &gt;::setZero </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p class="">Set every element to zero </p>
+
+</div>
+</div>
+<h2 class="groupheader">Friends And Related Function Documentation</h2>
+<a id="a97bcd88e02e783e37711ccc17f169643"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a97bcd88e02e783e37711ccc17f169643">&#9670;&nbsp;</a></span>operator&lt;&lt;</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class ScalarType&gt; </div>
+<div class="memtemplate">
+template&lt;typename _ScalarType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">ostream&amp; operator&lt;&lt; </td>
+          <td>(</td>
+          <td class="paramtype">ostream &amp;&#160;</td>
+          <td class="paramname"><em>os</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix</a>&lt; _ScalarType &gt; &amp;&#160;</td>
+          <td class="paramname"><em>M</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p class="">Stream each matrix. For example, use it for <code>std::out</code> <code>&lt;&lt;</code> <code>F</code> </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a04cc6a4ca08c1823168057c9540378df"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a04cc6a4ca08c1823168057c9540378df">&#9670;&nbsp;</a></span>l_max</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class ScalarType&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">int <a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix</a>&lt; ScalarType &gt;::l_max</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p class="">The maximum order for the index <img class="formulaInl" alt="$ l $" src="form_53.png"/> </p>
+
+</div>
+</div>
+<a id="a1c0262c634aafd38b8221d90734cff98"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1c0262c634aafd38b8221d90734cff98">&#9670;&nbsp;</a></span>M</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class ScalarType&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;Eigen::Matrix&lt;ScalarType,Eigen::Dynamic,Eigen::Dynamic&gt; &gt; <a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix</a>&lt; ScalarType &gt;::M</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p class="">Buffer array </p>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>/Users/tylee/Documents/Research/Deep Learning/FFTSO3/include/<a class="el" href="fdcl___f_f_t_s_o3__matrix_8hpp_source.html">fdcl_FFTSO3_matrix.hpp</a></li>
 </ul>

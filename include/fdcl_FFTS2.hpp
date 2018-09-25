@@ -44,6 +44,9 @@ class fdcl::FFTS2_complex
         /** Spherical harmonics 
          *
          * Compute and return a fdcl::FFTS2_matrix_complex object for complex-valued spherical harmonics, namely \f$ Y^l_{m}(\theta,\phi) \f$ upto \f$ l\leq L\f$. 
+         * \f[
+         * Y^l_m(\theta,\phi) = e^{im\phi} \sqrt{\frac{2l+1}{4\pi}\frac{(l-m)!}{(l+m)!}}  P^m_l(\cos\theta) = e^{im\phi}\Theta^l_m(\theta).
+         \f]
          * Each element can be accesed by the index  \c (l,m) of the returned object.
          */
         fdcl::FFTS2_matrix_complex spherical_harmonics(double theta, double phi, int L);
@@ -118,6 +121,9 @@ class fdcl::FFTS2_real : public fdcl::FFTS2_complex
         /** Real spherical harmonics 
          *
          * Compute and return a fdcl::FFTS2_matrix_real object for real-valued spherical harmonics, namely \f$ S^l_{m}(\theta,\phi) \f$ upto \f$ l\leq L\f$. 
+         * This function follows the convention of real harmonics presented in 
+         *    - M. Blanco, M. Fl´orez, and M. Bermejo, “Evaluation of the rotation matrices in the basis of real spherical harmonics,” Journal of
+Molecular Structure, vol. 419, pp. 19–27, 1997.
          * Each element can be accesed by the index  \c (l,m) of the returned object.
          */
         fdcl::FFTS2_matrix_real spherical_harmonics(double theta, double phi, int L);
