@@ -60,7 +60,13 @@ Execute the following commands at a folder above this package will be installed:
 	make
 	../bin/fftso3_unit_test
 
-The last command executes unit-testing, the installation is succesful if it prints `[ PASSED ] 12 tests` at the end.
+The last command executes unit-testing, the installation is succesful if it prints out the following message at the end
+
+	...
+	...
+	[ PASSED ] 12 tests.
+
+
 
 ## Example
 
