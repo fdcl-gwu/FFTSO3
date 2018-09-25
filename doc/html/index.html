@@ -60,11 +60,64 @@ $(function() {
 </iframe>
 </div>
 
-<div class="header">
+<div class="PageDoc"><div class="header">
   <div class="headertitle">
 <div class="title">Fast Fourier Transform on SO(3) Documentation</div>  </div>
 </div><!--header-->
 <div class="contents">
+<div class="textblock"><p class=""><a href="https://travis-ci.org/fdcl-gwu/FFTSO3"><div class="image">
+<img src="https://travis-ci.org/fdcl-gwu/FFTSO3.svg?branch=master" alt="Build Status"/>
+</div>
+</a></p>
+<h1>FAST FOURIER TRANSFORM ON SO(3)</h1>
+<p class="">This package provides various tools for harmonic analysis on the special orthogonal group, SO(3), and also for spherical harmonics on the unit sphere.</p>
+<h2>Introduction</h2>
+<h3>What does it do?</h3>
+<ul>
+<li>Complex Noncommutative Harmonic Analysis on SO(3), (i.e., fast Forward transform and inverse transform)</li>
+<li>Real Noncommutative Harmonic Analysis on SO(3)</li>
+<li>Complex Spherical Harmonics</li>
+<li>Real Spherical Harmonics</li>
+</ul>
+<h3>Why should I use it?</h3>
+<ul>
+<li>This packages utilizes <a href="https://www.openmp.org">OpenMP</a> for accelerated computing with multithreaded computing</li>
+<li>It implements Fast Fourier Transform (FFT) algorithms developed for SO(3)</li>
+<li>This is the only package that supports real harmonic analysis on SO(3)</li>
+<li>The computation in this package is verified by various unit-testing, utilizing <a href="https://github.com/google/googletest">GoogleTeset</a></li>
+<li><p class="startli">For convenience, it supports the indexing consistent with mathematical expressions. More specifically, harmonics on SO(3) is indexed by three integers varying from negative values to positive ones:</p>
+<center><a href="https://www.codecogs.com/eqnedit.php?latex=F^{l}_{m,n}&amp;space;\text{&amp;space;for&amp;space;}&amp;space;0\leq&amp;space;l&amp;space;\text{&amp;space;and&amp;space;}&amp;space;-l\leq&amp;space;m,n\leq&amp;space;l" target="_blank"><div class="image">
+<img src="https://latex.codecogs.com/gif.latex?F^{l}_{m,n}&space;\text{&space;for&space;}&space;0\leq&space;l&space;\text{&space;and&space;}&space;-l\leq&space;m,n\leq&space;l" title="F^{l}_{m,n} \text{ for } 0\leq l \text{ and } -l\leq m,n\leq l" alt=""/>
+</div>
+</a></center></li>
+</ul>
+<p class=""><br />
+ It is common that the indicies <code>m,n</code> is mapped to non-negative values. In this package, the above element can be direclty accessed by <code>F(l,m,n)</code> without any conversion. Also, the (2l+1) by (2l+1) matrix can be accessed by <code>F[l]</code></p>
+<h2>Installation</h2>
+<h3>Required Libraries</h3>
+<p class="">The following libraries are required:</p>
+<ul>
+<li><a href="https://git-scm.com">git</a></li>
+<li><a href="https://cmake.org">CMake</a></li>
+<li><a href="https://www.openmp.org">OpenMP</a></li>
+<li><a href="http://eigen.tuxfamily.org/">Eigen</a></li>
+</ul>
+<p class="">Please follow the instruction at each link to install the libraries. The Eigen library can be skipped, as it is included as a git submodule in this package. <br />
+ <b>Tips for Mac:</b> macOS comes with git. For other libraries, it is first recommended to install <a href="https://brew.sh">Homebrew</a>, a software package manager for Mac. Then, the above libraries can be installed by </p><pre class="fragment">brew install cmake
+brew install eigen
+brew install llvm
+</pre><p class=""><b>Notes for Windows:</b> While this pacakge does not use any OS-specific command, it has not been tested in Windows</p>
+<h3>Installation</h3>
+<p class="">Execute the following commands at a folder above this package will be installed: </p><pre class="fragment">git clone https://github.com/fdcl-gwu/FFTSO3.git
+cd FFTSO3/build
+cmake ..
+make
+../bin/fftso3_unit_test
+</pre><p class="">The last command executes unit-testing, the installation is succesful if it prints <code>[ PASSED ] 12 tests</code> at the end.</p>
+<h2>Example</h2>
+<h2>User Manual</h2>
+<p class=""><a href="https://fdcl-gwu.github.io/FFTSO3/doc/html/index.html">Doxygen Manual for Class Members</a> </p>
+</div></div><!-- PageDoc -->
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
