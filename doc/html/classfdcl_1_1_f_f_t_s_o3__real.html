@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.15"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Real Harmonics on SO(3): fdcl::FFTSO3_real Class Reference</title>
+<title>Fast Fourier Transform on SO(3): fdcl::FFTSO3_real Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,7 +21,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">Real Harmonics on SO(3)
+   <div id="projectname">Fast Fourier Transform on SO(3)
    </div>
   </td>
  </tr>
@@ -73,6 +73,11 @@ $(function() {
 <div class="title">fdcl::FFTSO3_real Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Real Fast Fourier Transform on SO(3)  
+ <a href="classfdcl_1_1_f_f_t_s_o3__real.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="fdcl___f_f_t_s_o3_8hpp_source.html">fdcl_FFTSO3.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for fdcl::FFTSO3_real:</div>
 <div class="dyncontent">
@@ -85,57 +90,36 @@ Inheritance diagram for fdcl::FFTSO3_real:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a52f30a48ace48d1d302852da5f93174e"><td class="memItemLeft" align="right" valign="top"><a id="a52f30a48ace48d1d302852da5f93174e"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>FFTSO3_real</b> (int <a class="el" href="classfdcl_1_1_f_f_t_s_o3__complex.html#a228a7c3777a7905b1898796cc88fd8f2">l_max</a>)</td></tr>
+<tr class="memitem:a52f30a48ace48d1d302852da5f93174e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__real.html#a52f30a48ace48d1d302852da5f93174e">FFTSO3_real</a> (int <a class="el" href="classfdcl_1_1_f_f_t_s_o3__complex.html#a228a7c3777a7905b1898796cc88fd8f2">l_max</a>)</td></tr>
 <tr class="separator:a52f30a48ace48d1d302852da5f93174e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a87aaf93acf5432856f296c3157fc0053"><td class="memItemLeft" align="right" valign="top"><a id="a87aaf93acf5432856f296c3157fc0053"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>init</b> (int <a class="el" href="classfdcl_1_1_f_f_t_s_o3__complex.html#a228a7c3777a7905b1898796cc88fd8f2">l_max</a>)</td></tr>
+<tr class="memitem:a87aaf93acf5432856f296c3157fc0053"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__real.html#a87aaf93acf5432856f296c3157fc0053">init</a> (int <a class="el" href="classfdcl_1_1_f_f_t_s_o3__complex.html#a228a7c3777a7905b1898796cc88fd8f2">l_max</a>)</td></tr>
 <tr class="separator:a87aaf93acf5432856f296c3157fc0053"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aef996b2a0d62eb618ec6e11a52e8b614"><td class="memItemLeft" align="right" valign="top"><a id="aef996b2a0d62eb618ec6e11a52e8b614"></a>
-<a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix_real</a>&#160;</td><td class="memItemRight" valign="bottom"><b>real_harmonics</b> (double alpha, double beta, double gamma, int L)</td></tr>
-<tr class="separator:aef996b2a0d62eb618ec6e11a52e8b614"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1931ed5b4b2ace292b673eecee28c26e"><td class="memItemLeft" align="right" valign="top"><a id="a1931ed5b4b2ace292b673eecee28c26e"></a>
-<a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix_real</a>&#160;</td><td class="memItemRight" valign="bottom"><b>real_harmonics</b> (double alpha, double beta, double gamma)</td></tr>
+<tr class="memitem:a1931ed5b4b2ace292b673eecee28c26e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix_real</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__real.html#a1931ed5b4b2ace292b673eecee28c26e">real_harmonics</a> (double alpha, double beta, double gamma)</td></tr>
 <tr class="separator:a1931ed5b4b2ace292b673eecee28c26e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2c8792607ca186f535c82eba7f530735"><td class="memItemLeft" align="right" valign="top"><a id="a2c8792607ca186f535c82eba7f530735"></a>
-<a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix_real</a>&#160;</td><td class="memItemRight" valign="bottom"><b>real_harmonics</b> (Eigen::Matrix3d)</td></tr>
+<tr class="memitem:a2c8792607ca186f535c82eba7f530735"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix_real</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__real.html#a2c8792607ca186f535c82eba7f530735">real_harmonics</a> (Eigen::Matrix3d)</td></tr>
 <tr class="separator:a2c8792607ca186f535c82eba7f530735"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a87ca874075ae48b8bb857280c72054ea"><td class="memItemLeft" align="right" valign="top"><a id="a87ca874075ae48b8bb857280c72054ea"></a>
-std::vector&lt; <a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix_real</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>deriv_real_harmonics</b> ()</td></tr>
+<tr class="memitem:a87ca874075ae48b8bb857280c72054ea"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix_real</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__real.html#a87ca874075ae48b8bb857280c72054ea">deriv_real_harmonics</a> ()</td></tr>
 <tr class="separator:a87ca874075ae48b8bb857280c72054ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1475ab6e0c5649e198f0a3e44b2d62a5"><td class="memItemLeft" align="right" valign="top"><a id="a1475ab6e0c5649e198f0a3e44b2d62a5"></a>
-<a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix_real</a>&#160;</td><td class="memItemRight" valign="bottom"><b>forward_transform</b> (std::function&lt; double(double, double, double)&gt;)</td></tr>
+<tr class="memitem:a1475ab6e0c5649e198f0a3e44b2d62a5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix_real</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__real.html#a1475ab6e0c5649e198f0a3e44b2d62a5">forward_transform</a> (std::function&lt; double(double, double, double)&gt;)</td></tr>
 <tr class="separator:a1475ab6e0c5649e198f0a3e44b2d62a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4ea847efb7c323fb91f7b9702860ef23"><td class="memItemLeft" align="right" valign="top"><a id="a4ea847efb7c323fb91f7b9702860ef23"></a>
-<a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix_real</a>&#160;</td><td class="memItemRight" valign="bottom"><b>forward_transform</b> (std::function&lt; double(Eigen::Matrix3d)&gt;)</td></tr>
+<tr class="memitem:a4ea847efb7c323fb91f7b9702860ef23"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix_real</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__real.html#a4ea847efb7c323fb91f7b9702860ef23">forward_transform</a> (std::function&lt; double(Eigen::Matrix3d)&gt;)</td></tr>
 <tr class="separator:a4ea847efb7c323fb91f7b9702860ef23"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a29607686f05c7c37d551ea1ec927e9ae"><td class="memItemLeft" align="right" valign="top"><a id="a29607686f05c7c37d551ea1ec927e9ae"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>inverse_transform</b> (<a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix_real</a>, double alpha, double beta, double gamma)</td></tr>
+<tr class="memitem:a29607686f05c7c37d551ea1ec927e9ae"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__real.html#a29607686f05c7c37d551ea1ec927e9ae">inverse_transform</a> (<a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix_real</a>, double alpha, double beta, double gamma)</td></tr>
 <tr class="separator:a29607686f05c7c37d551ea1ec927e9ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ace87d75ddbc85a6cc0e37c970dbe68e2"><td class="memItemLeft" align="right" valign="top"><a id="ace87d75ddbc85a6cc0e37c970dbe68e2"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>fast_inverse_transform</b> (<a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix_real</a>, double alpha, double beta, double gamma)</td></tr>
-<tr class="separator:ace87d75ddbc85a6cc0e37c970dbe68e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3615a178a79446444e94459c4ffadc06"><td class="memItemLeft" align="right" valign="top"><a id="a3615a178a79446444e94459c4ffadc06"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>inverse_transform</b> (<a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix_real</a>, Eigen::Matrix3d)</td></tr>
+<tr class="memitem:a3615a178a79446444e94459c4ffadc06"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__real.html#a3615a178a79446444e94459c4ffadc06">inverse_transform</a> (<a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix_real</a>, Eigen::Matrix3d)</td></tr>
 <tr class="separator:a3615a178a79446444e94459c4ffadc06"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4c706993486bfa447529a99c168d2a0f"><td class="memItemLeft" align="right" valign="top"><a id="a4c706993486bfa447529a99c168d2a0f"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>check_all</b> ()</td></tr>
+<tr class="memitem:a4c706993486bfa447529a99c168d2a0f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__real.html#a4c706993486bfa447529a99c168d2a0f">check_all</a> ()</td></tr>
 <tr class="separator:a4c706993486bfa447529a99c168d2a0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9f447bb1a68d7d2d505c90674d37cf58"><td class="memItemLeft" align="right" valign="top"><a id="a9f447bb1a68d7d2d505c90674d37cf58"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>check_real_harmonics</b> ()</td></tr>
+<tr class="memitem:a9f447bb1a68d7d2d505c90674d37cf58"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__real.html#a9f447bb1a68d7d2d505c90674d37cf58">check_real_harmonics</a> ()</td></tr>
 <tr class="separator:a9f447bb1a68d7d2d505c90674d37cf58"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5ac83b95415179df82e3beffe84546ef"><td class="memItemLeft" align="right" valign="top"><a id="a5ac83b95415179df82e3beffe84546ef"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>check_Clebsch_Gordon</b> ()</td></tr>
+<tr class="memitem:a5ac83b95415179df82e3beffe84546ef"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__real.html#a5ac83b95415179df82e3beffe84546ef">check_Clebsch_Gordon</a> ()</td></tr>
 <tr class="separator:a5ac83b95415179df82e3beffe84546ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acf8f8ee94ac8ea7562cc1559fc781af0"><td class="memItemLeft" align="right" valign="top"><a id="acf8f8ee94ac8ea7562cc1559fc781af0"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>check_deriv_real_harmonics</b> ()</td></tr>
+<tr class="memitem:acf8f8ee94ac8ea7562cc1559fc781af0"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__real.html#acf8f8ee94ac8ea7562cc1559fc781af0">check_deriv_real_harmonics</a> ()</td></tr>
 <tr class="separator:acf8f8ee94ac8ea7562cc1559fc781af0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0cd10440acde8fba34d2dc9ca54391ee"><td class="memItemLeft" align="right" valign="top"><a id="a0cd10440acde8fba34d2dc9ca54391ee"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>check_transform</b> ()</td></tr>
+<tr class="memitem:a0cd10440acde8fba34d2dc9ca54391ee"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__real.html#a0cd10440acde8fba34d2dc9ca54391ee">check_transform</a> ()</td></tr>
 <tr class="separator:a0cd10440acde8fba34d2dc9ca54391ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classfdcl_1_1_f_f_t_s_o3__complex"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classfdcl_1_1_f_f_t_s_o3__complex')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classfdcl_1_1_f_f_t_s_o3__complex.html">fdcl::FFTSO3_complex</a></td></tr>
-<tr class="memitem:ae4932f2cdb59693250e4acccceac0881 inherit pub_methods_classfdcl_1_1_f_f_t_s_o3__complex"><td class="memItemLeft" align="right" valign="top"><a id="ae4932f2cdb59693250e4acccceac0881"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>FFTSO3_complex</b> (int <a class="el" href="classfdcl_1_1_f_f_t_s_o3__complex.html#a228a7c3777a7905b1898796cc88fd8f2">l_max</a>)</td></tr>
+<tr class="memitem:ae4932f2cdb59693250e4acccceac0881 inherit pub_methods_classfdcl_1_1_f_f_t_s_o3__complex"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__complex.html#ae4932f2cdb59693250e4acccceac0881">FFTSO3_complex</a> (int <a class="el" href="classfdcl_1_1_f_f_t_s_o3__complex.html#a228a7c3777a7905b1898796cc88fd8f2">l_max</a>)</td></tr>
 <tr class="separator:ae4932f2cdb59693250e4acccceac0881 inherit pub_methods_classfdcl_1_1_f_f_t_s_o3__complex"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9d3c0f7b6ae42a00e85d6809fb22c2c8 inherit pub_methods_classfdcl_1_1_f_f_t_s_o3__complex"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__complex.html#a9d3c0f7b6ae42a00e85d6809fb22c2c8">init</a> (int <a class="el" href="classfdcl_1_1_f_f_t_s_o3__complex.html#a228a7c3777a7905b1898796cc88fd8f2">l_max</a>)</td></tr>
 <tr class="separator:a9d3c0f7b6ae42a00e85d6809fb22c2c8 inherit pub_methods_classfdcl_1_1_f_f_t_s_o3__complex"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -172,12 +156,9 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>check_transform</b>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:ab2f6cfd9f0fd78a2badb2e9ea9d5afc6"><td class="memItemLeft" align="right" valign="top"><a id="ab2f6cfd9f0fd78a2badb2e9ea9d5afc6"></a>
-<a class="el" href="classfdcl_1_1_clebsch___gordon__real.html">fdcl::Clebsch_Gordon_real</a>&#160;</td><td class="memItemRight" valign="bottom"><b>c</b></td></tr>
+<tr class="memitem:ab2f6cfd9f0fd78a2badb2e9ea9d5afc6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classfdcl_1_1_clebsch___gordon__real.html">fdcl::Clebsch_Gordon_real</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__real.html#ab2f6cfd9f0fd78a2badb2e9ea9d5afc6">c</a></td></tr>
+<tr class="memdesc:ab2f6cfd9f0fd78a2badb2e9ea9d5afc6"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classfdcl_1_1_clebsch___gordon__real.html">fdcl::Clebsch_Gordon_real</a> class object  <a href="#ab2f6cfd9f0fd78a2badb2e9ea9d5afc6">More...</a><br /></td></tr>
 <tr class="separator:ab2f6cfd9f0fd78a2badb2e9ea9d5afc6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af53fab47863ed73699df021196502db9"><td class="memItemLeft" align="right" valign="top"><a id="af53fab47863ed73699df021196502db9"></a>
-<a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix_real</a>&#160;</td><td class="memItemRight" valign="bottom"><b>U</b></td></tr>
-<tr class="separator:af53fab47863ed73699df021196502db9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_attribs_classfdcl_1_1_f_f_t_s_o3__complex"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_classfdcl_1_1_f_f_t_s_o3__complex')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="classfdcl_1_1_f_f_t_s_o3__complex.html">fdcl::FFTSO3_complex</a></td></tr>
 <tr class="memitem:a228a7c3777a7905b1898796cc88fd8f2 inherit pub_attribs_classfdcl_1_1_f_f_t_s_o3__complex"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__complex.html#a228a7c3777a7905b1898796cc88fd8f2">l_max</a></td></tr>
 <tr class="memdesc:a228a7c3777a7905b1898796cc88fd8f2 inherit pub_attribs_classfdcl_1_1_f_f_t_s_o3__complex"><td class="mdescLeft">&#160;</td><td class="mdescRight">The maximum order of the Fourier tranform that is applied to all of the member functions.  <a href="classfdcl_1_1_f_f_t_s_o3__complex.html#a228a7c3777a7905b1898796cc88fd8f2">More...</a><br /></td></tr>
@@ -235,6 +216,350 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>B</b></td></tr>
 <a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix_complex</a>&#160;</td><td class="memItemRight" valign="bottom"><b>u</b></td></tr>
 <tr class="separator:a8f488018ef556bb17716f3bdeac5addd inherit pro_attribs_classfdcl_1_1_f_f_t_s_o3__complex"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p class="">Real Fast Fourier Transform on SO(3) </p>
+<p class="">This class provides various tools for real harmonic analysis on the speical orthogonal group, includeing fast Forward transform, inverse transform, wigner-D function, wigner-d function, and Clebsch-Gordon coefficient. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a52f30a48ace48d1d302852da5f93174e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a52f30a48ace48d1d302852da5f93174e">&#9670;&nbsp;</a></span>FFTSO3_real()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">fdcl::FFTSO3_real::FFTSO3_real </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>l_max</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p class="">Constructor with <img class="formulaInl" alt="$ l_{\max} $" src="form_35.png"/> </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a4c706993486bfa447529a99c168d2a0f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4c706993486bfa447529a99c168d2a0f">&#9670;&nbsp;</a></span>check_all()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void fdcl::FFTSO3_real::check_all </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p class="">Execute all of check functions </p>
+
+</div>
+</div>
+<a id="a5ac83b95415179df82e3beffe84546ef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5ac83b95415179df82e3beffe84546ef">&#9670;&nbsp;</a></span>check_Clebsch_Gordon()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double fdcl::FFTSO3_real::check_Clebsch_Gordon </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p class="">Check the Clebsh-Gordon coefficients, computed by fdcl::Clebsch_Gordon_complex::compute()</p>
+<p class="">Verify the followign property: </p><p class="formulaDsp">
+<img class="formulaDsp" alt="\begin{equation*} U^{l_1}_{m_1,n_1} (R) U^{l_2}_{m_2,n_2}(R) = \sum_{m\in M} \sum_{n\in N} \sum_{l=\max\{|l_1-l_2|,|m|,|n|\}}^{l_1+l_2} c^{l,m}_{l_1,m_1,l_2,m_2} \overline{c}^{l,n}_{l_1,n_1,l_2,n_2} U^{l}_{m,n}(R). \end{equation*}" src="form_33.png"/>
+</p>
+ 
+</div>
+</div>
+<a id="acf8f8ee94ac8ea7562cc1559fc781af0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acf8f8ee94ac8ea7562cc1559fc781af0">&#9670;&nbsp;</a></span>check_deriv_real_harmonics()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double fdcl::FFTSO3_real::check_deriv_real_harmonics </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p class="">Chech the derivatives of the real harmonics, computed by <a class="el" href="classfdcl_1_1_f_f_t_s_o3__real.html#a1931ed5b4b2ace292b673eecee28c26e">fdcl::FFTSO3_real::real_harmonics()</a></p>
+<p class="">Verify that the numerical derivative of the real harmonics obtained by a finite-differece rule is consistent with <a class="el" href="classfdcl_1_1_f_f_t_s_o3__real.html#a1931ed5b4b2ace292b673eecee28c26e">fdcl::FFTSO3_real::real_harmonics()</a> </p>
+
+</div>
+</div>
+<a id="a9f447bb1a68d7d2d505c90674d37cf58"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f447bb1a68d7d2d505c90674d37cf58">&#9670;&nbsp;</a></span>check_real_harmonics()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double fdcl::FFTSO3_real::check_real_harmonics </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p class="">Check real harmonics <img class="formulaInl" alt="$U^l_{m,n}(R) $" src="form_34.png"/></p>
+<p class="">Verify that the real harmonics computed by various methods are consistent with each other </p>
+
+</div>
+</div>
+<a id="a0cd10440acde8fba34d2dc9ca54391ee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0cd10440acde8fba34d2dc9ca54391ee">&#9670;&nbsp;</a></span>check_transform()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double fdcl::FFTSO3_real::check_transform </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p class="">Check the forward transform and the inverse transform.</p>
+<p class="">Verify that the composition of the inverse transform and the foward transform yield the identify map in the space of Fourier parameters. More specifically, a function is defined as the form of the inverse trasnform with random Fourier parameters, and check if its Fourier transform yields the same Fourier parameters. </p>
+
+</div>
+</div>
+<a id="a87ca874075ae48b8bb857280c72054ea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a87ca874075ae48b8bb857280c72054ea">&#9670;&nbsp;</a></span>deriv_real_harmonics()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;<a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix_real</a>&gt; fdcl::FFTSO3_real::deriv_real_harmonics </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p class="">Derivaties of wigner-D matrix</p>
+<p class="">Compute and return the derivatives of the real harmonics at the identity along the canonial basis. More specifically, let the output object be <code>u</code>. Then <code>u</code>[1], <code>u</code>[2], and <code>u</code>[3] correspond to <img class="formulaInl" alt="$ u^l(e_1) $" src="form_22.png"/>, <img class="formulaInl" alt="$u^l(e_2)$" src="form_23.png"/>, and <img class="formulaInl" alt="$u^l(e_3)$" src="form_24.png"/>, respectively. Note <code>u</code>[0] is set to zero. </p>
+
+</div>
+</div>
+<a id="a1475ab6e0c5649e198f0a3e44b2d62a5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1475ab6e0c5649e198f0a3e44b2d62a5">&#9670;&nbsp;</a></span>forward_transform() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix_real</a> fdcl::FFTSO3_real::forward_transform </td>
+          <td>(</td>
+          <td class="paramtype">std::function&lt; double(double, double, double)&gt;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p class="">Forward transform for <img class="formulaInl" alt="$ f(\alpha,\beta,\gamma)$" src="form_11.png"/></p>
+<p class="">Compute and return a fdcl::FFTSO3_matrix_real object for real Fourier transform of <img class="formulaInl" alt="$ f(\alpha,\beta,\gamma)):\mathrm{SO(3)}\rightarrow \mathbb{C} $" src="form_17.png"/>, namely <img class="formulaInl" alt="$ F^l_{m,n} $" src="form_13.png"/>. The function is defined in terms of 3-2-3 Euler angles. Each element can be accesed by the index <code></code>(l,m,n) of the returned object, or the <img class="formulaInl" alt="$ (2l+1)\times (2l+1)$" src="form_10.png"/> matrix for the <img class="formulaInl" alt="$l$" src="form_7.png"/>-th order is accessed by <code></code>[l]. </p>
+
+</div>
+</div>
+<a id="a4ea847efb7c323fb91f7b9702860ef23"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4ea847efb7c323fb91f7b9702860ef23">&#9670;&nbsp;</a></span>forward_transform() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix_real</a> fdcl::FFTSO3_real::forward_transform </td>
+          <td>(</td>
+          <td class="paramtype">std::function&lt; double(Eigen::Matrix3d)&gt;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p class="">Forward transform for <img class="formulaInl" alt="$ f(R)$" src="form_14.png"/></p>
+<p class="">Compute and return a fdcl::FFTSO3_matrix_real object for real Fourier transform of <img class="formulaInl" alt="$ f(R):\mathrm{SO(3)}\rightarrow \mathbb{C} $" src="form_15.png"/>, namely <img class="formulaInl" alt="$ F^l_{m,n} $" src="form_13.png"/>. The function is defined in terms of a rotation matrix. Each element can be accesed by the index <code></code>(l,m,n) of the returned object, or the <img class="formulaInl" alt="$ (2l+1)\times (2l+1)$" src="form_10.png"/> matrix for the <img class="formulaInl" alt="$l$" src="form_7.png"/>-th order is accessed by <code></code>[l]. </p>
+
+</div>
+</div>
+<a id="a87aaf93acf5432856f296c3157fc0053"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a87aaf93acf5432856f296c3157fc0053">&#9670;&nbsp;</a></span>init()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void fdcl::FFTSO3_real::init </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>l_max</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p class="">Initialize the class with the maximum order specificed by <code>l_max</code>. </p>
+
+</div>
+</div>
+<a id="a29607686f05c7c37d551ea1ec927e9ae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a29607686f05c7c37d551ea1ec927e9ae">&#9670;&nbsp;</a></span>inverse_transform() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double fdcl::FFTSO3_real::inverse_transform </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix_real</a>&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>alpha</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>beta</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>gamma</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p class="">Inverse trasnform for <img class="formulaInl" alt="$(\alpha,\beta,\gamma)$" src="form_18.png"/></p>
+<p class="">Compute and return a real number for the Fourer parameter evaluated at the 3-2-3 Euler angles <img class="formulaInl" alt="$ (\alpha,\beta,\gamma) $" src="form_19.png"/>. </p>
+
+</div>
+</div>
+<a id="a3615a178a79446444e94459c4ffadc06"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3615a178a79446444e94459c4ffadc06">&#9670;&nbsp;</a></span>inverse_transform() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double fdcl::FFTSO3_real::inverse_transform </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix_real</a>&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Eigen::Matrix3d&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p class="">Inverse trasnform for <img class="formulaInl" alt="$R$" src="form_20.png"/></p>
+<p class="">Compute and return a real number for the Fourer parameter evaluated at the rotation matrix <img class="formulaInl" alt="$ R $" src="form_21.png"/>. </p>
+
+</div>
+</div>
+<a id="a1931ed5b4b2ace292b673eecee28c26e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1931ed5b4b2ace292b673eecee28c26e">&#9670;&nbsp;</a></span>real_harmonics() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix_real</a> fdcl::FFTSO3_real::real_harmonics </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>alpha</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>beta</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>gamma</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p class="">real harmonics on SO(3) for given 3-2-3 Euler angles</p>
+<p class="">Compute and returns a fdcl::FFTSO3_matrix_real object for real harmonics on SO(3), namely <img class="formulaInl" alt="$ U^l_{m,n}(R) $" src="form_31.png"/>. Each element can be accesed by the index <code></code>(l,m,n) of the returned object, or the <img class="formulaInl" alt="$ (2l+1)\times (2l+1)$" src="form_10.png"/> matrix for the <img class="formulaInl" alt="$l$" src="form_7.png"/>-th order is accessed by <code></code>[l]. </p>
+
+</div>
+</div>
+<a id="a2c8792607ca186f535c82eba7f530735"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2c8792607ca186f535c82eba7f530735">&#9670;&nbsp;</a></span>real_harmonics() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__matrix.html">fdcl::FFTSO3_matrix_real</a> fdcl::FFTSO3_real::real_harmonics </td>
+          <td>(</td>
+          <td class="paramtype">Eigen::Matrix3d&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p class="">real harmonics on SO(3) for a given rotation matrix</p>
+<p class="">Compute and returns a fdcl::FFTSO3_matrix_real object for real harmonics on SO(3), namely <img class="formulaInl" alt="$ U^l_{m,n}(\alpha,\beta,\gamma) $" src="form_32.png"/>. Each element can be accesed by the index <code></code>(l,m,n) of the returned object, or the <img class="formulaInl" alt="$ (2l+1)\times (2l+1)$" src="form_10.png"/> matrix for the <img class="formulaInl" alt="$l$" src="form_7.png"/>-th order is accessed by <code></code>[l]. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="ab2f6cfd9f0fd78a2badb2e9ea9d5afc6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab2f6cfd9f0fd78a2badb2e9ea9d5afc6">&#9670;&nbsp;</a></span>c</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classfdcl_1_1_clebsch___gordon__real.html">fdcl::Clebsch_Gordon_real</a> fdcl::FFTSO3_real::c</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><a class="el" href="classfdcl_1_1_clebsch___gordon__real.html">fdcl::Clebsch_Gordon_real</a> class object </p>
+<p class="">Class instance for Clebsch-Gordon coefficients, which are computed by fdcl::Clebsch_Gordon_real::compute(int l1, int l2). Then, the coefficient <img class="formulaInl" alt="$ c^{l,m}_{l_1,m_1,l_2,m_2}$" src="form_30.png"/> is accessed by <code>c(l,m,l1,m1,l2,m2)</code>. </p>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>/Users/tylee/Documents/Research/Deep Learning/FFTSO3/include/<a class="el" href="fdcl___f_f_t_s_o3_8hpp_source.html">fdcl_FFTSO3.hpp</a></li>
 </ul>

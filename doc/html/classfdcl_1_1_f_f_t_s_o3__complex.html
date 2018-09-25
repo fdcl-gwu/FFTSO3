@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.15"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Real Harmonics on SO(3): fdcl::FFTSO3_complex Class Reference</title>
+<title>Fast Fourier Transform on SO(3): fdcl::FFTSO3_complex Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,7 +21,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">Real Harmonics on SO(3)
+   <div id="projectname">Fast Fourier Transform on SO(3)
    </div>
   </td>
  </tr>
@@ -86,14 +86,13 @@ Inheritance diagram for fdcl::FFTSO3_complex:</div>
  <div class="center">
   <img src="classfdcl_1_1_f_f_t_s_o3__complex.png" usemap="#fdcl::FFTSO3_5Fcomplex_map" alt=""/>
   <map id="fdcl::FFTSO3_5Fcomplex_map" name="fdcl::FFTSO3_5Fcomplex_map">
-<area href="classfdcl_1_1_f_f_t_s_o3__real.html" alt="fdcl::FFTSO3_real" shape="rect" coords="0,56,140,80"/>
+<area href="classfdcl_1_1_f_f_t_s_o3__real.html" title="Real Fast Fourier Transform on SO(3)" alt="fdcl::FFTSO3_real" shape="rect" coords="0,56,140,80"/>
 </map>
  </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ae4932f2cdb59693250e4acccceac0881"><td class="memItemLeft" align="right" valign="top"><a id="ae4932f2cdb59693250e4acccceac0881"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>FFTSO3_complex</b> (int <a class="el" href="classfdcl_1_1_f_f_t_s_o3__complex.html#a228a7c3777a7905b1898796cc88fd8f2">l_max</a>)</td></tr>
+<tr class="memitem:ae4932f2cdb59693250e4acccceac0881"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__complex.html#ae4932f2cdb59693250e4acccceac0881">FFTSO3_complex</a> (int <a class="el" href="classfdcl_1_1_f_f_t_s_o3__complex.html#a228a7c3777a7905b1898796cc88fd8f2">l_max</a>)</td></tr>
 <tr class="separator:ae4932f2cdb59693250e4acccceac0881"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9d3c0f7b6ae42a00e85d6809fb22c2c8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfdcl_1_1_f_f_t_s_o3__complex.html#a9d3c0f7b6ae42a00e85d6809fb22c2c8">init</a> (int <a class="el" href="classfdcl_1_1_f_f_t_s_o3__complex.html#a228a7c3777a7905b1898796cc88fd8f2">l_max</a>)</td></tr>
 <tr class="separator:a9d3c0f7b6ae42a00e85d6809fb22c2c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -189,8 +188,28 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>B</b></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p class="">Complex Fast Fourier Transform on SO(3) </p>
-<p class="">This class provides various tools for Fourier transform on the speical orthogonal group, includeing fast Forward transform, inverse transform, wigner-D function, wigner-d function, and Clebsch-Gordon coefficient. </p>
-</div><h2 class="groupheader">Member Function Documentation</h2>
+<p class="">This class provides various tools for complex harmonic analysis on the speical orthogonal group, includeing fast Forward transform, inverse transform, wigner-D function, wigner-d function, and Clebsch-Gordon coefficient. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="ae4932f2cdb59693250e4acccceac0881"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae4932f2cdb59693250e4acccceac0881">&#9670;&nbsp;</a></span>FFTSO3_complex()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">fdcl::FFTSO3_complex::FFTSO3_complex </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>l_max</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p class="">Constructor with <img class="formulaInl" alt="$ l_{\max} $" src="form_35.png"/> </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
 <a id="a82be7fdc2e34d5f8bdd80e3c558d62c3"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a82be7fdc2e34d5f8bdd80e3c558d62c3">&#9670;&nbsp;</a></span>character()</h2>
 
