@@ -13,6 +13,5 @@ var searchData=
   ['check_5fwigner_5fd',['check_wigner_d',['../classfdcl_1_1_f_f_t_s_o3__complex.html#ae62f3ddc4aeb64c3a289d1743d212ebd',1,'fdcl::FFTSO3_complex']]],
   ['clebsch_5fgordon_5fcomplex',['Clebsch_Gordon_complex',['../classfdcl_1_1_clebsch___gordon__complex.html',1,'fdcl::Clebsch_Gordon_complex'],['../classfdcl_1_1_clebsch___gordon__complex.html#a40d42cca5676d64fc65839aa4b4acc31',1,'fdcl::Clebsch_Gordon_complex::Clebsch_Gordon_complex()']]],
   ['clebsch_5fgordon_5freal',['Clebsch_Gordon_real',['../classfdcl_1_1_clebsch___gordon__real.html',1,'fdcl::Clebsch_Gordon_real'],['../classfdcl_1_1_clebsch___gordon__real.html#ae496e205ce022fe29203d5778153bfc4',1,'fdcl::Clebsch_Gordon_real::Clebsch_Gordon_real()']]],
-  ['compute',['compute',['../classfdcl_1_1_clebsch___gordon__complex.html#adbe856248912be168471f925d1f544cb',1,'fdcl::Clebsch_Gordon_complex::compute()'],['../classfdcl_1_1_clebsch___gordon__real.html#ae60d8ab8eb25e285ac87c86d08b77528',1,'fdcl::Clebsch_Gordon_real::compute()']]],
-  ['class_5fmanual',['class_manual',['../md_class_manual.html',1,'']]]
+  ['compute',['compute',['../classfdcl_1_1_clebsch___gordon__complex.html#adbe856248912be168471f925d1f544cb',1,'fdcl::Clebsch_Gordon_complex::compute()'],['../classfdcl_1_1_clebsch___gordon__real.html#ae60d8ab8eb25e285ac87c86d08b77528',1,'fdcl::Clebsch_Gordon_real::compute()']]]
 ];

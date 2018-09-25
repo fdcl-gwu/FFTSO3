@@ -6,8 +6,7 @@ var indexSectionsWithContent =
   3: "cdfinorsw",
   4: "clm",
   5: "f",
-  6: "o",
-  7: "c"
+  6: "o"
 };
 
 var indexSectionNames =
@@ -18,8 +17,7 @@ var indexSectionNames =
   3: "functions",
   4: "variables",
   5: "typedefs",
-  6: "related",
-  7: "pages"
+  6: "related"
 };
 
 var indexSectionLabels =
@@ -30,7 +28,6 @@ var indexSectionLabels =
   3: "Functions",
   4: "Variables",
   5: "Typedefs",
-  6: "Friends",
-  7: "Pages"
+  6: "Friends"
 };
 
