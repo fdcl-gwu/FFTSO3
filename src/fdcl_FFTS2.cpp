@@ -229,11 +229,6 @@ complex<double> fdcl::FFTS2_complex::inverse_transform(fdcl::FFTS2_matrix_comple
     return y;
 }
 
-complex<double> fdcl::FFTS2_complex::inverse_transform(double theta, double phi)
-{
-    return inverse_transform(this->F,theta,phi);
-}
-
 double fdcl::FFTS2_complex::check_weight()
 {
     fdcl::FFTS2_matrix_complex Y(2*B-1);
@@ -516,8 +511,4 @@ double fdcl::FFTS2_real::inverse_transform(fdcl::FFTS2_matrix_real F, double the
     return z;
 }
 
-double fdcl::FFTS2_real::inverse_transform(double theta, double phi)
-{
-    return inverse_transform(this->F, theta, phi);
-}
 
