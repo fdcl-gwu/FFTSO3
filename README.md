@@ -32,7 +32,7 @@ which is the configuration space for the attitude dynamics of a rigid body.
 <a href="https://www.codecogs.com/eqnedit.php?latex=F^l_{m,n}\quad&space;\text{&space;for&space;}&space;0\leq&space;l<\infty,\;&space;-l\leq&space;m,n\leq&space;l." target="_blank"><img src="https://latex.codecogs.com/gif.latex?F^l_{m,n}\quad&space;\text{&space;for&space;}&space;0\leq&space;l<\infty,\;&space;-l\leq&space;m,n\leq&space;l." title="F^l_{m,n}\quad \text{ for } 0\leq l<\infty,\; -l\leq m,n\leq l." /></a>
 </p>
 
-It is common that the indicies `m,n` is mapped to non-negative values. 
+    It is common that the indicies `m,n` is mapped to non-negative values. 
 In this package, the above element can be direclty accessed by `F(l,m,n)` without any conversion. Also, the (2l+1) by (2l+1) matrix can be accessed by `F[l]`
 
 * This package provides routines for [Clebsch-Gordon coefficients](https://en.wikipedia.org/wiki/Clebsch–Gordan_coefficients), or derivatives of harmonics that are not available elsewhere.
