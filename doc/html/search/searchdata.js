@@ -1,9 +1,9 @@
 var indexSectionsWithContent =
 {
-  0: "cdfilmnorstw",
+  0: "acdefhilmnorstvw",
   1: "cfot",
-  2: "f",
-  3: "cdfinorsw",
+  2: "fm",
+  3: "acdefhilnorsvw",
   4: "clm",
   5: "f",
   6: "o"

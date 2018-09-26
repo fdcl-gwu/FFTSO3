@@ -16,8 +16,8 @@ which is the configuration space for the attitude dynamics of a rigid body.
 ### What does it do?
 
 * Complex/Real [Noncommutative Harmonic Analysis](https://en.wikipedia.org/wiki/Noncommutative_harmonic_analysis) on SO(3)
-* Complex/Real [Spherical Harmonics](https://en.wikipedia.org/wiki/Spherical_harmonics)
-* Fast Fourier Transform
+* Complex/Real [Spherical Harmonics](https://en.wikipedia.org/wiki/Spherical_harmonics) on the Unit-Sphere
+* Fast Fourier Transform on SO(3)
 
 
 ### Why should I use it?
@@ -32,8 +32,8 @@ which is the configuration space for the attitude dynamics of a rigid body.
 <a href="https://www.codecogs.com/eqnedit.php?latex=F^l_{m,n}\quad&space;\text{&space;for&space;}&space;0\leq&space;l<\infty,\;&space;-l\leq&space;m,n\leq&space;l." target="_blank"><img src="https://latex.codecogs.com/gif.latex?F^l_{m,n}\quad&space;\text{&space;for&space;}&space;0\leq&space;l<\infty,\;&space;-l\leq&space;m,n\leq&space;l." title="F^l_{m,n}\quad \text{ for } 0\leq l<\infty,\; -l\leq m,n\leq l." /></a>
 </p>
 
-* It is common that the indicies `m,n` is mapped to non-negative values. 
-In this package, the above element can be direclty accessed by `F(l,m,n)` without any conversion. Also, the (2l+1) by (2l+1) matrix can be accessed by `F[l]`
+* It is common that the indices `m,n` is mapped to non-negative values. 
+In this package, the above element can be directly accessed by `F(l,m,n)` without any conversion. Also, the (2l+1) by (2l+1) matrix can be accessed by `F[l]`
 
 * This package provides routines for [Clebsch-Gordon coefficients](https://en.wikipedia.org/wiki/Clebsch–Gordan_coefficients), or derivatives of harmonics that are not available elsewhere.
 * It is based on the [Eigen library](http://eigen.tuxfamily.org/) supporting vectorization.
@@ -65,7 +65,7 @@ Please follow the instruction at each link to install the libraries, except the 
 	sudo apt-get install libomp-dev
 ```
 
-**Notes for Windows:** While this pacakge does not use any OS-specific command, it has not been tested in Windows. 
+**Notes for Windows:** While this package does not use any OS-specific command, it has not been tested in Windows. 
 
 ### Compile 
 
@@ -89,9 +89,39 @@ The last command executes unit-testing, and the installation is succesful if it 
 	[ PASSED ] 12 tests.
 ```
 
-**Notes for Eigen library:** If the Eigen library is alraedy installed, the command `git submodule update...` can be skipped. Instead, `CMakeList.txt` should be modified accordingly. See [Using Eigen in CMake Projets](https://eigen.tuxfamily.org/dox/TopicCMakeGuide.html).
+**Notes for Eigen library:** If the Eigen library is already installed, the command `git submodule update...` can be skipped. Instead, `CMakeList.txt` should be modified accordingly. See [Using Eigen in CMake Projets](https://eigen.tuxfamily.org/dox/TopicCMakeGuide.html).
 
 ## Example
+
+### Minimal example for real harmonic analysis
+
+```C++
+#include <iostream>
+#include "fdcl_FFTSO3.hpp"
+
+// define a real-valued function on SO(3)
+double func(Eigen::Matrix3d R)
+{
+    return R.trace();
+}
+    
+int main()
+{
+    int l_max=2;  // the maximum order of Fourier transform
+    fdcl::FFTSO3_real RFFTSO3(l_max); // FFTSO3_real object for real harmonic analysis on SO(3)
+    fdcl::FFTSO3_matrix_real F(l_max); // FFTSO3_matrix_real object to save real valued Fourier parameters
+    Eigen::Matrix3d R; 
+
+    F=RFFTSO3.forward_transform(func); // perform forward transform
+    std::cout << "Fourier parameter" << std::endl << F << std::endl; // show Fourier parameters
+
+    R.setIdentity(); // R is set to the identity matrix
+    std::cout << RFFTSO3.inverse_transform(F,R) << std::endl; // compute the inverse transform at the identity and print it
+
+    return 0;
+}
+```
+
 
 ## User Manual
 

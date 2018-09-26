@@ -4,8 +4,6 @@
 #include <Eigen/Eigenvalues>
 #include "misc_matrix_func.h"
 
-using namespace std;
-
 Eigen::Matrix3d fdcl::hat(const Eigen::Vector3d v)
 {
 	Eigen::Matrix3d V;
@@ -25,7 +23,7 @@ Eigen::Vector3d fdcl::vee(const Eigen::Matrix3d V)
 	E=V+V.transpose();
 	if(E.norm() > 1.e-6)
 	{
-		cout << "vee: ERROR: the input matrix is not skew-symmetric" << endl;
+        std::cout << "vee: ERROR: the input matrix is not skew-symmetric" << std::endl;
 	}
 	else
 	{
@@ -61,7 +59,6 @@ Eigen::Matrix3d fdcl::expm_SO3(const Eigen::Vector3d r)
 	R+=y*hat(r)+1./2.*pow(y2,2)*hat(r)*hat(r);
 
 	return R;
-
 }
 
 Eigen::Vector3d fdcl::logm_SO3(const Eigen::Matrix3d R)
@@ -74,7 +71,7 @@ Eigen::Vector3d fdcl::logm_SO3(const Eigen::Matrix3d R)
 	I.setIdentity();
 	if((I-R*R.transpose()).norm() > eps || abs(R.determinant()-1) > eps)
 	{
-		cout << "logm_SO3: error: R is not a rotation matrix" << endl;
+        std::cout << "logm_SO3: error: R is not a rotation matrix" << std::endl;
 	}
 	else
 	{
@@ -134,7 +131,7 @@ bool fdcl::assert_SO3(Eigen::Matrix3d R,const char *R_name)
 	{
 		isSO3=false;
 		printf("ERROR: %s: ||I-R^TR||= %8.6f, det(R)= %8.6f\n",R_name,errO,R.determinant());
-		cout << R << endl << endl;
+        std::cout << R << std::endl << std::endl;
 	}
 	else
 	{
@@ -142,30 +139,6 @@ bool fdcl::assert_SO3(Eigen::Matrix3d R,const char *R_name)
 	}
 	return isSO3;
 
-}
-
-void fdcl::sat(Eigen::Vector3d &x, double x_min, double x_max)
-{
-	int i;
-	for (i=0; i<3; i++)
-	{
-		if (x(i)>x_max)
-			x(i)=x_max;
-		else if (x(i)<x_min)
-			x(i)=x_min;
-	}
-}
-
-void fdcl::sat(Eigen::Matrix<double,4,1> &x, double x_min, double x_max)
-{
-	int i;
-	for (i=0; i<4; i++)
-	{
-		if (x(i)>x_max)
-			x(i)=x_max;
-		else if (x(i)<x_min)
-			x(i)=x_min;
-	}
 }
 
 std::vector<double> fdcl::R2Euler323(const Eigen::Matrix3d R)

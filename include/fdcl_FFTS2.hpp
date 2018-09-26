@@ -60,7 +60,7 @@ class fdcl::FFTS2_complex
 
         /** Inverse trasnform for \f$R\f$
          *
-         * Compute and return a complex number for the Fourer parameter evaluated at the coordinate \f$(\theta,\phi)\f$.
+         * Compute and return a complex number for the Fourier parameter evaluated at the coordinate \f$(\theta,\phi)\f$.
          */
         complex<double> inverse_transform(fdcl::FFTS2_matrix_complex F, double theta, double phi);
 

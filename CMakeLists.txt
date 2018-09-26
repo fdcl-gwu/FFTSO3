@@ -1,11 +1,10 @@
 cmake_minimum_required(VERSION 3.5)
 project( fdcl_FFTSO3 C CXX )
 
-set(CMAKE_CXX_FLAGS "-O3 -Wall -pedantic" )
+set(CMAKE_CXX_FLAGS "-O3 -Wall -Weffc++" )
 # set(CMAKE_CXX_FLAGS_DEBUG "-g -Wall -Wextra -pedantic")
-# set(CMAKE_CXX_FLAGS_DEBUG "-g")
-# Add -Weffc++ for all sorts of good errors to fix
 # set(CMAKE_CXX_FLAGS_RELEASE "-DNDEBUG -O3")
+
 ################################################################################
 # GLOBAL SETUP
 ################################################################################
@@ -47,6 +46,7 @@ include_directories(${PROJECT_SOURCE_DIR}/extern/eigen3)
 ################################################################################
 include_directories(${PROJECT_SOURCE_DIR}/include)
 
+## BUILD FFTSO3 LIBRARY
 set(FFTSO3_src 
     src/fdcl_FFTSO3.cpp
     src/fdcl_FFTS2.cpp
@@ -58,18 +58,15 @@ set(FFTSO3_src
     src/fdcl_omp_thread.cpp)
 
 add_library(fftso3 SHARED ${FFTSO3_src})
-#target_compile_definitions(fftso3 PUBLIC EIGEN_FFTW_DEFAULT)
+# uncomment the following line to use fftw instead of kissfft, see http://eigen.tuxfamily.org/index.php?title=EigenFFT
+# target_compile_definitions(fftso3 PUBLIC EIGEN_FFTW_DEFAULT)
 target_link_libraries(fftso3 OpenMP::OpenMP_CXX)
 target_link_libraries(fftso3 ${OpenMP_CXX_FLAGS})
-#target_link_libraries(fftso3 fftw3 fftw3_threads)
 
-add_executable(test_FFTSO3 src/test_FFTSO3.cpp)
-target_link_libraries(test_FFTSO3 fftso3)
+## BUILD EXAMPLE0
+add_executable(example0 src/example0.cpp)
+target_link_libraries(example0 fftso3)
 
-add_executable(test_openmp scratch/test_openmp.cpp src/fdcl_tictoc.cpp)   
-#target_link_libraries(test_openmp OpenMP::OpenMP_CXX)
-#target_link_libraries(test_openmp ${OpenMP_CXX_FLAGS})
-target_link_libraries(test_openmp fftso3)
 
 ###############################################################################
 # GOOGLE TESTING

@@ -784,7 +784,7 @@ fdcl::FFTSO3_matrix_real fdcl::FFTSO3_real::forward_transform(std::function <dou
         Eigen::MatrixXcd F_k(2*B,2*B);
         Eigen::VectorXcd tmp_out(2*B);
 
-        int j1, j2, k, l, m, n;
+        int j1, j2, k;
         double alpha, beta;
         Eigen::FFT<double> fft;
 
@@ -859,7 +859,7 @@ fdcl::FFTSO3_matrix_complex fdcl::FFTSO3_complex::forward_transform_1(std::funct
     fdcl::FFTSO3_matrix_complex F_gamma[2*B];
     fdcl::FFTSO3_matrix_complex F(l_max);
     
-    complex<double> exp_imalpha, exp_ingamma, f_j1kj2;
+    complex<double> f_j1kj2;
     double alpha, beta, gamma;
     
     compute_weight();
