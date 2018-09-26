@@ -109,19 +109,39 @@ int main()
 {
     int l_max=2;  // the maximum order of Fourier transform
     fdcl::FFTSO3_real RFFTSO3(l_max); // FFTSO3_real object for real harmonic analysis on SO(3)
-    fdcl::FFTSO3_matrix_real F(l_max); // FFTSO3_matrix_real object to save real valued Fourier parameters
+    fdcl::FFTSO3_matrix_real F(l_max); // FFTSO3_matrix_real object to save real-valued Fourier parameters
     Eigen::Matrix3d R; 
+    double f=0.;
 
-    F=RFFTSO3.forward_transform(func); // perform forward transform
-    std::cout << "Fourier parameter" << std::endl << F << std::endl; // show Fourier parameters
+    F = RFFTSO3.forward_transform(func); // perform forward Fourier transform
+    std::cout << "Fourier parameter F = " << std::endl << std::endl << F << std::endl; // show Fourier parameters
 
     R.setIdentity(); // R is set to the identity matrix
-    std::cout << RFFTSO3.inverse_transform(F,R) << std::endl; // compute the inverse transform at the identity and print it
+    f = RFFTSO3.inverse_transform(F,R); // compute the inverse transform at the identity
+    cout << "f = " << f << std::endl; 
 
     return 0;
 }
 ```
 
+```
+Fourier parameter F =
+
+l=0
+-4.16334e-17
+
+l=1
+    0.333333 -4.53217e-17  7.28124e-17
+-3.08183e-17     0.333333  8.25415e-18
+-1.38104e-16 -5.13615e-18     0.333333
+
+l=2
+ 5.48551e-18 -1.81924e-17  1.05714e-18  -3.3415e-17  3.14623e-18
+ 2.11998e-17 -4.16334e-17 -1.36215e-17  1.64077e-19  2.38253e-17
+ -7.2492e-19 -9.99741e-18 -1.38778e-17  5.84227e-18  2.16787e-18
+-3.84623e-17 -3.84837e-18  -1.0536e-17 -9.71445e-17  1.59126e-17
+-8.54102e-19  4.87669e-17   7.8598e-18 -1.92921e-17  9.78959e-20
+```
 
 ## User Manual
 
