@@ -4,7 +4,9 @@
 
 This C++ software package provides various tools for harmonic analysis on the special orthogonal group, 
 
-<p align="center"><a href="https://www.codecogs.com/eqnedit.php?latex=\mathrm{SO(3)}=\{&space;R\in\Re^{3\times&space;3}\,|\,&space;R^TR=I_{3\times&space;3},\quad&space;\mathrm{det}[R]=&plus;1\}," target="_blank"><img src="https://latex.codecogs.com/gif.latex?\mathrm{SO(3)}=\{&space;R\in\Re^{3\times&space;3}\,|\,&space;R^TR=I_{3\times&space;3},\quad&space;\mathrm{det}[R]=&plus;1\}," title="\mathrm{SO(3)}=\{ R\in\Re^{3\times 3}\,|\, R^TR=I_{3\times 3},\quad \mathrm{det}[R]=+1\}," /></a></p>
+<p align="center">
+<a href="https://www.codecogs.com/eqnedit.php?latex=\mathrm{SO(3)}=\{&space;R\in\Re^{3\times&space;3}\,|\,&space;R^TR=I_{3\times&space;3},\quad&space;\mathrm{det}[R]=&plus;1\}," target="_blank"><img src="https://latex.codecogs.com/gif.latex?\mathrm{SO(3)}=\{&space;R\in\Re^{3\times&space;3}\,|\,&space;R^TR=I_{3\times&space;3},\quad&space;\mathrm{det}[R]=&plus;1\}," title="\mathrm{SO(3)}=\{ R\in\Re^{3\times 3}\,|\, R^TR=I_{3\times 3},\quad \mathrm{det}[R]=+1\}," /></a>
+</p>
 
 which is the configuration space for the attitude dynamics of a rigid body.
 
@@ -26,8 +28,9 @@ which is the configuration space for the attitude dynamics of a rigid body.
 * The computation in this package is verified by various unit-testing, utilizing [GoogleTeset](https://github.com/google/googletest).
 * For convenience, it supports the indexing consistent with mathematical expressions. More specifically, harmonics on SO(3) is indexed by three integers varying from negative values to positive ones:
 
-	<center><a href="https://www.codecogs.com/eqnedit.php?latex=F^l_{m,n}\quad&space;\text{&space;for&space;}&space;0\leq&space;l<\infty,\;&space;-l\leq&space;m,n\leq&space;l." target="_blank"><img src="https://latex.codecogs.com/gif.latex?F^l_{m,n}\quad&space;\text{&space;for&space;}&space;0\leq&space;l<\infty,\;&space;-l\leq&space;m,n\leq&space;l." title="F^l_{m,n}\quad \text{ for } 0\leq l<\infty,\; -l\leq m,n\leq l." /></a>
-</center>
+<p align="center">
+<a href="https://www.codecogs.com/eqnedit.php?latex=F^l_{m,n}\quad&space;\text{&space;for&space;}&space;0\leq&space;l<\infty,\;&space;-l\leq&space;m,n\leq&space;l." target="_blank"><img src="https://latex.codecogs.com/gif.latex?F^l_{m,n}\quad&space;\text{&space;for&space;}&space;0\leq&space;l<\infty,\;&space;-l\leq&space;m,n\leq&space;l." title="F^l_{m,n}\quad \text{ for } 0\leq l<\infty,\; -l\leq m,n\leq l." /></a>
+</p>
 
 	It is common that the indicies `m,n` is mapped to non-negative values. 
 	In this package, the above element can be direclty accessed by `F(l,m,n)` without any conversion. Also, the (2l+1) by (2l+1) matrix can be accessed by `F[l]`
