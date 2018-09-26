@@ -4,9 +4,7 @@
 
 This C++ software package provides various tools for harmonic analysis on the special orthogonal group, 
 
-<center>
-<a href="https://www.codecogs.com/eqnedit.php?latex=\mathrm{SO(3)}=\{&space;R\in\Re^{3\times&space;3}\,|\,&space;R^TR=I_{3\times&space;3},\quad&space;\mathrm{det}[R]=&plus;1\}," target="_blank"><img src="https://latex.codecogs.com/gif.latex?\mathrm{SO(3)}=\{&space;R\in\Re^{3\times&space;3}\,|\,&space;R^TR=I_{3\times&space;3},\quad&space;\mathrm{det}[R]=&plus;1\}," title="\mathrm{SO(3)}=\{ R\in\Re^{3\times 3}\,|\, R^TR=I_{3\times 3},\quad \mathrm{det}[R]=+1\}," /></a>
-</center>
+<center><a href="https://www.codecogs.com/eqnedit.php?latex=\mathrm{SO(3)}=\{&space;R\in\Re^{3\times&space;3}\,|\,&space;R^TR=I_{3\times&space;3},\quad&space;\mathrm{det}[R]=&plus;1\}," target="_blank"><img src="https://latex.codecogs.com/gif.latex?\mathrm{SO(3)}=\{&space;R\in\Re^{3\times&space;3}\,|\,&space;R^TR=I_{3\times&space;3},\quad&space;\mathrm{det}[R]=&plus;1\}," title="\mathrm{SO(3)}=\{ R\in\Re^{3\times 3}\,|\, R^TR=I_{3\times 3},\quad \mathrm{det}[R]=+1\}," /></a></center>
 
 which is the configuration space for the attitude dynamics of a rigid body.
 
