@@ -45,6 +45,7 @@ In this package, the above element can be directly accessed by `F(l,m,n)` withou
 * T. Lee, "[Real Harmonic Analysis on the Special Orthogonal Group](https://arxiv.org/submit/2412577)," arXiv, 2018 (Real harmonic analysis on SO(3))
 * D. Varshalovich, A. Moskalaev, V. Khersonskii, "[Quantum Theory of Angular Momentum](https://www.amazon.com/Quantum-Theory-Angular-Momemtum-Varshalovich/dp/9971501074)," World Scientific, 1988 (Wigner-D function and spherical harmonics)
 * G. Chirikjian, A. Kyatkin, "[Engineering Applications of Noncommutative Harmonic Analysis](https://www.amazon.com/Engineering-Applications-Noncommutative-Harmonic-Analysis/dp/0849307481)," CPC Press, 2000 (Operational properties)
+* D. Marinucci, G. Peccati, "[Random Fields on the Sphere: Representation, Limit Theorems and Cosmological Applications](https://www.amazon.com/gp/product/0521175615/ref=oh_aui_search_detailpage?ie=UTF8&psc=1), Cambridge University Press, 2011 (Clebsch-Gordon coefficients)
 
 ## Installation
 
@@ -112,7 +113,7 @@ Four examples are provided.
 All of the example codes are under `FFTSO3/exmaple`, and once the above installation procedures are completed, the executable binary files are copied to the folder `FFTSO3/bin`
 
 #### example0.cpp
-This example illustrates how to perform fast forward transform of the trace function, and its inverse transform, using real harmonic analysis on SO(3).
+This example illustrates how to perform fast forward transform of the trace function, and compute the inverse transform at the identity, using real harmonic analysis on SO(3).
 
 ```C++
 #include <iostream>
@@ -161,6 +162,9 @@ l=2
  -7.2492e-19 -9.99741e-18 -1.38778e-17  5.84227e-18  2.16787e-18
 -3.84623e-17 -3.84837e-18  -1.0536e-17 -9.71445e-17  1.59126e-17
 -8.54102e-19  4.87669e-17   7.8598e-18 -1.92921e-17  9.78959e-20
+
+
+f = 3
 ```
 
 For other examples, see the comments within the source file.
@@ -175,6 +179,7 @@ More detailed user manual is available at
 * [The SOFT Package:
 FFTs on the Rotation Group](https://www.cs.dartmouth.edu/~geelong/soft/): complex harmonic analysis on SO(3)
 
-## License
+## Contacts
+This library is developed by [Flight Dynamics and Control Lab](http://fdcl.seas.gwu.edu/) at The George Washington University, Washington DC. Contact [tylee@gwu.edu](mailto:tylee@gwu.edu) for question and comment.
 
 
