@@ -18,6 +18,8 @@ which is the configuration space for the attitude dynamics of a rigid body.
 * Complex/Real [Noncommutative Harmonic Analysis](https://en.wikipedia.org/wiki/Noncommutative_harmonic_analysis) on SO(3)
 * Complex/Real [Spherical Harmonics](https://en.wikipedia.org/wiki/Spherical_harmonics) on the Unit-Sphere
 * Fast Fourier Transform on SO(3)
+* Compute [Wigner D-matrix](https://en.wikipedia.org/wiki/Wigner_D-matrix)
+* Compute [Clebsch-Gordon coefficients](https://en.wikipedia.org/wiki/Clebsch–Gordan_coefficients)
 
 
 ### Why should I use it?
@@ -25,7 +27,7 @@ which is the configuration space for the attitude dynamics of a rigid body.
 * This packages utilizes [OpenMP](https://www.openmp.org) for accelerated computing for multicore processors.
 * It implements Fast Fourier Transform (FFT) algorithms developed for SO(3).
 * This is the only package that supports real harmonic analysis on SO(3).
-* The computation in this package is verified by various unit-testing, utilizing [GoogleTeset](https://github.com/google/googletest).
+* The computation in this package is verified by various unit-testing, utilizing [GoogleTest](https://github.com/google/googletest).
 * For convenience, it supports the indexing consistent with mathematical expressions. More specifically, harmonics on SO(3) is indexed by three integers varying from negative values to positive ones:
 
 <p align="center">
@@ -37,6 +39,12 @@ In this package, the above element can be directly accessed by `F(l,m,n)` withou
 
 * This package provides routines for [Clebsch-Gordon coefficients](https://en.wikipedia.org/wiki/Clebsch–Gordan_coefficients), or derivatives of harmonics that are not available elsewhere.
 * It is based on the [Eigen library](http://eigen.tuxfamily.org/) supporting vectorization.
+
+### What's the theoretical basis?
+
+* T. Lee, "[Real Harmonic Analysis on the Special Orthogonal Group](https://arxiv.org/submit/2412577)," arXiv, 2018 (Real harmonic analysis on SO(3))
+* D. Varshalovich, A. Moskalaev, V. Khersonskii, "[Quantum Theory of Angular Momentum](https://www.amazon.com/Quantum-Theory-Angular-Momemtum-Varshalovich/dp/9971501074)," World Scientific, 1988 (Wigner-D function and spherical harmonics)
+* G. Chirikjian, A. Kyatkin, "[Engineering Applications of Noncommutative Harmonic Analysis](https://www.amazon.com/Engineering-Applications-Noncommutative-Harmonic-Analysis/dp/0849307481)," CPC Press, 2000 (Operational properties)
 
 ## Installation
 
@@ -91,9 +99,20 @@ The last command executes unit-testing, and the installation is succesful if it 
 
 **Notes for Eigen library:** If the Eigen library is already installed, the command `git submodule update...` can be skipped. Instead, `CMakeList.txt` should be modified accordingly. See [Using Eigen in CMake Projets](https://eigen.tuxfamily.org/dox/TopicCMakeGuide.html).
 
-## Example
+## Examples
 
-### Minimal example for real harmonic analysis
+Four examples are provided. 
+
+* `example0.cpp` minimal working example for real harmonic analysis on SO(3)
+* `example1.cpp` elaborated example for real harmonic analysis on SO(3)
+* `example2.cpp` elaborated example for complex harmonic analysis on SO(3)
+* `example3.cpp` application to spherical image correlation introduced in this [article](https://arxiv.org/submit/2412577)
+
+
+All of the example codes are under `FFTSO3/exmaple`, and once the above installation procedures are completed, the executable binary files are copied to the folder `FFTSO3/bin`
+
+#### example0.cpp
+This example illustrates how to perform fast forward transform of the trace function, and its inverse transform, using real harmonic analysis on SO(3).
 
 ```C++
 #include <iostream>
@@ -123,6 +142,7 @@ int main()
     return 0;
 }
 ```
+Excecute `FFTSO3/bin/example0` to get the followin results. 
 
 ```
 Fourier parameter F =
@@ -143,7 +163,18 @@ l=2
 -8.54102e-19  4.87669e-17   7.8598e-18 -1.92921e-17  9.78959e-20
 ```
 
+For other examples, see the comments within the source file.
+
 ## User Manual
 
-[Doxygen Manual for Class Members](https://fdcl-gwu.github.io/FFTSO3/doc/html/index.html)
+More detailed user manual is available at
+[Doxygen Manual for Class Members (HTML)](https://fdcl-gwu.github.io/FFTSO3/doc/html/index.html)
+
+
+## Relevant Projects
+* [The SOFT Package:
+FFTs on the Rotation Group](https://www.cs.dartmouth.edu/~geelong/soft/): complex harmonic analysis on SO(3)
+
+## License
+
 
