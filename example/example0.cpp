@@ -1,3 +1,4 @@
+// minimal example for real harmonic analysis on SO(3)
 #include <iostream>
 #include "fdcl_FFTSO3.hpp"
 

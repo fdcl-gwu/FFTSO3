@@ -46,15 +46,17 @@ ScalarType& fdcl::FFTS2_matrix<ScalarType>::operator()(int l, int m)
 	return M[l](m+l);
 }
 
-template <class ScalarType>
-ostream& operator<< (ostream& os, const fdcl::FFTS2_matrix<ScalarType>& M)
-{
-	for(int l=0;l<=M.l_max;l++)
-	{
-		os << "l=" << l << endl;
-		os << M.M[l] << endl << endl;
-	}
-	return os;
+namespace fdcl {
+    template <class ScalarType>
+        ostream& operator<< (ostream& os, const fdcl::FFTS2_matrix<ScalarType>& M)
+        {
+            for(int l=0;l<=M.l_max;l++)
+            {
+                os << "l=" << l << endl;
+                os << M.M[l] << endl << endl;
+            }
+            return os;
+        }
 }
 
 
@@ -172,7 +174,7 @@ namespace fdcl
 {
     template class FFTS2_matrix<double>;
     template class FFTS2_matrix<complex<double>>;
+    template ostream& operator<< (ostream& os, const fdcl::FFTS2_matrix<double>& M);
+    template ostream& operator<< (ostream& os, const fdcl::FFTS2_matrix<complex<double>>& M);
 }
-template ostream& operator<< (ostream& os, const fdcl::FFTS2_matrix<double>& M);
-template ostream& operator<< (ostream& os, const fdcl::FFTS2_matrix<complex<double>>& M);
 

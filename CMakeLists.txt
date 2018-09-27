@@ -63,9 +63,18 @@ add_library(fftso3 SHARED ${FFTSO3_src})
 target_link_libraries(fftso3 OpenMP::OpenMP_CXX)
 target_link_libraries(fftso3 ${OpenMP_CXX_FLAGS})
 
-## BUILD EXAMPLE0
-add_executable(example0 src/example0.cpp)
+## BUILD EXAMPLES
+add_executable(example0 example/example0.cpp)
 target_link_libraries(example0 fftso3)
+
+add_executable(example1 example/example1.cpp)
+target_link_libraries(example1 fftso3)
+
+add_executable(example2 example/example2.cpp)
+target_link_libraries(example2 fftso3)
+
+add_executable(example3 example/example3.cpp)
+target_link_libraries(example3 fftso3)
 
 
 ###############################################################################

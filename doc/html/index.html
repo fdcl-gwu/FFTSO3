@@ -82,13 +82,15 @@ $(function() {
 <li>Complex/Real <a href="https://en.wikipedia.org/wiki/Noncommutative_harmonic_analysis">Noncommutative Harmonic Analysis</a> on SO(3)</li>
 <li>Complex/Real <a href="https://en.wikipedia.org/wiki/Spherical_harmonics">Spherical Harmonics</a> on the Unit-Sphere</li>
 <li>Fast Fourier Transform on SO(3)</li>
+<li>Compute <a href="https://en.wikipedia.org/wiki/Wigner_D-matrix">Wigner D-matrix</a></li>
+<li>Compute <a href="https://en.wikipedia.org/wiki/Clebsch–Gordan_coefficients">Clebsch-Gordon coefficients</a></li>
 </ul>
 <h3>Why should I use it?</h3>
 <ul>
 <li>This packages utilizes <a href="https://www.openmp.org">OpenMP</a> for accelerated computing for multicore processors.</li>
 <li>It implements Fast Fourier Transform (FFT) algorithms developed for SO(3).</li>
 <li>This is the only package that supports real harmonic analysis on SO(3).</li>
-<li>The computation in this package is verified by various unit-testing, utilizing <a href="https://github.com/google/googletest">GoogleTeset</a>.</li>
+<li>The computation in this package is verified by various unit-testing, utilizing <a href="https://github.com/google/googletest">GoogleTest</a>.</li>
 <li>For convenience, it supports the indexing consistent with mathematical expressions. More specifically, harmonics on SO(3) is indexed by three integers varying from negative values to positive ones:</li>
 </ul>
 <p class=""><a href="https://www.codecogs.com/eqnedit.php?latex=F^l_{m,n}\quad&amp;space;\text{&amp;space;for&amp;space;}&amp;space;0\leq&amp;space;l&lt;\infty,\;&amp;space;-l\leq&amp;space;m,n\leq&amp;space;l." target="_blank"><div class="image">
@@ -99,6 +101,13 @@ $(function() {
 <li>It is common that the indices <code>m,n</code> is mapped to non-negative values. In this package, the above element can be directly accessed by <code>F(l,m,n)</code> without any conversion. Also, the (2l+1) by (2l+1) matrix can be accessed by <code>F[l]</code></li>
 <li>This package provides routines for <a href="https://en.wikipedia.org/wiki/Clebsch–Gordan_coefficients">Clebsch-Gordon coefficients</a>, or derivatives of harmonics that are not available elsewhere.</li>
 <li>It is based on the <a href="http://eigen.tuxfamily.org/">Eigen library</a> supporting vectorization.</li>
+</ul>
+<h3>What's the theoretical basis?</h3>
+<ul>
+<li>T. Lee, "[Real Harmonic Analysis on the Special Orthogonal Group](https://arxiv.org/submit/2412577)," arXiv, 2018 (Real harmonic analysis on SO(3))</li>
+<li>D. Varshalovich, A. Moskalaev, V. Khersonskii, "[Quantum Theory of Angular Momentum](https://www.amazon.com/Quantum-Theory-Angular-Momemtum-Varshalovich/dp/9971501074)," World Scientific, 1988 (Wigner-D function and spherical harmonics)</li>
+<li>G. Chirikjian, A. Kyatkin, "[Engineering Applications of Noncommutative Harmonic Analysis](https://www.amazon.com/Engineering-Applications-Noncommutative-Harmonic-Analysis/dp/0849307481)," CPC Press, 2000 (Operational properties)</li>
+<li>D. Marinucci, G. Peccati, "&lt;a href="<a href="https://www.amazon.com/gp/product/0521175615/ref=oh_aui_search_detailpage?ie=UTF8&psc=1">https://www.amazon.com/gp/product/0521175615/ref=oh_aui_search_detailpage?ie=UTF8&amp;psc=1</a>"&gt;Random Fields on the Sphere: Representation, Limit Theorems and Cosmological Applications, Cambridge University Press, 2011 (Clebsch-Gordon coefficients)</li>
 </ul>
 <h2>Installation</h2>
 <h3>Required Libraries</h3>
@@ -118,9 +127,27 @@ $(function() {
 <p class="">Execute the following commands at a folder above this package will be installed:</p>
 <div class="fragment"><div class="line">git clone https://github.com/fdcl-gwu/FFTSO3.git</div><div class="line">cd FFTSO3</div><div class="line">git submodule update --init --recursive</div><div class="line">cd build</div><div class="line">cmake ..</div><div class="line">make</div><div class="line">../bin/fftso3_unit_test</div></div><!-- fragment --><p class="">The last command executes unit-testing, and the installation is succesful if it prints out the following message at the end</p>
 <div class="fragment"><div class="line">...</div><div class="line">...</div><div class="line">[ PASSED ] 12 tests.</div></div><!-- fragment --><p class=""><b>Notes for Eigen library:</b> If the Eigen library is already installed, the command <code>git submodule update...</code> can be skipped. Instead, <code>CMakeList.txt</code> should be modified accordingly. See <a href="https://eigen.tuxfamily.org/dox/TopicCMakeGuide.html">Using Eigen in CMake Projets</a>.</p>
-<h2>Example</h2>
+<h2>Examples</h2>
+<p class="">Four examples are provided.</p>
+<ul>
+<li><code>example0.cpp</code> minimal working example for real harmonic analysis on SO(3)</li>
+<li><code>example1.cpp</code> elaborated example for real harmonic analysis on SO(3)</li>
+<li><code>example2.cpp</code> elaborated example for complex harmonic analysis on SO(3)</li>
+<li><code>example3.cpp</code> application to spherical image correlation introduced in this <a href="https://arxiv.org/submit/2412577">article</a></li>
+</ul>
+<p class="">All of the example codes are under <code>FFTSO3/exmaple</code>, and once the above installation procedures are completed, the executable binary files are copied to the folder <code>FFTSO3/bin</code></p>
+<h4>example0.cpp</h4>
+<p class="">This example illustrates how to perform fast forward transform of the trace function, and compute the inverse transform at the identity, using real harmonic analysis on SO(3).</p>
+<div class="fragment"><div class="line"> {C++}</div><div class="line">#include &lt;iostream&gt;</div><div class="line">#include &quot;fdcl_FFTSO3.hpp&quot;</div><div class="line"></div><div class="line">// define a real-valued function on SO(3)</div><div class="line">double func(Eigen::Matrix3d R)</div><div class="line">{</div><div class="line">    return R.trace();</div><div class="line">}</div><div class="line">    </div><div class="line">int main()</div><div class="line">{</div><div class="line">    int l_max=2;  // the maximum order of Fourier transform</div><div class="line">    fdcl::FFTSO3_real RFFTSO3(l_max); // FFTSO3_real object for real harmonic analysis on SO(3)</div><div class="line">    fdcl::FFTSO3_matrix_real F(l_max); // FFTSO3_matrix_real object to save real-valued Fourier parameters</div><div class="line">    Eigen::Matrix3d R; </div><div class="line">    double f=0.;</div><div class="line"></div><div class="line">    F = RFFTSO3.forward_transform(func); // perform forward Fourier transform</div><div class="line">    std::cout &lt;&lt; &quot;Fourier parameter F = &quot; &lt;&lt; std::endl &lt;&lt; std::endl &lt;&lt; F &lt;&lt; std::endl; // show Fourier parameters</div><div class="line"></div><div class="line">    R.setIdentity(); // R is set to the identity matrix</div><div class="line">    f = RFFTSO3.inverse_transform(F,R); // compute the inverse transform at the identity</div><div class="line">    cout &lt;&lt; &quot;f = &quot; &lt;&lt; f &lt;&lt; std::endl; </div><div class="line"></div><div class="line">    return 0;</div><div class="line">}</div></div><!-- fragment --><p> Excecute <code>FFTSO3/bin/example0</code> to get the followin results.</p>
+<div class="fragment"><div class="line">Fourier parameter F =</div><div class="line"></div><div class="line">l=0</div><div class="line">-4.16334e-17</div><div class="line"></div><div class="line">l=1</div><div class="line">    0.333333 -4.53217e-17  7.28124e-17</div><div class="line">-3.08183e-17     0.333333  8.25415e-18</div><div class="line">-1.38104e-16 -5.13615e-18     0.333333</div><div class="line"></div><div class="line">l=2</div><div class="line"> 5.48551e-18 -1.81924e-17  1.05714e-18  -3.3415e-17  3.14623e-18</div><div class="line"> 2.11998e-17 -4.16334e-17 -1.36215e-17  1.64077e-19  2.38253e-17</div><div class="line"> -7.2492e-19 -9.99741e-18 -1.38778e-17  5.84227e-18  2.16787e-18</div><div class="line">-3.84623e-17 -3.84837e-18  -1.0536e-17 -9.71445e-17  1.59126e-17</div><div class="line">-8.54102e-19  4.87669e-17   7.8598e-18 -1.92921e-17  9.78959e-20</div><div class="line"></div><div class="line"></div><div class="line">f = 3</div></div><!-- fragment --><p class="">For other examples, see the comments within the source file.</p>
 <h2>User Manual</h2>
-<p class=""><a href="https://fdcl-gwu.github.io/FFTSO3/doc/html/index.html">Doxygen Manual for Class Members</a> </p>
+<p class="">More detailed user manual is available at <a href="https://fdcl-gwu.github.io/FFTSO3/doc/html/index.html">Doxygen Manual for Class Members (HTML)</a></p>
+<h2>Relevant Projects</h2>
+<ul>
+<li><a href="https://www.cs.dartmouth.edu/~geelong/soft/">The SOFT Package: FFTs on the Rotation Group</a>: complex harmonic analysis on SO(3)</li>
+</ul>
+<h2>Contacts</h2>
+<p class="">This library is developed by <a href="http://fdcl.seas.gwu.edu/">Flight Dynamics and Control Lab</a> at The George Washington University, Washington DC. Contact <a href="#" onclick="location.href='mai'+'lto:'+'tyl'+'ee'+'@gw'+'u.'+'edu'; return false;">tylee@gwu.edu</a> for question and comment. </p>
 </div></div><!-- PageDoc -->
 </div><!-- contents -->
 <!-- start footer part -->
