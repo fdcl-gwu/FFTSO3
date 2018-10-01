@@ -39,9 +39,13 @@ int main()
     //}
 
 
-    std::vector<int> L_max = {4, 8, 16, 32, 64, 128};
+    // Benchmark : forward transform
+    std::vector<int> L_max = {4, 8, 16, 32, 64};
     std::vector<int> N_threads = {1, 2, 4};
     tt.quiet=true;
+    int N_repeat = 2;
+    double t_elapsed =0.;
+    cout << "Benchmark : forward transform " << endl;
     for(auto l_max : L_max)
     {
         for (auto n_threads : N_threads)
@@ -50,8 +54,34 @@ int main()
             FFTSO3.init(l_max);
 
             tt.tic();
-            FFTSO3.forward_transform(func_trace);
-            double t_elapsed = tt.toc();
+            for(int i_repeat=0; i_repeat < N_repeat; i_repeat++)
+                FFTSO3.forward_transform(func_trace);
+
+            t_elapsed = tt.toc();
+            t_elapsed /= (double)N_repeat;
+
+            cout << "l_max = " << l_max << ", threads = "<< n_threads << ", t_elapsed " << t_elapsed << endl;
+        }
+        cout << endl;
+    }
+
+    // Benchmark : inverse transform
+    cout << "Benchmark : inverse transform " << endl;
+    for(auto l_max : L_max)
+    {
+        for (auto n_threads : N_threads)
+        {
+            omp_set_num_threads(n_threads);
+            FFTSO3.init(l_max);
+            F.init(l_max);
+            F.setRandom();
+
+            tt.tic();
+            for(int i_repeat=0; i_repeat < N_repeat; i_repeat++)
+                FFTSO3.inverse_transform(F,0.,0.,0.);
+
+            t_elapsed = tt.toc();
+            t_elapsed /= (double)N_repeat;
 
             cout << "l_max = " << l_max << ", threads = "<< n_threads << ", t_elapsed " << t_elapsed << endl;
         }
