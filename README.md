@@ -42,7 +42,7 @@ In this package, the above element can be directly accessed by `F(l,m,n)` withou
 
 ### What's the theoretical basis?
 
-* T. Lee, "[Real Harmonic Analysis on the Special Orthogonal Group](https://arxiv.org/submit/2412577)," arXiv, 2018 (Real harmonic analysis on SO(3))
+* T. Lee, "[Real Harmonic Analysis on the Special Orthogonal Group](https://arxiv.org/abs/1809.10533)," arXiv, 2018 (Real harmonic analysis on SO(3))
 * D. Varshalovich, A. Moskalaev, V. Khersonskii, "[Quantum Theory of Angular Momentum](https://www.amazon.com/Quantum-Theory-Angular-Momemtum-Varshalovich/dp/9971501074)," World Scientific, 1988 (Wigner-D function and spherical harmonics)
 * G. Chirikjian, A. Kyatkin, "[Engineering Applications of Noncommutative Harmonic Analysis](https://www.amazon.com/Engineering-Applications-Noncommutative-Harmonic-Analysis/dp/0849307481)," CPC Press, 2000 (Operational properties)
 * D. Marinucci, G. Peccati, "[Random Fields on the Sphere: Representation, Limit Theorems and Cosmological Applications](https://www.amazon.com/gp/product/0521175615/ref=oh_aui_search_detailpage?ie=UTF8&psc=1), Cambridge University Press, 2011 (Clebsch-Gordon coefficients)
@@ -107,7 +107,7 @@ Four examples are provided.
 * `example0.cpp` minimal working example for real harmonic analysis on SO(3)
 * `example1.cpp` elaborated example for real harmonic analysis on SO(3)
 * `example2.cpp` elaborated example for complex harmonic analysis on SO(3)
-* `example3.cpp` application to spherical image correlation introduced in this [article](https://arxiv.org/submit/2412577)
+* `example3.cpp` application to spherical image correlation introduced in this [article](https://arxiv.org/abs/1809.10533)
 
 
 All of the example codes are under `FFTSO3/exmaple`, and once the above installation procedures are completed, the executable binary files are copied to the folder `FFTSO3/bin`

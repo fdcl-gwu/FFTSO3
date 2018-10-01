@@ -76,6 +76,9 @@ target_link_libraries(example2 fftso3)
 add_executable(example3 example/example3.cpp)
 target_link_libraries(example3 fftso3)
 
+add_executable(example4 example/example4.cpp)
+target_link_libraries(example4 fftso3)
+
 
 ###############################################################################
 # GOOGLE TESTING

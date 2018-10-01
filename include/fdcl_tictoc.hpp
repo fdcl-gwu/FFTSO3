@@ -19,6 +19,7 @@ public:
     void tic();
     double toc();
     double toc(std::string message);
+    bool quiet=true;
 };
 
 #endif
