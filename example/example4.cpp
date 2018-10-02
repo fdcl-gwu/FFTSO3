@@ -19,31 +19,36 @@ int main()
     fdcl::FFTSO3_real FFTSO3; 
     fdcl::FFTSO3_matrix_real F, G;
     fdcl::tictoc tt;
+    bool validation  = false;
 
-/*    std::vector<int> L_max = {4, 8, 16};*/
+    std::vector<int> L_max = {7, 15, 31, 63, 127};
 
-    //for(auto l_max : L_max)
-    //{
-        //FFTSO3.init(l_max);
-        //F.init(l_max);
-        //G.init(l_max);
+    // Validation
+    if (validation)
+    {
+        cout << "Validation : error in forward/inverse composition " << endl;
+        omp_set_num_threads(8);
+        for(auto l_max : L_max)
+        {
+            FFTSO3.init(l_max);
+            F.init(l_max);
+            G.init(l_max);
 
-        //F.setRandom();
-        //G=FFTSO3.forward_transform([=] (double alpha, double beta, double gamma)
-                //{
-                    //return func(F,l_max, alpha,beta,gamma);
-                //}
-                //);
+            F.setRandom();
+            G=FFTSO3.forward_transform([=] (double alpha, double beta, double gamma)
+                    {
+                    return func(F,l_max, alpha,beta,gamma);
+                    }
+                    );
 
-        //cout << "l_max = " << l_max << ", error = " << (F-G).norm() << endl;
-    //}
-
+            cout << "l_max = " << l_max << ", error = " << (F-G).norm() << endl;
+        }
+    } 
 
     // Benchmark : forward transform
-    std::vector<int> L_max = {4, 8, 16, 32, 64};
-    std::vector<int> N_threads = {1, 2, 4};
+    std::vector<int> N_threads = {1, 2, 4, 8};
     tt.quiet=true;
-    int N_repeat = 2;
+    int N_repeat = 10;
     double t_elapsed =0.;
     cout << "Benchmark : forward transform " << endl;
     for(auto l_max : L_max)

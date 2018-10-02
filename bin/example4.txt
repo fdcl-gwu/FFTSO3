@@ -1,0 +1,58 @@
+Validation : error in forward/inverse composition 
+l_max = 7, error = 7.2528e-14
+l_max = 15, error = 5.89725e-13
+l_max = 31, error = 4.86005e-12
+l_max = 63, error = 4.08479e-11
+Validation : error in forward/inverse composition 
+Benchmark : forward transform 
+l_max = 7, threads = 1, t_elapsed 0.0024819
+l_max = 7, threads = 2, t_elapsed 0.001989
+l_max = 7, threads = 4, t_elapsed 0.0014687
+l_max = 7, threads = 8, t_elapsed 0.0012322
+
+l_max = 15, threads = 1, t_elapsed 0.0220237
+l_max = 15, threads = 2, t_elapsed 0.0122037
+l_max = 15, threads = 4, t_elapsed 0.0070288
+l_max = 15, threads = 8, t_elapsed 0.0064574
+
+l_max = 31, threads = 1, t_elapsed 0.300455
+l_max = 31, threads = 2, t_elapsed 0.159903
+l_max = 31, threads = 4, t_elapsed 0.0825036
+l_max = 31, threads = 8, t_elapsed 0.0741299
+
+l_max = 63, threads = 1, t_elapsed 4.75595
+l_max = 63, threads = 2, t_elapsed 2.64533
+l_max = 63, threads = 4, t_elapsed 1.40034
+l_max = 63, threads = 8, t_elapsed 1.05732
+
+l_max = 127, threads = 1, t_elapsed 87.9036
+l_max = 127, threads = 2, t_elapsed 46.8623
+l_max = 127, threads = 4, t_elapsed 24.0065
+l_max = 127, threads = 8, t_elapsed 17.191
+
+Benchmark : inverse transform 
+l_max = 7, threads = 1, t_elapsed 0.0001641
+l_max = 7, threads = 2, t_elapsed 0.0001907
+l_max = 7, threads = 4, t_elapsed 0.0001943
+l_max = 7, threads = 8, t_elapsed 0.0001862
+
+l_max = 15, threads = 1, t_elapsed 0.0009429
+l_max = 15, threads = 2, t_elapsed 0.0005033
+l_max = 15, threads = 4, t_elapsed 0.0005408
+l_max = 15, threads = 8, t_elapsed 0.0006128
+
+l_max = 31, threads = 1, t_elapsed 0.0052317
+l_max = 31, threads = 2, t_elapsed 0.0042631
+l_max = 31, threads = 4, t_elapsed 0.003937
+l_max = 31, threads = 8, t_elapsed 0.0035148
+
+l_max = 63, threads = 1, t_elapsed 0.0475331
+l_max = 63, threads = 2, t_elapsed 0.0406544
+l_max = 63, threads = 4, t_elapsed 0.0327219
+l_max = 63, threads = 8, t_elapsed 0.0295415
+
+l_max = 127, threads = 1, t_elapsed 0.408127
+l_max = 127, threads = 2, t_elapsed 0.348703
+l_max = 127, threads = 4, t_elapsed 0.262828
+l_max = 127, threads = 8, t_elapsed 0.248889
+
