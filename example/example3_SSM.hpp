@@ -16,10 +16,10 @@ class fdcl::spherical_shape_matching
         int l_max;
         double scale_factor=1.e-6; /**< scale factor for cost and gradient */
         double eps=1.e-6; /**< stopping threshold */
-        double step_size=1.e-3; /**< step size for update */
+        double step_size=5.e-3; /**< step size for update */
 
         spherical_shape_matching(){};
-        ~spherical_shape_matching(){};
+        ~spherical_shape_matching(){f_out.close();};
         spherical_shape_matching(int l_max);
 
         void init(int l_max); /**< Initialize variables */
@@ -27,11 +27,14 @@ class fdcl::spherical_shape_matching
         Eigen::Vector3d gradient(Eigen::Matrix3d R); /**< Gradient of cost */
         Eigen::Matrix3d opt(Eigen::Matrix3d R0); /**< Steepest descent optimization */
         void check_gradient(); /**< Verify gradient computation */
+
+        std::ofstream f_out;
 };
 
 fdcl::spherical_shape_matching::spherical_shape_matching(int l_max)
 {
     init(l_max);
+    f_out.open("example3_opt.dat");
 }
 
 void fdcl::spherical_shape_matching::init(int l_max)
@@ -53,7 +56,7 @@ double fdcl::spherical_shape_matching::J(Eigen::Matrix3d R)
     double y=0.;
     U = RFFTSO3.real_harmonics(R);
     for(int l=0; l<=l_max; l++)
-        y+=(G[l]*F[l].transpose()*U[l]).trace();
+        y+=G[l].transpose()*U[l]*F[l];
 
     return y*scale_factor;
 }
@@ -66,7 +69,7 @@ Eigen::Vector3d fdcl::spherical_shape_matching::gradient(Eigen::Matrix3d R)
 
     for(int l=0; l<=l_max; l++)
         for(int i=1; i<=3; i++)
-            dJ(i-1)+=(G[l]*F[l].transpose()*U[l]*u[i][l]).trace();
+            dJ(i-1)+=G[l].transpose()*U[l]*u[i][l]*F[l];
 
     return dJ*scale_factor;
 }
@@ -91,6 +94,9 @@ Eigen::Matrix3d fdcl::spherical_shape_matching::opt(Eigen::Matrix3d R0)
         abg=R2Euler323(R);
 
         cout << "iter = " << i_iter << " : J = " << J(R) << " : n_grad = " << norm_gradient << " : Euler = " << abg[0] << " " << abg[1] << " " << abg[2] << endl;
+
+
+        f_out << i_iter << ", " << J(R) << ", " << norm_gradient << ", " << abg[0] << ", " << abg[1] << ", " << abg[2] << endl;
     }
 
     return R;

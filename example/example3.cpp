@@ -50,7 +50,7 @@ int main()
     R_true=fdcl::Euler3232R(M_PI/6., M_PI/3., M_PI/4.);
     U=FFTSO3.real_harmonics(R_true);
     for(int l=0; l<=l_max; l++)
-        SSM.G[l]=U[l].transpose()*SSM.F[l];
+        SSM.G[l]=U[l]*SSM.F[l];
     
     // save the results of Fourier transform for the rotated elevation
     if(save_to_file)
@@ -68,7 +68,7 @@ int main()
 
     // perform optimization
     SSM.step_size = 1.e-4;
-    R_opt = SSM.opt(fdcl::Euler3232R(0.5,0.5,0.5)); 
+    R_opt = SSM.opt(fdcl::Euler3232R(0.3,0.3,0.3)); 
 
     cout << "Ideal cost = " << SSM.J(R_true) << endl;
     cout << "True rotation = " << endl << R_true << endl;
