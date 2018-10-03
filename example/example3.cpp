@@ -51,6 +51,25 @@ int main()
     U=FFTSO3.real_harmonics(R_true);
     for(int l=0; l<=l_max; l++)
         SSM.G[l]=U[l]*SSM.F[l];
+
+
+    SSM.G = FFTS2.forward_transform([=] (double theta, double phi) {
+            
+            Eigen::Vector3d x;
+            double theta_rot, phi_rot;
+            x << cos(phi)*sin(theta) , sin(phi)*sin(theta), cos(theta);
+            x = R_true.transpose()*x;
+
+            theta_rot = acos(x(2));
+            if (abs(theta_rot) < 1e-6 || abs(theta_rot-M_PI) < 1e-6)
+                phi_rot=0.;
+            else
+                phi_rot = atan2(x(1)/sin(theta_rot), x(0)/sin(theta_rot));
+
+            if(phi_rot < 0)
+                phi_rot += 2*M_PI;
+
+            return func(-theta_rot*180./M_PI+90.,phi_rot*180./M_PI);} );
     
     // save the results of Fourier transform for the rotated elevation
     if(save_to_file)
