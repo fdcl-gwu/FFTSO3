@@ -42,7 +42,12 @@ In this package, the above element can be directly accessed by `F(l,m,n)` withou
 
 ### What's the theoretical basis?
 
+This library is based on
+
 * T. Lee, "[Real Harmonic Analysis on the Special Orthogonal Group](https://arxiv.org/abs/1809.10533)," arXiv, 2018 (Real harmonic analysis on SO(3))
+
+It also utilizes the results of 
+
 * D. Varshalovich, A. Moskalaev, V. Khersonskii, "[Quantum Theory of Angular Momentum](https://www.amazon.com/Quantum-Theory-Angular-Momemtum-Varshalovich/dp/9971501074)," World Scientific, 1988 (Wigner-D function and spherical harmonics)
 * G. Chirikjian, A. Kyatkin, "[Engineering Applications of Noncommutative Harmonic Analysis](https://www.amazon.com/Engineering-Applications-Noncommutative-Harmonic-Analysis/dp/0849307481)," CPC Press, 2000 (Operational properties)
 * D. Marinucci, G. Peccati, "[Random Fields on the Sphere: Representation, Limit Theorems and Cosmological Applications](https://www.amazon.com/gp/product/0521175615/ref=oh_aui_search_detailpage?ie=UTF8&psc=1), Cambridge University Press, 2011 (Clebsch-Gordon coefficients)
@@ -174,12 +179,13 @@ For other examples, see the comments within the source file.
 More detailed user manual is available at
 [Doxygen Manual for Class Members (HTML)](https://fdcl-gwu.github.io/FFTSO3/doc/html/index.html)
 
-
 ## Relevant Projects
 * [The SOFT Package:
 FFTs on the Rotation Group](https://www.cs.dartmouth.edu/~geelong/soft/): complex harmonic analysis on SO(3)
 
-## Contacts
+## Contact
 This library is developed by [Flight Dynamics and Control Lab](http://fdcl.seas.gwu.edu/) at The George Washington University, Washington DC. Contact [tylee@gwu.edu](mailto:tylee@gwu.edu) for question and comment.
 
+## Acknowledgments 
 
+This research has been supported in parts by NSF under the grant CMMI-1335008, and by AFOSR under the grant FA9550-18-1-0288.
