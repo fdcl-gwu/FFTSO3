@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/fdcl-gwu/FFTSO3.svg?branch=master)](https://travis-ci.org/fdcl-gwu/FFTSO3)
 
-# FAST FOURIER TRANSFORM ON SO(3)
+# FAST FOURIER TRANSFORM (FFT) ON SO(3)
 
 This C++ software package provides various tools for harmonic analysis on the special orthogonal group, 
 
