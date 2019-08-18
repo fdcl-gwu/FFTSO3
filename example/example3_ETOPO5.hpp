@@ -29,6 +29,15 @@ void fdcl::ETOPO5::init(std::string filename, int N_lat, int N_lon)
     this->N_lat=N_lat;
     this->N_lon=N_lon;
     fd.open(filename.c_str());
+    if (fd.is_open())
+    {
+        cout << "File successfully open: " << filename << endl;
+    }
+    else
+    {
+        cout << "Error opening file: " << filename << endl;
+        exit (EXIT_FAILURE);
+    }       
     elev_data.resize(N_lat,N_lon);
     lat.resize(N_lat);
     lon.resize(N_lon);

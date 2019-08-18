@@ -94,8 +94,6 @@ Eigen::Matrix3d fdcl::spherical_shape_matching::opt(Eigen::Matrix3d R0)
         abg=R2Euler323(R);
 
         cout << "iter = " << i_iter << " : J = " << J(R) << " : n_grad = " << norm_gradient << " : Euler = " << abg[0] << " " << abg[1] << " " << abg[2] << endl;
-
-
         f_out << i_iter << ", " << J(R) << ", " << norm_gradient << ", " << abg[0] << ", " << abg[1] << ", " << abg[2] << endl;
     }
 
