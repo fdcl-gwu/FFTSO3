@@ -69,6 +69,7 @@ Please follow the instruction at each link to install the libraries, except the 
 ```
 	brew install cmake
 	brew install llvm	
+    brew install libomp
 ```
 	
 **Tips for Linux:** For Debian linux, such as Ubuntu, the above packages can be installed by
